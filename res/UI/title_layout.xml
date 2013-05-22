@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://
+www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-
+gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+<resourceBundle id="dialog" filename="dialog/dialog" />
+<useStyles filename="nifty-galacticum-styles.xml" />
+<useStyles filename="UI/custom_styles.xml" />
+<useControls filename="nifty-default-controls.xml" />
+<screen id="start" controller="de.myreality.galacticum.states.TitleGameState">
+    <!-- Background -->
+	<layer childLayout="vertical" backgroundImage="images/backgrounds/main.png">
+		<effect>
+      		<onActive name="changeMouseCursor" id="gameCursor" />
+      		<onActive name="fade" start="#66" end="#ff" length="800"/>
+      	</effect>      		
+      		
+      		<!-- Image -->
+      		<panel childLayout="center" height="35%" marginTop="20%">
+				<image
+					id="mainBanner" 
+					width="72%"
+					height="80%"
+					filename="images/title-banner.png">
+					<effect>
+	      				<onActive name="fade" start="#00" end="#ff" length="2000"/>
+	      			</effect>
+				</image>
+			</panel>
+			
+			<!-- Spacing -->
+			<panel height="35%"></panel>
+			
+			<!-- Buttons -->
+			<panel childLayout="center" width="100%">
+			<panel childLayout="horizontal">
+			<control
+				marginBottom="25px" 
+				id="btnNewUniverse" 
+				name="button" 
+				label="${dialog.newuniverse}"
+				size="20px"
+				marginRight="5px"
+				marginLeft="5px"
+			>
+			<effect>
+				<onActive name="fade" start="#ff" end="#ff"/>
+			</effect>
+			</control>
+			<control
+				marginBottom="25px" 
+				id="btnLoadUniverse" 
+				name="button" 
+				label="${dialog.loaduniverse}"
+				marginRight="5px"
+			>
+			<effect>
+				<onActive name="fade" start="#ff" end="#ff"/>
+			</effect>
+			</control>
+			<control
+				marginBottom="25px" 
+				id="btnSettings" 
+				name="button" 
+				label="${dialog.settings}"
+				marginRight="5px"
+			>
+			<effect>
+				<onActive name="fade" start="#ff" end="#ff"/>
+			</effect>	
+			</control>
+			<control
+				marginBottom="25px" 
+				id="btnCredits" 
+				name="button" 
+				label="${dialog.credits}"
+				marginRight="5px"
+			>
+			<effect>
+				<onActive name="fade" start="#ff" end="#ff"/>
+			</effect>
+			</control>
+			<control
+				id="btnClose" 
+				name="button" 
+				label="${dialog.close}"
+				marginRight="5px"
+			>
+			<effect>
+				<onActive name="fade" start="#ff" end="#ff"/>
+			</effect>
+			</control>
+			</panel></panel>
+	</layer>
+	<layer childLayout="vertical">
+		<panel width="100%" height="20%" childLayout="vertical" paddingRight="15px" paddingTop="15px">      						      		
+      		<!-- Version -->
+      		<text		
+				id="txtVersion"
+				text="v. 0.0"
+				font="galacticum/pixel-font-12.fnt"
+				color="#333"				
+				width="100%"
+				textHAlign="right"
+				controller="de.myreality.galacticum.ui.controllers.VersionTextController"
+			/>
+      	</panel>
+	</layer>
+</screen>
+</nifty>

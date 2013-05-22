@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-styles>
+  <style id="nifty-drop-down#panel">
+    <attributes backgroundImage="galacticum/button/black.png" imageMode="sprite-resize:100,23,0,5,90,5,5,5,90,5,13,5,90,5,5" childLayout="horizontal" height="32px" focusable="true" visibleToMouse="true" />
+  </style>
+
+  <style id="nifty-drop-down#panel-text">
+    <attributes childLayout="center" childClip="true" backgroundColor="#000f" padding="0px,5px" width="*" />
+  </style>
+
+  <style id="nifty-drop-down#text" base="base-font">
+    <attributes color="#ffff" selectionColor="#ffff" visibleToMouse="false" align="left" valign="center" textHAlign="left" height="32px" />
+  </style>
+  
+  <style id="nifty-drop-down#panel-icon">
+    <attributes childLayout="center" />
+  </style>
+
+  <style id="nifty-drop-down#icon">
+    <attributes filename="galacticum/scrollbar/scrollbar.png" width="32px" height="32px" imageMode="sprite:23,23,0" />
+    <effect>
+      <onClick name="focus" targetElement="#parent" />
+      <onClick name="imageOverlay" filename="galacticum/scrollbar/scrollbar.png" imageMode="sprite:23,23,2" post="true" />
+      <onFocus name="imageOverlay" filename="galacticum/scrollbar/scrollbar.png" imageMode="sprite:23,23,1" post="true" />
+    </effect>
+  </style>
+
+  <style id="nifty-drop-down#list-panel">
+    <attributes childLayout="vertical" width="*" />
+	<effect>
+      <onStartScreen name="clip" length="50" inherit="true" post="false" />
+      <onStartScreen name="move" length="50" timeType="exp" factor="2.5" mode="fromOffset" offsetY="-100" inherit="true" />
+      <onEndScreen name="clip" length="50" inherit="true" post="false" />
+      <onEndScreen name="move" length="50" timeType="exp" factor="2.5" mode="toOffset" offsetY="-100" inherit="true"/>
+    </effect>
+  </style>
+
+  <style id="nifty-drop-down#text-item" base="base-font">
+    <attributes textHAlign="left" textVAlign="center" width="100%" />
+    <effect>
+      <onHover name="focus" />
+    </effect>
+  </style>    
+  	<effect>
+      <onStartScreen name="clip" length="50" inherit="true" post="false" />
+      <onStartScreen name="move" length="50" timeType="exp" factor="0.5" mode="fromOffset" offsetY="-100" inherit="true" />
+      <onEndScreen name="clip" length="50" inherit="true" post="false" />
+      <onEndScreen name="move" length="50" timeType="exp" factor="0.5" mode="toOffset" offsetY="-100" inherit="true"/>
+    </effect>
+</nifty-styles>

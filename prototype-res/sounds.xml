@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<resource type="sound" id="SOUND_BIG_EXPLOSION">prototype-res/sounds/big-explosion.wav</resource>
+	<resource type="sound" id="SOUND_SMALL_EXPLOSION">prototype-res/sounds/small-explosion.wav</resource>
+	<resource type="sound" id="SOUND_SHOT_1">prototype-res/sounds/shot-1.wav</resource>
+	<resource type="sound" id="SOUND_SHOT_2">prototype-res/sounds/shot-2.wav</resource>
+	<resource type="sound" id="SOUND_PLOP">prototype-res/sounds/plop.wav</resource>
+	<resource type="sound" id="SOUND_UPGRADE">prototype-res/sounds/upgrade.wav</resource>
+	<resource type="sound" id="SOUND_DEFEATED">prototype-res/sounds/defeated.wav</resource>
+	<resource type="sound" id="SOUND_COUNT">prototype-res/sounds/count.wav</resource>
+</resources>

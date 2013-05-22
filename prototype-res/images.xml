@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<resource type="image" id="SPRITE_PLAYER_SHIP">prototype-res/sprites/ship-sypher.png</resource>
+	<resource type="image" id="SPRITE_SHIP_DESTROYER">prototype-res/sprites/ship-destroyer.png</resource>
+	<resource type="image" id="SPRITE_SHIP_BIG_DESTROYER">prototype-res/sprites/ship-big-destroyer.png</resource>
+	<resource type="image" id="SPRITE_SHIP_ANNIHILATOR">prototype-res/sprites/ship-annihilator.png</resource>
+	<resource type="image" id="SPRITE_BOSS_1">prototype-res/sprites/boss1.png</resource>
+	<resource type="image" id="SPRITE_BOSS_2">prototype-res/sprites/boss2.png</resource>
+	<resource type="image" id="SPRITE_SHIP_SEEKER">prototype-res/sprites/ship-seeker.png</resource>
+	<resource type="image" id="SPRITE_METEOR_SMALL">prototype-res/sprites/meteor-small.png</resource>
+	<resource type="image" id="SPRITE_METEOR_BIG">prototype-res/sprites/meteor-big.png</resource>
+	<resource type="image" id="SPRITE_SHIELD">prototype-res/sprites/shield.png</resource>
+	
+	<resource type="image" id="ICON_WEAPON_ION">prototype-res/icons/icon-weapon-ion.png</resource>
+	<resource type="image" id="ICON_WEAPON_PLASMA">prototype-res/icons/icon-weapon-plasma.png</resource>
+	<resource type="image" id="ICON_WEAPON_RADEON">prototype-res/icons/icon-weapon-radeon.png</resource>
+	<resource type="image" id="ICON_WEAPON_LASER">prototype-res/icons/icon-weapon-laser.png</resource>
+	<resource type="image" id="ICON_ITEM_HEAL">prototype-res/icons/icon-item-heal.png</resource>
+	<resource type="image" id="ICON_ITEM_TRANSMITTER">prototype-res/icons/icon-item-transmitter.png</resource>
+	<resource type="image" id="ICON_ITEM_SHIELD">prototype-res/icons/icon-item-shield.png</resource>
+	
+	<resource type="image" id="SHOT_ION">prototype-res/sprites/ion.png</resource>
+	<resource type="image" id="SHOT_PLASMA">prototype-res/sprites/plasma.png</resource>
+	<resource type="image" id="SHOT_LASER">prototype-res/sprites/laser.png</resource>
+	
+	<resource type="image" id="BG_MOTHERSHIP">prototype-res/background.png</resource>
+	<resource type="image" id="BG_MAIN">prototype-res/mainbackground.png</resource>
+	<resource type="image" id="IMG_GLASS">prototype-res/glass-effect.png</resource>
+	<resource type="image" id="IMG_GLASS2">prototype-res/glass-effect2.png</resource>
+	<resource type="image" id="IMG_HEADER">prototype-res/header.png</resource>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-styles>
+  <style id="nifty-checkbox-style#panel">
+    <attributes backgroundImage="galacticum/button/black.png" imageMode="sprite-resize:100,23,0,5,90,5,5,5,90,5,13,5,90,5,5" width="23px" height="23px" childLayout="center"/>
+    <effect>
+      <onHover name="imageOverlay" filename="galacticum/button/black.png"  imageMode="sprite-resize:100,23,1,5,90,5,5,5,90,5,13,5,90,5,5" post="true"/>       
+      <onCustom customKey="show" name="imageOverlay" filename="galacticum/button/button.png"  imageMode="sprite-resize:100,23,0,5,90,5,5,5,90,5,13,5,90,5,5"  post="true"  neverStopRendering="true"/>
+    </effect>
+  </style>
+  
+  <style id="nifty-checkbox-style#select">
+    <attributes align="center" valign="center" width="32px" height="32px" />
+    <effect overlay="true">      
+      <onCustom customKey="show" name="imageSize" startSize="2.0" endSize="1.0" length="250" post="true" />
+      <onCustom customKey="show" name="fade" start="#0" end="#f" length="250" post="true" />
+      <onCustom customKey="show" name="imageOverlay" filename="galacticum/checkbox/checkbox.png" width="32px" height="32px" post="true" neverStopRendering="true" />
+      <onCustom customKey="hide" name="fade" start="#f" end="#0" length="250" post="true" />
+      <onCustom customKey="hide" name="imageOverlay" filename="galacticum/checkbox/checkbox.png" width="32px" height="32px" post="true" length="250" />
+      <onEnabled name="fade" start="#4" end="#f" length="150" post="false" />
+      <onDisabled name="fade" start="#f" end="#4" length="150" post="false" />
+    </effect>
+  </style>
+</nifty-styles>

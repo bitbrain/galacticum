@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-styles>
+  <!-- +++++++++++++++++++++++++++++++++++++ -->
+  <!-- style for the button background panel -->
+  <!-- +++++++++++++++++++++++++++++++++++++ -->
+  <style id="nifty-button#panel">
+    <attributes backgroundImage="galacticum/button/button.png" imageMode="sprite-resize:100,23,0,5,90,5,5,5,90,5,13,5,90,5,5" paddingLeft="20" paddingRight="20" width="150px" height="43px" childLayout="center" visibleToMouse="true" />
+    <effect>     
+      <onHover name="imageOverlay" filename="galacticum/button/button.png" imageMode="sprite-resize:100,23,1,5,90,5,5,5,90,5,13,5,90,5,5" post="true"/>
+      <onDisabled name="imageOverlay" filename="galacticum/button/button.png" imageMode="sprite-resize:100,23,2,5,90,5,5,5,90,5,13,5,90,5,5" post="true"/>
+    </effect>
+  </style>
+
+  <!-- +++++++++++++++++++++++++++++++++++++ -->
+  <!-- style for the button text -->
+  <!-- +++++++++++++++++++++++++++++++++++++ -->
+  <style id="nifty-button#text" base="button-font">
+    <attributes align="center" valign="center" textHAlign="center" textVAlign="center" visibleToMouse="false"/>
+	<effect>
+      <onEnabled name="textColorAnimated" startColor="#8886" endColor="#eeef" post="false" length="150" />
+      <onDisabled name="textColorAnimated" startColor="#eeef" endColor="#8886" post="false" length="150" />
+    </effect>
+  </style>
+</nifty-styles>

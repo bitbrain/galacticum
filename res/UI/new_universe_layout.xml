@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://
+www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-
+gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+<resourceBundle id="dialog" filename="dialog/dialog" />
+<useStyles filename="nifty-galacticum-styles.xml" />
+<useStyles filename="UI/custom_styles.xml" />
+<useControls filename="nifty-default-controls.xml"/>
+<screen id="start" controller="de.myreality.galacticum.states.NewUniverseGameState">
+    <!-- Background -->
+	<layer  padding="10%" childLayout="vertical" backgroundImage="images/backgrounds/main.png">
+		<effect>
+      		<onActive name="changeMouseCursor" id="gameCursor" />
+      		<onActive name="fade" start="#ff" end="#66" length="1500"/>
+      	</effect>
+		<!-- Left -->
+		<panel childLayout="vertical" id="titleLeft">
+		
+			<effect>
+	      		<onActive name="fade" start="#00" end="#ff" length="2000"/>
+	      	</effect>
+	      	
+			<panel childLayout="vertical">					
+	      		<text
+					id="txtCaption"
+					font="galacticum/pixel-font-24.fnt"
+					text="${dialog.newuniverse}"
+					textVAlign="top"
+					color="#a6ac3f"
+					marginBottom="50px"
+				/>
+	      		<control
+					name="label"
+					id="lblName"
+					text="Universe name"
+					align="left"
+					marginBottom="5px"
+				/>
+				<control
+					name="label"
+					id="lblSeedDescription"
+					text="Name of the world you wanna play in"
+					align="left"
+					font="galacticum/pixel-font-12.fnt"
+					color="#444"
+					marginBottom="10px"
+				/>
+				<control
+					name="textfield"
+					id="txfName"
+					marginBottom="15px"
+					text="New World"
+				/>	
+				<control
+					name="label"
+					id="lblSeed"
+					text="${dialog.worldseed}"
+					align="left"
+					marginBottom="5px"
+				/>
+				<control
+					name="label"
+					id="lblSeedDescription"
+					text="${dialog.worldseed-description}"
+					align="left"
+					font="galacticum/pixel-font-12.fnt"
+					color="#444"
+					marginBottom="10px"
+				/>
+				<control
+					name="textfield"
+					id="txfSeed"
+				/>				
+				
+			</panel>
+			<panel childLayout="horizontal" marginTop="40px">
+				<control
+					id="btnCreateWorld" 
+					name="button" 
+					label="${dialog.create-world}"
+					marginRight="5px"
+					width="30%">
+					<interact onClick="onClick()"/>
+					<effect>
+						<onActive name="fade" start="#ff" end="#ff"/>
+					</effect>
+				</control>
+				<control
+					id="btnAbort" 
+					name="button" 
+					label="${dialog.back}">
+					<effect>
+						<onActive name="fade" start="#ff" end="#ff"/>
+					</effect>
+				</control>
+			</panel>
+		</panel>
+		
+	</layer>
+	<layer childLayout="vertical">
+		<panel width="100%" height="20%" childLayout="vertical" paddingRight="15px" paddingTop="15px">
+      						      		
+      		<!-- Version -->
+      		<text		
+				id="txtVersion"
+				text="v. 0.0"
+				font="galacticum/pixel-font-12.fnt"
+				color="#333"				
+				width="100%"
+				textHAlign="right"
+				controller="de.myreality.galacticum.ui.controllers.VersionTextController"
+			/>
+      		</panel>
+	</layer>
+</screen>
+</nifty>

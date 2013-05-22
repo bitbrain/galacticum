@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-styles>
+
+  <style id="myreality-progressbar#border">
+    <attributes padding="5px,5px,5px,5px" backgroundColor="#222"/>
+  </style>
+  
+  <style id="myreality-progressbar#inner">
+    <attributes backgroundColor="#333829"/>
+  </style>
+  
+  <style id="myreality-progressbar#element">
+    <attributes backgroundImage="galacticum/progressbar/progressbar.png"/>
+  </style>
+  
+  <style id="myreality-progressbar#text">
+    <attributes font="galacticum/pixel-font-16.fnt"/>
+  </style>
+
+</nifty-styles>

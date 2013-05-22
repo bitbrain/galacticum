@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-controls>
+  <controlDefinition style="myreality-progressbar" name="progressbar" controller="de.myreality.dev.controls.progressbar.ProgressBar">
+    <panel id="progress" height="40px" width="90%" align="center" style="#border" focusable="false" childLayout="center">
+      <panel id="background" style="#inner" childLayout="center" width="100%" height="100%">
+      	<panel id="element" style="#element" align="left" width="50%"/>
+      	<text id="text" style="#text" text="0%" />
+      </panel>
+    </panel>    
+  </controlDefinition>
+</nifty-controls>

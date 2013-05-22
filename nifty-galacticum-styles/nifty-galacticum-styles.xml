@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-styles>
+  <useStyles filename="galacticum/fonts.xml" />
+  <useStyles filename="galacticum/panel/nifty-panel.xml" />
+  <useStyles filename="galacticum/button/nifty-button.xml" />
+  <useStyles filename="galacticum/label/nifty-label.xml" />
+  <useStyles filename="galacticum/textfield/nifty-textfield.xml" />
+  <useStyles filename="galacticum/dropdown/nifty-drop-down.xml" />
+  <useStyles filename="galacticum/imageselect/nifty-image-select.xml" />
+  <useStyles filename="galacticum/checkbox/nifty-checkbox.xml" />
+  <useStyles filename="galacticum/radiobutton/nifty-radiobutton.xml" />
+  <useStyles filename="galacticum/scrollbar/nifty-scrollbar-style.xml" />
+  <useStyles filename="galacticum/slider/nifty-slider-style.xml" />
+  <useStyles filename="galacticum/scrollpanel/nifty-scrollpanel-style.xml" />
+  <useStyles filename="galacticum/console/nifty-console-style.xml" />
+  <useStyles filename="galacticum/chat-control/nifty-chat-control.xml" />
+  <useStyles filename="galacticum/menu/nifty-menu-style.xml" />
+  <useStyles filename="galacticum/listbox/nifty-listbox-style.xml" />
+  <useStyles filename="galacticum/window/nifty-window.xml" />
+  <useStyles filename="galacticum/hint/nifty-hint.xml" />
+  <useStyles filename="galacticum/tabs/nifty-tabs.xml" />
+  <useStyles filename="galacticum/messagebox/nifty-messagebox.xml" />
+  <useStyles filename="galacticum/progressbar/myreality-progressbar.xml" />
+</nifty-styles>

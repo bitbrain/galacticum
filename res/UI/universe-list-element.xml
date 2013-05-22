@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-controls>
+	<!-- this defines the control for a single line of text in the chat and player window -->
+	<controlDefinition name="universe-element" width="100%"
+	                   controller="de.lessvoid.nifty.controls.listbox.ListBoxItemController">
+		<interact onClick="listBoxItemClicked()" />
+		<effect>	
+			<onCustom customKey="focus" name="colorBar" post="false" color="#111f" neverStopRendering="true" timeType="infinite" />
+			<onCustom customKey="select" name="colorBar" post="false" color="#090909" neverStopRendering="true" timeType="infinite" />
+			<onHover name="colorBar" color="#111" post="false" neverStopRendering="true" timeType="infinite"/>
+			<onClick name="focus" targetElement="#parent#parent"/>
+		</effect>  
+	  
+	  <panel childLayout="vertical">  
+	    <panel marginLeft="15px" marginTop="15px" childLayout="horizontal" align="left" marginBottom="10px">
+	    	<control 
+		    	id="#universe-name" 
+		    	name="label" 
+		    	align="left" 
+		    	textHAlign="left"
+		    	font="galacticum/pixel-font-20.fnt"
+		    	marginRight="15px"
+		    >
+			<effect>	
+			<onCustom customKey="select" name="textColor" post="false" color="#a6ac3f" neverStopRendering="true" timeType="infinite" />
+			
+			</effect>
+		    </control>
+	    	<control 
+		    	id="#universe-date" 
+		    	name="label"
+		    	align="left" 
+		    	textHAlign="left"
+		    	font="galacticum/pixel-font-18.fnt"
+		    	color="#fd8f00"
+		    />
+	    </panel>
+	    <control 
+	    	marginLeft="15px"
+	    	id="#universe-seed" 
+	    	name="label" align="left" 
+	    	textHAlign="left" 
+	    	height="23px" 
+	    	width="*"
+	    	color="#333"
+	    	font="galacticum/pixel-font-14.fnt"
+	    />
+	    
+	  </panel>
+	  
+	</controlDefinition>
+
+</nifty-controls>
