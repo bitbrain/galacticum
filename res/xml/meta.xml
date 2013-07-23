@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string id="APP_NAME">Galacticum</string>
-	<string id="APP_AUTHOR">Miguel Gonzalez</string>
-	<string id="APP_COMPANY">myReality Development</string>
-	<string id="APP_WEBSITE">http://dev.my-reality.de/galacticum</string>
-	<string id="APP_VERSION">0.0.30</string>
-	<string id="APP_PHASE">dev</string>
-	<string id="APP_PHASE_PROGRESS">30</string>
+    <name>Galacticum</name>
+    <author>Miguel Gonzalez</author>
+    <url>http://my-reality.de</url>
+    <version>0.0.30</version>
+    <phase>dev</phase>
+    <progress>28</progress>
+
+    <phaselist>
+    		<phase>prototype</phase>
+                <phase>dev</phase>
+                <phase>alpha</phase>
+                <phase>beta</phase>
+                <phase>release</phase>
+        </phaselist>
+
+        <team>
+            <member
+                name="Miguel Gonzalez"
+                email="miguel-gonzalez@gmx.de"
+                facebook="your-facebook-url"
+                twitter="your-twitter-url"
+                gplus="your-google+-url"
+                website="http://my-reality.de"
+            />
+        </team>
 </resources>
