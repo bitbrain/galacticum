@@ -1,5 +1,4 @@
 {
-        "response" : {
                 "name" : "Galacticum",
                 "author" : "Miguel Gonzalez",
                 "url" : "http://galacticum.my-reality.de",
@@ -9,5 +8,5 @@
                 "phaselist" : [
                     "prototype", "dev", "alpha", "beta", "release"
                 ]
-        }
+
 }
