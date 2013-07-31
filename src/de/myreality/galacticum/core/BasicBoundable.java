@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.phys2d.math.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
 
 public class BasicBoundable implements Boundable, Externalizable {
 

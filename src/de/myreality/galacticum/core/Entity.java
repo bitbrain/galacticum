@@ -5,18 +5,12 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.phys2d.math.Vector2f;
-import net.phys2d.raw.Body;
-import net.phys2d.raw.shapes.Box;
-import net.phys2d.raw.shapes.DynamicShape;
-import net.phys2d.raw.shapes.Polygon;
-import net.phys2d.raw.shapes.Shape;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import de.myreality.galacticum.core.chunks.ChunkUtils;
@@ -31,7 +25,7 @@ import de.myreality.galacticum.util.Updatable;
  * @since 0.1dev
  * @version 0.1dev
  */
-public abstract class Entity extends Body implements Boundable, Externalizable,
+public abstract class Entity implements Boundable, Externalizable,
 		Updatable, Renderable {
 
 	// ===========================================================
@@ -61,28 +55,11 @@ public abstract class Entity extends Body implements Boundable, Externalizable,
 	// ===========================================================
 
 	public Entity() {
-		super(new Box(0, 0), 10);
+		this.color = Color.white;
+		boundable = new BasicBoundable();
+		mode = EntityMode.NPC;
 	}
 
-	public Entity(DynamicShape shape, float m) {
-		super(shape, m);
-		initialize();
-	}
-
-	public Entity(Shape shape, float m) {
-		super(shape, m);
-		initialize();
-	}
-
-	public Entity(String name, DynamicShape shape, float m) {
-		super(name, shape, m);
-		initialize();
-	}
-
-	public Entity(String name, Shape shape, float m) {
-		super(name, shape, m);
-		initialize();
-	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -142,9 +119,7 @@ public abstract class Entity extends Body implements Boundable, Externalizable,
 	 * 
 	 * @see net.phys2d.raw.Body#setPosition(float, float)
 	 */
-	@Override
 	public strictfp void setPosition(float x, float y) {
-		super.setPosition(x, y);
 		boundable.setPosition(x, y);
 	}
 
@@ -357,30 +332,9 @@ public abstract class Entity extends Body implements Boundable, Externalizable,
 	// Methods
 	// ===========================================================
 
-	private void initialize() {
-		this.color = Color.white;
-		boundable = new BasicBoundable();
-		mode = EntityMode.NPC;
-	}
-
 	public abstract boolean isIlluminable();
-	
-	private void alignShape(Shape shape) {
-		if (shape instanceof Polygon) {
-			Polygon p = (Polygon) getShape();
-			Vector2f[] newPoints = p.getVertices(getPosition(), getRotation());
-			setPoints(newPoints);
-		} else if (shape instanceof Box) {
-			//Box b = (Box) getShape();
-			//Vector2f[] newPoints = b.getPoints(getPosition(), getRotation());
 
-			// TODO: Fix display bug
-			//setPoints(newPoints);
-		}
-	}
-
-	public void onAdjust(Universe universe) {
-		alignShape(getShape());		
+	public void onAdjust(Universe universe) {	
 		ChunkUtils.computeBoundableCache(this, universe);
 	}
 }

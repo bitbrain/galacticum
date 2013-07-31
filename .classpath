@@ -42,12 +42,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/commons-net-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/nifty-slick-renderer-1.3.2.jar"/>
-	<classpathentry kind="lib" path="lib/phys2d.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="http://www.cokeandcode.com/phys2d/source/javadoc/"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Galacticum/natives"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

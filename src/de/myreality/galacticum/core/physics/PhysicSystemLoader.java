@@ -48,7 +48,7 @@ public class PhysicSystemLoader extends SubsystemLoader<PhysicSystem> {
 	 */
 	@Override
 	public void load(Universe universe) {
-		PhysicSystem system = new Phys2DPhysicSystem(universe);
+		PhysicSystem system = null;//new Phys2DPhysicSystem(universe);
 		setLoadingProgress(50);
 		subSystem = system;
 		universe.setPhysicSystem(system);

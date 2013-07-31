@@ -1,7 +1,5 @@
 package de.myreality.galacticum.core;
 
-import net.phys2d.raw.shapes.Box;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -14,7 +12,6 @@ public class SampleEntity extends Entity {
 	}
 
 	public SampleEntity(float x, float y) {
-		super(new Box(50, 50), 100);
 		setSprite(ImagePack.TEST);
 		setBounds(x, x + 50, y, y + 50);
 	}

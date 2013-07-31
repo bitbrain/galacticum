@@ -1,6 +1,5 @@
 package de.myreality.galacticum.core.physics;
 
-import net.phys2d.raw.Body;
 import de.myreality.galacticum.core.UniverseSystem;
 import de.myreality.galacticum.util.Updatable;
 
@@ -13,9 +12,9 @@ import de.myreality.galacticum.util.Updatable;
  */
 public interface PhysicSystem extends Updatable, UniverseSystem {
     
-	void addBody(Body body);
+	//void addBody(Body body);
 	
-	void removeBody(Body body);
+	//void removeBody(Body body);
 	
 	void setWorldGravity(float x, float y);
 }

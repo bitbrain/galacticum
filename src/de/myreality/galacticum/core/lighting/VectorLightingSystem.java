@@ -3,9 +3,8 @@ package de.myreality.galacticum.core.lighting;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.phys2d.math.Vector2f;
-
 import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Vector2f;
 
 import de.myreality.galacticum.core.Boundable;
 import de.myreality.galacticum.core.Entity;

@@ -136,7 +136,7 @@ public class BasicUniverse extends AbstractHashProvider implements Universe {
 	public void addEntity(Entity entity) {
 		entities.add(entity);
 		if (physicSystem != null) {
-			physicSystem.addBody(entity);
+			//physicSystem.addBody(entity);
 		}
 	}
 
@@ -148,7 +148,7 @@ public class BasicUniverse extends AbstractHashProvider implements Universe {
 			for (Entity entity : entities) {
 				
 				try {
-					physicSystem.addBody(entity);
+					//physicSystem.addBody(entity);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -228,7 +228,7 @@ public class BasicUniverse extends AbstractHashProvider implements Universe {
 		}
 		if (physicSystem != null) {
 			for (Entity entity : entities) {
-				physicSystem.addBody(entity);
+				//physicSystem.addBody(entity);
 			}
 		}
 	}
@@ -240,7 +240,7 @@ public class BasicUniverse extends AbstractHashProvider implements Universe {
 			renderSystem.removeEntity(entity);
 		}
 		if (physicSystem != null) {
-				physicSystem.removeBody(entity);
+				//physicSystem.removeBody(entity);
 		}
 	}
 
@@ -249,7 +249,7 @@ public class BasicUniverse extends AbstractHashProvider implements Universe {
 		this.entities.removeAll(entities);
 		if (physicSystem != null) {
 			for (Entity entity : entities) {
-				physicSystem.removeBody(entity);
+				//physicSystem.removeBody(entity);
 			}
 		}
 	}

@@ -1,10 +1,10 @@
 package de.myreality.galacticum.core;
 
 import static org.junit.Assert.assertTrue;
-import net.phys2d.math.Vector2f;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Test case for a boundable implementation

@@ -1,6 +1,6 @@
 package de.myreality.galacticum.core;
 
-import net.phys2d.math.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Utility class which provides calculation for boundables
