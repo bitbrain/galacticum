@@ -6,7 +6,7 @@
     "phase" : "dev",
     "progress" : "28",
     "phaselist" : [
-    "prototype", "dev", "alpha", "beta", "release"
+        "prototype", "dev", "alpha", "beta", "release"
     ],
     
     "team" : [
@@ -35,4 +35,5 @@
          "email" : "pawlik.dennis@gmail.com",
          "url" : "http://pawlikvoid.contratorrentem.de/"
       }
+   ]
 }
