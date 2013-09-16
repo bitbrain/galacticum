@@ -55,6 +55,7 @@ public class GalacticumGame extends Game {
 	@Override
 	public void create() {
 		Resources.loadTextures();
+		Resources.loadFonts();
 		setScreen(new CreationScreen(this));
 	}
 
@@ -62,6 +63,7 @@ public class GalacticumGame extends Game {
 	public void dispose() {
 		super.dispose();
 		Resources.unloadTextures();
+		Resources.unloadFonts();
 	}
 	
 	

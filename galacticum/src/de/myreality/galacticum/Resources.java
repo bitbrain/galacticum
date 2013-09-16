@@ -18,6 +18,7 @@ package de.myreality.galacticum;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 /**
  * Contains basic resources of the game
@@ -42,6 +43,23 @@ public final class Resources {
 	public static void unloadTextures() {
 		if (BACKGROUND_MAIN != null) {
 			BACKGROUND_MAIN.dispose();
+		}
+	}
+
+	// ===========================================================
+	// Fonts
+	// ===========================================================
+	
+	public static BitmapFont FONT_REGULAR;
+	
+	public static void loadFonts() {		
+		unloadFonts();		
+		FONT_REGULAR = new BitmapFont(Gdx.files.internal("fonts/font.xml"), false);
+	}
+	
+	public static void unloadFonts() {
+		if (FONT_REGULAR != null) {
+			FONT_REGULAR.dispose();
 		}
 	}
 	
