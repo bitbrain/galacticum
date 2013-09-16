@@ -29,7 +29,7 @@ import de.myreality.galacticum.util.Renderable;
 import de.myreality.galacticum.util.Seed;
 
 /**
- * 
+ * Simple implementation of {@see Universe}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
@@ -47,15 +47,15 @@ public class SimpleUniverse extends SimpleObservable<UniverseListener>
 	// ===========================================================
 	
 	private List<ChunkTarget> entities;
-	
-	private Seed seed;
 
+	private UniverseConfiguration configuration;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleUniverse(Seed seed) {
-		this.seed = seed;
+	public SimpleUniverse(UniverseConfiguration configuration) {
+		this.configuration = configuration;
 		entities = new CopyOnWriteArrayList<ChunkTarget>();
 	}
 
@@ -136,7 +136,15 @@ public class SimpleUniverse extends SimpleObservable<UniverseListener>
 	 */
 	@Override
 	public Seed getSeed() {
-		return seed;
+		return configuration.getSeed();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.Universe#getConfiguration()
+	 */
+	@Override
+	public UniverseConfiguration getConfiguration() {
+		return configuration;
 	}
 
 	// ===========================================================

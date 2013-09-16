@@ -41,5 +41,7 @@ public interface Universe extends ContentProvider, Observable<UniverseListener>,
 	// ===========================================================
 	
 	void updateAndRender(float delta, SpriteBatch batch);
+	
+	UniverseConfiguration getConfiguration();
 
 }

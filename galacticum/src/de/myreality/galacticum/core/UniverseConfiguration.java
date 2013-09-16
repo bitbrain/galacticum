@@ -14,112 +14,69 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.util;
+package de.myreality.galacticum.core;
 
-import java.io.Serializable;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.Random;
+import de.myreality.galacticum.util.Seed;
 
 /**
- * Provides seed functionality for universes
+ * Configuration for {@see Universe}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public final class Seed implements Serializable {
-
+public class UniverseConfiguration {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
-	private static final long serialVersionUID = 1L;
-
-	private static final int BASE_SIZE = 200;
+	
+	public static final String DEFAULT_NAME = "New Universe";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	// Base of the seed
-	String base;
-
-	// Randomizer
-	private SecureRandom random;
-
-	// Sub randomizer
-	private Random subRandom;
+	
+	private Seed seed;
+	
+	private String name;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	public Seed(String base) {
-		random = new SecureRandom();
-		subRandom = new Random();
-
-		// Generate a random base if the currents one is empty
-		if (base == null || base.isEmpty()) {
-			base = generateBase();
-		}
-
-		this.base = base;
-	}
 	
-	public Seed() {
-		this("");
+	public UniverseConfiguration() {
+		seed = new Seed();
+		name = DEFAULT_NAME;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public Seed getSeed() {
+		return seed;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setSeed(Seed seed) {
+		this.seed = seed;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return base.hashCode();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return base;
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	public int get() {
-		return hashCode();
-	}
-
-	/**
-	 * @return A new generated base string
-	 * @param bits Bits of the base
-	 * @param range range of the base
-	 */
-	private String generateBase(int bits, int range) {
-		return new BigInteger(bits, random).toString(subRandom.nextInt(range));
-	}
-
-	private String generateBase() {
-		return generateBase(subRandom.nextInt(BASE_SIZE),
-				subRandom.nextInt(BASE_SIZE));
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
