@@ -16,9 +16,11 @@
  */
 package de.myreality.galacticum.core;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.util.Observable;
-import de.myreality.chunx.util.Updateable;
+import de.myreality.galacticum.util.Seedable;
 
 /**
  * Provides functionality for a single universe. Each universe contains
@@ -28,7 +30,7 @@ import de.myreality.chunx.util.Updateable;
  * @since 0.1
  * @version 0.1
  */
-public interface Universe extends ContentProvider, Updateable, Observable<UniverseListener> {
+public interface Universe extends ContentProvider, Observable<UniverseListener>, Seedable {
 	
 	// ===========================================================
 	// Constants
@@ -37,5 +39,7 @@ public interface Universe extends ContentProvider, Updateable, Observable<Univer
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	void updateAndRender(float delta, SpriteBatch batch);
 
 }

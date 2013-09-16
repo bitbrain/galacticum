@@ -15,6 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package de.myreality.galacticum.core;
+
+import de.myreality.chunx.ChunkTarget;
+
 /**
  * Is called whenever an universe recieves or lost entities
  *
@@ -30,5 +33,9 @@ public interface UniverseListener {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	void onAdd(ChunkTarget target, Universe universe);
+	
+	void onRemove(ChunkTarget target, Universe universe);
 
 }
