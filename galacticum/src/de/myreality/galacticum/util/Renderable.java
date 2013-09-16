@@ -14,21 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.util;
 
-import de.myreality.chunx.ContentProvider;
-import de.myreality.chunx.util.Observable;
-import de.myreality.chunx.util.Updateable;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Provides functionality for a single universe. Each universe contains
- * planets, spaceships and resources.
+ * Provides rendering functionality
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Universe extends ContentProvider, Updateable, Observable<UniverseListener> {
+public interface Renderable {
 	
 	// ===========================================================
 	// Constants
@@ -37,5 +34,6 @@ public interface Universe extends ContentProvider, Updateable, Observable<Univer
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
+	
+	void render(SpriteBatch batch);
 }

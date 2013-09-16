@@ -15,21 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package de.myreality.galacticum.core;
-
-import de.myreality.chunx.ContentProvider;
-import de.myreality.chunx.util.Observable;
-import de.myreality.chunx.util.Updateable;
-
 /**
- * Provides functionality for a single universe. Each universe contains
- * planets, spaceships and resources.
+ * Is called whenever an universe recieves or lost entities
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
+ * @since 0. 
  * @version 0.1
  */
-public interface Universe extends ContentProvider, Updateable, Observable<UniverseListener> {
-	
+public interface UniverseListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
