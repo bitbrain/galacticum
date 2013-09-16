@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<nifty-styles>
- <registerMouseCursor id="gameCursor" filename="images/cursor.png" hotspotX="3" hotspotY="12"/>
-  <style id="galacticum-menu">
-  	<attributes border="0px" />
-  </style>
- </nifty-styles>
