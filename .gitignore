@@ -12,3 +12,9 @@
 *~
 /config
 /data
+galacticum-html/war
+galacticum-desktop/bin
+*.log
+galacticum-android/bin
+galacticum-ios/libs/
+
