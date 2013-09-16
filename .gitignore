@@ -17,4 +17,4 @@ galacticum-desktop/bin
 *.log
 galacticum-android/bin
 galacticum-ios/libs/
-
+galacticum-html/.gwt/
