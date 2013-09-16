@@ -18,6 +18,8 @@ package de.myreality.galacticum;
 
 import com.badlogic.gdx.Game;
 
+import de.myreality.galacticum.screens.CreationScreen;
+
 /**
  * Main game class which provides game functionality
  *
@@ -52,8 +54,17 @@ public class GalacticumGame extends Game {
 	 */
 	@Override
 	public void create() {
-		
+		Resources.loadTextures();
+		setScreen(new CreationScreen(this));
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		Resources.unloadTextures();
+	}
+	
+	
 
 	// ===========================================================
 	// Methods

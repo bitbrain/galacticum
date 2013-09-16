@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package de.myreality.galacticum;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
 /**
  * Contains basic resources of the game
  *
@@ -27,6 +31,19 @@ public final class Resources {
 	// ===========================================================
 	// Textures
 	// ===========================================================
+	
+	public static Texture BACKGROUND_MAIN;
+	
+	public static void loadTextures() {		
+		unloadTextures();		
+		BACKGROUND_MAIN = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
+	}
+	
+	public static void unloadTextures() {
+		if (BACKGROUND_MAIN != null) {
+			BACKGROUND_MAIN.dispose();
+		}
+	}
 	
 	// ===========================================================
 	// Sounds

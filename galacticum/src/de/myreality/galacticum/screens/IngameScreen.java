@@ -18,6 +18,8 @@ package de.myreality.galacticum.screens;
 
 import com.badlogic.gdx.Screen;
 
+import de.myreality.galacticum.GalacticumGame;
+
 /**
  * 
  * 
@@ -26,6 +28,7 @@ import com.badlogic.gdx.Screen;
  * @version 1.0
  */
 public class IngameScreen implements Screen {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -33,10 +36,16 @@ public class IngameScreen implements Screen {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private GalacticumGame game;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public IngameScreen(GalacticumGame game) {
+		this.game = game;
+	}
 
 	// ===========================================================
 	// Getter & Setter

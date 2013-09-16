@@ -16,9 +16,14 @@
  */
 package de.myreality.galacticum.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.Resources;
 
 /**
  * Screen which displays configuration to create a new universe. Additionally
@@ -39,6 +44,10 @@ public class CreationScreen implements Screen {
 	// ===========================================================
 	
 	private GalacticumGame game;
+	
+	private Texture background;
+	
+	private SpriteBatch batch;
 
 	// ===========================================================
 	// Constructors
@@ -63,8 +72,12 @@ public class CreationScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		batch.begin();
+		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.end();
 	}
 
 	/*
@@ -85,8 +98,8 @@ public class CreationScreen implements Screen {
 	 */
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
+		background = Resources.BACKGROUND_MAIN;
+		batch = new SpriteBatch();
 	}
 
 	/*
