@@ -17,6 +17,7 @@
 package de.myreality.galacticum;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -50,16 +51,28 @@ public final class Resources {
 	// Fonts
 	// ===========================================================
 	
+	public static BitmapFont FONT_LARGE;
 	public static BitmapFont FONT_REGULAR;
+	public static BitmapFont FONT_SMALL;
 	
 	public static void loadFonts() {		
 		unloadFonts();		
-		FONT_REGULAR = new BitmapFont(Gdx.files.internal("fonts/font.xml"), false);
+		FONT_LARGE = new BitmapFont(Gdx.files.internal("fonts/font-large.fnt"), false);
+		FONT_REGULAR = new BitmapFont(Gdx.files.internal("fonts/font-regular.fnt"), false);
+		FONT_SMALL = new BitmapFont(Gdx.files.internal("fonts/font-small.fnt"), false);
 	}
 	
 	public static void unloadFonts() {
+		if (FONT_LARGE != null) {
+			FONT_LARGE.dispose();
+		}
+		
 		if (FONT_REGULAR != null) {
 			FONT_REGULAR.dispose();
+		}
+		
+		if (FONT_SMALL != null) {
+			FONT_SMALL.dispose();
 		}
 	}
 	
@@ -70,6 +83,13 @@ public final class Resources {
 	// ===========================================================
 	// Music
 	// ===========================================================
+	
+	// ===========================================================
+	// Colors
+	// ===========================================================
+	
+	public static Color COLOR_MAIN_GREEN = Color.valueOf("b8c61a");
+	public static Color COLOR_MAIN_BLUE = Color.valueOf("5d37bc");
 	
 	// ===========================================================
 	// Particles

@@ -21,6 +21,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
@@ -48,6 +51,10 @@ public class CreationScreen implements Screen {
 	private Texture background;
 	
 	private SpriteBatch batch;
+	
+	private Stage stage;
+	
+	private Label lblCaption;
 
 	// ===========================================================
 	// Constructors
@@ -75,9 +82,13 @@ public class CreationScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
+		stage.act(delta);
+		
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
+		
+		stage.draw();
 	}
 
 	/*
@@ -87,8 +98,14 @@ public class CreationScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		if (stage == null) {
+			stage = new Stage(width, height, false);
+			initGUI();
+			alignGUI();
+		} else {
+			stage.setViewport(width, height, false);
+			alignGUI();
+		}
 	}
 
 	/*
@@ -149,6 +166,19 @@ public class CreationScreen implements Screen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void initGUI() {
+		LabelStyle lblStyle = new LabelStyle();
+		lblStyle.font = Resources.FONT_REGULAR;
+		lblStyle.fontColor = Resources.COLOR_MAIN_GREEN;		
+		lblCaption= new Label("Create new universe", lblStyle);
+		stage.addActor(lblCaption);
+	}
+	
+	private void alignGUI() {
+		lblCaption.setX(Gdx.graphics.getWidth() / 2f - lblCaption.getWidth() / 2f);
+		lblCaption.setY(Gdx.graphics.getHeight() - lblCaption.getHeight());
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
