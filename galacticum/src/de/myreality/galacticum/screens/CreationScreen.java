@@ -20,13 +20,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.ui.HeaderBox;
 
 /**
  * Screen which displays configuration to create a new universe. Additionally
@@ -54,7 +58,9 @@ public class CreationScreen implements Screen {
 	
 	private Stage stage;
 	
-	private Label lblCaption;
+	private HeaderBox caption;
+	
+	private TextField txfSeed, txfName;
 
 	// ===========================================================
 	// Constructors
@@ -87,7 +93,7 @@ public class CreationScreen implements Screen {
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.end();
-		
+	
 		stage.draw();
 	}
 
@@ -100,6 +106,7 @@ public class CreationScreen implements Screen {
 	public void resize(int width, int height) {
 		if (stage == null) {
 			stage = new Stage(width, height, false);
+			Gdx.input.setInputProcessor(stage);
 			initGUI();
 			alignGUI();
 		} else {
@@ -171,13 +178,28 @@ public class CreationScreen implements Screen {
 		LabelStyle lblStyle = new LabelStyle();
 		lblStyle.font = Resources.FONT_REGULAR;
 		lblStyle.fontColor = Resources.COLOR_MAIN_GREEN;		
-		lblCaption= new Label("Create new universe", lblStyle);
-		stage.addActor(lblCaption);
+		caption = new HeaderBox("Create new universe", lblStyle);
+		caption.setHeight(90f);		
+		stage.addActor(caption);
+		
+		TextFieldStyle txfStyle = new TextFieldStyle();
+		txfStyle.font = Resources.FONT_REGULAR;
+		txfStyle.fontColor = Resources.COLOR_MAIN_BLUE;
+		txfStyle.messageFont = Resources.FONT_SMALL;
+		txfStyle.messageFontColor = Resources.COLOR_MAIN_GREEN;
+		txfStyle.background = new SpriteDrawable(new Sprite(Resources.BACKGROUND_TRANSPARENT));
+		txfSeed = new TextField("", txfStyle);
+		txfName = new TextField("", txfStyle);
+		txfName.setMessageText("New universe");
+		stage.addActor(txfName);
 	}
 	
 	private void alignGUI() {
-		lblCaption.setX(Gdx.graphics.getWidth() / 2f - lblCaption.getWidth() / 2f);
-		lblCaption.setY(Gdx.graphics.getHeight() - lblCaption.getHeight());
+		caption.setY(Gdx.graphics.getHeight());
+		caption.setWidth(Gdx.graphics.getWidth());
+		
+		txfName.setWidth(Gdx.graphics.getWidth() / 1.5f);
+		txfName.setX(Gdx.graphics.getWidth() / 2f - txfName.getWidth() / 2f);
 	}
 
 	// ===========================================================

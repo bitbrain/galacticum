@@ -18,6 +18,8 @@ package de.myreality.galacticum;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -36,14 +38,30 @@ public final class Resources {
 	
 	public static Texture BACKGROUND_MAIN;
 	
+	public static Texture BACKGROUND_TRANSPARENT;
+	
 	public static void loadTextures() {		
 		unloadTextures();		
 		BACKGROUND_MAIN = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
+		
+		Pixmap map = new Pixmap(10, 10, Pixmap.Format.RGBA4444);
+		Gdx.gl.glEnable(GL10.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		
+		map.setColor(0, 0, 0, 0.3f);
+		map.fill();
+		BACKGROUND_TRANSPARENT = new Texture(map);
+		map.dispose();
+		Gdx.gl.glDisable(GL10.GL_BLEND);
 	}
 	
 	public static void unloadTextures() {
 		if (BACKGROUND_MAIN != null) {
 			BACKGROUND_MAIN.dispose();
+		}
+		
+		if (BACKGROUND_TRANSPARENT != null) {
+			BACKGROUND_TRANSPARENT.dispose();
 		}
 	}
 
