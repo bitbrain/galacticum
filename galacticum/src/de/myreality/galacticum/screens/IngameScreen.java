@@ -51,6 +51,11 @@ public class IngameScreen implements Screen {
 	// Getter & Setter
 	// ===========================================================
 
+	
+	public GalacticumGame getGame() {
+		return game;
+	}
+	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================

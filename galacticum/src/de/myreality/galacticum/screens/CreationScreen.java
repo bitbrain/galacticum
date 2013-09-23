@@ -19,18 +19,8 @@ package de.myreality.galacticum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.ui.HeaderBox;
 
 /**
  * Screen which displays configuration to create a new universe. Additionally
@@ -51,16 +41,6 @@ public class CreationScreen implements Screen {
 	// ===========================================================
 	
 	private GalacticumGame game;
-	
-	private Texture background;
-	
-	private SpriteBatch batch;
-	
-	private Stage stage;
-	
-	private HeaderBox caption;
-	
-	private TextField txfSeed, txfName;
 
 	// ===========================================================
 	// Constructors
@@ -73,6 +53,10 @@ public class CreationScreen implements Screen {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public GalacticumGame getGame() {
+		return game;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -87,14 +71,6 @@ public class CreationScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
-		stage.act(delta);
-		
-		batch.begin();
-		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.end();
-	
-		stage.draw();
 	}
 
 	/*
@@ -104,15 +80,7 @@ public class CreationScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		if (stage == null) {
-			stage = new Stage(width, height, false);
-			Gdx.input.setInputProcessor(stage);
-			initGUI();
-			alignGUI();
-		} else {
-			stage.setViewport(width, height, false);
-			alignGUI();
-		}
+		
 	}
 
 	/*
@@ -122,8 +90,6 @@ public class CreationScreen implements Screen {
 	 */
 	@Override
 	public void show() {
-		background = Resources.BACKGROUND_MAIN;
-		batch = new SpriteBatch();
 	}
 
 	/*
@@ -173,34 +139,6 @@ public class CreationScreen implements Screen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private void initGUI() {
-		LabelStyle lblStyle = new LabelStyle();
-		lblStyle.font = Resources.FONT_REGULAR;
-		lblStyle.fontColor = Resources.COLOR_MAIN_GREEN;		
-		caption = new HeaderBox("Create new universe", lblStyle);
-		caption.setHeight(90f);		
-		stage.addActor(caption);
-		
-		TextFieldStyle txfStyle = new TextFieldStyle();
-		txfStyle.font = Resources.FONT_REGULAR;
-		txfStyle.fontColor = Resources.COLOR_MAIN_BLUE;
-		txfStyle.messageFont = Resources.FONT_SMALL;
-		txfStyle.messageFontColor = Resources.COLOR_MAIN_GREEN;
-		txfStyle.background = new SpriteDrawable(new Sprite(Resources.BACKGROUND_TRANSPARENT));
-		txfSeed = new TextField("", txfStyle);
-		txfName = new TextField("", txfStyle);
-		txfName.setMessageText("New universe");
-		stage.addActor(txfName);
-	}
-	
-	private void alignGUI() {
-		caption.setY(Gdx.graphics.getHeight());
-		caption.setWidth(Gdx.graphics.getWidth());
-		
-		txfName.setWidth(Gdx.graphics.getWidth() / 1.5f);
-		txfName.setX(Gdx.graphics.getWidth() / 2f - txfName.getWidth() / 2f);
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
