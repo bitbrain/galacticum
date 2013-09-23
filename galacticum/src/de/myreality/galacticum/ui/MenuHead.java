@@ -14,22 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.screens;
+package de.myreality.galacticum.ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.GalacticumGame;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 /**
- * Screen which displays configuration to create a new universe. Additionally
- * you can select between multiple existing universes.
- * 
+ * Displays a head on top of the screen
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
-public class CreationScreen extends MenuScreen {
-
+public class MenuHead extends Group {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,13 +42,24 @@ public class CreationScreen extends MenuScreen {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public CreationScreen(String caption, GalacticumGame game) {
-		super(caption, game);
+	public MenuHead(String text, LabelStyle style) {
+		
+		
+		Label label = new Label(text, style);
+		addActor(label);
+		label.setX(Gdx.graphics.getWidth() / 2f - label.getWidth() / 2f);
+		label.setY(Gdx.graphics.getHeight() - label.getHeight());
+		
+		Background background = new Background();
+		background.setWidth(Gdx.graphics.getWidth());
+		background.setHeight(label.getHeight());
+		background.setY(Gdx.graphics.getHeight() - background.getHeight());
+		addActorBefore(label, background);
 	}
 
 	// ===========================================================
@@ -54,41 +70,6 @@ public class CreationScreen extends MenuScreen {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.screens.MenuScreen#onCreateUI()
-	 */
-	@Override
-	protected void onCreateUI() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.screens.MenuScreen#onResizeUI(int, int)
-	 */
-	@Override
-	protected void onResizeUI(int width, int height) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.screens.MenuScreen#onDraw(com.badlogic.gdx.graphics
-	 * .g2d.SpriteBatch, float)
-	 */
-	@Override
-	protected void onDraw(SpriteBatch batch, float delta) {
-		// TODO Auto-generated method stub
-
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -96,5 +77,28 @@ public class CreationScreen extends MenuScreen {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	class Background extends Actor {
+		
+		private ShapeRenderer renderer = new ShapeRenderer();
 
+		@Override
+		public void draw(SpriteBatch batch, float parentAlpha) {
+			super.draw(batch, parentAlpha);
+			
+			batch.end();
+			    
+			Gdx.gl.glEnable(GL10.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			
+			renderer.begin(ShapeType.FilledRectangle);
+			renderer.setColor(0f, 0f, 0f, 0.25f);
+			renderer.filledRect(getX(), getY(), getWidth(), getHeight());
+			renderer.end();
+			      
+			Gdx.gl.glDisable(GL10.GL_BLEND);
+			      
+			batch.begin();
+		}
+	}
 }

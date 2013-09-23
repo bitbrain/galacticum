@@ -22,6 +22,9 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 /**
  * Contains basic resources of the game
@@ -40,6 +43,8 @@ public final class Resources {
 	
 	public static Texture BACKGROUND_TRANSPARENT;
 	
+	public static Texture BACKGROUND_TRANSPARENT_DARK;
+	
 	public static void loadTextures() {		
 		unloadTextures();		
 		BACKGROUND_MAIN = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
@@ -51,6 +56,9 @@ public final class Resources {
 		map.setColor(0, 0, 0, 0.3f);
 		map.fill();
 		BACKGROUND_TRANSPARENT = new Texture(map);
+		map.setColor(0, 0, 0, 0.5f);
+		map.fill();
+		BACKGROUND_TRANSPARENT_DARK = new Texture(map);
 		map.dispose();
 		Gdx.gl.glDisable(GL10.GL_BLEND);
 	}
@@ -107,6 +115,7 @@ public final class Resources {
 	// ===========================================================
 	
 	public static Color COLOR_MAIN_GREEN = Color.valueOf("b8c61a");
+	public static Color COLOR_MAIN_GREEN_LIGHT = Color.valueOf("dded26");
 	public static Color COLOR_MAIN_BLUE = Color.valueOf("5d37bc");
 	
 	// ===========================================================
@@ -116,5 +125,19 @@ public final class Resources {
 	// ===========================================================
 	// Shader
 	// ===========================================================
+	
+	// ===========================================================
+	// Styles
+	// ===========================================================
+	
+	public static TextButtonStyle STYLE_BUTTON_DEFAULT = new TextButtonStyle();
+	
+	public static void loadStyles() {		
+		STYLE_BUTTON_DEFAULT.up = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT));
+		STYLE_BUTTON_DEFAULT.over = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT_DARK));
+		STYLE_BUTTON_DEFAULT.fontColor = Resources.COLOR_MAIN_GREEN;
+		STYLE_BUTTON_DEFAULT.overFontColor = COLOR_MAIN_GREEN_LIGHT;
+		STYLE_BUTTON_DEFAULT.font = Resources.FONT_SMALL;
+	}
 
 }

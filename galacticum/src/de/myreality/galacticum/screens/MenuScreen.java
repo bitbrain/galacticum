@@ -22,9 +22,13 @@ import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.ui.MenuHead;
 
 /**
  * Screen which displays a default template for underlying screens.
@@ -50,6 +54,14 @@ public abstract class MenuScreen implements Screen {
 	private SpriteBatch batch;
 	
 	private Texture background;
+	
+	private Button buttonLeft, buttonRight;
+	
+	private float width, height;
+	
+	private String caption;
+	
+	private float padding;
 
 	// ===========================================================
 	// Constructors
@@ -57,7 +69,9 @@ public abstract class MenuScreen implements Screen {
 	
 	public MenuScreen(String caption, GalacticumGame game) {
 		this.game = game;
+		this.caption = caption;
 		background = Resources.BACKGROUND_MAIN;
+		padding = 30;
 	}
 
 	// ===========================================================
@@ -70,6 +84,14 @@ public abstract class MenuScreen implements Screen {
 	
 	public void setBackground(Texture texture) {
 		this.background = texture;
+	}
+	
+	public Button getButtonLeft() {
+		return buttonLeft;
+	}
+	
+	public Button getButtonRight() {
+		return buttonRight;
 	}
 
 	// ===========================================================
@@ -90,7 +112,7 @@ public abstract class MenuScreen implements Screen {
 		stage.act(delta);
 		
 		batch.begin();
-		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.draw(background, 0, 0, width, height);
 		onDraw(batch, delta);
 		batch.end();
 		
@@ -104,10 +126,27 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
+		
+		this.width = width;
+		this.height = height;
+		
 		if (stage == null) {
 			stage = new Stage(width, height, false);
+			Gdx.input.setInputProcessor(stage);
+			LabelStyle labelStyle = new LabelStyle();
+			labelStyle.font = Resources.FONT_REGULAR;
+			labelStyle.fontColor = Resources.COLOR_MAIN_GREEN;
+			MenuHead head = new MenuHead(caption, labelStyle);
+			stage.addActor(head);
 			onCreateUI();
 			onResizeUI(width, height);
+			
+			buttonLeft = new TextButton("Back", Resources.STYLE_BUTTON_DEFAULT);
+			buttonLeft.setX(padding);
+			buttonLeft.setY(padding);
+			buttonLeft.setWidth(buttonLeft.getWidth() + 50f);
+			buttonLeft.setHeight(buttonLeft.getHeight() + 25f);
+			stage.addActor(buttonLeft);
 		} else {
 			stage.setViewport(width, height, false);
 			onResizeUI(width, height);
