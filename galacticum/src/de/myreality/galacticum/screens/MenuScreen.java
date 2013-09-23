@@ -18,20 +18,22 @@ package de.myreality.galacticum.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.Resources;
 
 /**
- * Screen which displays configuration to create a new universe. Additionally
- * you can select between multiple existing universes.
+ * Screen which displays a default template for underlying screens.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class CreationScreen extends MenuScreen {
+public abstract class MenuScreen implements Screen {
 
 	// ===========================================================
 	// Constants
@@ -40,18 +42,35 @@ public class CreationScreen extends MenuScreen {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private GalacticumGame game;
+	
+	private Stage stage;
+	
+	private SpriteBatch batch;
+	
+	private Texture background;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public CreationScreen(String caption, GalacticumGame game) {
-		super(caption, game);
+	public MenuScreen(String caption, GalacticumGame game) {
+		this.game = game;
+		background = Resources.BACKGROUND_MAIN;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public GalacticumGame getGame() {
+		return game;
+	}
+	
+	public void setBackground(Texture texture) {
+		this.background = texture;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -60,10 +79,58 @@ public class CreationScreen extends MenuScreen {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.screens.MenuScreen#onCreateUI()
+	 * @see com.badlogic.gdx.Screen#render(float)
 	 */
 	@Override
-	protected void onCreateUI() {
+	public void render(float delta) {
+		
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		
+		stage.act(delta);
+		
+		batch.begin();
+		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		onDraw(batch, delta);
+		batch.end();
+		
+		stage.draw();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	 */
+	@Override
+	public void resize(int width, int height) {
+		if (stage == null) {
+			stage = new Stage(width, height, false);
+			onCreateUI();
+			onResizeUI(width, height);
+		} else {
+			stage.setViewport(width, height, false);
+			onResizeUI(width, height);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#show()
+	 */
+	@Override
+	public void show() {
+		batch = new SpriteBatch();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#hide()
+	 */
+	@Override
+	public void hide() {
 		// TODO Auto-generated method stub
 
 	}
@@ -71,10 +138,10 @@ public class CreationScreen extends MenuScreen {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.screens.MenuScreen#onResizeUI(int, int)
+	 * @see com.badlogic.gdx.Screen#pause()
 	 */
 	@Override
-	protected void onResizeUI(int width, int height) {
+	public void pause() {
 		// TODO Auto-generated method stub
 
 	}
@@ -82,12 +149,21 @@ public class CreationScreen extends MenuScreen {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.myreality.galacticum.screens.MenuScreen#onDraw(com.badlogic.gdx.graphics
-	 * .g2d.SpriteBatch, float)
+	 * @see com.badlogic.gdx.Screen#resume()
 	 */
 	@Override
-	protected void onDraw(SpriteBatch batch, float delta) {
+	public void resume() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#dispose()
+	 */
+	@Override
+	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
@@ -95,6 +171,12 @@ public class CreationScreen extends MenuScreen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	protected abstract void onCreateUI();
+	
+	protected abstract void onResizeUI(int width, int height);
+	
+	protected abstract void onDraw(SpriteBatch batch, float delta);
 
 	// ===========================================================
 	// Inner and Anonymous Classes

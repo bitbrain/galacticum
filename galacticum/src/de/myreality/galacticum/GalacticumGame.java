@@ -56,7 +56,7 @@ public class GalacticumGame extends Game {
 	public void create() {
 		Resources.loadTextures();
 		Resources.loadFonts();
-		setScreen(new CreationScreen(this));
+		setScreen(new CreationScreen("Create new universe", this));
 	}
 
 	@Override
