@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.screens;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,6 +46,8 @@ public class CreationScreen extends MenuScreen {
 	// ===========================================================
 	
 	private CreationForm form;
+	
+	private TweenManager tweenManager;
 
 	// ===========================================================
 	// Constructors
@@ -68,8 +72,9 @@ public class CreationScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateUI(Stage stage) {
-		form = new CreationForm(Resources.STYLE_TEXTFIELD_DEFAULT);
-		form.addListener(new CreationHandler());
+		tweenManager = new TweenManager();
+		form = new CreationForm(Resources.STYLE_TEXTFIELD_DEFAULT, tweenManager);
+		form.addListener(new CreationValidator());
 		stage.addActor(form);
 	}
 
@@ -105,14 +110,17 @@ public class CreationScreen extends MenuScreen {
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	class CreationHandler extends ClickListener {
+	class CreationValidator extends ClickListener {
 
 		@Override
 		public boolean touchDown(InputEvent event, float x, float y,
 				int pointer, int button) {
 			super.touchDown(event, x, y, pointer, button);
 			
-			form.setError("Can't create universe");
+			if (form.getName().isEmpty()) {
+				form.setErrorMessage("Specify a name for your universe");
+				return false;
+			}
 			
 			return true;
 		}

@@ -14,46 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.tweens;
 
-import de.myreality.chunx.ChunkConfiguration;
-import de.myreality.chunx.moving.MoveableChunkTarget;
-import de.myreality.chunx.moving.MovementDetector;
-import de.myreality.chunx.moving.SimpleMovementDetector;
-import de.myreality.galacticum.util.Renderable;
+import aurelienribon.tweenengine.TweenAccessor;
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Basic implementation of an entity
+ * Provides tween functionality for GUI actors
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public abstract class Entity implements MoveableChunkTarget, Renderable {
+public class ActorTween implements TweenAccessor<Actor> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
-	private static final long serialVersionUID = 1L;
+	
+	public static final int ALPHA = 1;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private float x, y;
-	
-	private MovementDetector detector;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public Entity(float x, float y, ChunkConfiguration configuration) {
-		this.x = x;
-		this.y = y;
-		detector = new SimpleMovementDetector(this, configuration);
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -66,83 +54,34 @@ public abstract class Entity implements MoveableChunkTarget, Renderable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.chunx.util.Positionable#getX()
+	 * @see aurelienribon.tweenengine.TweenAccessor#getValues(java.lang.Object,
+	 * int, float[])
 	 */
 	@Override
-	public float getX() {
-		return x;
+	public int getValues(Actor target, int tweenType, float[] returnValues) {
+		
+		switch (tweenType) {
+			case ALPHA:
+				returnValues[0] = target.getColor().a;
+				return 1;
+		}
+		
+		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.chunx.util.Positionable#getY()
+	 * @see aurelienribon.tweenengine.TweenAccessor#setValues(java.lang.Object,
+	 * int, float[])
 	 */
 	@Override
-	public float getY() {
-		return y;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.util.Positionable#setX(float)
-	 */
-	@Override
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.util.Positionable#setY(float)
-	 */
-	@Override
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.util.Updateable#update()
-	 */
-	@Override
-	public void update() {
-		update(0f);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.util.Updateable#update(float)
-	 */
-	@Override
-	public void update(float delta) {
-		detector.update(delta);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.moving.MoveableChunkTarget#getMovementDetector()
-	 */
-	@Override
-	public MovementDetector getMovementDetector() {
-		return detector;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.moving.MoveableChunkTarget#setMovementDetector(de.
-	 * myreality.chunx.moving.MovementDetector)
-	 */
-	@Override
-	public void setMovementDetector(MovementDetector detector) {
-		this.detector = detector;
+	public void setValues(Actor target, int tweenType, float[] newValues) {
+		switch (tweenType) {
+			case ALPHA:
+				target.getColor().a = newValues[0];
+				break;
+		}
 	}
 
 	// ===========================================================

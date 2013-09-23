@@ -16,9 +16,13 @@
  */
 package de.myreality.galacticum;
 
+import aurelienribon.tweenengine.Tween;
+
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.myreality.galacticum.screens.CreationScreen;
+import de.myreality.galacticum.tweens.ActorTween;
 
 /**
  * Main game class which provides game functionality
@@ -57,6 +61,9 @@ public class GalacticumGame extends Game {
 		Resources.loadTextures();
 		Resources.loadFonts();
 		Resources.loadStyles();
+		
+		initTweenEngine();
+		
 		setScreen(new CreationScreen("Create new universe", this));
 	}
 
@@ -72,6 +79,10 @@ public class GalacticumGame extends Game {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void initTweenEngine() {
+		Tween.registerAccessor(Actor.class, new ActorTween());
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

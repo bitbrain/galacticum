@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.ui;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -51,13 +53,16 @@ public class CreationForm extends Table {
 	private TextButton btnSubmit;
 	
 	private Label lblError;
+	
+	private TweenManager tweenManager;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public CreationForm(TextFieldStyle style) {
-
+	public CreationForm(TextFieldStyle style, TweenManager tweenManager) {
+		
+		this.tweenManager = tweenManager;
 		
 		lblError = new Label(" ", Resources.STYLE_LABEL_ERROR);
 		
@@ -91,7 +96,7 @@ public class CreationForm extends Table {
 		return tfName.getText();
 	}
 	
-	public void setError(String error) {
+	public void setErrorMessage(String error) {
 		lblError.setText(error);
 	}
 	
