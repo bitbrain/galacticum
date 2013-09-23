@@ -79,7 +79,7 @@ public class ActorTween implements TweenAccessor<Actor> {
 	public void setValues(Actor target, int tweenType, float[] newValues) {
 		switch (tweenType) {
 			case ALPHA:
-				target.getColor().a = newValues[0];
+				target.setColor(target.getColor().r, target.getColor().g, target.getColor().b, newValues[0]);
 				break;
 		}
 	}

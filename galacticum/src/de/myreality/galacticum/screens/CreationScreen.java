@@ -98,8 +98,7 @@ public class CreationScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onDraw(SpriteBatch batch, float delta) {
-		// TODO Auto-generated method stub
-
+		tweenManager.update(delta);
 	}
 
 	// ===========================================================

@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.ui;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -26,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.tweens.ActorTween;
 
 /**
  * Form which provides information for a game context
@@ -98,6 +101,14 @@ public class CreationForm extends Table {
 	
 	public void setErrorMessage(String error) {
 		lblError.setText(error);
+		tweenManager.killTarget(lblError);
+		lblError.getColor().a = 1f;
+		Tween.to(lblError, ActorTween.ALPHA, 2f)
+		.delay(2f)
+	 	.target(0f)
+		.ease(TweenEquations.easeInOutQuad)
+		.start(tweenManager);
+		
 	}
 	
 	public boolean addListener(EventListener listener) {
