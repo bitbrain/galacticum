@@ -14,88 +14,94 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.screens;
+package de.myreality.galacticum.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
-import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.ui.CreationForm;
 
 /**
- * Screen which displays configuration to create a new universe. Additionally
- * you can select between multiple existing universes.
- * 
+ * Form which provides information for a game context
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
-public class CreationScreen extends MenuScreen {
-
+public class CreationForm extends Table {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final String DEFAULT_TEXT_NAME = "Name";
+	
+	public static final String DEFAULT_TEXT_SEED = "Seed";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private CreationForm form;
+	private TextField tfName, tfSeed;
+
+	private TextButton btnSubmit;
+	
+	private Label lblError;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public CreationScreen(String caption, GalacticumGame game) {
-		super(caption, game);
+	public CreationForm(TextFieldStyle style) {
+
+		
+		lblError = new Label(" ", Resources.STYLE_LABEL_ERROR);
+		
+		tfName = new TextField("", style);
+		tfSeed = new TextField("", style);
+		
+		tfName.setMessageText(DEFAULT_TEXT_NAME);
+		tfSeed.setMessageText(DEFAULT_TEXT_SEED);		
+		
+		add(lblError).padBottom(20).padTop(30f);
+		row();
+		
+		add(tfName).width(400f).padBottom(20f).height(110f);
+		row();
+		add(tfSeed).width(400f).height(110f);
+		
+		btnSubmit = new TextButton("Create", Resources.STYLE_BUTTON_DEFAULT);
+		row();
+		add(btnSubmit).width(400f).padTop(20f).height(50f);
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public String getName() {
+		return tfName.getText();
+	}
+	
+	public String getSeed() {
+		return tfName.getText();
+	}
+	
+	public void setError(String error) {
+		lblError.setText(error);
+	}
+	
+	public boolean addListener(EventListener listener) {
+		return btnSubmit.addListener(listener);
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.screens.MenuScreen#onCreateUI()
-	 */
-	@Override
-	protected void onCreateUI(Stage stage) {
-		form = new CreationForm(Resources.STYLE_TEXTFIELD_DEFAULT);
-		form.addListener(new CreationHandler());
-		stage.addActor(form);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.screens.MenuScreen#onResizeUI(int, int)
-	 */
-	@Override
-	protected void onResizeUI(int width, int height) {
-		form.setWidth(width);
-		form.setHeight(height);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.screens.MenuScreen#onDraw(com.badlogic.gdx.graphics
-	 * .g2d.SpriteBatch, float)
-	 */
-	@Override
-	protected void onDraw(SpriteBatch batch, float delta) {
-		// TODO Auto-generated method stub
-
-	}
 
 	// ===========================================================
 	// Methods
@@ -104,20 +110,5 @@ public class CreationScreen extends MenuScreen {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
-	class CreationHandler extends ClickListener {
-
-		@Override
-		public boolean touchDown(InputEvent event, float x, float y,
-				int pointer, int button) {
-			super.touchDown(event, x, y, pointer, button);
-			
-			form.setError("Can't create universe");
-			
-			return true;
-		}
-		
-		
-	}
 
 }

@@ -23,7 +23,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 /**
@@ -132,12 +134,26 @@ public final class Resources {
 	
 	public static TextButtonStyle STYLE_BUTTON_DEFAULT = new TextButtonStyle();
 	
+	public static TextFieldStyle STYLE_TEXTFIELD_DEFAULT = new TextFieldStyle();
+	
+	public static LabelStyle STYLE_LABEL_ERROR = new LabelStyle();
+	
 	public static void loadStyles() {		
 		STYLE_BUTTON_DEFAULT.up = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT));
 		STYLE_BUTTON_DEFAULT.over = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT_DARK));
 		STYLE_BUTTON_DEFAULT.fontColor = Resources.COLOR_MAIN_GREEN;
 		STYLE_BUTTON_DEFAULT.overFontColor = COLOR_MAIN_GREEN_LIGHT;
 		STYLE_BUTTON_DEFAULT.font = Resources.FONT_SMALL;
+		
+		STYLE_TEXTFIELD_DEFAULT.background = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT));
+		STYLE_TEXTFIELD_DEFAULT.font = Resources.FONT_REGULAR;
+		STYLE_TEXTFIELD_DEFAULT.messageFont = Resources.FONT_REGULAR;
+		STYLE_TEXTFIELD_DEFAULT.messageFontColor = Color.GRAY;
+		STYLE_TEXTFIELD_DEFAULT.fontColor = COLOR_MAIN_BLUE;
+		STYLE_TEXTFIELD_DEFAULT.cursor = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT));
+		
+		STYLE_LABEL_ERROR.font = FONT_SMALL;
+		STYLE_LABEL_ERROR.fontColor = Color.RED;
 	}
 
 }

@@ -138,7 +138,7 @@ public abstract class MenuScreen implements Screen {
 			labelStyle.fontColor = Resources.COLOR_MAIN_GREEN;
 			MenuHead head = new MenuHead(caption, labelStyle);
 			stage.addActor(head);
-			onCreateUI();
+			onCreateUI(stage);
 			onResizeUI(width, height);
 			
 			buttonLeft = new TextButton("Back", Resources.STYLE_BUTTON_DEFAULT);
@@ -146,7 +146,9 @@ public abstract class MenuScreen implements Screen {
 			buttonLeft.setY(padding);
 			buttonLeft.setWidth(buttonLeft.getWidth() + 50f);
 			buttonLeft.setHeight(buttonLeft.getHeight() + 25f);
-			stage.addActor(buttonLeft);
+			
+			// TODO: Implement proper button design
+			//stage.addActor(buttonLeft);
 		} else {
 			stage.setViewport(width, height, false);
 			onResizeUI(width, height);
@@ -211,7 +213,7 @@ public abstract class MenuScreen implements Screen {
 	// Methods
 	// ===========================================================
 	
-	protected abstract void onCreateUI();
+	protected abstract void onCreateUI(Stage stage);
 	
 	protected abstract void onResizeUI(int width, int height);
 	
