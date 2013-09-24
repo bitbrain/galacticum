@@ -53,16 +53,12 @@ public class CreationForm extends Table {
 	private TextButton btnSubmit;
 	
 	private Label lblError;
-	
-	private TweenManager tweenManager;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public CreationForm(TextFieldStyle style, TweenManager tweenManager) {
-		
-		this.tweenManager = tweenManager;
 		
 		lblError = new ErrorLabel(tweenManager);
 		
