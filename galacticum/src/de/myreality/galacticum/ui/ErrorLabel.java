@@ -16,92 +16,78 @@
  */
 package de.myreality.galacticum.ui;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.tweens.ActorTween;
 
 /**
- * Form which provides information for a game context
+ * 
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 1.0
- * @version 1.0
+ * @since 0.1
+ * @version 0.1
  */
-public class CreationForm extends Table {
+public class ErrorLabel extends Label {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	
-	public static final String DEFAULT_TEXT_NAME = "Name";
+	public static final float DEFAULT_DELAY = 2f;
 	
-	public static final String DEFAULT_TEXT_SEED = "Seed";
+	public static final float DEFAULT_FADE = 1f;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private TextField tfName, tfSeed;
-
-	private TextButton btnSubmit;
+	private TweenManager manager;
 	
-	private Label lblError;
-	
-	private TweenManager tweenManager;
+	private float delay, fade;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public CreationForm(TextFieldStyle style, TweenManager tweenManager) {
-		
-		this.tweenManager = tweenManager;
-		
-		lblError = new ErrorLabel(tweenManager);
-		
-		tfName = new TextField("", style);
-		tfSeed = new TextField("", style);
-		
-		tfName.setMessageText(DEFAULT_TEXT_NAME);
-		tfSeed.setMessageText(DEFAULT_TEXT_SEED);		
-		
-		add(lblError).padBottom(20).padTop(30f);
-		row();
-		
-		add(tfName).width(400f).padBottom(20f).height(110f);
-		row();
-		add(tfSeed).width(400f).height(110f);
-		
-		btnSubmit = new TextButton("Create", Resources.STYLE_BUTTON_DEFAULT);
-		row();
-		add(btnSubmit).width(400f).padTop(20f).height(50f);
+	public ErrorLabel(TweenManager manager) {
+		super(" ", Resources.STYLE_LABEL_ERROR);
+		this.manager = manager;
+		fade = DEFAULT_FADE;
+		delay = DEFAULT_DELAY;		
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 	
-	public String getName() {
-		return tfName.getText();
+	void setDelay(float delay) {
+		this.delay = delay;
 	}
 	
-	public String getSeed() {
-		return tfName.getText();
+	void setFade(float fade) {
+		this.fade = fade;
 	}
 	
-	public void setErrorMessage(String error) {
-		lblError.setText(error);
-	}
 	
-	public boolean addListener(EventListener listener) {
-		return btnSubmit.addListener(listener);
+	
+	@Override
+	public void setText(CharSequence text) {
+		super.setText(text);
+		
+		getColor().a = 1f;
+		
+		manager.killTarget(this);
+		
+		Tween.to(this, ActorTween.ALPHA, fade)
+		.delay(delay)
+	 	.target(0f)
+		.ease(TweenEquations.easeInOutQuad)
+		.start(manager);
 	}
 
 	// ===========================================================
