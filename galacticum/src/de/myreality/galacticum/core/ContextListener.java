@@ -16,39 +16,56 @@
  */
 package de.myreality.galacticum.core;
 
-import java.io.Serializable;
-
 /**
- * Represents a single entity type
+ * Listens to a single context manager
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public enum EntityType implements Serializable {
+public interface ContextListener {
+	
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
-	/**
-	 * 
-	 */
-	SPACESHIP,
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	
 	/**
 	 * 
+	 * 
+	 * @param event
 	 */
-	PLANET,
+	void onStart(ContextEvent event);
 	
 	/**
 	 * 
+	 * 
+	 * @param event
+	 * @param throwable
 	 */
-	RESOURCE,
+	void onError(ContextEvent event, Throwable throwable);
 	
 	/**
 	 * 
+	 * 
+	 * @param event
 	 */
-	OBSTACLE,
+	void onSuccess(ContextEvent event);
 	
 	/**
 	 * 
+	 * 
+	 * @param event
 	 */
-	WEAPON
+	void onLoad(ContextEvent event);
+	
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
+	void onSave(ContextEvent event);
 }

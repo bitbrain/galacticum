@@ -16,39 +16,35 @@
  */
 package de.myreality.galacticum.core;
 
-import java.io.Serializable;
-
 /**
- * Represents a single entity type
+ * Creates context objects
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public enum EntityType implements Serializable {
+public interface ContextFactory {
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
-	/**
-	 * 
-	 */
-	SPACESHIP,
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	
 	/**
 	 * 
+	 * 
+	 * @param configuration
+	 * @return
 	 */
-	PLANET,
+	Context create(ContextConfiguration configuration);
 	
 	/**
 	 * 
-	 */
-	RESOURCE,
-	
-	/**
 	 * 
+	 * @param factory
 	 */
-	OBSTACLE,
-	
-	/**
-	 * 
-	 */
-	WEAPON
+	void addFactory(SubsystemFactory factory);
+
 }

@@ -14,41 +14,57 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.io;
 
-import java.io.Serializable;
+import de.myreality.galacticum.core.Context;
+import de.myreality.galacticum.core.ContextConfiguration;
+import de.myreality.galacticum.core.ContextFactory;
 
 /**
- * Represents a single entity type
+ * 
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public enum EntityType implements Serializable {
+public interface ContextManager {
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
-	/**
-	 * 
-	 */
-	SPACESHIP,
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	
 	/**
 	 * 
+	 * 
+	 * @param configuration
+	 * @return
+	 * @throws ContextNotFoundException
 	 */
-	PLANET,
+	Context load(ContextConfiguration configuration) throws ContextNotFoundException;
 	
 	/**
 	 * 
+	 * 
+	 * @param context
 	 */
-	RESOURCE,
+	void save(Context context);
 	
 	/**
 	 * 
+	 * 
+	 * @param configuration
+	 * @return
 	 */
-	OBSTACLE,
+	boolean hasContext(ContextConfiguration configuration);
 	
 	/**
 	 * 
+	 * 
+	 * @param factory
 	 */
-	WEAPON
+	void setFactory(ContextFactory factory);
+
 }

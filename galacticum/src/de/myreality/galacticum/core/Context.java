@@ -16,39 +16,41 @@
  */
 package de.myreality.galacticum.core;
 
-import java.io.Serializable;
 
 /**
- * Represents a single entity type
+ * Game context which represents one single game
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public enum EntityType implements Serializable {
+public interface Context {
+	
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
-	/**
-	 * 
-	 */
-	SPACESHIP,
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	
 	/**
 	 * 
+	 * 
+	 * @return
 	 */
-	PLANET,
+	Subsystem[] getSubsystems();
 	
 	/**
 	 * 
+	 * @return
 	 */
-	RESOURCE,
+	GameContainer getContainer();
 	
 	/**
 	 * 
+	 * @return
 	 */
-	OBSTACLE,
-	
-	/**
-	 * 
-	 */
-	WEAPON
+	ContextConfiguration getConfiguration();
+
 }

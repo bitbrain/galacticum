@@ -116,8 +116,9 @@ public class CreationScreen extends MenuScreen {
 				int pointer, int button) {
 			super.touchDown(event, x, y, pointer, button);
 			
-			if (form.getName().isEmpty()) {
+			if (form.getNameLabel().isEmpty()) {
 				form.setErrorMessage("Specify a name for your universe");
+				
 				return false;
 			}
 			
