@@ -33,9 +33,24 @@ public interface GameContainer {
 	// Methods
 	// ===========================================================
 	
+	/**
+	 * 
+	 * 
+	 * @param entity
+	 */
 	void add(Entity entity);
 	
+	/**
+	 * 
+	 * 
+	 * @param entity
+	 */
 	void remove(Entity entity);
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	Entity[] getEntities();
 }

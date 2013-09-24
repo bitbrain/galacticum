@@ -36,10 +36,25 @@ public interface ContextConfiguration extends Seedable {
 	// Methods
 	// ===========================================================
 	
+	/**
+	 * 
+	 * 
+	 * @param name
+	 */
 	void setName(String name);
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	String getName();
 	
+	/**
+	 * 
+	 * 
+	 * @param seed
+	 */
 	void setSeed(Seed seed);
 
 }

@@ -33,16 +33,42 @@ public interface Entity {
 	// Methods
 	// ===========================================================
 	
+	/**
+	 * 
+	 * @return
+	 */
 	float getX();
 	
+	/**
+	 * 
+	 * @return
+	 */
 	float getY();
 	
+	/**
+	 * 
+	 * @return
+	 */
 	float getWidth();
 	
+	/**
+	 * 
+	 * @return
+	 */
 	float getHeight();
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	String getID();
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	EntityType getType();
 	
 }

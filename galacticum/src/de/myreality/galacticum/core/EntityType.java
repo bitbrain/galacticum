@@ -27,8 +27,23 @@ import java.io.Serializable;
  */
 public enum EntityType implements Serializable {
 
+	/**
+	 * 
+	 */
 	SPACESHIP,
+	
+	/**
+	 * 
+	 */
 	PLANET,
+	
+	/**
+	 * 
+	 */
 	RESOURCE,
+	
+	/**
+	 * 
+	 */
 	OBSTACLE
 }
