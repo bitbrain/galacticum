@@ -16,13 +16,20 @@
  */
 package de.myreality.galacticum.screens;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.core.Context;
+import de.myreality.galacticum.core.ContextFactory;
 import de.myreality.galacticum.io.ConfigurationManager;
+import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextNotFoundException;
 
 /**
@@ -46,15 +53,22 @@ public class LoadingScreen extends MenuScreen {
 	
 	private ConfigurationManager configurationManager;
 	
+	private ContextFactory contextFactory;
+	
 	private String contextID;
+	
+	private Future<?> loadingFuture;
+	
+	private GameLoader loader;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public LoadingScreen(String caption, GalacticumGame game, String contextID, ConfigurationManager configurationManager) throws ContextNotFoundException {
+	public LoadingScreen(String caption, GalacticumGame game, String contextID, ConfigurationManager configurationManager, ContextFactory contextFactory) throws ContextNotFoundException {
 		super(caption, game);		
 		this.configurationManager = configurationManager;
+		this.contextFactory = contextFactory;
 		this.contextID = contextID;
 		
 		if (!configurationManager.hasContext(contextID)) {
@@ -100,12 +114,25 @@ public class LoadingScreen extends MenuScreen {
 	@Override
 	protected void onDraw(SpriteBatch batch, float delta) {
 		tweenManager.update(delta);
+		
+		if (loader.hasError() || loadingFuture.isCancelled()) {
+			// Go back to creation screen
+			getGame().setScreen(new CreationScreen("Create new universe", getGame()));
+		} else if (loadingFuture.isDone()) {
+			// Loading is done, go to the next screen
+			getGame().setScreen(new IngameScreen(getGame()));
+		}
 	}
 	
 	@Override
 	public void show() {		
 		super.show();
 		
+		loader = new GameLoader(contextFactory);
+		
+		// Load the game
+		ExecutorService executor = Executors.newFixedThreadPool(1);
+		loadingFuture = executor.submit(loader);
 	}
 
 	// ===========================================================
@@ -115,5 +142,45 @@ public class LoadingScreen extends MenuScreen {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	class GameLoader implements Runnable {
+		
+		private Exception e;
+		
+		private Context context;
+		
+		private ContextFactory factory;
+		
+		public GameLoader(ContextFactory factory) {
+			this.factory = factory;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			
+			try {
+				ContextConfiguration configuration = configurationManager.load(contextID);									
+				context = factory.create(configuration);				
+			} catch (ContextNotFoundException e) {
+				this.e = e;
+			}
+		}
+		
+		public boolean hasError() {
+			return e != null;
+		}
+		
+		public Exception getException() {
+			return e;
+		}
+		
+		public Context getContext() {
+			return context;
+		}
+		
+	}
 
 }
