@@ -14,19 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
-
-import de.myreality.galacticum.io.ConfigurationManager;
-
+package de.myreality.galacticum.io;
 
 /**
- * Occurs during the context managing process
+ * Provides configuration for contexts
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextEvent {
+public interface Configurable {
 	
 	// ===========================================================
 	// Constants
@@ -36,32 +33,10 @@ public interface ContextEvent {
 	// Methods
 	// ===========================================================
 	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getProgress();
+	void setName(String name);
 	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	String getResource();
+	void setSeed(String seed);
 	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	ConfigurationManager getSender();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	ContextConfiguration getConfiguration();
+	void setID(String id);
 
 }

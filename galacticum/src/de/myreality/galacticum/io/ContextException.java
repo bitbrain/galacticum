@@ -16,34 +16,57 @@
  */
 package de.myreality.galacticum.io;
 
+import java.io.IOException;
+
 /**
- * Simple implementation of {@see ConfigurationIO}
+ * Represents a simple entity in a game
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SimpleConfigurationIO implements ConfigurationIO {
+public class ContextException extends IOException {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private ConfigurationWriter writer;
-	
-	private ConfigurationReader reader;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public SimpleConfigurationIO(ConfigurationWriter writer, ConfigurationReader reader) {
-		setWriter(writer);
-		setReader(reader);
+
+	/**
+	 * @param arg0
+	 * @param arg1
+	 */
+	public ContextException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param arg0
+	 */
+	public ContextException(String arg0) {
+		super(arg0);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param arg0
+	 */
+	public ContextException(Throwable arg0) {
+		super(arg0);
+		// TODO Auto-generated constructor stub
 	}
 
 	// ===========================================================
@@ -54,41 +77,9 @@ public class SimpleConfigurationIO implements ConfigurationIO {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.io.ConfigurationIO#setWriter(de.myreality.galacticum
-	 * .io.ConfigurationWriter)
-	 */
-	@Override
-	public void setWriter(ConfigurationWriter writer) {
-		this.writer = writer;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.io.ConfigurationIO#setReader(de.myreality.galacticum
-	 * .io.ConfigurationReader)
-	 */
-	@Override
-	public void setReader(ConfigurationReader reader) {
-		this.reader = reader;
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	protected ConfigurationReader getReader() {
-		return reader;
-	}
-	
-	protected ConfigurationWriter getWriter() {
-		return writer;
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

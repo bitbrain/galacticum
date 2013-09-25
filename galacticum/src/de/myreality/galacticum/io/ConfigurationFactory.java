@@ -14,19 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.io;
 
-import de.myreality.galacticum.io.ConfigurationIO;
-import de.myreality.galacticum.io.ContextNotFoundException;
+import de.myreality.galacticum.core.ContextConfiguration;
 
 /**
- * Manages all context configurations and loads them
+ * 
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextManager extends ConfigurationIO {
+public interface ConfigurationFactory extends Configurable {
 	
 	// ===========================================================
 	// Constants
@@ -39,38 +38,8 @@ public interface ContextManager extends ConfigurationIO {
 	/**
 	 * 
 	 * 
-	 * @param configuration
-	 * @return
-	 * @throws ContextNotFoundException
-	 */
-	Context load(ContextConfiguration configuration) throws ContextNotFoundException;
-	
-	/**
-	 * 
-	 * 
-	 * @param context
-	 */
-	void save(Context context);
-	
-	/**
-	 * 
-	 * 
-	 * @param context
-	 */
-	void remove(Context context);
-	
-	/**
-	 * 
-	 * 
-	 * @param configuration
 	 * @return
 	 */
-	boolean hasContext(ContextConfiguration configuration);
-	
-	/**
-	 * 
-	 * 
-	 * @param factory
-	 */
-	void setFactory(ContextFactory factory);
+	ContextConfiguration create();
+
 }

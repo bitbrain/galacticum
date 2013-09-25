@@ -19,64 +19,50 @@ package de.myreality.galacticum.io;
 import de.myreality.galacticum.core.ContextConfiguration;
 
 /**
- * Utility class which handles context sources
+ * Manages all context configurations and loads them
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public final class ContextSource {
+public interface ConfigurationManager extends ConfigurationIO {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	private static ContextSource instance;
-	
-	// ===========================================================
-	// Fields
-	// ===========================================================
-	
-	private String path = "data/";
-	
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-	
-	// Singleton constructor
-	private ContextSource() { }
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 	
 	/**
-	 * Determines if the given configuration exists
+	 * 
+	 * 
+	 * @param configuration
+	 * @return
+	 * @throws ContextNotFoundException
+	 */
+	ContextConfiguration load(ContextConfiguration configuration) throws ContextNotFoundException;
+	
+	/**
+	 * 
+	 * 
+	 * @param context
+	 */
+	void save(ContextConfiguration context) throws ContextNotFoundException;
+	
+	/**
+	 * 
+	 * 
+	 * @param context
+	 */
+	void remove(ContextConfiguration context) throws ContextNotFoundException;
+	
+	/**
+	 * 
 	 * 
 	 * @param configuration
 	 * @return
 	 */
-	public boolean exists(ContextConfiguration configuration) {
-		return false;
-	}
-	
-	public void setPath(String path) {
-		this.path = path;
-	}
-	
-	public String getPath() {
-		return path;
-	}
-	
-	public static ContextSource getInstance() {
-		
-		if (instance == null) {
-			instance = new ContextSource();
-		}
-		
-		return instance;
-	}
-	
-	
-
+	boolean hasContext(ContextConfiguration configuration);
 }

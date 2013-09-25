@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.io;
 
-import java.io.IOException;
 
 /**
  * Represents a simple entity in a game
@@ -25,7 +24,7 @@ import java.io.IOException;
  * @since 0.1
  * @version 0.1
  */
-public class ContextNotFoundException extends IOException {
+public class ContextNotFoundException extends ContextException {
 
 	// ===========================================================
 	// Constants
