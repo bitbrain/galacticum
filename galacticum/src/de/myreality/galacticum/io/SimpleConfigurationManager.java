@@ -16,6 +16,9 @@
  */
 package de.myreality.galacticum.io;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Simple implementation of {@see ConfigurationManager}
@@ -34,6 +37,8 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private List<ConfigurationListener> listeners;
 
 	// ===========================================================
 	// Constructors
@@ -46,6 +51,7 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	public SimpleConfigurationManager(ConfigurationWriter writer,
 			ConfigurationReader reader, ConfigurationRemover remover) {
 		super(writer, reader, remover);
+		listeners = new ArrayList<ConfigurationListener>();
 	}
 
 	// ===========================================================
@@ -67,6 +73,10 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	public ContextConfiguration load(String id)
 			throws ContextNotFoundException {
 		
+		for (ConfigurationListener l : listeners) {
+			l.onLoad(null);
+		}
+		
 		ContextConfiguration[] configurations = getReader().read();
 		
 		for (ContextConfiguration configuration : configurations) {
@@ -75,8 +85,12 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 			}
 		}
 		
+		ContextNotFoundException e = new ContextNotFoundException("There is no context with id=" + id);
+		for (ConfigurationListener l : listeners) {
+			l.onError(null, e);
+		}
 		
-		throw new ContextNotFoundException("There is no context with id=" + id);
+		throw e;
 	}
 
 	/*
@@ -88,7 +102,10 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	 */
 	@Override
 	public void save(ContextConfiguration context) {		
-		ConfigurationWriter writer = getWriter();		
+		ConfigurationWriter writer = getWriter();	
+		for (ConfigurationListener l : listeners) {
+			l.onSave(null);
+		}
 		writer.write(context);
 	}
 
@@ -101,7 +118,17 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	@Override
 	public void remove(String id)
 			throws ContextNotFoundException {
-		getRemover().remove(id);
+		try {
+			for (ConfigurationListener l : listeners) {
+				l.onRemove(null);
+			}
+			getRemover().remove(id);
+		} catch (ContextNotFoundException e) {
+			for (ConfigurationListener l : listeners) {
+				l.onError(null, e);
+			}
+			throw e;
+		}
 	}
 
 	/*
@@ -122,6 +149,16 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 		}
 		
 		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.io.ConfigurationManager#addListener(de.myreality.galacticum.io.ConfigurationListener)
+	 */
+	@Override
+	public void addListener(ConfigurationListener listener) {
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
+		}
 	}
 
 	// ===========================================================

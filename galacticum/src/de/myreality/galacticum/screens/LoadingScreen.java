@@ -26,7 +26,7 @@ import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextNotFoundException;
 
 /**
- * Screen which displays the loading progress of current universe cration.
+ * Screen which displays the loading progress of current universe creation.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
@@ -105,7 +105,6 @@ public class LoadingScreen extends MenuScreen {
 	@Override
 	public void show() {		
 		super.show();
-		
 		
 	}
 

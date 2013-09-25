@@ -64,4 +64,7 @@ public interface ConfigurationManager extends ConfigurationIO {
 	 * @return
 	 */
 	boolean hasContext(String id);
+	
+	
+	void addListener(ConfigurationListener listener);
 }
