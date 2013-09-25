@@ -14,26 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
-
-import de.myreality.galacticum.util.Seedable;
+package de.myreality.galacticum.io;
 
 /**
- * Contains configuration settings for a context
+ * Provides writer and reader for configuration purpose
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextConfiguration extends Seedable {
+public interface ConfigurationIO {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	public static final String DEFAULT_CHUNK_DIR = "chunks/";
-	
-	public static final String DEFAULT_PLAYER_DIR = "/";
 
 	// ===========================================================
 	// Methods
@@ -42,35 +36,15 @@ public interface ContextConfiguration extends Seedable {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @param writer
 	 */
-	String getName();
+	void setWriter(ConfigurationWriter writer);
 	
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @param reader
 	 */
-	String getID();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	String getRootPath();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	String getChunkPath();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	String getPlayerPath();
+	void setReader(ConfigurationReader reader);
+
 }

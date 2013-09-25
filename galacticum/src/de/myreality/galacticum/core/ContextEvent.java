@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.core;
 
-import de.myreality.galacticum.io.ContextManager;
 
 /**
  * Occurs during the context managing process

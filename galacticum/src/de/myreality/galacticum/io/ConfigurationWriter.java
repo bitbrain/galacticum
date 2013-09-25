@@ -16,18 +16,17 @@
  */
 package de.myreality.galacticum.io;
 
-import de.myreality.galacticum.core.Context;
 import de.myreality.galacticum.core.ContextConfiguration;
-import de.myreality.galacticum.core.ContextFactory;
 
 /**
- * 
+ * Writes a context configuration
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextManager {
+public interface ConfigurationWriter extends FileProvider {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -40,31 +39,7 @@ public interface ContextManager {
 	 * 
 	 * 
 	 * @param configuration
-	 * @return
-	 * @throws ContextNotFoundException
 	 */
-	Context load(ContextConfiguration configuration) throws ContextNotFoundException;
-	
-	/**
-	 * 
-	 * 
-	 * @param context
-	 */
-	void save(Context context);
-	
-	/**
-	 * 
-	 * 
-	 * @param configuration
-	 * @return
-	 */
-	boolean hasContext(ContextConfiguration configuration);
-	
-	/**
-	 * 
-	 * 
-	 * @param factory
-	 */
-	void setFactory(ContextFactory factory);
+	void write(ContextConfiguration configuration);
 
 }
