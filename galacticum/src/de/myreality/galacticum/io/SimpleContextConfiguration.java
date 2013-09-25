@@ -59,8 +59,8 @@ class SimpleContextConfiguration implements Configurable,
 		seed = new Seed();
 		name = "";
 		rootPath = "";
-		chunkPath = "";
-		playerPath = "";
+		chunkPath = DEFAULT_CHUNK_DIR;
+		playerPath = DEFAULT_PLAYER_DIR;
 		id = "";
 	}
 
@@ -119,7 +119,7 @@ class SimpleContextConfiguration implements Configurable,
 	 */
 	@Override
 	public String getChunkPath() {
-		return chunkPath;
+		return getRootPath() + chunkPath;
 	}
 
 	/*
@@ -129,7 +129,7 @@ class SimpleContextConfiguration implements Configurable,
 	 */
 	@Override
 	public String getPlayerPath() {
-		return playerPath;
+		return getRootPath() + playerPath;
 	}
 
 	/*
