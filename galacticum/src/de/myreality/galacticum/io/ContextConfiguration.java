@@ -34,6 +34,14 @@ public interface ContextConfiguration extends Seedable {
 	public static final String DEFAULT_CHUNK_DIR = "chunks/";
 	
 	public static final String DEFAULT_PLAYER_DIR = "/";
+	
+	public static final String NAME = "name";
+	
+	public static final String SEED = "seed";
+	
+	public static final String ID = "id";
+	
+	public static final String TIMESTAMP = "timestamp";
 
 	// ===========================================================
 	// Methods
