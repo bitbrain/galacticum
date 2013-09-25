@@ -17,6 +17,7 @@
 package de.myreality.galacticum.core;
 
 import de.myreality.galacticum.io.ConfigurationManager;
+import de.myreality.galacticum.io.ContextConfiguration;
 
 
 /**

@@ -33,10 +33,12 @@ public interface Configurable {
 	// Methods
 	// ===========================================================
 	
-	void setName(String name);
+	Configurable setName(String name);
 	
-	void setSeed(String seed);
+	Configurable setSeed(String seed);
 	
-	void setID(String id);
+	Configurable setID(String id);
+	
+	Configurable setTimestamp(long timestamp);
 
 }

@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 /**
  * Represents a simple entity in a game
  *
@@ -71,4 +73,12 @@ public interface Entity {
 	 */
 	EntityType getType();
 	
+	/**
+	 * 
+	 * 
+	 * @param delta
+	 * @param batch
+	 */
+	void draw(float delta, SpriteBatch batch);
+
 }

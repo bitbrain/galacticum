@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.io;
 
-import de.myreality.galacticum.core.ContextConfiguration;
 
 /**
  * Reads a context file and returns a list of stored configurations

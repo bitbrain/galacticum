@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core;
 
+import de.myreality.galacticum.io.ContextConfiguration;
+
 
 /**
  * Game context which represents one single game

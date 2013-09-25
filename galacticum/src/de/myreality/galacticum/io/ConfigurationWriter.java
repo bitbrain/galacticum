@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.io;
 
-import de.myreality.galacticum.core.ContextConfiguration;
 
 /**
  * Writes a context configuration

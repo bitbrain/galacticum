@@ -16,20 +16,24 @@
  */
 package de.myreality.galacticum.io;
 
-import de.myreality.galacticum.core.ContextConfiguration;
+import de.myreality.galacticum.util.Seedable;
 
 /**
- * 
+ * Contains configuration settings for a context
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ConfigurationFactory extends Configurable {
+public interface ContextConfiguration extends Seedable {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final String DEFAULT_CHUNK_DIR = "chunks/";
+	
+	public static final String DEFAULT_PLAYER_DIR = "/";
 
 	// ===========================================================
 	// Methods
@@ -40,6 +44,40 @@ public interface ConfigurationFactory extends Configurable {
 	 * 
 	 * @return
 	 */
-	ContextConfiguration create();
-
+	String getName();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	String getID();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	String getRootPath();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	String getChunkPath();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	String getPlayerPath();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	long getTimestamp();
 }
