@@ -36,14 +36,17 @@ public class SimpleConfigurationIO implements ConfigurationIO {
 	private ConfigurationWriter writer;
 	
 	private ConfigurationReader reader;
+	
+	private ConfigurationRemover remover;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleConfigurationIO(ConfigurationWriter writer, ConfigurationReader reader) {
+	public SimpleConfigurationIO(ConfigurationWriter writer, ConfigurationReader reader, ConfigurationRemover remover) {
 		setWriter(writer);
 		setReader(reader);
+		setRemover(remover);
 	}
 
 	// ===========================================================
@@ -78,6 +81,14 @@ public class SimpleConfigurationIO implements ConfigurationIO {
 		this.reader = reader;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.io.ConfigurationIO#setRemover(de.myreality.galacticum.io.ConfigurationRemover)
+	 */
+	@Override
+	public void setRemover(ConfigurationRemover remover) {
+		this.remover = remover;
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -88,6 +99,10 @@ public class SimpleConfigurationIO implements ConfigurationIO {
 	
 	protected ConfigurationWriter getWriter() {
 		return writer;
+	}
+	
+	protected ConfigurationRemover getRemover() {
+		return remover;
 	}
 
 	// ===========================================================

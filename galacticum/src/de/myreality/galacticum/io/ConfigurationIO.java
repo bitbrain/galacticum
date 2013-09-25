@@ -46,5 +46,12 @@ public interface ConfigurationIO {
 	 * @param reader
 	 */
 	void setReader(ConfigurationReader reader);
+	
+	/**
+	 * 
+	 * 
+	 * @param remover
+	 */
+	void setRemover(ConfigurationRemover remover);
 
 }

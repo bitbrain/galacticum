@@ -24,6 +24,7 @@ package de.myreality.galacticum.io;
  * @version 0.1
  */
 public interface ConfigurationRemover {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -31,5 +32,6 @@ public interface ConfigurationRemover {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
+	
+	void remove(String id) throws ContextNotFoundException;
 }

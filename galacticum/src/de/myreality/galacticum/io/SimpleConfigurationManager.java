@@ -44,8 +44,8 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	 * @param reader
 	 */
 	public SimpleConfigurationManager(ConfigurationWriter writer,
-			ConfigurationReader reader) {
-		super(writer, reader);
+			ConfigurationReader reader, ConfigurationRemover remover) {
+		super(writer, reader, remover);
 	}
 
 	// ===========================================================
@@ -101,8 +101,7 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	@Override
 	public void remove(String id)
 			throws ContextNotFoundException {
-		
-		
+		getRemover().remove(id);
 	}
 
 	/*
