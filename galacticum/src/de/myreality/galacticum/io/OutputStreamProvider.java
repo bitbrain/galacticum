@@ -16,16 +16,16 @@
  */
 package de.myreality.galacticum.io;
 
+import java.io.OutputStream;
 
 /**
- * Writes a context configuration
+ * Provides an output stream for the given file
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ConfigurationWriter extends FileProvider {
-	
+public interface OutputStreamProvider {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,10 +37,9 @@ public interface ConfigurationWriter extends FileProvider {
 	/**
 	 * 
 	 * 
-	 * @param configuration
+	 * @param file
+	 * @return
 	 */
-	void write(ContextConfiguration configuration);
-	
-	void setProvider(OutputStreamProvider provider);
+	OutputStream getOutputStream(String file);
 
 }

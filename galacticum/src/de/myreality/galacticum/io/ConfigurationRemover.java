@@ -34,4 +34,8 @@ public interface ConfigurationRemover {
 	// ===========================================================
 	
 	void remove(String id) throws ContextNotFoundException;
+	
+	void setProvider(InputStreamProvider provider);
+	
+	
 }

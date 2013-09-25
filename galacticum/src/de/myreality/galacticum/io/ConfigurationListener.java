@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.io;
 
 /**
  * Listens to a single context manager
@@ -23,7 +23,7 @@ package de.myreality.galacticum.core;
  * @since 0.1
  * @version 0.1
  */
-public interface ContextListener {
+public interface ConfigurationListener {
 	
 	// ===========================================================
 	// Constants
@@ -38,7 +38,7 @@ public interface ContextListener {
 	 * 
 	 * @param event
 	 */
-	void onStart(ContextEvent event);
+	void onStart(ConfigurationEvent event);
 	
 	/**
 	 * 
@@ -46,26 +46,33 @@ public interface ContextListener {
 	 * @param event
 	 * @param throwable
 	 */
-	void onError(ContextEvent event, Throwable throwable);
+	void onError(ConfigurationEvent event, Throwable throwable);
 	
 	/**
 	 * 
 	 * 
 	 * @param event
 	 */
-	void onSuccess(ContextEvent event);
+	void onSuccess(ConfigurationEvent event);
 	
 	/**
 	 * 
 	 * 
 	 * @param event
 	 */
-	void onLoad(ContextEvent event);
+	void onLoad(ConfigurationEvent event);
 	
 	/**
 	 * 
 	 * 
 	 * @param event
 	 */
-	void onSave(ContextEvent event);
+	void onSave(ConfigurationEvent event);
+	
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
+	void onRemove(ConfigurationEvent event);
 }

@@ -40,4 +40,6 @@ public interface ConfigurationReader extends FileProvider {
 	 * @return
 	 */
 	ContextConfiguration[] read();
+	
+	void setProvider(InputStreamProvider provider);
 }

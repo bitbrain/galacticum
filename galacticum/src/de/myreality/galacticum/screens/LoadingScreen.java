@@ -14,18 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.io;
+package de.myreality.galacticum.screens;
 
+import aurelienribon.tweenengine.TweenManager;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.io.ConfigurationManager;
+import de.myreality.galacticum.io.ContextNotFoundException;
 
 /**
- * Simple implementation of {@see ConfigurationManager}
+ * Screen which displays the loading progress of current universe cration.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SimpleConfigurationManager extends SimpleConfigurationIO implements
-		ConfigurationManager {
+public class LoadingScreen extends MenuScreen {
 
 	// ===========================================================
 	// Constants
@@ -34,18 +41,25 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private TweenManager tweenManager;
+	
+	private ConfigurationManager configurationManager;
+	
+	private String contextID;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	/**
-	 * @param writer
-	 * @param reader
-	 */
-	public SimpleConfigurationManager(ConfigurationWriter writer,
-			ConfigurationReader reader, ConfigurationRemover remover) {
-		super(writer, reader, remover);
+	
+	public LoadingScreen(String caption, GalacticumGame game, String contextID, ConfigurationManager configurationManager) throws ContextNotFoundException {
+		super(caption, game);		
+		this.configurationManager = configurationManager;
+		this.contextID = contextID;
+		
+		if (!configurationManager.hasContext(contextID)) {
+			throw new ContextNotFoundException("Context with ID=" + contextID + " does not exist");
+		}
 	}
 
 	// ===========================================================
@@ -59,69 +73,40 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.myreality.galacticum.io.ConfigurationManager#load(de.myreality.galacticum
-	 * .io.ContextConfiguration)
+	 * @see de.myreality.galacticum.screens.MenuScreen#onCreateUI()
 	 */
 	@Override
-	public ContextConfiguration load(String id)
-			throws ContextNotFoundException {
+	protected void onCreateUI(Stage stage) {
+		tweenManager = new TweenManager();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.screens.MenuScreen#onResizeUI(int, int)
+	 */
+	@Override
+	protected void onResizeUI(int width, int height) {
 		
-		ContextConfiguration[] configurations = getReader().read();
-		
-		for (ContextConfiguration configuration : configurations) {
-			if (configuration.getID().equals(id)) {
-				return configuration;
-			}
-		}
-		
-		
-		throw new ContextNotFoundException("There is no context with id=" + id);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * de.myreality.galacticum.io.ConfigurationManager#save(de.myreality.galacticum
-	 * .io.ContextConfiguration)
+	 * de.myreality.galacticum.screens.MenuScreen#onDraw(com.badlogic.gdx.graphics
+	 * .g2d.SpriteBatch, float)
 	 */
 	@Override
-	public void save(ContextConfiguration context) {		
-		ConfigurationWriter writer = getWriter();		
-		writer.write(context);
+	protected void onDraw(SpriteBatch batch, float delta) {
+		tweenManager.update(delta);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.io.ConfigurationManager#remove(de.myreality.
-	 * galacticum.io.ContextConfiguration)
-	 */
+	
 	@Override
-	public void remove(String id)
-			throws ContextNotFoundException {
-		getRemover().remove(id);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.io.ConfigurationManager#hasContext(de.myreality
-	 * .galacticum.io.ContextConfiguration)
-	 */
-	@Override
-	public boolean hasContext(String id) {
-		ContextConfiguration[] configs = getReader().read();	
+	public void show() {		
+		super.show();
 		
-		for (ContextConfiguration config : configs) {
-			if (config.getID().equals(id)) {
-				return true;
-			}
-		}
 		
-		return false;
 	}
 
 	// ===========================================================

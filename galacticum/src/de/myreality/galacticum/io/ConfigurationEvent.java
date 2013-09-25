@@ -17,14 +17,15 @@
 package de.myreality.galacticum.io;
 
 
+
 /**
- * Writes a context configuration
+ * Occurs during the context managing process
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ConfigurationWriter extends FileProvider {
+public interface ConfigurationEvent {
 	
 	// ===========================================================
 	// Constants
@@ -37,10 +38,29 @@ public interface ConfigurationWriter extends FileProvider {
 	/**
 	 * 
 	 * 
-	 * @param configuration
+	 * @return
 	 */
-	void write(ContextConfiguration configuration);
+	float getProgress();
 	
-	void setProvider(OutputStreamProvider provider);
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	String getResource();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	ConfigurationManager getSender();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	ContextConfiguration getConfiguration();
 
 }

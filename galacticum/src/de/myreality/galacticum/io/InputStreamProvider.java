@@ -14,20 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.io;
 
-import de.myreality.galacticum.io.ConfigurationManager;
-import de.myreality.galacticum.io.ContextConfiguration;
-
+import java.io.InputStream;
 
 /**
- * Occurs during the context managing process
+ * Provides an input stream for the given file
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextEvent {
+public interface InputStreamProvider {
 	
 	// ===========================================================
 	// Constants
@@ -40,29 +38,9 @@ public interface ContextEvent {
 	/**
 	 * 
 	 * 
+	 * @param path
 	 * @return
 	 */
-	float getProgress();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	String getResource();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	ConfigurationManager getSender();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	ContextConfiguration getConfiguration();
+	InputStream getInputStream(String path);	
 
 }
