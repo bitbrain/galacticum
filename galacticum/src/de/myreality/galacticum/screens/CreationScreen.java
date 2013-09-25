@@ -25,10 +25,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.io.ConfigurationBuilder;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ConfigurationReader;
 import de.myreality.galacticum.io.ConfigurationRemover;
 import de.myreality.galacticum.io.ConfigurationWriter;
+import de.myreality.galacticum.io.ContextConfiguration;
+import de.myreality.galacticum.io.ContextException;
+import de.myreality.galacticum.io.SimpleConfigurationBuilder;
 import de.myreality.galacticum.io.SimpleConfigurationManager;
 import de.myreality.galacticum.ui.CreationForm;
 import de.myreality.galacticum.util.ContextIDConverter;
@@ -111,19 +115,35 @@ public class CreationScreen extends MenuScreen {
 	// Methods
 	// ===========================================================
 	
-	private void loadGame() {
+	private void createGame() throws ContextException {
 		
-		ContextIDConverter converter = new ContextIDConverter(form.getName());
+		ContextIDConverter converter = new ContextIDConverter(form.getNameLabel());
 		ConfigurationWriter writer = null; // TODO
 		ConfigurationReader reader = null; // TODO
 		ConfigurationRemover remover = null; // TODO
 		ConfigurationManager manager = new SimpleConfigurationManager(writer, reader, remover);
-		String id = converter.toString();
 		
-		if (manager.hasContext(id)) {
-			form.setErrorMessage("Universe already exists.");	
-		} else {
+		ConfigurationBuilder builder = new SimpleConfigurationBuilder();
+		
+		builder.setID(converter.toString())
+			   .setName(form.getNameLabel())
+			   .setSeed(form.getSeedLabel());
+		
+		ContextConfiguration configuration = builder.build();
+		
+		if (!manager.hasContext(configuration.getID())) {
 			
+			// Create a new configuration in the config file
+			manager.save(configuration);
+			
+			getGame().setScreen(new LoadingScreen(
+					"Loading game", 
+					getGame(), 
+					configuration, 
+					manager, 
+					null));
+		} else {
+			throw new ContextException("Context '" + configuration.getName() + "' already exists");
 		}
 	}
 
@@ -141,9 +161,14 @@ public class CreationScreen extends MenuScreen {
 			if (form.getNameLabel().isEmpty()) {
 				form.setErrorMessage("Specify a name for your universe");				
 				return false;
+			} else {			
+				try {
+					createGame();
+				} catch (ContextException e) {
+					form.setErrorMessage(e.getMessage());	
+					return false;
+				}
 			}
-			
-			loadGame();
 			
 			return true;
 		}

@@ -51,11 +51,9 @@ public class LoadingScreen extends MenuScreen {
 	
 	private TweenManager tweenManager;
 	
-	private ConfigurationManager configurationManager;
-	
 	private ContextFactory contextFactory;
 	
-	private String contextID;
+	private ContextConfiguration configuration;
 	
 	private Future<?> loadingFuture;
 	
@@ -65,14 +63,13 @@ public class LoadingScreen extends MenuScreen {
 	// Constructors
 	// ===========================================================
 	
-	public LoadingScreen(String caption, GalacticumGame game, String contextID, ConfigurationManager configurationManager, ContextFactory contextFactory) throws ContextNotFoundException {
+	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration, ConfigurationManager configurationManager, ContextFactory contextFactory) throws ContextNotFoundException {
 		super(caption, game);		
-		this.configurationManager = configurationManager;
 		this.contextFactory = contextFactory;
-		this.contextID = contextID;
+		this.configuration = configuration;
 		
-		if (!configurationManager.hasContext(contextID)) {
-			throw new ContextNotFoundException("Context with ID=" + contextID + " does not exist");
+		if (!configurationManager.hasContext(configuration.getID())) {
+			throw new ContextNotFoundException("Context with ID=" + configuration.getID() + " does not exist");
 		}
 	}
 
@@ -115,7 +112,7 @@ public class LoadingScreen extends MenuScreen {
 	protected void onDraw(SpriteBatch batch, float delta) {
 		tweenManager.update(delta);
 		
-		if (loader.hasError() || loadingFuture.isCancelled()) {
+		if (loadingFuture.isCancelled()) {
 			// Go back to creation screen
 			getGame().setScreen(new CreationScreen("Create new universe", getGame()));
 		} else if (loadingFuture.isDone()) {
@@ -145,8 +142,6 @@ public class LoadingScreen extends MenuScreen {
 	
 	class GameLoader implements Runnable {
 		
-		private Exception e;
-		
 		private Context context;
 		
 		private ContextFactory factory;
@@ -159,22 +154,8 @@ public class LoadingScreen extends MenuScreen {
 		 * @see java.lang.Runnable#run()
 		 */
 		@Override
-		public void run() {
-			
-			try {
-				ContextConfiguration configuration = configurationManager.load(contextID);									
-				context = factory.create(configuration);				
-			} catch (ContextNotFoundException e) {
-				this.e = e;
-			}
-		}
-		
-		public boolean hasError() {
-			return e != null;
-		}
-		
-		public Exception getException() {
-			return e;
+		public void run() {							
+			context = factory.create(configuration);
 		}
 		
 		public Context getContext() {
