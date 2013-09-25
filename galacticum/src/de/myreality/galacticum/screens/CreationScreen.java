@@ -25,7 +25,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.io.ConfigurationManager;
+import de.myreality.galacticum.io.ConfigurationReader;
+import de.myreality.galacticum.io.ConfigurationRemover;
+import de.myreality.galacticum.io.ConfigurationWriter;
+import de.myreality.galacticum.io.SimpleConfigurationManager;
 import de.myreality.galacticum.ui.CreationForm;
+import de.myreality.galacticum.util.ContextIDConverter;
 
 /**
  * Screen which displays configuration to create a new universe. Additionally
@@ -104,6 +110,22 @@ public class CreationScreen extends MenuScreen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void loadGame() {
+		
+		ContextIDConverter converter = new ContextIDConverter(form.getName());
+		ConfigurationWriter writer = null; // TODO
+		ConfigurationReader reader = null; // TODO
+		ConfigurationRemover remover = null; // TODO
+		ConfigurationManager manager = new SimpleConfigurationManager(writer, reader, remover);
+		String id = converter.toString();
+		
+		if (manager.hasContext(id)) {
+			form.setErrorMessage("Universe already exists.");	
+		} else {
+			
+		}
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
@@ -117,10 +139,11 @@ public class CreationScreen extends MenuScreen {
 			super.touchDown(event, x, y, pointer, button);
 			
 			if (form.getNameLabel().isEmpty()) {
-				form.setErrorMessage("Specify a name for your universe");
-				
+				form.setErrorMessage("Specify a name for your universe");				
 				return false;
 			}
+			
+			loadGame();
 			
 			return true;
 		}
