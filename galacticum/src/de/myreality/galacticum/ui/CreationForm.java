@@ -88,7 +88,7 @@ public class CreationForm extends Table {
 	}
 	
 	public String getSeedLabel() {
-		return tfName.getText();
+		return tfSeed.getText();
 	}
 	
 	public void setErrorMessage(String error) {

@@ -36,6 +36,8 @@ import de.myreality.galacticum.io.SimpleConfigurationBuilder;
 import de.myreality.galacticum.io.SimpleConfigurationManager;
 import de.myreality.galacticum.ui.CreationForm;
 import de.myreality.galacticum.util.ContextIDConverter;
+import de.myreality.galacticum.xml.XMLConfigurationReader;
+import de.myreality.galacticum.xml.XMLConfigurationWriter;
 
 /**
  * Screen which displays configuration to create a new universe. Additionally
@@ -118,8 +120,9 @@ public class CreationScreen extends MenuScreen {
 	private void createGame() throws ContextException {
 		
 		ContextIDConverter converter = new ContextIDConverter(form.getNameLabel());
-		ConfigurationWriter writer = null; // TODO
-		ConfigurationReader reader = null; // TODO
+
+		ConfigurationReader reader = new XMLConfigurationReader(Resources.CONTEXT_PATH);
+		ConfigurationWriter writer = new XMLConfigurationWriter(Resources.CONTEXT_PATH, reader);
 		ConfigurationRemover remover = null; // TODO
 		ConfigurationManager manager = new SimpleConfigurationManager(writer, reader, remover);
 		

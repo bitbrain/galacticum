@@ -113,7 +113,7 @@ public final class Seed implements Serializable {
 	 * @param range range of the base
 	 */
 	private String generateBase(int bits, int range) {
-		return new BigInteger(bits, random).toString(subRandom.nextInt(range));
+		return new BigInteger(bits, random).toString(subRandom.nextInt(Math.abs(range + 1)));
 	}
 
 	private String generateBase() {

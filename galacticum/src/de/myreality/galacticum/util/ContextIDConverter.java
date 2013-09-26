@@ -61,7 +61,7 @@ public class ContextIDConverter {
 	// ===========================================================
 	
 	private String convert(String name) {
-		return name.replaceAll("[^a-zA-Z0-9 - ]", "_");
+		return name.replaceAll("[^a-zA-Z0-9 - ]", "_").replaceAll(" ", "_");
 	}
 
 	// ===========================================================

@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.io;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 import com.badlogic.gdx.Gdx;
@@ -54,8 +55,15 @@ public class GDXOutputStreamProvider implements OutputStreamProvider {
 	 */
 	@Override
 	public OutputStream getOutputStream(String file) {
-		FileHandle handle = Gdx.files.internal(file);
-		handle.mkdirs();
+		FileHandle handle = Gdx.files.external(file);
+		try {
+			handle.file().getParentFile().mkdirs();
+			if (!handle.file().exists()) {
+				handle.file().createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return handle.write(false);
 	}
 

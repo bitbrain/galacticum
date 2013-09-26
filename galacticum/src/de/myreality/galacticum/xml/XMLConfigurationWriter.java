@@ -19,6 +19,7 @@ package de.myreality.galacticum.xml;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import de.myreality.galacticum.io.ConfigurationReader;
 import de.myreality.galacticum.io.ConfigurationWriter;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.GDXOutputStreamProvider;
@@ -45,13 +46,13 @@ public class XMLConfigurationWriter implements ConfigurationWriter {
 	
 	private OutputStreamProvider provider;
 	
-	private XMLConfigurationReader reader;
+	private ConfigurationReader reader;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public XMLConfigurationWriter(String path, XMLConfigurationReader reader) {
+	public XMLConfigurationWriter(String path, ConfigurationReader reader) {
 		this.path = path;
 		this.reader = reader;
 		provider = new GDXOutputStreamProvider();

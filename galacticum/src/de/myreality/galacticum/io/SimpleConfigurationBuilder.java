@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.io;
 
+import de.myreality.galacticum.Resources;
+
 
 /**
  * Builder which builds configurations
@@ -44,7 +46,7 @@ public class SimpleConfigurationBuilder implements ConfigurationBuilder {
 	
 	private String chunkPath;
 	
-	private String rootPath;
+	private String rootPath = Resources.ROOT_PATH;
 	
 	private String playerPath;
 

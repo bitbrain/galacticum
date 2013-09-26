@@ -155,5 +155,13 @@ public final class Resources {
 		STYLE_LABEL_ERROR.font = FONT_SMALL;
 		STYLE_LABEL_ERROR.fontColor = Color.RED;
 	}
+	
+	// ===========================================================
+	// File paths
+	// ===========================================================
+	
+	public static final String ROOT_PATH = ".galacticum/";
+	
+	public static final String CONTEXT_PATH = ROOT_PATH + "context.xml";
 
 }
