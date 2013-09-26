@@ -104,7 +104,7 @@ public class SharedConfigurationManager extends SimpleConfigurationIO implements
 		
 		ContextNotFoundException e = new ContextNotFoundException("There is no context with id=" + id);
 		for (ConfigurationListener l : listeners) {
-			l.onError(null, e);
+			l.onError(generateEvent(null), e);
 		}
 		
 		throw e;
@@ -121,7 +121,7 @@ public class SharedConfigurationManager extends SimpleConfigurationIO implements
 	public void save(ContextConfiguration context) {		
 		ConfigurationWriter writer = getWriter();	
 		for (ConfigurationListener l : listeners) {
-			l.onSave(null);
+			l.onSave(generateEvent(context));
 		}
 		writer.write(context);
 	}
@@ -142,7 +142,7 @@ public class SharedConfigurationManager extends SimpleConfigurationIO implements
 			getRemover().remove(id);
 		} catch (ContextNotFoundException e) {
 			for (ConfigurationListener l : listeners) {
-				l.onError(null, e);
+				l.onError(generateEvent(null), e);
 			}
 			throw e;
 		}
@@ -180,6 +180,12 @@ public class SharedConfigurationManager extends SimpleConfigurationIO implements
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private ConfigurationEvent generateEvent(ContextConfiguration configuration) {
+		ConfigurationEvent event = new SimpleConfigurationEvent(0.0f, "", this, configuration);
+		
+		return event;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

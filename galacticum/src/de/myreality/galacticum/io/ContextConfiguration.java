@@ -42,6 +42,8 @@ public interface ContextConfiguration extends Seedable, Configurable {
 	public static final String ROOT_PATH = "data/";
 	
 	public static final String CHUNK_PATH = "chunks/";
+	
+	public static final String PLAYER_PATH = "";
 
 	// ===========================================================
 	// Methods

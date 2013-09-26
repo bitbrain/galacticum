@@ -17,13 +17,13 @@
 package de.myreality.galacticum.io;
 
 /**
- * Simple implementation of {@see ConfigurationIO}
- *
+ * Event which triggers by the configuration manager
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-class SimpleConfigurationIO implements ConfigurationIO {
+class SimpleConfigurationEvent implements ConfigurationEvent {
 
 	// ===========================================================
 	// Constants
@@ -33,21 +33,19 @@ class SimpleConfigurationIO implements ConfigurationIO {
 	// Fields
 	// ===========================================================
 	
-	private ConfigurationWriter writer;
+	private float progress;
 	
-	private ConfigurationReader reader;
+	private String resource;
 	
-	private ConfigurationRemover remover;
+	private ConfigurationManager sender;
+	
+	private ContextConfiguration configuration;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleConfigurationIO(ConfigurationWriter writer, ConfigurationReader reader, ConfigurationRemover remover) {
-		setWriter(writer);
-		setReader(reader);
-		setRemover(remover);
-	}
+	
 
 	// ===========================================================
 	// Getter & Setter
@@ -60,50 +58,61 @@ class SimpleConfigurationIO implements ConfigurationIO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.myreality.galacticum.io.ConfigurationIO#setWriter(de.myreality.galacticum
-	 * .io.ConfigurationWriter)
+	 * @see de.myreality.galacticum.io.ConfigurationEvent#getProgress()
 	 */
 	@Override
-	public void setWriter(ConfigurationWriter writer) {
-		this.writer = writer;
+	public float getProgress() {
+		return progress;
+	}
+
+	/**
+	 * @param progress
+	 * @param resource
+	 * @param sender
+	 * @param configuration
+	 */
+	public SimpleConfigurationEvent(float progress, String resource,
+			ConfigurationManager sender, ContextConfiguration configuration) {
+		super();
+		this.progress = progress;
+		this.resource = resource;
+		this.sender = sender;
+		this.configuration = configuration;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.myreality.galacticum.io.ConfigurationIO#setReader(de.myreality.galacticum
-	 * .io.ConfigurationReader)
+	 * @see de.myreality.galacticum.io.ConfigurationEvent#getResource()
 	 */
 	@Override
-	public void setReader(ConfigurationReader reader) {
-		this.reader = reader;
+	public String getResource() {
+		return resource;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.io.ConfigurationIO#setRemover(de.myreality.galacticum.io.ConfigurationRemover)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.ConfigurationEvent#getSender()
 	 */
 	@Override
-	public void setRemover(ConfigurationRemover remover) {
-		this.remover = remover;
+	public ConfigurationManager getSender() {
+		return sender;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.ConfigurationEvent#getConfiguration()
+	 */
+	@Override
+	public ContextConfiguration getConfiguration() {
+		return configuration;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	protected ConfigurationReader getReader() {
-		return reader;
-	}
-	
-	protected ConfigurationWriter getWriter() {
-		return writer;
-	}
-	
-	protected ConfigurationRemover getRemover() {
-		return remover;
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

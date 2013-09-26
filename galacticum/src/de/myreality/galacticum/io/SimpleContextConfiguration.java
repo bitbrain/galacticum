@@ -41,10 +41,6 @@ class SimpleContextConfiguration implements ContextConfiguration {
 	
 	private String rootPath;
 	
-	private String chunkPath;
-	
-	private String playerPath;
-	
 	private String id;
 	
 	private long timestamp;
@@ -57,8 +53,6 @@ class SimpleContextConfiguration implements ContextConfiguration {
 		setTimestamp(0);
 		seed = new Seed();
 		name = "";
-		playerPath = "";
-		chunkPath = CHUNK_PATH;
 		rootPath = ROOT_PATH;
 		id = "";
 	}
@@ -118,7 +112,7 @@ class SimpleContextConfiguration implements ContextConfiguration {
 	 */
 	@Override
 	public String getChunkPath() {
-		return getRootPath() + chunkPath;
+		return getRootPath() + CHUNK_PATH;
 	}
 
 	/*
@@ -128,7 +122,7 @@ class SimpleContextConfiguration implements ContextConfiguration {
 	 */
 	@Override
 	public String getPlayerPath() {
-		return getRootPath() + playerPath;
+		return getRootPath() + PLAYER_PATH;
 	}
 
 	/*
@@ -185,46 +179,13 @@ class SimpleContextConfiguration implements ContextConfiguration {
 		this.timestamp = timestamp;
 		return this;
 	}
-	
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.io.Configurable#setRootPath(java.lang.String)
-	 */
-	@Override
-	public Configurable setRootPath(String path) {
-		this.rootPath = path.replace(getID() + "/", "");
-		return this;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.io.Configurable#setChunkPath(java.lang.String)
-	 */
-	@Override
-	public Configurable setChunkPath(String path) {
-		this.chunkPath = path;
-		return this;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.io.Configurable#setPlayerPath(java.lang.String)
-	 */
-	@Override
-	public Configurable setPlayerPath(String path) {
-		this.playerPath = path;
-		return this;
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((chunkPath == null) ? 0 : chunkPath.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((playerPath == null) ? 0 : playerPath.hashCode());
 		result = prime * result
 				+ ((rootPath == null) ? 0 : rootPath.hashCode());
 		result = prime * result + ((seed == null) ? 0 : seed.hashCode());
@@ -241,11 +202,6 @@ class SimpleContextConfiguration implements ContextConfiguration {
 		if (getClass() != obj.getClass())
 			return false;
 		SimpleContextConfiguration other = (SimpleContextConfiguration) obj;
-		if (chunkPath == null) {
-			if (other.chunkPath != null)
-				return false;
-		} else if (!chunkPath.equals(other.chunkPath))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -255,11 +211,6 @@ class SimpleContextConfiguration implements ContextConfiguration {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (playerPath == null) {
-			if (other.playerPath != null)
-				return false;
-		} else if (!playerPath.equals(other.playerPath))
 			return false;
 		if (rootPath == null) {
 			if (other.rootPath != null)
@@ -275,9 +226,9 @@ class SimpleContextConfiguration implements ContextConfiguration {
 			return false;
 		return true;
 	}
-	
-	
 
+		
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
