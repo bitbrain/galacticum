@@ -19,6 +19,10 @@ package de.myreality.galacticum.io;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.xml.XMLConfigurationReader;
+import de.myreality.galacticum.xml.XMLConfigurationWriter;
+
 
 /**
  * Simple implementation of {@see ConfigurationManager}
@@ -27,12 +31,14 @@ import java.util.List;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleConfigurationManager extends SimpleConfigurationIO implements
+public class SharedConfigurationManager extends SimpleConfigurationIO implements
 		ConfigurationManager {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private static SharedConfigurationManager instance;
 
 	// ===========================================================
 	// Fields
@@ -43,12 +49,19 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	static {
+		ConfigurationReader reader = new XMLConfigurationReader(Resources.CONTEXT_PATH);
+		ConfigurationWriter writer = new XMLConfigurationWriter(Resources.CONTEXT_PATH, reader);
+		ConfigurationRemover remover = null; // TODO
+		instance = new SharedConfigurationManager(writer, reader, remover);
+	}
 
 	/**
 	 * @param writer
 	 * @param reader
 	 */
-	public SimpleConfigurationManager(ConfigurationWriter writer,
+	private SharedConfigurationManager(ConfigurationWriter writer,
 			ConfigurationReader reader, ConfigurationRemover remover) {
 		super(writer, reader, remover);
 		listeners = new ArrayList<ConfigurationListener>();
@@ -57,6 +70,10 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public static ConfigurationManager getInstance() {
+		return instance;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -141,7 +158,6 @@ public class SimpleConfigurationManager extends SimpleConfigurationIO implements
 	@Override
 	public boolean hasContext(String id) {
 		ContextConfiguration[] configs = getReader().read();	
-		
 		for (ContextConfiguration config : configs) {
 			if (config.getID().equals(id)) {
 				return true;

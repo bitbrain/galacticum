@@ -27,17 +27,12 @@ import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.io.ConfigurationBuilder;
 import de.myreality.galacticum.io.ConfigurationManager;
-import de.myreality.galacticum.io.ConfigurationReader;
-import de.myreality.galacticum.io.ConfigurationRemover;
-import de.myreality.galacticum.io.ConfigurationWriter;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextException;
+import de.myreality.galacticum.io.SharedConfigurationManager;
 import de.myreality.galacticum.io.SimpleConfigurationBuilder;
-import de.myreality.galacticum.io.SimpleConfigurationManager;
 import de.myreality.galacticum.ui.CreationForm;
 import de.myreality.galacticum.util.ContextIDConverter;
-import de.myreality.galacticum.xml.XMLConfigurationReader;
-import de.myreality.galacticum.xml.XMLConfigurationWriter;
 
 /**
  * Screen which displays configuration to create a new universe. Additionally
@@ -119,13 +114,7 @@ public class CreationScreen extends MenuScreen {
 	
 	private void createGame() throws ContextException {
 		
-		ContextIDConverter converter = new ContextIDConverter(form.getNameLabel());
-
-		ConfigurationReader reader = new XMLConfigurationReader(Resources.CONTEXT_PATH);
-		ConfigurationWriter writer = new XMLConfigurationWriter(Resources.CONTEXT_PATH, reader);
-		ConfigurationRemover remover = null; // TODO
-		ConfigurationManager manager = new SimpleConfigurationManager(writer, reader, remover);
-		
+		ContextIDConverter converter = new ContextIDConverter(form.getNameLabel());		
 		ConfigurationBuilder builder = new SimpleConfigurationBuilder();
 		
 		builder.setID(converter.toString())
@@ -133,6 +122,8 @@ public class CreationScreen extends MenuScreen {
 			   .setSeed(form.getSeedLabel());
 		
 		ContextConfiguration configuration = builder.build();
+		
+		ConfigurationManager manager = SharedConfigurationManager.getInstance();
 		
 		if (!manager.hasContext(configuration.getID())) {
 			

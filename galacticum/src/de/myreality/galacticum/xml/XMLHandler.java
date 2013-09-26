@@ -191,7 +191,7 @@ public class XMLHandler {
 
 	private void computeFile() {
 		fileResult = "<?xml version=" + '"' + "1.0" + '"' + " encoding=" + '"'
-				+ CHARSET + '"' + "?>\n";
+				+ CHARSET + '"' + " ?>\n";
 		fileResult += "<" + base + ">\n";
 
 		for (XMLData line : lines) {

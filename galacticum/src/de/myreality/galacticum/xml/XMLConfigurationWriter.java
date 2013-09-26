@@ -95,10 +95,10 @@ public class XMLConfigurationWriter implements ConfigurationWriter {
 	 */
 	@Override
 	public void write(ContextConfiguration configuration) {
-		
+
+		ContextConfiguration[] configurations = reader.read();
 		OutputStream out = provider.getOutputStream(path);
 		XMLHandler xmlHandler = new XMLHandler("contexts");		
-		ContextConfiguration[] configurations = reader.read();
 		boolean flag = false;
 		
 		for (ContextConfiguration conf : configurations) {
