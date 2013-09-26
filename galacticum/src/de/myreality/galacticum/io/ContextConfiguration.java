@@ -25,15 +25,11 @@ import de.myreality.galacticum.util.Seedable;
  * @since 0.1
  * @version 0.1
  */
-public interface ContextConfiguration extends Seedable {
+public interface ContextConfiguration extends Seedable, Configurable {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	public static final String DEFAULT_CHUNK_DIR = "chunks/";
-	
-	public static final String DEFAULT_PLAYER_DIR = "/";
 	
 	public static final String NAME = "name";
 	
@@ -42,6 +38,10 @@ public interface ContextConfiguration extends Seedable {
 	public static final String ID = "id";
 	
 	public static final String TIMESTAMP = "timestamp";
+	
+	public static final String ROOT_PATH = "data/";
+	
+	public static final String CHUNK_PATH = "chunks/";
 
 	// ===========================================================
 	// Methods

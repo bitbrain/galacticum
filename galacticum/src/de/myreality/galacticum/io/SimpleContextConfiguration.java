@@ -25,8 +25,7 @@ import de.myreality.galacticum.util.Seed;
  * @since 0.1
  * @version 0.1
  */
-class SimpleContextConfiguration implements Configurable,
-		ContextConfiguration {
+class SimpleContextConfiguration implements ContextConfiguration {
 
 	// ===========================================================
 	// Constants
@@ -58,9 +57,9 @@ class SimpleContextConfiguration implements Configurable,
 		setTimestamp(0);
 		seed = new Seed();
 		name = "";
-		rootPath = "";
-		chunkPath = DEFAULT_CHUNK_DIR;
-		playerPath = DEFAULT_PLAYER_DIR;
+		playerPath = "";
+		chunkPath = CHUNK_PATH;
+		rootPath = ROOT_PATH;
 		id = "";
 	}
 
@@ -109,7 +108,7 @@ class SimpleContextConfiguration implements Configurable,
 	 */
 	@Override
 	public String getRootPath() {
-		return rootPath;
+		return rootPath + getID() + "/";
 	}
 
 	/*
