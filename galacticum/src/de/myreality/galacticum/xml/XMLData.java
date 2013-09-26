@@ -110,6 +110,51 @@ public class XMLData {
 		return this;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((attributes == null) ? 0 : attributes.hashCode());
+		result = prime * result + ((content == null) ? 0 : content.hashCode());
+		result = prime * result
+				+ ((lineResult == null) ? 0 : lineResult.hashCode());
+		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		XMLData other = (XMLData) obj;
+		if (attributes == null) {
+			if (other.attributes != null)
+				return false;
+		} else if (!attributes.equals(other.attributes))
+			return false;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (lineResult == null) {
+			if (other.lineResult != null)
+				return false;
+		} else if (!lineResult.equals(other.lineResult))
+			return false;
+		if (tagName == null) {
+			if (other.tagName != null)
+				return false;
+		} else if (!tagName.equals(other.tagName))
+			return false;
+		return true;
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

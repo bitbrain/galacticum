@@ -16,7 +16,7 @@
  */
 package de.myreality.galacticum.io;
 
-import java.io.InputStream;
+import java.io.OutputStream;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -28,7 +28,7 @@ import com.badlogic.gdx.files.FileHandle;
  * @since 0.1
  * @version 0.1
  */
-public class GDXOutputStreamProvider implements InputStreamProvider {
+public class GDXOutputStreamProvider implements OutputStreamProvider {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -53,10 +53,10 @@ public class GDXOutputStreamProvider implements InputStreamProvider {
 	 * @see de.myreality.galacticum.io.OutputStreamProvider#getOutputStream(java.lang.String)
 	 */
 	@Override
-	public InputStream getInputStream(String file) {
+	public OutputStream getOutputStream(String file) {
 		FileHandle handle = Gdx.files.internal(file);
 		handle.mkdirs();
-		return handle.read();
+		return handle.write(false);
 	}
 
 	// ===========================================================

@@ -17,24 +17,22 @@
 package de.myreality.galacticum.xml;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.io.OutputStream;
 
-import de.myreality.galacticum.io.ConfigurationBuilder;
-import de.myreality.galacticum.io.ConfigurationReader;
+import de.myreality.galacticum.io.ConfigurationWriter;
 import de.myreality.galacticum.io.ContextConfiguration;
-import de.myreality.galacticum.io.GDXInputStreamProvider;
-import de.myreality.galacticum.io.InputStreamProvider;
-import de.myreality.galacticum.io.SimpleConfigurationBuilder;
+import de.myreality.galacticum.io.GDXOutputStreamProvider;
+import de.myreality.galacticum.io.OutputStreamProvider;
 
 /**
  * 
- *
+ * 
  * @author miguel
  * @since
  * @version
  */
-public class XMLConfigurationReader implements ConfigurationReader {
+public class XMLConfigurationWriter implements ConfigurationWriter {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -45,15 +43,18 @@ public class XMLConfigurationReader implements ConfigurationReader {
 	
 	private String path;
 	
-	private InputStreamProvider provider;
+	private OutputStreamProvider provider;
+	
+	private XMLConfigurationReader reader;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public XMLConfigurationReader(String path) {
+	public XMLConfigurationWriter(String path, XMLConfigurationReader reader) {
 		this.path = path;
-		provider = new GDXInputStreamProvider();
+		this.reader = reader;
+		provider = new GDXOutputStreamProvider();
 	}
 
 	// ===========================================================
@@ -64,7 +65,9 @@ public class XMLConfigurationReader implements ConfigurationReader {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.io.FileProvider#setPath(java.lang.String)
 	 */
 	@Override
@@ -72,7 +75,9 @@ public class XMLConfigurationReader implements ConfigurationReader {
 		this.path = path;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.io.FileProvider#getPath()
 	 */
 	@Override
@@ -80,50 +85,73 @@ public class XMLConfigurationReader implements ConfigurationReader {
 		return path;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.io.ConfigurationReader#read()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.io.ConfigurationWriter#write(de.myreality.galacticum
+	 * .io.ContextConfiguration)
 	 */
 	@Override
-	public ContextConfiguration[] read() {
+	public void write(ContextConfiguration configuration) {
 		
-		InputStream in = provider.getInputStream(path);		
-		XMLHandler xmlHandler = new XMLHandler("contexts");
-		xmlHandler.readFromStream(in);
-		ArrayList<XMLData> data = xmlHandler.getLines();
-		ContextConfiguration[] result = new ContextConfiguration[data.size()];
-		ConfigurationBuilder builder = new SimpleConfigurationBuilder();
-		int index = 0;
+		OutputStream out = provider.getOutputStream(path);
+		XMLHandler xmlHandler = new XMLHandler("contexts");		
+		ContextConfiguration[] configurations = reader.read();
+		boolean flag = false;
 		
-		for (XMLData element : data) {
+		for (ContextConfiguration conf : configurations) {
 			
-			builder.setID(element.getAttribute(ContextConfiguration.ID).value)
-				   .setName(element.getAttribute(ContextConfiguration.NAME).value)
-				   .setSeed(element.getAttribute(ContextConfiguration.SEED).value)
-				   .setTimestamp(Long.valueOf(element.getAttribute(ContextConfiguration.TIMESTAMP).value));
+			XMLData data = null;
 			
-			result[index++] = builder.build();			       
+			if (conf.getID().equals(configuration.getID())) {
+				data = convert(configuration);
+				flag = true;
+			} else {
+				data = convert(conf);
+			}
+			
+			xmlHandler.addLine(data);
 		}
+		
+		if (!flag) {
+			xmlHandler.addLine(convert(configuration));
+		}
+		
+		xmlHandler.writeToStream(out);
 		
 		try {
-			in.close();
+			out.close();
 		} catch (IOException e) {
-			// TO NOTHING
+			e.printStackTrace();
 		}
-		
-		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.io.ConfigurationReader#setProvider(de.myreality.galacticum.io.InputStreamProvider)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.io.ConfigurationWriter#setProvider(de.myreality
+	 * .galacticum.io.OutputStreamProvider)
 	 */
 	@Override
-	public void setProvider(InputStreamProvider provider) {
+	public void setProvider(OutputStreamProvider provider) {
 		this.provider = provider;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private XMLData convert(ContextConfiguration configuration) {
+		XMLData data = new XMLData("context");
+		data.addAttribute(ContextConfiguration.ID, configuration.getID());
+		data.addAttribute(ContextConfiguration.NAME, configuration.getName());
+		data.addAttribute(ContextConfiguration.SEED, configuration.getSeed().toString());
+		data.addAttribute(ContextConfiguration.TIMESTAMP, "" + configuration.getTimestamp());
+		
+		return data;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
