@@ -40,5 +40,11 @@ public interface Configurable {
 	Configurable setID(String id);
 	
 	Configurable setTimestamp(long timestamp);
+	
+	Configurable setRootPath(String path);
+	
+	Configurable setChunkPath(String path);
+	
+	Configurable setPlayerPath(String path);
 
 }

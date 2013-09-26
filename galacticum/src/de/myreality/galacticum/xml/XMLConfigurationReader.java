@@ -99,8 +99,11 @@ public class XMLConfigurationReader implements ConfigurationReader {
 			builder.setID(element.getAttribute(ContextConfiguration.ID).value)
 				   .setName(element.getAttribute(ContextConfiguration.NAME).value)
 				   .setSeed(element.getAttribute(ContextConfiguration.SEED).value)
-				   .setTimestamp(Long.valueOf(element.getAttribute(ContextConfiguration.TIMESTAMP).value));
-			
+				   .setTimestamp(Long.valueOf(element.getAttribute(ContextConfiguration.TIMESTAMP).value))
+				   .setChunkPath(element.getAttribute("chunks").value)
+				   .setRootPath(element.getAttribute("root").value)
+				   .setPlayerPath(element.getAttribute("player").value);
+				   
 			result[index++] = builder.build();			       
 		}
 		

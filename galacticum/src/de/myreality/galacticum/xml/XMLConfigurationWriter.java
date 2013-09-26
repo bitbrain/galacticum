@@ -149,6 +149,9 @@ public class XMLConfigurationWriter implements ConfigurationWriter {
 		data.addAttribute(ContextConfiguration.NAME, configuration.getName());
 		data.addAttribute(ContextConfiguration.SEED, configuration.getSeed().toString());
 		data.addAttribute(ContextConfiguration.TIMESTAMP, "" + configuration.getTimestamp());
+		data.addAttribute("root", configuration.getRootPath());
+		data.addAttribute("chunks", configuration.getChunkPath());
+		data.addAttribute("player", configuration.getPlayerPath());
 		
 		return data;
 	}

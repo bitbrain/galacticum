@@ -185,6 +185,35 @@ class SimpleContextConfiguration implements ContextConfiguration {
 		this.timestamp = timestamp;
 		return this;
 	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.io.Configurable#setRootPath(java.lang.String)
+	 */
+	@Override
+	public Configurable setRootPath(String path) {
+		this.rootPath = path.replace(getID() + "/", "");
+		return this;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.io.Configurable#setChunkPath(java.lang.String)
+	 */
+	@Override
+	public Configurable setChunkPath(String path) {
+		this.chunkPath = path;
+		return this;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.io.Configurable#setPlayerPath(java.lang.String)
+	 */
+	@Override
+	public Configurable setPlayerPath(String path) {
+		this.playerPath = path;
+		return this;
+	}
 
 	@Override
 	public int hashCode() {

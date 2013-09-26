@@ -41,6 +41,12 @@ public class SimpleConfigurationBuilder implements ConfigurationBuilder {
 	private String id;
 	
 	private long timestamp;
+	
+	private String chunkPath;
+	
+	private String rootPath;
+	
+	private String playerPath;
 
 	// ===========================================================
 	// Constructors
@@ -106,6 +112,9 @@ public class SimpleConfigurationBuilder implements ConfigurationBuilder {
 		configuration.setSeed(seed);
 		configuration.setName(name);
 		configuration.setTimestamp(timestamp);
+		configuration.setRootPath(rootPath);
+		configuration.setPlayerPath(playerPath);
+		configuration.setChunkPath(chunkPath);
 		
 		return configuration;
 	}
@@ -116,6 +125,33 @@ public class SimpleConfigurationBuilder implements ConfigurationBuilder {
 	@Override
 	public Configurable setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
+		return this;
+	}
+
+	/**
+	 * @param chunkPath the chunkPath to set
+	 */
+	@Override
+	public Configurable setChunkPath(String chunkPath) {
+		this.chunkPath = chunkPath;
+		return this;
+	}
+
+	/**
+	 * @param rootPath the rootPath to set
+	 */
+	@Override
+	public Configurable setRootPath(String rootPath) {
+		this.rootPath = rootPath;
+		return this;
+	}
+
+	/**
+	 * @param playerPath the playerPath to set
+	 */
+	@Override
+	public Configurable setPlayerPath(String playerPath) {
+		this.playerPath = playerPath;
 		return this;
 	}
 
