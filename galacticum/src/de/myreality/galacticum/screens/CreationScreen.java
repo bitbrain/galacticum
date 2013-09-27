@@ -126,16 +126,8 @@ public class CreationScreen extends MenuScreen {
 		ConfigurationManager manager = SharedConfigurationManager.getInstance();
 		
 		if (!manager.hasContext(configuration.getID())) {
-			
-			// Create a new configuration in the config file
-			manager.save(configuration);
-			
-			getGame().setScreen(new LoadingScreen(
-					"Loading game", 
-					getGame(), 
-					configuration, 
-					manager, 
-					null));
+			manager.save(configuration);			
+			getGame().setScreen(new LoadingScreen("Loading game", getGame(), configuration));
 		} else {
 			throw new ContextException("Context '" + configuration.getName() + "' already exists");
 		}

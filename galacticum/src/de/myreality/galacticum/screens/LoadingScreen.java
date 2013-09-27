@@ -31,6 +31,7 @@ import de.myreality.galacticum.core.ContextFactory;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextNotFoundException;
+import de.myreality.galacticum.io.SharedConfigurationManager;
 
 /**
  * Screen which displays the loading progress of current universe creation.
@@ -63,10 +64,12 @@ public class LoadingScreen extends MenuScreen {
 	// Constructors
 	// ===========================================================
 	
-	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration, ConfigurationManager configurationManager, ContextFactory contextFactory) throws ContextNotFoundException {
+	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration) throws ContextNotFoundException {
 		super(caption, game);		
-		this.contextFactory = contextFactory;
+		this.contextFactory = null;//new SimpleContextFactory();
 		this.configuration = configuration;
+		
+		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
 		
 		if (!configurationManager.hasContext(configuration.getID())) {
 			throw new ContextNotFoundException("Context with ID=" + configuration.getID() + " does not exist");
@@ -117,7 +120,7 @@ public class LoadingScreen extends MenuScreen {
 			getGame().setScreen(new CreationScreen("Create new universe", getGame()));
 		} else if (loadingFuture.isDone()) {
 			// Loading is done, go to the next screen
-			getGame().setScreen(new IngameScreen(getGame()));
+			getGame().setScreen(new IngameScreen(getGame(), loader.getContext()));
 		}
 	}
 	
@@ -140,7 +143,7 @@ public class LoadingScreen extends MenuScreen {
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	class GameLoader implements Runnable {
+	private class GameLoader implements Runnable {
 		
 		private Context context;
 		

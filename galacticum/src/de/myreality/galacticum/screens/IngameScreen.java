@@ -16,9 +16,12 @@
  */
 package de.myreality.galacticum.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL11;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.core.Context;
 
 /**
  * 
@@ -43,7 +46,7 @@ public class IngameScreen implements Screen {
 	// Constructors
 	// ===========================================================
 	
-	public IngameScreen(GalacticumGame game) {
+	public IngameScreen(GalacticumGame game, Context context) {
 		this.game = game;
 	}
 
@@ -67,8 +70,8 @@ public class IngameScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	}
 
 	/*
