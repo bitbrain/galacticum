@@ -110,9 +110,13 @@ public class SimpleContextLoader implements ContextLoader {
 	// Methods
 	// ===========================================================
 	
-	private Subsystem[] loadSubsystems() throws ContextException {		
+	private Subsystem[] loadSubsystems() throws ContextException {	
 		
-		throw new ContextException("Thats fucking amazing!");
+		Subsystem[] systems = new Subsystem[factories.size()];
+		
+				
+		
+		return systems;
 	}
 
 	// ===========================================================

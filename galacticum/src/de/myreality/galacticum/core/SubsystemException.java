@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.context;
+package de.myreality.galacticum.core;
 
 /**
- * Is thrown when a context error occurs
- *
+ * Is thrown when a subsystem has a problem during loading process
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class ContextException extends Exception {
-	
+public class SubsystemException extends Exception {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -43,38 +43,37 @@ public class ContextException extends Exception {
 	// ===========================================================
 
 	/**
-	 * @param arg0
-	 * @param arg1
-	 * @param arg2
-	 * @param arg3
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
 	 */
-	public ContextException(String arg0, Throwable arg1, boolean arg2,
-			boolean arg3) {
-		super(arg0, arg1, arg2, arg3);
+	public SubsystemException(String message, Throwable cause,
+			boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
 	/**
-	 * @param arg0
-	 * @param arg1
+	 * @param message
+	 * @param cause
 	 */
-	public ContextException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
+	public SubsystemException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 	/**
-	 * @param arg0
+	 * @param message
 	 */
-	public ContextException(String arg0) {
-		super(arg0);
+	public SubsystemException(String message) {
+		super(message);
 	}
 
 	/**
-	 * @param arg0
+	 * @param cause
 	 */
-	public ContextException(Throwable arg0) {
-		super(arg0);
+	public SubsystemException(Throwable cause) {
+		super(cause);
 	}
-	
 
 	// ===========================================================
 	// Getter & Setter
