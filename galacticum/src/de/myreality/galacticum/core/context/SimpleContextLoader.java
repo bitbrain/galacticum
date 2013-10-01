@@ -74,7 +74,7 @@ public class SimpleContextLoader implements ContextLoader {
 	public Context load(ContextConfiguration configuration, GameContainer container) throws ContextException {		
 
 		listenerController.onStart(new SimpleContextEvent());		
-		Subsystem[] subsystems = loadSubsystems();		
+		Subsystem[] subsystems = loadSubsystems(configuration);		
 		listenerController.onSuccess(new SimpleContextEvent());
 		
 		return new SimpleContext(subsystems, container, configuration);
@@ -107,13 +107,13 @@ public class SimpleContextLoader implements ContextLoader {
 	// Methods
 	// ===========================================================
 	
-	private Subsystem[] loadSubsystems() throws ContextException {	
+	private Subsystem[] loadSubsystems(ContextConfiguration configuration) throws ContextException {	
 		
 		Subsystem[] systems = new Subsystem[factories.size()];		
 		
 		for (int index = 0; index < factories.size(); ++index) {
 			
-			Subsystem system = loadSubsystem(index);
+			Subsystem system = loadSubsystem(index, configuration);
 			SimpleContextEvent event = new SimpleContextEvent();
 			listenerController.onLoad(event, system);	
 			
@@ -133,8 +133,8 @@ public class SimpleContextLoader implements ContextLoader {
 		}
 	}
 	
-	private Subsystem loadSubsystem(int factoryIndex) {
-		return factories.get(factoryIndex).create();
+	private Subsystem loadSubsystem(int factoryIndex, ContextConfiguration configuration) {
+		return factories.get(factoryIndex).create(configuration);
 	}
 
 	// ===========================================================

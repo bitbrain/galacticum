@@ -14,40 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.util;
+package de.myreality.galacticum.core.chunks;
 
-import de.myreality.chunx.ChunkSystem;
 import de.myreality.galacticum.core.Subsystem;
-import de.myreality.galacticum.core.SubsystemException;
+import de.myreality.galacticum.core.SubsystemFactory;
+import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
- * Adapter to convert {@see ChunkSystem} to {@see Subsystem}
+ * 
  *
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @author miguel
+ * @since
+ * @version
  */
-public class ChunkSubsystemAdapter implements Subsystem {
-
+public class ChunkSystemFactory implements SubsystemFactory {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	private static final String NAME = "chunksystem";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private ChunkSystem chunkSystem;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public ChunkSubsystemAdapter(ChunkSystem chunkSystem) {
-		this.chunkSystem = chunkSystem;
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -56,37 +48,14 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.util.Nameable#getName()
-	 */
-	@Override
-	public String getName() {
-		return NAME;
-	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.Subsystem#start()
+	 * @see de.myreality.galacticum.core.SubsystemFactory#create()
 	 */
 	@Override
-	public void start() throws SubsystemException {
-		chunkSystem.start();
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.Subsystem#update(float)
-	 */
-	@Override
-	public void update(float delta) {
-		chunkSystem.update(delta);
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.Subsystem#shutdown()
-	 */
-	@Override
-	public void shutdown() {
-		chunkSystem.shutdown();
+	public Subsystem create(ContextConfiguration configuration) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// ===========================================================

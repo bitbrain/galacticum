@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core;
 
+import de.myreality.galacticum.io.ContextConfiguration;
+
 /**
  * Abstract factory which creates subsystems.
  *
@@ -38,6 +40,6 @@ public interface SubsystemFactory {
 	 * 
 	 * @return a new subsystem
 	 */
-	Subsystem create();
+	Subsystem create(ContextConfiguration configuration);
 
 }
