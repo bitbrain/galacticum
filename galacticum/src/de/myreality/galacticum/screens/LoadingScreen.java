@@ -26,8 +26,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.core.Context;
-import de.myreality.galacticum.core.ContextLoader;
+import de.myreality.galacticum.core.GameContainerFactory;
+import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.context.ContextLoader;
+import de.myreality.galacticum.core.context.SimpleContextLoader;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextNotFoundException;
@@ -52,7 +54,7 @@ public class LoadingScreen extends MenuScreen {
 	
 	private TweenManager tweenManager;
 	
-	private ContextLoader contextFactory;
+	private ContextLoader contextLoader;
 	
 	private ContextConfiguration configuration;
 	
@@ -60,13 +62,16 @@ public class LoadingScreen extends MenuScreen {
 	
 	private GameLoader loader;
 
+	private GameContainerFactory containerFactory;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration) throws ContextNotFoundException {
 		super(caption, game);		
-		this.contextFactory = null;//new SimpleContextFactory();
+		this.contextLoader = new SimpleContextLoader();
+		containerFactory = null; // TODO
 		this.configuration = configuration;
 		
 		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
@@ -128,7 +133,7 @@ public class LoadingScreen extends MenuScreen {
 	public void show() {		
 		super.show();
 		
-		loader = new GameLoader(contextFactory);
+		loader = new GameLoader(contextLoader, containerFactory);
 		
 		// Load the game
 		ExecutorService executor = Executors.newFixedThreadPool(1);
@@ -147,10 +152,13 @@ public class LoadingScreen extends MenuScreen {
 		
 		private Context context;
 		
-		private ContextLoader factory;
+		private ContextLoader contextFactory;
 		
-		public GameLoader(ContextLoader factory) {
-			this.factory = factory;
+		private GameContainerFactory gameFactory;
+		
+		public GameLoader(ContextLoader contextFactory, GameContainerFactory gameFactory) {
+			this.contextFactory = contextFactory;
+			this.gameFactory = gameFactory;
 		}
 
 		/* (non-Javadoc)
@@ -158,7 +166,7 @@ public class LoadingScreen extends MenuScreen {
 		 */
 		@Override
 		public void run() {							
-			context = factory.create(configuration);
+			context = contextFactory.create(configuration, gameFactory);
 		}
 		
 		public Context getContext() {

@@ -14,24 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.screens;
+package de.myreality.galacticum.core.context;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL11;
-
-import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.Subsystem;
+import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
- * 
+ * Simple implementation of {@see Context}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 1.0
- * @version 1.0
+ * @since 0.1
+ * @version 0.1
  */
-public class IngameScreen implements Screen {
-	
+class SimpleContext implements Context {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -39,26 +36,20 @@ public class IngameScreen implements Screen {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private GalacticumGame game;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public IngameScreen(GalacticumGame game, Context context) {
-		this.game = game;
+	public SimpleContext(Subsystem[] subsystems, GameContainer container, ContextConfiguration configuration) {
+		
 	}
+	
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	
-	public GalacticumGame getGame() {
-		return game;
-	}
-	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -66,78 +57,34 @@ public class IngameScreen implements Screen {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.badlogic.gdx.Screen#render(float)
+	 * @see de.myreality.galacticum.core.context.Context#getSubsystems()
 	 */
 	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+	public Subsystem[] getSubsystems() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	 * @see de.myreality.galacticum.core.context.Context#getContainer()
 	 */
 	@Override
-	public void resize(int width, int height) {
+	public GameContainer getContainer() {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.badlogic.gdx.Screen#show()
+	 * @see de.myreality.galacticum.core.context.Context#getConfiguration()
 	 */
 	@Override
-	public void show() {
+	public ContextConfiguration getConfiguration() {
 		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#hide()
-	 */
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#pause()
-	 */
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#resume()
-	 */
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#dispose()
-	 */
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	// ===========================================================

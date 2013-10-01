@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.core.context;
 
-import de.myreality.galacticum.io.ContextConfiguration;
+import de.myreality.galacticum.util.Nameable;
 
 /**
- * Creates context objects
+ * Listens to a {@see ContextLoader}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextLoader {
+public interface ContextListener {
 	
 	// ===========================================================
 	// Constants
@@ -38,16 +38,31 @@ public interface ContextLoader {
 	/**
 	 * 
 	 * 
-	 * @param configuration
-	 * @return
+	 * @param event
 	 */
-	Context create(ContextConfiguration configuration);
+	void onStart(ContextEvent event);
 	
 	/**
 	 * 
 	 * 
-	 * @param factory
+	 * @param event
 	 */
-	void addFactory(SubsystemFactory factory);
+	void onSuccess(ContextEvent event);
+	
+	/**
+	 * 
+	 * 
+	 * @param event
+	 * @param error
+	 */
+	void onFail(ContextEvent event, Throwable error);
+	
+	/**
+	 * 
+	 * 
+	 * @param event
+	 * @param target
+	 */
+	void onLoad(ContextEvent event, Nameable target);
 
 }

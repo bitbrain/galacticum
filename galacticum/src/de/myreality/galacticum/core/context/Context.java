@@ -14,18 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.core.context;
 
-import de.myreality.galacticum.util.Nameable;
+import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.Subsystem;
+import de.myreality.galacticum.io.ContextConfiguration;
+
 
 /**
- * Listens to a {@see ContextLoader}
+ * Game context which represents one single game
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextListener {
+public interface Context {
 	
 	// ===========================================================
 	// Constants
@@ -38,31 +41,20 @@ public interface ContextListener {
 	/**
 	 * 
 	 * 
-	 * @param event
+	 * @return
 	 */
-	void onStart(ContextEvent event);
+	Subsystem[] getSubsystems();
 	
 	/**
 	 * 
-	 * 
-	 * @param event
+	 * @return
 	 */
-	void onSuccess(ContextEvent event);
+	GameContainer getContainer();
 	
 	/**
 	 * 
-	 * 
-	 * @param event
-	 * @param error
+	 * @return
 	 */
-	void onFail(ContextEvent event, Throwable error);
-	
-	/**
-	 * 
-	 * 
-	 * @param event
-	 * @param target
-	 */
-	void onLoad(ContextEvent event, Nameable target);
+	ContextConfiguration getConfiguration();
 
 }
