@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 import de.myreality.galacticum.core.GameContainer;
-import de.myreality.galacticum.core.GameContainerFactory;
 import de.myreality.galacticum.core.Subsystem;
 import de.myreality.galacticum.core.SubsystemFactory;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -73,12 +72,11 @@ public class SimpleContextLoader implements ContextLoader {
 	 * .io.ContextConfiguration)
 	 */
 	@Override
-	public Context create(ContextConfiguration configuration, GameContainerFactory factory) {
+	public Context create(ContextConfiguration configuration, GameContainer container) {
 		
 		listenerController.onStart(new SimpleContextEvent());
 		
 		Subsystem[] subsystems = loadSubsystems();
-		GameContainer container = factory.create();
 		
 		return new SimpleContext(subsystems, container, configuration);
 	}

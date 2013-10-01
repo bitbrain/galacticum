@@ -26,7 +26,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.core.GameContainerFactory;
+import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.context.ContextLoader;
 import de.myreality.galacticum.core.context.SimpleContextLoader;
@@ -62,7 +62,7 @@ public class LoadingScreen extends MenuScreen {
 	
 	private GameLoader loader;
 
-	private GameContainerFactory containerFactory;
+	private GameContainer container;
 
 	// ===========================================================
 	// Constructors
@@ -71,7 +71,7 @@ public class LoadingScreen extends MenuScreen {
 	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration) throws ContextNotFoundException {
 		super(caption, game);		
 		this.contextLoader = new SimpleContextLoader();
-		containerFactory = null; // TODO
+		this.container = null; // TODO
 		this.configuration = configuration;
 		
 		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
@@ -133,7 +133,7 @@ public class LoadingScreen extends MenuScreen {
 	public void show() {		
 		super.show();
 		
-		loader = new GameLoader(contextLoader, containerFactory);
+		loader = new GameLoader(contextLoader, container);
 		
 		// Load the game
 		ExecutorService executor = Executors.newFixedThreadPool(1);
@@ -154,11 +154,11 @@ public class LoadingScreen extends MenuScreen {
 		
 		private ContextLoader contextFactory;
 		
-		private GameContainerFactory gameFactory;
+		private GameContainer container;
 		
-		public GameLoader(ContextLoader contextFactory, GameContainerFactory gameFactory) {
+		public GameLoader(ContextLoader contextFactory, GameContainer container) {
 			this.contextFactory = contextFactory;
-			this.gameFactory = gameFactory;
+			this.container = container;
 		}
 
 		/* (non-Javadoc)
@@ -166,7 +166,7 @@ public class LoadingScreen extends MenuScreen {
 		 */
 		@Override
 		public void run() {							
-			context = contextFactory.create(configuration, gameFactory);
+			context = contextFactory.create(configuration, container);
 		}
 		
 		public Context getContext() {
