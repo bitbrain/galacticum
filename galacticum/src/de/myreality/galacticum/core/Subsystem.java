@@ -39,7 +39,7 @@ public interface Subsystem extends Nameable {
 	/**
 	 * Starts this subsystem
 	 */
-	void start();
+	void start() throws SubsystemException;
 	
 	/**
 	 * Updates this subsystem by the given delta

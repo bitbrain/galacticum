@@ -17,12 +17,11 @@
 package de.myreality.galacticum.core.context;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.Subsystem;
+import de.myreality.galacticum.core.SubsystemException;
 import de.myreality.galacticum.core.SubsystemFactory;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.util.Nameable;
@@ -43,7 +42,7 @@ public class SimpleContextLoader implements ContextLoader {
 	// Fields
 	// ===========================================================
 	
-	private Set<SubsystemFactory> factories;
+	private List<SubsystemFactory> factories;
 	
 	private ContextListenerController listenerController;
 
@@ -53,7 +52,7 @@ public class SimpleContextLoader implements ContextLoader {
 	
 	public SimpleContextLoader() {
 		listenerController = new ContextListenerController();
-		factories = new HashSet<SubsystemFactory>();
+		factories = new ArrayList<SubsystemFactory>();
 	}
 
 	// ===========================================================
@@ -112,11 +111,32 @@ public class SimpleContextLoader implements ContextLoader {
 	
 	private Subsystem[] loadSubsystems() throws ContextException {	
 		
-		Subsystem[] systems = new Subsystem[factories.size()];
+		Subsystem[] systems = new Subsystem[factories.size()];		
 		
-				
+		for (int index = 0; index < factories.size(); ++index) {
+			
+			Subsystem system = loadSubsystem(index);
+			SimpleContextEvent event = new SimpleContextEvent();
+			listenerController.onLoad(event, system);	
+			
+			startSubsystem(system, event);
+		}
 		
 		return systems;
+	}
+	
+	private void startSubsystem(Subsystem system, ContextEvent event) throws ContextException {
+		
+		try {
+			system.start();
+		} catch (SubsystemException e) {
+			listenerController.onFail(event, e);
+			throw new ContextException(e);
+		}
+	}
+	
+	private Subsystem loadSubsystem(int factoryIndex) {
+		return factories.get(factoryIndex).create();
 	}
 
 	// ===========================================================
@@ -136,8 +156,9 @@ public class SimpleContextLoader implements ContextLoader {
 		 */
 		@Override
 		public void onStart(ContextEvent event) {
-			// TODO Auto-generated method stub
-			
+			for (ContextListener l : listeners) {
+				l.onStart(event);
+			}
 		}
 
 		/* (non-Javadoc)
@@ -145,8 +166,9 @@ public class SimpleContextLoader implements ContextLoader {
 		 */
 		@Override
 		public void onSuccess(ContextEvent event) {
-			// TODO Auto-generated method stub
-			
+			for (ContextListener l : listeners) {
+				l.onSuccess(event);
+			}
 		}
 
 		/* (non-Javadoc)
@@ -154,8 +176,9 @@ public class SimpleContextLoader implements ContextLoader {
 		 */
 		@Override
 		public void onFail(ContextEvent event, Throwable error) {
-			// TODO Auto-generated method stub
-			
+			for (ContextListener l : listeners) {
+				l.onFail(event, error);
+			}
 		}
 
 		/* (non-Javadoc)
@@ -163,8 +186,9 @@ public class SimpleContextLoader implements ContextLoader {
 		 */
 		@Override
 		public void onLoad(ContextEvent event, Nameable target) {
-			// TODO Auto-generated method stub
-			
+			for (ContextListener l : listeners) {
+				l.onLoad(event, target);
+			}
 		}
 		
 		public void addListener(ContextListener listener) {
