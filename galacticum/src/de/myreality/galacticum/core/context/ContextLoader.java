@@ -43,7 +43,7 @@ public interface ContextLoader {
 	 * @param configuration
 	 * @return
 	 */
-	Context create(ContextConfiguration configuration, GameContainer container);
+	Context load(ContextConfiguration configuration, GameContainer container) throws ContextException;
 	
 	/**
 	 * 

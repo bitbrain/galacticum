@@ -14,38 +14,71 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
-
-import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
-
+package de.myreality.galacticum.core.context;
 
 /**
- * Simple implementation of {@see GameContainer}
- * 
+ * Is thrown when a context error occurs
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SimpleGameContainer implements GameContainer {
-
+public class ContextException extends Exception {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private CopyOnWriteArrayList<Object> entities;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public SimpleGameContainer() {
-		entities = new CopyOnWriteArrayList<Object>();
+
+	/**
+	 * @param arg0
+	 * @param arg1
+	 * @param arg2
+	 * @param arg3
+	 */
+	public ContextException(String arg0, Throwable arg1, boolean arg2,
+			boolean arg3) {
+		super(arg0, arg1, arg2, arg3);
+		// TODO Auto-generated constructor stub
 	}
+
+	/**
+	 * @param arg0
+	 * @param arg1
+	 */
+	public ContextException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param arg0
+	 */
+	public ContextException(String arg0) {
+		super(arg0);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param arg0
+	 */
+	public ContextException(Throwable arg0) {
+		super(arg0);
+		// TODO Auto-generated constructor stub
+	}
+	
 
 	// ===========================================================
 	// Getter & Setter
@@ -54,32 +87,6 @@ public class SimpleGameContainer implements GameContainer {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#add(de.myreality.galacticum.core.Entity)
-	 */
-	@Override
-	public void add(Entity entity) {
-		if (!entities.contains(entity)) {
-			entities.add(entity);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#remove(de.myreality.galacticum.core.Entity)
-	 */
-	@Override
-	public void remove(Entity entity) {
-		entities.remove(entity);
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#getEntities()
-	 */
-	@Override
-	public Collection<Object> getEntities() {
-		return entities;
-	}
 
 	// ===========================================================
 	// Methods

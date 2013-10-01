@@ -14,21 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.util;
 
 import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+import de.myreality.chunx.ContentProvider;
+import de.myreality.galacticum.core.Entity;
+import de.myreality.galacticum.core.GameContainer;
 
 /**
- * Simple implementation of {@see GameContainer}
- * 
+ * Adapter to convert {@see GameContainer} to content providers
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SimpleGameContainer implements GameContainer {
-
+public class ContentProviderAdapter implements ContentProvider {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,14 +39,14 @@ public class SimpleGameContainer implements GameContainer {
 	// Fields
 	// ===========================================================
 	
-	private CopyOnWriteArrayList<Object> entities;
+	private GameContainer target;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleGameContainer() {
-		entities = new CopyOnWriteArrayList<Object>();
+	public ContentProviderAdapter(GameContainer target) {
+		this.target = target;
 	}
 
 	// ===========================================================
@@ -56,29 +58,31 @@ public class SimpleGameContainer implements GameContainer {
 	// ===========================================================
 	
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#add(de.myreality.galacticum.core.Entity)
+	 * @see de.myreality.chunx.ContentProvider#add(java.lang.Object)
 	 */
 	@Override
-	public void add(Entity entity) {
-		if (!entities.contains(entity)) {
-			entities.add(entity);
+	public void add(Object object) {
+		if (object instanceof Entity) {
+			target.add((Entity)object);
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#remove(de.myreality.galacticum.core.Entity)
+	 * @see de.myreality.chunx.ContentProvider#getContent()
 	 */
 	@Override
-	public void remove(Entity entity) {
-		entities.remove(entity);
+	public Collection<Object> getContent() {
+		return target.getEntities();
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#getEntities()
+	 * @see de.myreality.chunx.ContentProvider#remove(java.lang.Object)
 	 */
 	@Override
-	public Collection<Object> getEntities() {
-		return entities;
+	public void remove(Object object) {
+		if (object instanceof Entity) {
+			target.remove((Entity)object);
+		}
 	}
 
 	// ===========================================================

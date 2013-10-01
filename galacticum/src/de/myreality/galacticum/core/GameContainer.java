@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core;
 
+import java.util.Collection;
+
 /**
  * Contains all entities of a game which are currently handled.
  *
@@ -52,5 +54,5 @@ public interface GameContainer {
 	 * 
 	 * @return
 	 */
-	Entity[] getEntities();
+	Collection<Object> getEntities();
 }

@@ -72,11 +72,13 @@ public class SimpleContextLoader implements ContextLoader {
 	 * .io.ContextConfiguration)
 	 */
 	@Override
-	public Context create(ContextConfiguration configuration, GameContainer container) {
-		
+	public Context load(ContextConfiguration configuration, GameContainer container) throws ContextException {		
+
 		listenerController.onStart(new SimpleContextEvent());
 		
 		Subsystem[] subsystems = loadSubsystems();
+		
+		listenerController.onSuccess(new SimpleContextEvent());
 		
 		return new SimpleContext(subsystems, container, configuration);
 	}
@@ -108,8 +110,9 @@ public class SimpleContextLoader implements ContextLoader {
 	// Methods
 	// ===========================================================
 	
-	private Subsystem[] loadSubsystems() {
-		return null;
+	private Subsystem[] loadSubsystems() throws ContextException {		
+		
+		throw new ContextException("Thats fucking amazing!");
 	}
 
 	// ===========================================================

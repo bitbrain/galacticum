@@ -27,7 +27,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.SimpleGameContainer;
 import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.context.ContextException;
 import de.myreality.galacticum.core.context.ContextLoader;
 import de.myreality.galacticum.core.context.SimpleContextLoader;
 import de.myreality.galacticum.io.ConfigurationManager;
@@ -71,7 +73,7 @@ public class LoadingScreen extends MenuScreen {
 	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration) throws ContextNotFoundException {
 		super(caption, game);		
 		this.contextLoader = new SimpleContextLoader();
-		this.container = null; // TODO
+		this.container = new SimpleGameContainer();
 		this.configuration = configuration;
 		
 		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
@@ -122,7 +124,7 @@ public class LoadingScreen extends MenuScreen {
 		
 		if (loadingFuture.isCancelled()) {
 			// Go back to creation screen
-			getGame().setScreen(new CreationScreen("Create new universe", getGame()));
+			getGame().setScreen(new CreationScreen("Create new universe", getGame(), loader.getMessage()));
 		} else if (loadingFuture.isDone()) {
 			// Loading is done, go to the next screen
 			getGame().setScreen(new IngameScreen(getGame(), loader.getContext()));
@@ -152,25 +154,37 @@ public class LoadingScreen extends MenuScreen {
 		
 		private Context context;
 		
-		private ContextLoader contextFactory;
+		private ContextLoader contextLoader;
 		
 		private GameContainer container;
 		
-		public GameLoader(ContextLoader contextFactory, GameContainer container) {
-			this.contextFactory = contextFactory;
+		private String message;
+		
+		public GameLoader(ContextLoader contextLoader, GameContainer container) {
+			this.contextLoader = contextLoader;
 			this.container = container;
+			message = "";
 		}
 
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
 		@Override
-		public void run() {							
-			context = contextFactory.create(configuration, container);
+		public void run() {	
+			try {
+				context = contextLoader.load(configuration, container);
+			} catch (ContextException e) {
+				message = e.getMessage();
+				loadingFuture.cancel(true);
+			}
 		}
 		
 		public Context getContext() {
 			return context;
+		}
+		
+		public String getMessage() {
+			return message;
 		}
 		
 	}

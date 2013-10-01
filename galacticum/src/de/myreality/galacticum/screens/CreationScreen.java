@@ -55,13 +55,20 @@ public class CreationScreen extends MenuScreen {
 	private CreationForm form;
 	
 	private TweenManager tweenManager;
+	
+	private String initialMessage;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public CreationScreen(String caption, GalacticumGame game) {
+		this(caption, game, "");
+	}
+	
+	public CreationScreen(String caption, GalacticumGame game, String initialMessage) {
 		super(caption, game);
+		this.initialMessage = initialMessage;
 	}
 
 	// ===========================================================
@@ -82,6 +89,7 @@ public class CreationScreen extends MenuScreen {
 		tweenManager = new TweenManager();
 		form = new CreationForm(Resources.STYLE_TEXTFIELD_DEFAULT, tweenManager);
 		form.addListener(new CreationValidator());
+		form.setErrorMessage(initialMessage);
 		stage.addActor(form);
 	}
 
