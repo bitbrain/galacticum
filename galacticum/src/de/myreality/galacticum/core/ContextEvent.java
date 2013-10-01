@@ -16,16 +16,14 @@
  */
 package de.myreality.galacticum.core;
 
-import de.myreality.galacticum.io.ContextConfiguration;
-
 /**
- * Creates context objects
+ * Event which occurs during context initialization
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextFactory {
+public interface ContextEvent {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,16 +35,29 @@ public interface ContextFactory {
 	/**
 	 * 
 	 * 
-	 * @param configuration
 	 * @return
 	 */
-	Context create(ContextConfiguration configuration);
+	float getProgress();
 	
 	/**
 	 * 
 	 * 
-	 * @param factory
+	 * @return
 	 */
-	void addFactory(SubsystemFactory factory);
+	Object getSender();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int getTotalCount();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int getCurrentCount();
 
 }

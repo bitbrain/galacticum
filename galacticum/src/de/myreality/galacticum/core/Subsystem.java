@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core;
 
+import de.myreality.galacticum.util.Nameable;
+
 /**
  * Provides such functionality for different game sections. A subsystem
  * can be started, shutted down or updated frequently.
@@ -24,7 +26,7 @@ package de.myreality.galacticum.core;
  * @since 0.1
  * @version 0.1
  */
-public interface Subsystem {
+public interface Subsystem extends Nameable {
 	
 	// ===========================================================
 	// Constants

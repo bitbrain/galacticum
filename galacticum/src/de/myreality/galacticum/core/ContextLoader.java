@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.util;
+package de.myreality.galacticum.core;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
- * Provides rendering functionality
+ * Creates context objects
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Renderable {
+public interface ContextLoader {
 	
 	// ===========================================================
 	// Constants
@@ -35,5 +35,19 @@ public interface Renderable {
 	// Methods
 	// ===========================================================
 	
-	void render(float delta, SpriteBatch batch);
+	/**
+	 * 
+	 * 
+	 * @param configuration
+	 * @return
+	 */
+	Context create(ContextConfiguration configuration);
+	
+	/**
+	 * 
+	 * 
+	 * @param factory
+	 */
+	void addFactory(SubsystemFactory factory);
+
 }

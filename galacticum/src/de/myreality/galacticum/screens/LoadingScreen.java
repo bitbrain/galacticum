@@ -27,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.core.Context;
-import de.myreality.galacticum.core.ContextFactory;
+import de.myreality.galacticum.core.ContextLoader;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextNotFoundException;
@@ -52,7 +52,7 @@ public class LoadingScreen extends MenuScreen {
 	
 	private TweenManager tweenManager;
 	
-	private ContextFactory contextFactory;
+	private ContextLoader contextFactory;
 	
 	private ContextConfiguration configuration;
 	
@@ -147,9 +147,9 @@ public class LoadingScreen extends MenuScreen {
 		
 		private Context context;
 		
-		private ContextFactory factory;
+		private ContextLoader factory;
 		
-		public GameLoader(ContextFactory factory) {
+		public GameLoader(ContextLoader factory) {
 			this.factory = factory;
 		}
 

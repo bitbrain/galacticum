@@ -16,17 +16,14 @@
  */
 package de.myreality.galacticum.util;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 /**
- * Provides rendering functionality
+ * Provides a name
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Renderable {
-	
+public interface Nameable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -35,5 +32,11 @@ public interface Renderable {
 	// Methods
 	// ===========================================================
 	
-	void render(float delta, SpriteBatch batch);
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	String getName();
+
 }

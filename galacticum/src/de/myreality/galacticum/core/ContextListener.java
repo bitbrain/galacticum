@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.util;
+package de.myreality.galacticum.core;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.myreality.galacticum.util.Nameable;
 
 /**
- * Provides rendering functionality
+ * Listens to a {@see ContextLoader}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Renderable {
+public interface ContextListener {
 	
 	// ===========================================================
 	// Constants
@@ -35,5 +35,34 @@ public interface Renderable {
 	// Methods
 	// ===========================================================
 	
-	void render(float delta, SpriteBatch batch);
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
+	void onStart(ContextEvent event);
+	
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
+	void onSuccess(ContextEvent event);
+	
+	/**
+	 * 
+	 * 
+	 * @param event
+	 * @param error
+	 */
+	void onFail(ContextEvent event, Throwable error);
+	
+	/**
+	 * 
+	 * 
+	 * @param event
+	 * @param target
+	 */
+	void onLoad(ContextEvent event, Nameable target);
+
 }
