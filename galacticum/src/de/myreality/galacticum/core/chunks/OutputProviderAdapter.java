@@ -16,26 +16,19 @@
  */
 package de.myreality.galacticum.core.chunks;
 
-import de.myreality.chunx.ChunkSystem;
-import de.myreality.chunx.caching.CachedChunkConfiguration;
-import de.myreality.chunx.caching.SimpleCachedChunkConfiguration;
-import de.myreality.chunx.caching.SimpleCachedChunkSystem;
-import de.myreality.chunx.io.ChunkLoader;
-import de.myreality.chunx.io.ChunkSaver;
-import de.myreality.galacticum.core.Subsystem;
-import de.myreality.galacticum.core.SubsystemFactory;
-import de.myreality.galacticum.io.ContextConfiguration;
-import de.myreality.galacticum.io.GDXInputStreamProvider;
-import de.myreality.galacticum.io.GDXOutputStreamProvider;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import de.myreality.galacticum.io.OutputStreamProvider;
 
 /**
- * Factory which creates a subsystem for creating chunks
+ * Adapter between output providers from chunx and LibGDX
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class ChunkSystemFactory implements SubsystemFactory {
+public class OutputProviderAdapter implements de.myreality.chunx.io.OutputStreamProvider {
 	
 	// ===========================================================
 	// Constants
@@ -44,10 +37,16 @@ public class ChunkSystemFactory implements SubsystemFactory {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private OutputStreamProvider target;	
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public OutputProviderAdapter(OutputStreamProvider target) {
+		this.target = target;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -58,25 +57,11 @@ public class ChunkSystemFactory implements SubsystemFactory {
 	// ===========================================================
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.SubsystemFactory#create()
+	 * @see de.myreality.chunx.io.InputStreamProvider#getInputStream(java.lang.String)
 	 */
 	@Override
-	public Subsystem create(ContextConfiguration configuration) {
-		
-		CachedChunkConfiguration chunkConfiguration = new SimpleCachedChunkConfiguration();		
-		ChunkSystem chunkSystem = new SimpleCachedChunkSystem(chunkConfiguration);		
-		ChunkSaver saver = chunkSystem.getSaver();
-		ChunkLoader loader = chunkSystem.getLoader();
-		
-		// Align path
-		loader.setPath(configuration.getChunkPath());
-		saver.setPath(configuration.getChunkPath());
-		
-		// Align adapters for LibGDX
-		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
-		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));
-		
-		return new ChunkSubsystemAdapter(chunkSystem);
+	public OutputStream getOutputStream(String path) throws IOException {
+		return target.getOutputStream(path);
 	}
 
 	// ===========================================================
