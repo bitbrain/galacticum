@@ -17,6 +17,8 @@
 package de.myreality.galacticum.core.chunks;
 
 import de.myreality.chunx.ChunkSystem;
+import de.myreality.chunx.ChunkTarget;
+import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.caching.CachedChunkConfiguration;
 import de.myreality.chunx.caching.SimpleCachedChunkConfiguration;
 import de.myreality.chunx.caching.SimpleCachedChunkSystem;
@@ -40,14 +42,25 @@ public class ChunkSystemFactory implements SubsystemFactory {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private static final int CHUNK_SIZE = 2048;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private ContentProvider contentProvider;
+	
+	private ChunkTarget chunkTarget;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public ChunkSystemFactory(ChunkTarget chunkTarget, ContentProvider contentProvider) {
+		this.chunkTarget = chunkTarget;
+		this.contentProvider = contentProvider;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -67,9 +80,12 @@ public class ChunkSystemFactory implements SubsystemFactory {
 		ChunkSystem chunkSystem = new SimpleCachedChunkSystem(chunkConfiguration);		
 		ChunkSaver saver = chunkSystem.getSaver();
 		ChunkLoader loader = chunkSystem.getLoader();
-		
 		loader.setPath(configuration.getChunkPath());
 		saver.setPath(configuration.getChunkPath());
+		
+		chunkConfiguration.setContentProvider(contentProvider);
+		chunkConfiguration.setFocused(chunkTarget);
+		chunkConfiguration.setChunkSize(CHUNK_SIZE);
 		
 		// Align adapters for LibGDX
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));

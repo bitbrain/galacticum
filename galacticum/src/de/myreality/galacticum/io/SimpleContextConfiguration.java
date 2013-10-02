@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.io;
 
+import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.util.Seed;
 
 /**
@@ -53,7 +54,7 @@ class SimpleContextConfiguration implements ContextConfiguration {
 		setTimestamp(0);
 		seed = new Seed();
 		name = "";
-		rootPath = ROOT_PATH;
+		rootPath = Resources.ROOT_PATH + ROOT_PATH;
 		id = "";
 	}
 

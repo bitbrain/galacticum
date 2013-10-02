@@ -25,10 +25,12 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.SimpleGameContainer;
 import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
+import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.context.ContextException;
 import de.myreality.galacticum.core.context.ContextLoader;
@@ -80,7 +82,35 @@ public class LoadingScreen extends MenuScreen {
 		this.configuration = configuration;
 		
 		// Add factory for loading chunks
-		contextLoader.addFactory(new ChunkSystemFactory());
+		contextLoader.addFactory(new ChunkSystemFactory(new ChunkTarget() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public float getX() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public float getY() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			@Override
+			public void setX(float arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void setY(float arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}, new ContentProviderAdapter(container)));
 		
 		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
 		
@@ -128,7 +158,7 @@ public class LoadingScreen extends MenuScreen {
 	protected void onDraw(SpriteBatch batch, float delta) {
 		tweenManager.update(delta);
 		
-		if (loadingFuture.isCancelled()) {
+		if (loadingFuture == null || loadingFuture.isCancelled()) {
 			// Go back to creation screen
 			getGame().setScreen(new CreationScreen("Create new universe", getGame(), loader.getMessage()));
 		} else if (loadingFuture.isDone()) {
@@ -171,18 +201,22 @@ public class LoadingScreen extends MenuScreen {
 			this.container = container;
 			message = "";
 		}
-
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {	
+		
+		public void load() {
 			try {
 				context = contextLoader.load(configuration, container);
 			} catch (ContextException e) {
 				message = e.getMessage();
 				loadingFuture.cancel(true);
 			}
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {	
+			load();
 		}
 		
 		public Context getContext() {
