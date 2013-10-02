@@ -28,6 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import de.myreality.galacticum.ui.ProgressBar.ProgressBarStyle;
+
 /**
  * Contains basic resources of the game
  *
@@ -38,41 +40,58 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 public final class Resources {
 	
 	// ===========================================================
+	// Colors
+	// ===========================================================
+		
+	public static Color COLOR_GREEN = Color.valueOf("b8c61a");
+	public static Color COLOR_GREEN_LIGHT = Color.valueOf("dded26");
+	public static Color COLOR_BLUE = Color.valueOf("30226d");
+	public static Color COLOR_CYAN = Color.valueOf("00baff");
+	public static Color COLOR_VIOLET = Color.valueOf("6a37bf");
+	public static Color COLOR_VIOLET_LIGHT = Color.valueOf("524ab1");
+	
+	// ===========================================================
 	// Textures
 	// ===========================================================
 	
-	public static Texture BACKGROUND_MAIN;
+	public static Texture TEXTURE_MENU_BACKGROUND;
 	
-	public static Texture BACKGROUND_TRANSPARENT;
+	public static Texture TEXTURE_BRIGHT_TRANSPARENT;
 	
-	public static Texture BACKGROUND_TRANSPARENT_DARK;
+	public static Texture TEXTURE_DARK_TRANSPARENT;
+	
+	public static Texture TEXTURE_BLUE;
 	
 	public static void loadTextures() {		
 		unloadTextures();		
-		BACKGROUND_MAIN = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
+		TEXTURE_MENU_BACKGROUND = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
+		TEXTURE_BRIGHT_TRANSPARENT = createColoredTexture(new Color(0f, 0f, 0f, 0.3f));
+		TEXTURE_DARK_TRANSPARENT = createColoredTexture(new Color(0f, 0f, 0f, 0.5f));
+		TEXTURE_BLUE = createColoredTexture(COLOR_BLUE);
+	}
+	
+	public static void unloadTextures() {
+		if (TEXTURE_MENU_BACKGROUND != null) {
+			TEXTURE_MENU_BACKGROUND.dispose();
+		}
 		
+		if (TEXTURE_BRIGHT_TRANSPARENT != null) {
+			TEXTURE_BRIGHT_TRANSPARENT.dispose();
+		}
+	}
+	
+	private static Texture createColoredTexture(Color color) {
 		Pixmap map = new Pixmap(10, 10, Pixmap.Format.RGBA4444);
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		
-		map.setColor(0, 0, 0, 0.3f);
-		map.fill();
-		BACKGROUND_TRANSPARENT = new Texture(map);
-		map.setColor(0, 0, 0, 0.5f);
-		map.fill();
-		BACKGROUND_TRANSPARENT_DARK = new Texture(map);
+		map.setColor(color.r, color.g, color.b, color.a);
+		map.fill();		
+		Texture texture = new Texture(map);
 		map.dispose();
 		Gdx.gl.glDisable(GL10.GL_BLEND);
-	}
-	
-	public static void unloadTextures() {
-		if (BACKGROUND_MAIN != null) {
-			BACKGROUND_MAIN.dispose();
-		}
 		
-		if (BACKGROUND_TRANSPARENT != null) {
-			BACKGROUND_TRANSPARENT.dispose();
-		}
+		return texture;
 	}
 
 	// ===========================================================
@@ -113,14 +132,6 @@ public final class Resources {
 	// ===========================================================
 	
 	// ===========================================================
-	// Colors
-	// ===========================================================
-	
-	public static Color COLOR_MAIN_GREEN = Color.valueOf("b8c61a");
-	public static Color COLOR_MAIN_GREEN_LIGHT = Color.valueOf("dded26");
-	public static Color COLOR_MAIN_BLUE = Color.valueOf("5d37bc");
-	
-	// ===========================================================
 	// Particles
 	// ===========================================================
 	
@@ -136,24 +147,31 @@ public final class Resources {
 	
 	public static TextFieldStyle STYLE_TEXTFIELD_DEFAULT = new TextFieldStyle();
 	
+	public static ProgressBarStyle STYLE_PROGRESS_BAR = new ProgressBarStyle();
+	
 	public static LabelStyle STYLE_LABEL_ERROR = new LabelStyle();
 	
 	public static void loadStyles() {		
-		STYLE_BUTTON_DEFAULT.up = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT));
-		STYLE_BUTTON_DEFAULT.over = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT_DARK));
-		STYLE_BUTTON_DEFAULT.fontColor = Resources.COLOR_MAIN_GREEN;
-		STYLE_BUTTON_DEFAULT.overFontColor = COLOR_MAIN_GREEN_LIGHT;
+		STYLE_BUTTON_DEFAULT.up = new SpriteDrawable(new Sprite(TEXTURE_BRIGHT_TRANSPARENT));
+		STYLE_BUTTON_DEFAULT.over = new SpriteDrawable(new Sprite(TEXTURE_DARK_TRANSPARENT));
+		STYLE_BUTTON_DEFAULT.fontColor = Resources.COLOR_GREEN;
+		STYLE_BUTTON_DEFAULT.overFontColor = COLOR_GREEN_LIGHT;
 		STYLE_BUTTON_DEFAULT.font = Resources.FONT_SMALL;
 		
-		STYLE_TEXTFIELD_DEFAULT.background = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT));
+		STYLE_TEXTFIELD_DEFAULT.background = new SpriteDrawable(new Sprite(TEXTURE_BRIGHT_TRANSPARENT));
 		STYLE_TEXTFIELD_DEFAULT.font = Resources.FONT_REGULAR;
 		STYLE_TEXTFIELD_DEFAULT.messageFont = Resources.FONT_REGULAR;
-		STYLE_TEXTFIELD_DEFAULT.messageFontColor = Color.GRAY;
-		STYLE_TEXTFIELD_DEFAULT.fontColor = COLOR_MAIN_BLUE;
-		STYLE_TEXTFIELD_DEFAULT.cursor = new SpriteDrawable(new Sprite(BACKGROUND_TRANSPARENT));
+		STYLE_TEXTFIELD_DEFAULT.messageFontColor = COLOR_BLUE;
+		STYLE_TEXTFIELD_DEFAULT.fontColor = COLOR_VIOLET_LIGHT;
+		STYLE_TEXTFIELD_DEFAULT.cursor = new SpriteDrawable(new Sprite(TEXTURE_BRIGHT_TRANSPARENT));
 		
 		STYLE_LABEL_ERROR.font = FONT_SMALL;
 		STYLE_LABEL_ERROR.fontColor = Color.RED;
+		
+		STYLE_PROGRESS_BAR.background = TEXTURE_BRIGHT_TRANSPARENT;
+		STYLE_PROGRESS_BAR.labeled = true;
+		STYLE_PROGRESS_BAR.font = FONT_SMALL;
+		STYLE_PROGRESS_BAR.foreground = TEXTURE_DARK_TRANSPARENT;
 	}
 	
 	// ===========================================================

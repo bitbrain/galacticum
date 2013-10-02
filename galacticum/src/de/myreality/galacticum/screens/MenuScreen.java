@@ -70,7 +70,7 @@ public abstract class MenuScreen implements Screen {
 	public MenuScreen(String caption, GalacticumGame game) {
 		this.game = game;
 		this.caption = caption;
-		background = Resources.BACKGROUND_MAIN;
+		background = Resources.TEXTURE_MENU_BACKGROUND;
 		padding = 30;
 	}
 
@@ -135,7 +135,7 @@ public abstract class MenuScreen implements Screen {
 			Gdx.input.setInputProcessor(stage);
 			LabelStyle labelStyle = new LabelStyle();
 			labelStyle.font = Resources.FONT_REGULAR;
-			labelStyle.fontColor = Resources.COLOR_MAIN_GREEN;
+			labelStyle.fontColor = Resources.COLOR_GREEN;
 			MenuHead head = new MenuHead(caption, labelStyle);
 			stage.addActor(head);
 			onCreateUI(stage);

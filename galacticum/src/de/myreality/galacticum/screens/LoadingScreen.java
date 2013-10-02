@@ -22,6 +22,7 @@ import java.util.concurrent.Future;
 
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -39,6 +40,7 @@ import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextNotFoundException;
 import de.myreality.galacticum.io.SharedConfigurationManager;
+import de.myreality.galacticum.ui.LoadingBox;
 
 /**
  * Screen which displays the loading progress of current universe creation.
@@ -68,6 +70,8 @@ public class LoadingScreen extends MenuScreen {
 	private GameLoader loader;
 
 	private GameContainer container;
+	
+	private LoadingBox box;
 
 	// ===========================================================
 	// Constructors
@@ -134,7 +138,10 @@ public class LoadingScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateUI(Stage stage) {
-		tweenManager = new TweenManager();
+		tweenManager = new TweenManager();		
+		box = new LoadingBox();
+		contextLoader.addListener(box);
+		stage.addActor(box);
 	}
 
 	/*
@@ -144,7 +151,8 @@ public class LoadingScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onResizeUI(int width, int height) {
-		
+		box.setX(Gdx.graphics.getWidth() / 2f - box.getWidth() /  2f);
+		box.setY(Gdx.graphics.getHeight() / 2f - box.getHeight() /  2f);
 	}
 
 	/*
@@ -163,7 +171,7 @@ public class LoadingScreen extends MenuScreen {
 			getGame().setScreen(new CreationScreen("Create new universe", getGame(), loader.getMessage()));
 		} else if (loadingFuture.isDone()) {
 			// Loading is done, go to the next screen
-			getGame().setScreen(new IngameScreen(getGame(), loader.getContext()));
+			//getGame().setScreen(new IngameScreen(getGame(), loader.getContext()));
 		}
 	}
 	

@@ -16,25 +16,22 @@
  */
 package de.myreality.galacticum.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+import de.myreality.galacticum.core.context.ContextEvent;
+import de.myreality.galacticum.core.context.ContextListener;
+import de.myreality.galacticum.util.Nameable;
 
 /**
- * Displays a head on top of the screen
+ * Provides loading functionality in order to listen to a context
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 1.0
- * @version 1.0
+ * @since 0.1
+ * @version 0.1
  */
-public class MenuHead extends Group {
-	
+public class LoadingBox extends Table implements ContextListener {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -43,23 +40,25 @@ public class MenuHead extends Group {
 	// Fields
 	// ===========================================================
 	
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		// TODO Auto-generated method stub
+		super.draw(batch, parentAlpha);
+		progressBar.setProgress(progressBar.getProgress() + 0.0005f);
+	}
+
+	private ProgressBar progressBar;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public MenuHead(String text, LabelStyle style) {
-		
-		
-		Label label = new Label(text, style);
-		addActor(label);
-		label.setX(Gdx.graphics.getWidth() / 2f - label.getWidth() / 2f);
-		label.setY(Gdx.graphics.getHeight() - label.getHeight());
-		
-		Background background = new Background();
-		background.setWidth(Gdx.graphics.getWidth());
-		background.setHeight(label.getHeight());
-		background.setY(Gdx.graphics.getHeight() - background.getHeight());
-		addActorBefore(label, background);
+	public LoadingBox() {
+		progressBar = new ProgressBar(0.4f);
+
+		progressBar.setWidth(40f);
+		progressBar.setHeight(40f);
+		add(progressBar).width(500f);
 	}
 
 	// ===========================================================
@@ -70,6 +69,43 @@ public class MenuHead extends Group {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.context.ContextListener#onStart(de.myreality.galacticum.core.context.ContextEvent)
+	 */
+	@Override
+	public void onStart(ContextEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.context.ContextListener#onSuccess(de.myreality.galacticum.core.context.ContextEvent)
+	 */
+	@Override
+	public void onSuccess(ContextEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.context.ContextListener#onFail(de.myreality.galacticum.core.context.ContextEvent, java.lang.Throwable)
+	 */
+	@Override
+	public void onFail(ContextEvent event, Throwable error) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.context.ContextListener#onLoad(de.myreality.galacticum.core.context.ContextEvent, de.myreality.galacticum.util.Nameable)
+	 */
+	@Override
+	public void onLoad(ContextEvent event, Nameable target) {
+		
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -77,28 +113,5 @@ public class MenuHead extends Group {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
-	class Background extends Actor {
-		
-		private ShapeRenderer renderer = new ShapeRenderer();
 
-		@Override
-		public void draw(SpriteBatch batch, float parentAlpha) {
-			super.draw(batch, parentAlpha);
-			
-			batch.end();
-			    
-			Gdx.gl.glEnable(GL10.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-			
-			renderer.begin(ShapeType.FilledRectangle);
-			renderer.setColor(0f, 0f, 0f, 0.25f);
-			renderer.filledRect(getX(), getY(), getWidth(), getHeight());
-			renderer.end();
-			      
-			Gdx.gl.glDisable(GL10.GL_BLEND);
-			      
-			batch.begin();
-		}
-	}
 }

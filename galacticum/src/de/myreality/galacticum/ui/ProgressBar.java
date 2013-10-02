@@ -16,90 +16,111 @@
  */
 package de.myreality.galacticum.ui;
 
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.TweenManager;
-
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 
 import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.tweens.ActorTween;
 
 /**
- * Label which provides fading functionality for error messages
- *
+ * Displays a progress bar
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
-public class ErrorLabel extends Label {
-	
+public class ProgressBar extends TextButton {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	public static final float DEFAULT_DELAY = 2f;
-	
-	public static final float DEFAULT_FADE = 1f;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private TweenManager manager;
-	
-	private float delay, fade;
+
+	private float progress;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public ErrorLabel(TweenManager manager) {
-		super(" ", Resources.STYLE_LABEL_ERROR);
-		this.manager = manager;
-		fade = DEFAULT_FADE;
-		delay = DEFAULT_DELAY;		
+
+	public ProgressBar(float progress) {
+		super("0%", Resources.STYLE_BUTTON_DEFAULT);
+		setProgress(progress);
+		this.pad(20f);
+		
+		TextButtonStyle style = getStyle();
+		Background background = new Background();		
+		style.over = background;
+		style.up = background;
+		style.fontColor = Resources.COLOR_VIOLET_LIGHT;
+		style.overFontColor = Resources.COLOR_VIOLET_LIGHT;
+		
+		
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
-	void setDelay(float delay) {
-		this.delay = delay;
+
+	/**
+	 * 
+	 * 
+	 * @param progress
+	 */
+	public final void setProgress(float progress) {
+		
+		if (progress > 1.0f) {
+			progress = 1.0f;
+		}
+		
+		if (progress < 0f) {
+			progress = 0f;
+		}		
+
+		this.progress = progress;		
+		this.setText(((int)(progress*100)) + "%");
 	}
 	
-	void setFade(float fade) {
-		this.fade = fade;
-	}
-	
-	
-	
-	@Override
-	public void setText(CharSequence text) {
-		super.setText(text);
-		
-		getColor().a = 1f;
-		
-		manager.killTarget(this);
-		
-		Tween.to(this, ActorTween.ALPHA, fade)
-		.delay(delay)
-	 	.target(0f)
-		.ease(TweenEquations.easeInOutQuad)
-		.start(manager);
+	public float getProgress() {
+		return progress;
 	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
-	// ===========================================================
-
+	// ===========================================================	
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+	public static class ProgressBarStyle {
+
+		public Texture background = Resources.TEXTURE_BRIGHT_TRANSPARENT;
+
+		public Texture foreground = Resources.TEXTURE_DARK_TRANSPARENT;
+
+		public BitmapFont font = Resources.FONT_REGULAR;
+
+		public boolean labeled = true;
+	}
+
+	class Background extends BaseDrawable {
+		
+		@Override
+		public void draw(SpriteBatch batch, float x, float y, float width,
+				float height) {
+			super.draw(batch, x, y, width, height);
+			batch.draw(Resources.TEXTURE_BRIGHT_TRANSPARENT, x, y, width, height);
+			batch.draw(Resources.TEXTURE_BLUE, x, y, width * getProgress(), height);
+		}
+	}
 
 }
