@@ -70,6 +70,7 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {
+		// TODO: Doesn't load here properly..
 		chunkSystem.start();
 	}
 

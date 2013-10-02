@@ -62,13 +62,12 @@ public class ChunkSystemFactory implements SubsystemFactory {
 	 */
 	@Override
 	public Subsystem create(ContextConfiguration configuration) {
-		
+
 		CachedChunkConfiguration chunkConfiguration = new SimpleCachedChunkConfiguration();		
 		ChunkSystem chunkSystem = new SimpleCachedChunkSystem(chunkConfiguration);		
 		ChunkSaver saver = chunkSystem.getSaver();
 		ChunkLoader loader = chunkSystem.getLoader();
 		
-		// Align path
 		loader.setPath(configuration.getChunkPath());
 		saver.setPath(configuration.getChunkPath());
 		

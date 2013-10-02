@@ -110,14 +110,15 @@ public class SimpleContextLoader implements ContextLoader {
 	private Subsystem[] loadSubsystems(ContextConfiguration configuration) throws ContextException {	
 		
 		Subsystem[] systems = new Subsystem[factories.size()];		
-		
 		for (int index = 0; index < factories.size(); ++index) {
-			
+
 			Subsystem system = loadSubsystem(index, configuration);
 			SimpleContextEvent event = new SimpleContextEvent();
 			listenerController.onLoad(event, system);	
 			
 			startSubsystem(system, event);
+			
+			systems[index] = system;
 		}
 		
 		return systems;

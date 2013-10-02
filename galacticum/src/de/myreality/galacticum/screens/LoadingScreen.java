@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.SimpleGameContainer;
+import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.context.ContextException;
 import de.myreality.galacticum.core.context.ContextLoader;
@@ -72,9 +73,14 @@ public class LoadingScreen extends MenuScreen {
 	
 	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration) throws ContextNotFoundException {
 		super(caption, game);		
+		
+		// Game setup
 		this.contextLoader = new SimpleContextLoader();
 		this.container = new SimpleGameContainer();
 		this.configuration = configuration;
+		
+		// Add factory for loading chunks
+		contextLoader.addFactory(new ChunkSystemFactory());
 		
 		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
 		
