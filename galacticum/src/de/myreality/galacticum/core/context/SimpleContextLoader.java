@@ -48,6 +48,8 @@ public class SimpleContextLoader implements ContextLoader {
 	private ContextListenerController listenerController;
 	
 	private SubsystemListener subsystemListener;
+	
+	private int currentIndex;
 
 	// ===========================================================
 	// Constructors
@@ -76,7 +78,6 @@ public class SimpleContextLoader implements ContextLoader {
 	 */
 	@Override
 	public Context load(ContextConfiguration configuration, GameContainer container) throws ContextException {		
-
 		listenerController.onStart(new SimpleContextEvent(this, 0, factories.size(), 0.0f));		
 		Subsystem[] subsystems = loadSubsystems(configuration);		
 		listenerController.onSuccess(new SimpleContextEvent(this, factories.size(), factories.size(), 1.0f));
@@ -114,8 +115,8 @@ public class SimpleContextLoader implements ContextLoader {
 	private Subsystem[] loadSubsystems(ContextConfiguration configuration) throws ContextException {	
 		
 		Subsystem[] systems = new Subsystem[factories.size()];		
-		for (int index = 0; index < factories.size(); ++index) {
-
+		for (int index = 0; index < factories.size(); ++index) {			
+			currentIndex = index;
 			Subsystem system = loadSubsystem(index, configuration);
 			system.addProgressListener(subsystemListener);
 			SimpleContextEvent event = new SimpleContextEvent(this, index, factories.size(), (float)index / (float)factories.size());
@@ -213,6 +214,10 @@ public class SimpleContextLoader implements ContextLoader {
 		 */
 		@Override
 		public void onProgress(float progress, int current, int total, Subsystem sender) {
+			
+			progress /= (float)factories.size();
+			progress += (float)currentIndex / (float)factories.size();
+			
 			ContextEvent event = new SimpleContextEvent(parent, current, total, progress);
 			listenerController.onLoad(event, sender);
 		}

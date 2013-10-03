@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.ui;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -45,6 +46,8 @@ public class LoadingBox extends Table implements ContextListener {
 	private ProgressBar progressBar;
 	
 	private Label information;
+	
+	private String labelText;
 
 	// ===========================================================
 	// Constructors
@@ -63,7 +66,7 @@ public class LoadingBox extends Table implements ContextListener {
 		style.fontColor = Resources.COLOR_GREEN;
 		
 		information = new Label("Preparing...", style);
-		add(information).width(500f).center().padTop(20f);
+		add(information).padTop(20f);
 	}
 
 	// ===========================================================
@@ -82,6 +85,12 @@ public class LoadingBox extends Table implements ContextListener {
 	@Override
 	public void onStart(ContextEvent event) {
 		information.setText("Preprocessing...");
+	}
+
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		information.setText(labelText);
+		super.draw(batch, parentAlpha);
 	}
 
 	/* (non-Javadoc)
@@ -107,7 +116,7 @@ public class LoadingBox extends Table implements ContextListener {
 	@Override
 	public void onLoad(ContextEvent event, Nameable target) {
 		progressBar.setProgress(event.getProgress());
-		information.setText("" + event.getCurrentCount());
+		labelText = "Loading: " + target.getName() + " (" + event.getCurrentCount() + "/" + event.getTotalCount() + ")";
 	}
 
 	// ===========================================================
