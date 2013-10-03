@@ -171,7 +171,7 @@ public class LoadingScreen extends MenuScreen {
 			getGame().setScreen(new CreationScreen("Create new universe", getGame(), loader.getMessage()));
 		} else if (loadingFuture.isDone()) {
 			// Loading is done, go to the next screen
-			//getGame().setScreen(new IngameScreen(getGame(), loader.getContext()));
+			getGame().setScreen(new IngameScreen(getGame(), loader.getContext()));
 		}
 	}
 	

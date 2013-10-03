@@ -39,6 +39,8 @@ public class ChunkSystemListenerAdapter implements ChunkSystemListener {
 	// ===========================================================
 
 	private ProgressListener listener;
+	
+	private int saveCount = 0;
 
 	// ===========================================================
 	// Constructors
@@ -127,7 +129,8 @@ public class ChunkSystemListenerAdapter implements ChunkSystemListener {
 	 */
 	@Override
 	public void afterSaveChunk(Chunk chunk, ChunkSystem system) {
-		
+		saveCount++;
+		update(chunk, system);
 	}
 
 	/*
@@ -211,9 +214,9 @@ public class ChunkSystemListenerAdapter implements ChunkSystemListener {
 	// ===========================================================
 	
 	private void update(Chunk chunk, ChunkSystem system) {
-		float progress = (float)system.getCurrentChunkCount()/(float)system.getTotalChunkCount();
-		listener.onProgress(progress, system.getCurrentChunkCount(),
-				system.getTotalChunkCount(), new ChunkSubsystemAdapter(system));
+		float progress = (float)(system.getCurrentChunkCount() + saveCount)/(float)(system.getTotalChunkCount() * 2);
+		listener.onProgress(progress, system.getCurrentChunkCount() + saveCount,
+				system.getTotalChunkCount() * 2, new ChunkSubsystemAdapter(system));
 	}
 
 	// ===========================================================
