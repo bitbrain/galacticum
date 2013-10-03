@@ -113,7 +113,7 @@ public class SimpleContextLoader implements ContextLoader {
 		for (int index = 0; index < factories.size(); ++index) {
 
 			Subsystem system = loadSubsystem(index, configuration);
-			SimpleContextEvent event = new SimpleContextEvent(this, index, factories.size(), 0.5f);
+			SimpleContextEvent event = new SimpleContextEvent(this, index, factories.size(), (float)index / (float)factories.size());
 			listenerController.onLoad(event, system);	
 			
 			startSubsystem(system, event);
