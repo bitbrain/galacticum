@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
 import de.myreality.galacticum.core.subsystem.SubsystemFactory;
@@ -45,6 +46,8 @@ public class SimpleContextLoader implements ContextLoader {
 	private List<SubsystemFactory> factories;
 	
 	private ContextListenerController listenerController;
+	
+	private SubsystemListener subsystemListener;
 
 	// ===========================================================
 	// Constructors
@@ -53,6 +56,7 @@ public class SimpleContextLoader implements ContextLoader {
 	public SimpleContextLoader() {
 		listenerController = new ContextListenerController();
 		factories = new ArrayList<SubsystemFactory>();
+		subsystemListener = new SubsystemListener(this);
 	}
 
 	// ===========================================================
@@ -113,12 +117,12 @@ public class SimpleContextLoader implements ContextLoader {
 		for (int index = 0; index < factories.size(); ++index) {
 
 			Subsystem system = loadSubsystem(index, configuration);
+			system.addProgressListener(subsystemListener);
 			SimpleContextEvent event = new SimpleContextEvent(this, index, factories.size(), (float)index / (float)factories.size());
-			listenerController.onLoad(event, system);	
-			
-			startSubsystem(system, event);
-			
+			listenerController.onLoad(event, system);				
+			startSubsystem(system, event);			
 			systems[index] = system;
+			system.removeProgressListener(subsystemListener);
 		}
 		
 		return systems;
@@ -142,7 +146,7 @@ public class SimpleContextLoader implements ContextLoader {
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	class ContextListenerController implements ContextListener {
+	private class ContextListenerController implements ContextListener {
 		
 		private List<ContextListener> listeners;
 		
@@ -192,6 +196,25 @@ public class SimpleContextLoader implements ContextLoader {
 		
 		public void addListener(ContextListener listener) {
 			listeners.add(listener);
+		}
+		
+	}
+	
+	private class SubsystemListener implements ProgressListener {
+		
+		private ContextLoader parent;
+		
+		public SubsystemListener(ContextLoader parent) {
+			this.parent = parent;
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.galacticum.core.subsystem.ProgressListener#onProgress(float, int, int)
+		 */
+		@Override
+		public void onProgress(float progress, int current, int total, Subsystem sender) {
+			ContextEvent event = new SimpleContextEvent(parent, current, total, progress);
+			listenerController.onLoad(event, sender);
 		}
 		
 	}

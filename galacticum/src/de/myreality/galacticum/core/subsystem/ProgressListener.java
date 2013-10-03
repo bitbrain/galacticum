@@ -40,6 +40,6 @@ public interface ProgressListener {
 	 * @param current
 	 * @param total
 	 */
-	void onProgress(float progress, int current, int total);
+	void onProgress(float progress, int current, int total, Subsystem sender);
 
 }
