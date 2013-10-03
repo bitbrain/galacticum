@@ -16,9 +16,11 @@
  */
 package de.myreality.galacticum.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
+import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.core.context.ContextEvent;
 import de.myreality.galacticum.core.context.ContextListener;
 import de.myreality.galacticum.util.Nameable;
@@ -39,26 +41,29 @@ public class LoadingBox extends Table implements ContextListener {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
-		// TODO Auto-generated method stub
-		super.draw(batch, parentAlpha);
-		progressBar.setProgress(progressBar.getProgress() + 0.0005f);
-	}
 
 	private ProgressBar progressBar;
+	
+	private Label information;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public LoadingBox() {
-		progressBar = new ProgressBar(0.4f);
+		progressBar = new ProgressBar(0.0f);
 
 		progressBar.setWidth(40f);
 		progressBar.setHeight(40f);
 		add(progressBar).width(500f);
+		row();
+		
+		LabelStyle style = new LabelStyle();
+		style.font = Resources.FONT_SMALL;
+		style.fontColor = Resources.COLOR_GREEN;
+		
+		information = new Label("Loading: deine Mama", style);
+		add(information).padTop(20f);
 	}
 
 	// ===========================================================
@@ -85,8 +90,7 @@ public class LoadingBox extends Table implements ContextListener {
 	 */
 	@Override
 	public void onSuccess(ContextEvent event) {
-		// TODO Auto-generated method stub
-
+		progressBar.setProgress(100f);
 	}
 
 	/* (non-Javadoc)
@@ -103,7 +107,8 @@ public class LoadingBox extends Table implements ContextListener {
 	 */
 	@Override
 	public void onLoad(ContextEvent event, Nameable target) {
-		
+		progressBar.setProgress(event.getProgress());
+		information.setText("Loading: " + target.getName() + " (" + event.getCurrentCount() + "/" + event.getTotalCount() + ")");
 	}
 
 	// ===========================================================

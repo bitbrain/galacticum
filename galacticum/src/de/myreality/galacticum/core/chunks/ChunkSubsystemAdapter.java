@@ -33,7 +33,7 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// Constants
 	// ===========================================================
 	
-	private static final String NAME = "chunksystem";
+	private static final String NAME = "chunk system";
 
 	// ===========================================================
 	// Fields

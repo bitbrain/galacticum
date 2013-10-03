@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.xml;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -127,8 +128,9 @@ public class XMLHandler {
 					.newInstance();
 			DocumentBuilder docBuilder = null;
 			docBuilder = docBuilderFactory.newDocumentBuilder();
-			doc = docBuilder.parse(stream);
-
+			InputStream buffered = new BufferedInputStream(stream);
+			doc = docBuilder.parse(buffered);
+			buffered.close();
 			// normalize text representation
 			doc.getDocumentElement().normalize();
 			NodeList listResources = doc.getElementsByTagName(base);
@@ -191,7 +193,7 @@ public class XMLHandler {
 
 	private void computeFile() {
 		fileResult = "<?xml version=" + '"' + "1.0" + '"' + " encoding=" + '"'
-				+ CHARSET + '"' + " ?>\n";
+				+ CHARSET + '"' + " standalone=" + '"' + "yes" + '"' + "?>\n";
 		fileResult += "<" + base + ">\n";
 
 		for (XMLData line : lines) {
