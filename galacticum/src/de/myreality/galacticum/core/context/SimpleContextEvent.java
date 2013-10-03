@@ -25,41 +25,6 @@ package de.myreality.galacticum.core.context;
  */
 class SimpleContextEvent implements ContextEvent {
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.context.ContextEvent#getProgress()
-	 */
-	@Override
-	public float getProgress() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.context.ContextEvent#getSender()
-	 */
-	@Override
-	public Object getSender() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.context.ContextEvent#getTotalCount()
-	 */
-	@Override
-	public int getTotalCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.context.ContextEvent#getCurrentCount()
-	 */
-	@Override
-	public int getCurrentCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -68,9 +33,31 @@ class SimpleContextEvent implements ContextEvent {
 	// Fields
 	// ===========================================================
 
+	private Object sender;
+
+	private int currentCount;
+
+	private int totalCount;
+
+	private float progress;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	/**
+	 * @param sender
+	 * @param currentCount
+	 * @param totalCount
+	 * @param progress
+	 */
+	public SimpleContextEvent(Object sender, int currentCount, int totalCount,
+			float progress) {
+		this.sender = sender;
+		this.currentCount = currentCount;
+		this.totalCount = totalCount;
+		this.progress = progress;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -79,6 +66,46 @@ class SimpleContextEvent implements ContextEvent {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.context.ContextEvent#getProgress()
+	 */
+	@Override
+	public float getProgress() {
+		return progress;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.context.ContextEvent#getSender()
+	 */
+	@Override
+	public Object getSender() {
+		return sender;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.context.ContextEvent#getTotalCount()
+	 */
+	@Override
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.context.ContextEvent#getCurrentCount()
+	 */
+	@Override
+	public int getCurrentCount() {
+		return currentCount;
+	}
 
 	// ===========================================================
 	// Methods

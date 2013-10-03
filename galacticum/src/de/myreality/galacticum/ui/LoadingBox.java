@@ -81,8 +81,7 @@ public class LoadingBox extends Table implements ContextListener {
 	 */
 	@Override
 	public void onStart(ContextEvent event) {
-		// TODO Auto-generated method stub
-
+		information.setText("Preprocessing...");
 	}
 
 	/* (non-Javadoc)
@@ -91,6 +90,7 @@ public class LoadingBox extends Table implements ContextListener {
 	@Override
 	public void onSuccess(ContextEvent event) {
 		progressBar.setProgress(100f);
+		information.setText("Done.");
 	}
 
 	/* (non-Javadoc)
@@ -98,8 +98,7 @@ public class LoadingBox extends Table implements ContextListener {
 	 */
 	@Override
 	public void onFail(ContextEvent event, Throwable error) {
-		// TODO Auto-generated method stub
-
+		information.setText("Fail.");
 	}
 
 	/* (non-Javadoc)

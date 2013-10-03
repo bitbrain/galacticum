@@ -73,9 +73,9 @@ public class SimpleContextLoader implements ContextLoader {
 	@Override
 	public Context load(ContextConfiguration configuration, GameContainer container) throws ContextException {		
 
-		listenerController.onStart(new SimpleContextEvent());		
+		listenerController.onStart(new SimpleContextEvent(this, 0, factories.size(), 0.0f));		
 		Subsystem[] subsystems = loadSubsystems(configuration);		
-		listenerController.onSuccess(new SimpleContextEvent());
+		listenerController.onSuccess(new SimpleContextEvent(this, factories.size(), factories.size(), 1.0f));
 		
 		return new SimpleContext(subsystems, container, configuration);
 	}
@@ -113,7 +113,7 @@ public class SimpleContextLoader implements ContextLoader {
 		for (int index = 0; index < factories.size(); ++index) {
 
 			Subsystem system = loadSubsystem(index, configuration);
-			SimpleContextEvent event = new SimpleContextEvent();
+			SimpleContextEvent event = new SimpleContextEvent(this, index, factories.size(), 0.5f);
 			listenerController.onLoad(event, system);	
 			
 			startSubsystem(system, event);
