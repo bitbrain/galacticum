@@ -3,6 +3,7 @@
 	<name>galacticum-android</name>
 	<comment></comment>
 	<projects>
+		<project>galacticum</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
