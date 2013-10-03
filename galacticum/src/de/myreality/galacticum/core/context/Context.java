@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core.context;
 
+import java.util.Collection;
+
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -43,7 +45,7 @@ public interface Context {
 	 * 
 	 * @return
 	 */
-	Subsystem[] getSubsystems();
+	Collection<Subsystem> getSubsystems();
 	
 	/**
 	 * 

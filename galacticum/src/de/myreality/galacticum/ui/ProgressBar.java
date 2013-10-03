@@ -50,8 +50,10 @@ public class ProgressBar extends TextButton {
 	public ProgressBar(float progress) {
 		super("0%", Resources.STYLE_BUTTON_DEFAULT);
 		setProgress(progress);
-		this.pad(20f);
 		
+		this.setStyle(new TextButtonStyle(getStyle()));
+
+		this.pad(20f);
 		TextButtonStyle style = getStyle();
 		Background background = new Background();		
 		style.over = background;

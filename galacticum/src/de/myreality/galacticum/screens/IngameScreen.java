@@ -16,15 +16,14 @@
  */
 package de.myreality.galacticum.screens;
 
-import org.xml.sax.InputSource;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.subsystem.Subsystem;
 
 /**
  * 
@@ -44,6 +43,8 @@ public class IngameScreen implements Screen {
 	// ===========================================================
 	
 	private GalacticumGame game;
+	
+	private Context context;
 
 	// ===========================================================
 	// Constructors
@@ -51,6 +52,7 @@ public class IngameScreen implements Screen {
 	
 	public IngameScreen(GalacticumGame game, Context context) {
 		this.game = game;
+		this.context = context;
 	}
 
 	// ===========================================================
@@ -76,8 +78,12 @@ public class IngameScreen implements Screen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
+		for (Subsystem system : context.getSubsystems()) {
+			system.update(delta);
+		}
+		
 		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			game.setScreen(new CreationScreen(game));
+			leave();
 		}
 	}
 
@@ -150,6 +156,14 @@ public class IngameScreen implements Screen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void leave() {
+		for (Subsystem system : context.getSubsystems()) {
+			system.shutdown();
+		}		
+
+		game.setScreen(new CreationScreen(game));
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

@@ -17,6 +17,7 @@
 package de.myreality.galacticum.core.context;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.myreality.galacticum.core.GameContainer;
@@ -79,7 +80,7 @@ public class SimpleContextLoader implements ContextLoader {
 	@Override
 	public Context load(ContextConfiguration configuration, GameContainer container) throws ContextException {		
 		listenerController.onStart(new SimpleContextEvent(this, 0, factories.size(), 0.0f));		
-		Subsystem[] subsystems = loadSubsystems(configuration);		
+		Collection<Subsystem> subsystems = loadSubsystems(configuration);		
 		listenerController.onSuccess(new SimpleContextEvent(this, factories.size(), factories.size(), 1.0f));
 		
 		return new SimpleContext(subsystems, container, configuration);
@@ -112,17 +113,17 @@ public class SimpleContextLoader implements ContextLoader {
 	// Methods
 	// ===========================================================
 	
-	private Subsystem[] loadSubsystems(ContextConfiguration configuration) throws ContextException {	
+	private Collection<Subsystem> loadSubsystems(ContextConfiguration configuration) throws ContextException {	
 		
-		Subsystem[] systems = new Subsystem[factories.size()];		
+		List<Subsystem> systems = new ArrayList<Subsystem>();	
 		for (int index = 0; index < factories.size(); ++index) {			
 			currentIndex = index;
 			Subsystem system = loadSubsystem(index, configuration);
 			system.addProgressListener(subsystemListener);
 			SimpleContextEvent event = new SimpleContextEvent(this, index, factories.size(), (float)index / (float)factories.size());
 			listenerController.onLoad(event, system);				
-			startSubsystem(system, event);			
-			systems[index] = system;
+			startSubsystem(system, event);	
+			systems.add(system);
 			system.removeProgressListener(subsystemListener);
 		}
 		

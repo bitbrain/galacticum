@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core.context;
 
+import java.util.Collection;
+
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -36,13 +38,21 @@ class SimpleContext implements Context {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Collection<Subsystem> subsystems;
+	
+	private GameContainer container;
+	
+	private ContextConfiguration configuration;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleContext(Subsystem[] subsystems, GameContainer container, ContextConfiguration configuration) {
-		
+	public SimpleContext(Collection<Subsystem> subsystems, GameContainer container, ContextConfiguration configuration) {
+		this.subsystems = subsystems;
+		this.container = container;
+		this.configuration = configuration;
 	}
 	
 
@@ -60,9 +70,8 @@ class SimpleContext implements Context {
 	 * @see de.myreality.galacticum.core.context.Context#getSubsystems()
 	 */
 	@Override
-	public Subsystem[] getSubsystems() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Subsystem> getSubsystems() {
+		return subsystems;
 	}
 
 	/*
@@ -72,8 +81,7 @@ class SimpleContext implements Context {
 	 */
 	@Override
 	public GameContainer getContainer() {
-		// TODO Auto-generated method stub
-		return null;
+		return container;
 	}
 
 	/*
@@ -83,8 +91,7 @@ class SimpleContext implements Context {
 	 */
 	@Override
 	public ContextConfiguration getConfiguration() {
-		// TODO Auto-generated method stub
-		return null;
+		return configuration;
 	}
 
 	// ===========================================================
