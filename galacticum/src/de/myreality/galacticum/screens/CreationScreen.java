@@ -62,8 +62,8 @@ public class CreationScreen extends MenuScreen {
 	// Constructors
 	// ===========================================================
 	
-	public CreationScreen(String caption, GalacticumGame game) {
-		this(caption, game, "");
+	public CreationScreen(GalacticumGame game) {
+		this("Create new universe", game, "");
 	}
 	
 	public CreationScreen(String caption, GalacticumGame game, String initialMessage) {

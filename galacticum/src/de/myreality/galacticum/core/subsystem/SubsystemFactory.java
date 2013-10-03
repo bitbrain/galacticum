@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.core.subsystem;
 
 import de.myreality.galacticum.io.ContextConfiguration;
 

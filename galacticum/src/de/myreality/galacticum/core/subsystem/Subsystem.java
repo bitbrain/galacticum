@@ -14,20 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.context;
+package de.myreality.galacticum.core.subsystem;
 
-import de.myreality.galacticum.core.GameContainer;
-import de.myreality.galacticum.core.subsystem.SubsystemFactory;
-import de.myreality.galacticum.io.ContextConfiguration;
+import de.myreality.galacticum.util.Nameable;
 
 /**
- * Creates context objects
+ * Provides such functionality for different game sections. A subsystem
+ * can be started, shutted down or updated frequently.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContextLoader {
+public interface Subsystem extends Nameable {
 	
 	// ===========================================================
 	// Constants
@@ -38,25 +37,33 @@ public interface ContextLoader {
 	// ===========================================================
 	
 	/**
-	 * 
-	 * 
-	 * @param configuration
-	 * @return
+	 * Starts this subsystem
 	 */
-	Context load(ContextConfiguration configuration, GameContainer container) throws ContextException;
+	void start() throws SubsystemException;
+	
+	/**
+	 * Updates this subsystem by the given delta
+	 * 
+	 * @param delta
+	 */
+	void update(float delta);
+	
+	/**
+	 * Closes this subsystem
+	 */
+	void shutdown();
 	
 	/**
 	 * 
-	 * 
-	 * @param factory
+	 * @param listener
 	 */
-	void addFactory(SubsystemFactory factory);
+	void addProgressListener(ProgressListener listener);
 	
 	/**
 	 * 
 	 * 
 	 * @param listener
 	 */
-	void addListener(ContextListener listener);
+	void removeProgressListener(ProgressListener listener);
 
 }

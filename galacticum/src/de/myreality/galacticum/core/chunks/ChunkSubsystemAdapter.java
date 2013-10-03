@@ -17,8 +17,9 @@
 package de.myreality.galacticum.core.chunks;
 
 import de.myreality.chunx.ChunkSystem;
-import de.myreality.galacticum.core.Subsystem;
-import de.myreality.galacticum.core.SubsystemException;
+import de.myreality.galacticum.core.subsystem.ProgressListener;
+import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.core.subsystem.SubsystemException;
 
 /**
  * Adapter to convert {@see ChunkSystem} to {@see Subsystem}
@@ -87,6 +88,22 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	@Override
 	public void shutdown() {
 		chunkSystem.shutdown();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
+	 */
+	@Override
+	public void addProgressListener(ProgressListener listener) {
+		chunkSystem.addListener(new ChunkSystemListenerAdapter(listener));
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
+	 */
+	@Override
+	public void removeProgressListener(ProgressListener listener) {
+		chunkSystem.removeListener(new ChunkSystemListenerAdapter(listener));
 	}
 
 	// ===========================================================

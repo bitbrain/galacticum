@@ -16,8 +16,11 @@
  */
 package de.myreality.galacticum.screens;
 
+import org.xml.sax.InputSource;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL11;
 
 import de.myreality.galacticum.GalacticumGame;
@@ -72,6 +75,10 @@ public class IngameScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			game.setScreen(new CreationScreen(game));
+		}
 	}
 
 	/*

@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.myreality.galacticum.core.GameContainer;
-import de.myreality.galacticum.core.Subsystem;
-import de.myreality.galacticum.core.SubsystemException;
-import de.myreality.galacticum.core.SubsystemFactory;
+import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.galacticum.core.subsystem.SubsystemFactory;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.util.Nameable;
 

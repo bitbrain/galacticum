@@ -14,19 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
-
-import de.myreality.galacticum.util.Nameable;
+package de.myreality.galacticum.core.subsystem;
 
 /**
- * Provides such functionality for different game sections. A subsystem
- * can be started, shutted down or updated frequently.
+ * Is used by sub systems to trigger loading
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Subsystem extends Nameable {
+public interface ProgressListener {
 	
 	// ===========================================================
 	// Constants
@@ -37,20 +34,12 @@ public interface Subsystem extends Nameable {
 	// ===========================================================
 	
 	/**
-	 * Starts this subsystem
-	 */
-	void start() throws SubsystemException;
-	
-	/**
-	 * Updates this subsystem by the given delta
 	 * 
-	 * @param delta
+	 * 
+	 * @param progress
+	 * @param current
+	 * @param total
 	 */
-	void update(float delta);
-	
-	/**
-	 * Closes this subsystem
-	 */
-	void shutdown();
+	void onProgress(float progress, int current, int total);
 
 }

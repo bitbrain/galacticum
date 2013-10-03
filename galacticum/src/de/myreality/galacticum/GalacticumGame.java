@@ -64,7 +64,7 @@ public class GalacticumGame extends Game {
 		
 		initTweenEngine();
 		
-		setScreen(new CreationScreen("Create new universe", this));
+		setScreen(new CreationScreen(this));
 	}
 
 	@Override
