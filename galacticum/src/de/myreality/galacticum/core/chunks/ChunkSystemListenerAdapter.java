@@ -17,6 +17,7 @@
 package de.myreality.galacticum.core.chunks;
 
 import de.myreality.chunx.Chunk;
+import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 
@@ -36,13 +37,13 @@ public class ChunkSystemListenerAdapter implements ChunkSystemListener {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private ProgressListener listener;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public ChunkSystemListenerAdapter(ProgressListener listener) {
 		this.listener = listener;
 	}
@@ -54,130 +55,6 @@ public class ChunkSystemListenerAdapter implements ChunkSystemListener {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.ChunkSystemListener#afterCreateChunk(de.myreality.
-	 * chunx.Chunk)
-	 */
-	@Override
-	public void afterCreateChunk(Chunk arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.ChunkSystemListener#afterLoadChunk(de.myreality.chunx
-	 * .Chunk)
-	 */
-	@Override
-	public void afterLoadChunk(Chunk arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.ChunkSystemListener#afterRemoveChunk(int, int)
-	 */
-	@Override
-	public void afterRemoveChunk(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.ChunkSystemListener#afterSaveChunk(de.myreality.chunx
-	 * .Chunk)
-	 */
-	@Override
-	public void afterSaveChunk(Chunk arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.ChunkSystemListener#beforeCreateChunk(int, int)
-	 */
-	@Override
-	public void beforeCreateChunk(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.chunx.ChunkSystemListener#beforeLoadChunk(int, int)
-	 */
-	@Override
-	public void beforeLoadChunk(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.ChunkSystemListener#beforeRemoveChunk(de.myreality
-	 * .chunx.Chunk)
-	 */
-	@Override
-	public void beforeRemoveChunk(Chunk arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.ChunkSystemListener#beforeSaveChunk(de.myreality.chunx
-	 * .Chunk)
-	 */
-	@Override
-	public void beforeSaveChunk(Chunk arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.ChunkSystemListener#onEnterChunk(de.myreality.chunx
-	 * .Chunk)
-	 */
-	@Override
-	public void onEnterChunk(Chunk arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.chunx.ChunkSystemListener#onLeaveChunk(de.myreality.chunx
-	 * .Chunk)
-	 */
-	@Override
-	public void onLeaveChunk(Chunk arg0) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public int hashCode() {
@@ -204,12 +81,140 @@ public class ChunkSystemListenerAdapter implements ChunkSystemListener {
 			return false;
 		return true;
 	}
-	
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.chunx.ChunkSystemListener#afterCreateChunk(de.myreality.
+	 * chunx.Chunk, de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void afterCreateChunk(Chunk chunk, ChunkSystem system) {
+		update(chunk, system);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.chunx.ChunkSystemListener#afterLoadChunk(de.myreality.chunx
+	 * .Chunk, de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void afterLoadChunk(Chunk chunk, ChunkSystem system) {
+		update(chunk, system);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.chunx.ChunkSystemListener#afterRemoveChunk(int, int,
+	 * de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void afterRemoveChunk(int arg0, int arg1, ChunkSystem arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.chunx.ChunkSystemListener#afterSaveChunk(de.myreality.chunx
+	 * .Chunk, de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void afterSaveChunk(Chunk chunk, ChunkSystem system) {
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.chunx.ChunkSystemListener#beforeCreateChunk(int, int,
+	 * de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void beforeCreateChunk(int arg0, int arg1, ChunkSystem arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.chunx.ChunkSystemListener#beforeLoadChunk(int, int,
+	 * de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void beforeLoadChunk(int arg0, int arg1, ChunkSystem arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.chunx.ChunkSystemListener#beforeRemoveChunk(de.myreality
+	 * .chunx.Chunk, de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void beforeRemoveChunk(Chunk arg0, ChunkSystem arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.chunx.ChunkSystemListener#beforeSaveChunk(de.myreality.chunx
+	 * .Chunk, de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void beforeSaveChunk(Chunk arg0, ChunkSystem arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.chunx.ChunkSystemListener#onEnterChunk(de.myreality.chunx
+	 * .Chunk, de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void onEnterChunk(Chunk arg0, ChunkSystem arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.chunx.ChunkSystemListener#onLeaveChunk(de.myreality.chunx
+	 * .Chunk, de.myreality.chunx.ChunkSystem)
+	 */
+	@Override
+	public void onLeaveChunk(Chunk arg0, ChunkSystem arg1) {
+		// TODO Auto-generated method stub
+
+	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void update(Chunk chunk, ChunkSystem system) {
+		float progress = (float)system.getCurrentChunkCount()/(float)system.getTotalChunkCount();
+		listener.onProgress(progress, system.getCurrentChunkCount(),
+				system.getTotalChunkCount(), new ChunkSubsystemAdapter(system));
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
