@@ -62,8 +62,8 @@ public class LoadingBox extends Table implements ContextListener {
 		style.font = Resources.FONT_SMALL;
 		style.fontColor = Resources.COLOR_GREEN;
 		
-		information = new Label("Loading: deine Mama", style);
-		add(information).padTop(20f);
+		information = new Label("Preparing...", style);
+		add(information).width(500f).center().padTop(20f);
 	}
 
 	// ===========================================================
@@ -107,13 +107,13 @@ public class LoadingBox extends Table implements ContextListener {
 	@Override
 	public void onLoad(ContextEvent event, Nameable target) {
 		progressBar.setProgress(event.getProgress());
-		information.setText("Loading: " + target.getName() + " (" + event.getCurrentCount() + "/" + event.getTotalCount() + ")");
+		information.setText("" + event.getCurrentCount());
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
