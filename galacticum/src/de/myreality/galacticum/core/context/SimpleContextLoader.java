@@ -24,7 +24,6 @@ import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
-import de.myreality.galacticum.core.subsystem.SubsystemFactory;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.util.Nameable;
 
@@ -44,7 +43,7 @@ public class SimpleContextLoader implements ContextLoader {
 	// Fields
 	// ===========================================================
 	
-	private List<SubsystemFactory> factories;
+	private List<Subsystem> subsystems;
 	
 	private ContextListenerController listenerController;
 	
@@ -58,7 +57,7 @@ public class SimpleContextLoader implements ContextLoader {
 	
 	public SimpleContextLoader() {
 		listenerController = new ContextListenerController();
-		factories = new ArrayList<SubsystemFactory>();
+		subsystems = new ArrayList<Subsystem>();
 		subsystemListener = new SubsystemListener(this);
 	}
 
@@ -79,9 +78,9 @@ public class SimpleContextLoader implements ContextLoader {
 	 */
 	@Override
 	public Context load(ContextConfiguration configuration, GameContainer container) throws ContextException {		
-		listenerController.onStart(new SimpleContextEvent(this, 0, factories.size(), 0.0f));		
-		Collection<Subsystem> subsystems = loadSubsystems(configuration);		
-		listenerController.onSuccess(new SimpleContextEvent(this, factories.size(), factories.size(), 1.0f));
+		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems.size(), 0.0f));	
+		Collection<Subsystem> subsystems = loadSubsystems(configuration);	
+		listenerController.onSuccess(new SimpleContextEvent(this, subsystems.size(), subsystems.size(), 1.0f));
 		
 		return new SimpleContext(subsystems, container, configuration);
 	}
@@ -94,8 +93,8 @@ public class SimpleContextLoader implements ContextLoader {
 	 * .core.SubsystemFactory)
 	 */
 	@Override
-	public void addFactory(SubsystemFactory factory) {
-		factories.add(factory);
+	public void addSubsystem(Subsystem subsystem) {
+		subsystems.add(subsystem);
 	}
 
 	/*
@@ -114,13 +113,14 @@ public class SimpleContextLoader implements ContextLoader {
 	// ===========================================================
 	
 	private Collection<Subsystem> loadSubsystems(ContextConfiguration configuration) throws ContextException {	
-		
+
 		List<Subsystem> systems = new ArrayList<Subsystem>();	
-		for (int index = 0; index < factories.size(); ++index) {			
+		
+		for (int index = 0; index < subsystems.size(); ++index) {			
 			currentIndex = index;
-			Subsystem system = loadSubsystem(index, configuration);
+			Subsystem system = subsystems.get(index);
 			system.addProgressListener(subsystemListener);
-			SimpleContextEvent event = new SimpleContextEvent(this, index, factories.size(), (float)index / (float)factories.size());
+			SimpleContextEvent event = new SimpleContextEvent(this, index, subsystems.size(), (float)index / (float)subsystems.size());
 			listenerController.onLoad(event, system);				
 			startSubsystem(system, event);	
 			systems.add(system);
@@ -138,10 +138,6 @@ public class SimpleContextLoader implements ContextLoader {
 			listenerController.onFail(event, e);
 			throw new ContextException(e);
 		}
-	}
-	
-	private Subsystem loadSubsystem(int factoryIndex, ContextConfiguration configuration) {
-		return factories.get(factoryIndex).create(configuration);
 	}
 
 	// ===========================================================
@@ -216,8 +212,8 @@ public class SimpleContextLoader implements ContextLoader {
 		@Override
 		public void onProgress(float progress, int current, int total, Subsystem sender) {
 			
-			progress /= (float)factories.size();
-			progress += (float)currentIndex / (float)factories.size();
+			progress /= (float)subsystems.size();
+			progress += (float)currentIndex / (float)subsystems.size();
 			
 			ContextEvent event = new SimpleContextEvent(parent, current, total, progress);
 			listenerController.onLoad(event, sender);

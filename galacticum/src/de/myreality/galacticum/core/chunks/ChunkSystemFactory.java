@@ -22,6 +22,7 @@ import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.caching.CachedChunkConfiguration;
 import de.myreality.chunx.caching.SimpleCachedChunkConfiguration;
 import de.myreality.chunx.caching.SimpleCachedChunkSystem;
+import de.myreality.chunx.concurrent.ConcurrentChunkSystem;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.galacticum.core.subsystem.Subsystem;
@@ -88,13 +89,13 @@ public class ChunkSystemFactory implements SubsystemFactory {
 		chunkConfiguration.setChunkSize(CHUNK_SIZE);
 		
 		// TODO: Decrease number, its only for testing purposes
-		chunkConfiguration.setCacheSize(1);
+		chunkConfiguration.setCacheSize(50);
 		
 		// Align adapters for LibGDX
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
 		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));
 		
-		return new ChunkSubsystemAdapter(chunkSystem);
+		return new ChunkSubsystemAdapter(new ConcurrentChunkSystem(chunkSystem));
 	}
 
 	// ===========================================================

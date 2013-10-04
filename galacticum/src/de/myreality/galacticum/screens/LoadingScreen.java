@@ -85,8 +85,13 @@ public class LoadingScreen extends MenuScreen {
 		this.container = new SimpleGameContainer();
 		this.configuration = configuration;
 		
-		// Add factory for loading chunks
-		contextLoader.addFactory(new ChunkSystemFactory(new ChunkTarget() {
+		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
+		
+		if (!configurationManager.hasContext(configuration.getID())) {
+			throw new ContextNotFoundException("Context with ID=" + configuration.getID() + " does not exist");
+		}
+		
+		ChunkSystemFactory chunkFactory = new ChunkSystemFactory(new ChunkTarget() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -114,13 +119,9 @@ public class LoadingScreen extends MenuScreen {
 				
 			}
 			
-		}, new ContentProviderAdapter(container)));
+		}, new ContentProviderAdapter(container));
 		
-		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
-		
-		if (!configurationManager.hasContext(configuration.getID())) {
-			throw new ContextNotFoundException("Context with ID=" + configuration.getID() + " does not exist");
-		}
+		contextLoader.addSubsystem(chunkFactory.create(configuration));
 	}
 
 	// ===========================================================

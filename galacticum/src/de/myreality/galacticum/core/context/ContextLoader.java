@@ -17,7 +17,7 @@
 package de.myreality.galacticum.core.context;
 
 import de.myreality.galacticum.core.GameContainer;
-import de.myreality.galacticum.core.subsystem.SubsystemFactory;
+import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
@@ -50,7 +50,7 @@ public interface ContextLoader {
 	 * 
 	 * @param factory
 	 */
-	void addFactory(SubsystemFactory factory);
+	void addSubsystem(Subsystem factory);
 	
 	/**
 	 * 
