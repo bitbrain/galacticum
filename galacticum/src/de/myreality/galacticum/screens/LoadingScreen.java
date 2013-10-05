@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.screens;
 
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -26,16 +27,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.SimpleGameContainer;
-import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
-import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.context.ContextException;
 import de.myreality.galacticum.core.context.ContextLoader;
 import de.myreality.galacticum.core.context.SimpleContextLoader;
+import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.core.subsystem.SubsystemLoader;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextNotFoundException;
@@ -67,22 +67,22 @@ public class LoadingScreen extends MenuScreen {
 	
 	private Future<?> loadingFuture;
 	
-	private GameLoader loader;
+	private GameLoader gameLoader;
 
 	private GameContainer container;
 	
 	private LoadingBox box;
+	
+	private SubsystemLoader subsystemLoader;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public LoadingScreen(String caption, GalacticumGame game, ContextConfiguration configuration) throws ContextNotFoundException {
-		super(caption, game);		
+	public LoadingScreen(GalacticumGame game, ContextConfiguration configuration, SubsystemLoader loader) throws ContextNotFoundException {
+		super("Loading game", game);			
 		
-		// Game setup
-		this.contextLoader = new SimpleContextLoader();
-		this.container = new SimpleGameContainer();
+		this.subsystemLoader = loader;
 		this.configuration = configuration;
 		
 		ConfigurationManager configurationManager = SharedConfigurationManager.getInstance();
@@ -91,37 +91,8 @@ public class LoadingScreen extends MenuScreen {
 			throw new ContextNotFoundException("Context with ID=" + configuration.getID() + " does not exist");
 		}
 		
-		ChunkSystemFactory chunkFactory = new ChunkSystemFactory(new ChunkTarget() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public float getX() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public float getY() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public void setX(float arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void setY(float arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}, new ContentProviderAdapter(container));
-		
-		contextLoader.addSubsystem(chunkFactory.create(configuration));
+		this.contextLoader = new SimpleContextLoader();
+		this.container = new SimpleGameContainer();		
 	}
 
 	// ===========================================================
@@ -169,10 +140,10 @@ public class LoadingScreen extends MenuScreen {
 		
 		if (loadingFuture == null || loadingFuture.isCancelled()) {
 			// Go back to creation screen
-			getGame().setScreen(new CreationScreen("Create new universe", getGame(), loader.getMessage()));
+			getGame().setScreen(new CreationScreen("Create new universe", getGame(), gameLoader.getMessage()));
 		} else if (loadingFuture.isDone()) {
 			// Loading is done, go to the next screen
-			getGame().setScreen(new IngameScreen(getGame(), loader.getContext()));
+			getGame().setScreen(new IngameScreen(getGame(), gameLoader.getContext()));
 		}
 	}
 	
@@ -180,11 +151,18 @@ public class LoadingScreen extends MenuScreen {
 	public void show() {		
 		super.show();
 		
-		loader = new GameLoader(contextLoader, container);
+		// Add subsystems
+		Collection<Subsystem> systems = subsystemLoader.createSubsystems(container, configuration);
+		
+		for (Subsystem system : systems) {
+			contextLoader.addSubsystem(system);
+		}		
+		
+		gameLoader = new GameLoader(contextLoader, container);
 		
 		// Load the game
 		ExecutorService executor = Executors.newFixedThreadPool(1);
-		loadingFuture = executor.submit(loader);
+		loadingFuture = executor.submit(gameLoader);
 	}
 
 	// ===========================================================

@@ -88,8 +88,7 @@ public class ChunkSystemFactory implements SubsystemFactory {
 		chunkConfiguration.setFocused(chunkTarget);
 		chunkConfiguration.setChunkSize(CHUNK_SIZE);
 		
-		// TODO: Decrease number, its only for testing purposes
-		chunkConfiguration.setCacheSize(50);
+		chunkConfiguration.setCacheSize(1);
 		
 		// Align adapters for LibGDX
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));

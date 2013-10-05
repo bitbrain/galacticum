@@ -71,7 +71,7 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {
-		batch = new SpriteBatch();
+		
 	}
 
 	/*
@@ -81,6 +81,11 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void update(float delta) {
+		
+		if (batch == null) {
+			batch = new SpriteBatch();
+		}
+		
 		batch.begin();
 			batch.draw(Resources.TEXTURE_BLUE, 50, 50);
 		batch.end();

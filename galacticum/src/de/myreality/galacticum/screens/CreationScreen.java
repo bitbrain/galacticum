@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.core.subsystem.SharedSubsystemLoader;
 import de.myreality.galacticum.io.ConfigurationBuilder;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -135,7 +136,7 @@ public class CreationScreen extends MenuScreen {
 		
 		if (!manager.hasContext(configuration.getID())) {
 			manager.save(configuration);			
-			getGame().setScreen(new LoadingScreen("Loading game", getGame(), configuration));
+			getGame().setScreen(new LoadingScreen(getGame(), configuration, SharedSubsystemLoader.getInstance()));
 		} else {
 			throw new ContextException("Context '" + configuration.getName() + "' already exists");
 		}
