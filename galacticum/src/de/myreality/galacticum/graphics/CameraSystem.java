@@ -14,26 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.screens;
+package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.core.subsystem.SubsystemException;
 
 /**
- * 
- * 
+ * Is responsible for providing a camera
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 1.0
- * @version 1.0
+ * @since 0.1
+ * @version 0.1
  */
-public class IngameScreen implements Screen {
-	
+public class CameraSystem implements Subsystem {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -42,113 +41,87 @@ public class IngameScreen implements Screen {
 	// Fields
 	// ===========================================================
 	
-	private GalacticumGame game;
+	private OrthographicCamera camera;
 	
-	private Context context;
+	private float viewportWidth;
+	
+	private float viewportHeight;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public IngameScreen(GalacticumGame game, Context context) {
-		this.game = game;
-		this.context = context;
+	public CameraSystem(float viewportWidth, float viewportHeight) {
+		this.viewportWidth = viewportWidth;
+		this.viewportHeight = viewportHeight;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
 	
-	public GalacticumGame getGame() {
-		return game;
+	public Camera getCamera() {
+		return camera;
 	}
-	
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#render(float)
+	
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.Nameable#getName()
 	 */
 	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+	public String getName() {
+		return "Camera system";
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
+	 */
+	@Override
+	public void start() throws SubsystemException {
 		
-		for (Subsystem system : context.getSubsystems()) {
-			system.update(delta);
+		if (viewportWidth <= 0 || viewportHeight <= 0) {
+			throw new SubsystemException("Viewport of " + viewportWidth + "x" + viewportHeight + " is not allowed.");
 		}
 		
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			leave();
-		}
+		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#update(float)
 	 */
 	@Override
-	public void resize(int width, int height) {
+	public void update(float delta) {
+		float width = Gdx.graphics.getWidth() * 2;
+		float height = Gdx.graphics.getHeight();
+		Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
+		camera.update();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
+	 */
+	@Override
+	public void shutdown() {
+		camera = null;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
+	 */
+	@Override
+	public void addProgressListener(ProgressListener listener) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#show()
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
 	 */
 	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#hide()
-	 */
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#pause()
-	 */
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#resume()
-	 */
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#dispose()
-	 */
-	@Override
-	public void dispose() {
+	public void removeProgressListener(ProgressListener listener) {
 		// TODO Auto-generated method stub
 
 	}
@@ -156,14 +129,6 @@ public class IngameScreen implements Screen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private void leave() {
-		for (Subsystem system : context.getSubsystems()) {
-			system.shutdown();
-		}		
-
-		game.setScreen(new CreationScreen(game));
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

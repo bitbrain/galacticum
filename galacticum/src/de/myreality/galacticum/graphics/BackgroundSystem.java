@@ -16,12 +16,11 @@
  */
 package de.myreality.galacticum.graphics;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.parallax.ParallaxMapper;
+import de.myreality.parallax.Viewport;
 
 /**
  * Provides background rendering of the world
@@ -40,11 +39,17 @@ public class BackgroundSystem implements Subsystem {
 	// Fields
 	// ===========================================================
 	
-	private SpriteBatch batch;
+	private ParallaxMapper mapper;
+	
+	private Viewport viewport;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public BackgroundSystem(Viewport viewport) {
+		this.viewport = viewport;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -71,7 +76,7 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {
-		
+		mapper = new ParallaxMapper(viewport);
 	}
 
 	/*
@@ -81,14 +86,7 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void update(float delta) {
-		
-		if (batch == null) {
-			batch = new SpriteBatch();
-		}
-		
-		batch.begin();
-			batch.draw(Resources.TEXTURE_BLUE, 50, 50);
-		batch.end();
+		mapper.updateAndRender(delta);
 	}
 
 	/*

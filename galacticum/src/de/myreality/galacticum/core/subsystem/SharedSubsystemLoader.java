@@ -20,11 +20,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
 import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
 import de.myreality.galacticum.graphics.BackgroundSystem;
+import de.myreality.galacticum.graphics.CameraSystem;
 import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
@@ -110,8 +113,11 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 			
 		}, new ContentProviderAdapter(container));
 		
+		CameraSystem cameraSystem = new CameraSystem(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
 		systems.add(chunkFactory.create(configuration));
-		systems.add(new BackgroundSystem());
+		systems.add(cameraSystem);
+		//systems.add(new BackgroundSystem(cameraSystem.getCamera()));
 		
 		return systems;
 	}
