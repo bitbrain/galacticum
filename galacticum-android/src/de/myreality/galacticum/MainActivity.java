@@ -11,7 +11,7 @@ public class MainActivity extends AndroidApplication {
         super.onCreate(savedInstanceState);
         
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        cfg.useGL20 = true;
+        cfg.useGL20 = false;
         
         initialize(new GalacticumGame(), cfg);
     }

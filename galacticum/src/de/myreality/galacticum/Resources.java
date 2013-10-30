@@ -81,7 +81,7 @@ public final class Resources {
 	}
 	
 	private static Texture createColoredTexture(Color color) {
-		Pixmap map = new Pixmap(10, 10, Pixmap.Format.RGBA4444);
+		Pixmap map = new Pixmap(8, 8, Pixmap.Format.RGBA4444);
 		Gdx.gl.glEnable(GL10.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		

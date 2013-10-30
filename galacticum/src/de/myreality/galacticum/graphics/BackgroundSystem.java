@@ -89,13 +89,13 @@ public class BackgroundSystem implements Subsystem {
 	public void start() throws SubsystemException {
 
 		mapper = new ParallaxMapper(viewport);
-		final LayerConfig config = new LayerConfig(new PreprocessedTexture(100, 100,
+		final LayerConfig config = new LayerConfig(new PreprocessedTexture(128, 128,
 				batch, new GdxTextureProcessor() {
 
 					@Override
 					public void process(Pixmap pixmap) {
 						pixmap.setColor(Color.RED);
-						pixmap.fillRectangle(0, 0, 50, 50);
+						pixmap.fillRectangle(0, 0, 5, 5);
 					}
 
 				}));
