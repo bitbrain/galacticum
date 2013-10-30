@@ -17,11 +17,12 @@
 package de.myreality.galacticum.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.controls.IngameControls;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 
@@ -45,6 +46,8 @@ public class IngameScreen implements Screen {
 	private GalacticumGame game;
 	
 	private Context context;
+	
+	private Stage stage;
 
 	// ===========================================================
 	// Constructors
@@ -78,14 +81,13 @@ public class IngameScreen implements Screen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
+		stage.act(delta);
+		
 		for (Subsystem system : context.getSubsystems()) {
 			system.update(delta);
 		}
 		
-		
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			leave();
-		}
+		stage.draw();
 	}
 
 	/*
@@ -95,8 +97,12 @@ public class IngameScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		if (stage  == null) {
+			stage = new IngameControls(width, height, false, this);
+			Gdx.input.setInputProcessor(stage);
+		} else {
+			stage.setViewport(width, height, false);
+		}
 	}
 
 	/*
@@ -158,7 +164,7 @@ public class IngameScreen implements Screen {
 	// Methods
 	// ===========================================================
 	
-	private void leave() {
+	public void leave() {
 		for (Subsystem system : context.getSubsystems()) {
 			system.shutdown();
 		}		

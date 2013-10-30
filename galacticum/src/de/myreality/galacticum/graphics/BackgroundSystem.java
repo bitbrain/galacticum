@@ -16,11 +16,19 @@
  */
 package de.myreality.galacticum.graphics;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.parallax.LayerConfig;
 import de.myreality.parallax.ParallaxMapper;
 import de.myreality.parallax.Viewport;
+import de.myreality.parallax.libgdx.GdxTextureProcessor;
+import de.myreality.parallax.libgdx.PreprocessedTexture;
 
 /**
  * Provides background rendering of the world
@@ -38,17 +46,20 @@ public class BackgroundSystem implements Subsystem {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private ParallaxMapper mapper;
-	
+
 	private Viewport viewport;
+
+	private SpriteBatch batch;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public BackgroundSystem(Viewport viewport) {
 		this.viewport = viewport;
+		this.batch = new SpriteBatch();
 	}
 
 	// ===========================================================
@@ -76,7 +87,29 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {
+
 		mapper = new ParallaxMapper(viewport);
+		final LayerConfig config = new LayerConfig(new PreprocessedTexture(100, 100,
+				batch, new GdxTextureProcessor() {
+
+					@Override
+					public void process(Pixmap pixmap) {
+						pixmap.setColor(Color.RED);
+						pixmap.fillRectangle(0, 0, 50, 50);
+					}
+
+				}));
+
+		// post a Runnable to the rendering thread that processes the result
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				mapper.add(1, config);
+				mapper.add(10, config);
+				mapper.add(50, config);
+			}
+
+		});
 	}
 
 	/*
@@ -86,7 +119,9 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void update(float delta) {
+		batch.begin();
 		mapper.updateAndRender(delta);
+		batch.end();
 	}
 
 	/*
@@ -96,7 +131,7 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void shutdown() {
-		
+
 	}
 
 	/*
@@ -108,7 +143,7 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void addProgressListener(ProgressListener listener) {
-		
+
 	}
 
 	/*
@@ -120,7 +155,7 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void removeProgressListener(ProgressListener listener) {
-		
+
 	}
 
 	// ===========================================================

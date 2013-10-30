@@ -54,6 +54,7 @@ public class CameraSystem implements Subsystem {
 	public CameraSystem(float viewportWidth, float viewportHeight) {
 		this.viewportWidth = viewportWidth;
 		this.viewportHeight = viewportHeight;
+		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 	}
 
 	// ===========================================================
@@ -85,8 +86,6 @@ public class CameraSystem implements Subsystem {
 		if (viewportWidth <= 0 || viewportHeight <= 0) {
 			throw new SubsystemException("Viewport of " + viewportWidth + "x" + viewportHeight + " is not allowed.");
 		}
-		
-		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 	}
 
 	/* (non-Javadoc)
