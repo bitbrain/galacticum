@@ -16,38 +16,52 @@
  */
 package de.myreality.galacticum.core.player;
 
-import java.io.Serializable;
-import java.util.List;
-
 import de.myreality.galacticum.core.entities.SpaceShip;
-import de.myreality.galacticum.util.Observer;
 
 /**
- * Player class which contains spaceships, statistics and resources
+ * Is called when a player gets updated
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Player extends Serializable, Observer<PlayerListener> {
-
+public class SimplePlayerFactory implements PlayerFactory {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
-	// Methods
+	// Fields
+	// ===========================================================
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	
-	void addSpaceShip(SpaceShip spaceship);
-	
-	void removeSpaceShip(SpaceShip spaceship);
-	
-	List<SpaceShip> getSpaceShips();
-	
-	void addListener(PlayerListener listener);
-	
-	SpaceShip getSpaceShip(String id);
-	
-	
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.player.PlayerFactory#create(de.myreality.galacticum.core.entities.SpaceShip)
+	 */
+	@Override
+	public Player create(SpaceShip ship) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
+
 }

@@ -82,6 +82,7 @@ public class IngameScreen implements Screen {
 			system.update(delta);
 		}
 		
+		
 		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			leave();
 		}

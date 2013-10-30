@@ -26,6 +26,7 @@ import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
 import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
+import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
 import de.myreality.galacticum.core.player.PlayerSubsystem;
 import de.myreality.galacticum.graphics.CameraSystem;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -117,7 +118,7 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 		
 		systems.add(chunkFactory.create(configuration));
 		systems.add(cameraSystem);
-		systems.add(new PlayerSubsystem(configuration));
+		systems.add(new PlayerSubsystem(configuration, SharedSpaceShipFactory.getInstance()));
 		//systems.add(new BackgroundSystem(cameraSystem.getCamera()));
 		
 		return systems;

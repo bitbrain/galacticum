@@ -69,6 +69,7 @@ public class PlayerSubsystem implements Subsystem {
 	public PlayerSubsystem(ContextConfiguration config, SpaceShipFactory factory) {
 		this.configuration = config;
 		spaceShipFactory = factory;
+		playerFactory = new SimplePlayerFactory();
 	}
 
 	// ===========================================================
@@ -100,7 +101,8 @@ public class PlayerSubsystem implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {		
-		File file = getFile();		
+		File file = getFile();	
+		
 		this.player = loadFromFile(file);
 		
 		if (this.player == null) {
@@ -182,22 +184,22 @@ public class PlayerSubsystem implements Subsystem {
 		}		
 	}
 	
-	private Player loadFromFile(File file) throws SubsystemException {
+	private Player loadFromFile(File file) {
 		
 		try {
-		ObjectInputStream stream = new ObjectInputStream(new FileInputStream(file));			
-		Object player = stream.readObject();
-		stream.close();
-		
-		if (player instanceof Player) {
-			return (Player) player;
-		} else {
-			throw new IOException("Target object is not of type Player");
-		}
+			ObjectInputStream stream = new ObjectInputStream(new FileInputStream(file));			
+			Object player = stream.readObject();
+			stream.close();
+			
+			if (player != null && player instanceof Player) {
+				return (Player) player;
+			} else {
+				return null;
+			}
 		} catch (IOException e) {
-			throw new SubsystemException(e);
+			return null;
 		} catch (ClassNotFoundException e) {
-			throw new SubsystemException(e);
+			return null;
 		}
 	}
 	

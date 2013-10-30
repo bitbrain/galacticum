@@ -138,7 +138,7 @@ public class LoadingScreen extends MenuScreen {
 	protected void onDraw(SpriteBatch batch, float delta) {
 		tweenManager.update(delta);
 		
-		if (loadingFuture == null || loadingFuture.isCancelled()) {
+		if (loadingFuture == null || loadingFuture.isCancelled() || !gameLoader.getMessage().isEmpty()) {
 			// Go back to creation screen
 			getGame().setScreen(new CreationScreen("Create new universe", getGame(), gameLoader.getMessage()));
 		} else if (loadingFuture.isDone()) {
