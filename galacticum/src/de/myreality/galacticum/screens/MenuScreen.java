@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.controls.GeneralStage;
 import de.myreality.galacticum.ui.MenuHead;
 
 /**
@@ -131,7 +132,7 @@ public abstract class MenuScreen implements Screen {
 		this.height = height;
 		
 		if (stage == null) {
-			stage = new Stage(width, height, false);
+			stage = new GeneralStage(width, height, false);
 			Gdx.input.setInputProcessor(stage);
 			LabelStyle labelStyle = new LabelStyle();
 			labelStyle.font = Resources.FONT_REGULAR;
