@@ -17,7 +17,7 @@
 package de.myreality.galacticum.core.player;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 import de.myreality.galacticum.core.entities.SpaceShip;
 import de.myreality.galacticum.util.Observer;
@@ -39,15 +39,50 @@ public interface Player extends Serializable, Observer<PlayerListener> {
 	// Methods
 	// ===========================================================
 	
+	/**
+	 * 
+	 * 
+	 * @param spaceship
+	 */
 	void addSpaceShip(SpaceShip spaceship);
 	
+	/**
+	 * 
+	 * 
+	 * @param spaceship
+	 */
 	void removeSpaceShip(SpaceShip spaceship);
 	
-	List<SpaceShip> getSpaceShips();
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	Collection<SpaceShip> getSpaceShips();
 	
+	/**
+	 * 
+	 * 
+	 */
 	void addListener(PlayerListener listener);
 	
+	/**
+	 * 
+	 * 
+	 * @param id
+	 * @return
+	 */
 	SpaceShip getSpaceShip(String id);
+	
+	/**
+	 * 
+	 * 
+	 * @param id
+	 * @return
+	 */
+	boolean setCurrentShip(String id);
+	
+	SpaceShip getCurrentShip();
 	
 	
 }

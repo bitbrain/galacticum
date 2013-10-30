@@ -52,8 +52,7 @@ public class SimplePlayerFactory implements PlayerFactory {
 	 */
 	@Override
 	public Player create(SpaceShip ship) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SimplePlayer(ship);
 	}
 
 	// ===========================================================
