@@ -19,6 +19,7 @@ package de.myreality.galacticum.graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
@@ -26,7 +27,7 @@ import de.myreality.galacticum.core.subsystem.SubsystemException;
 
 /**
  * Is responsible for providing a camera
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
@@ -40,27 +41,30 @@ public class CameraSystem implements Subsystem {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private OrthographicCamera camera;
-	
+
 	private float viewportWidth;
-	
+
 	private float viewportHeight;
+	
+	private SpriteBatch batch;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public CameraSystem(float viewportWidth, float viewportHeight) {
+
+	public CameraSystem(float viewportWidth, float viewportHeight, SpriteBatch batch) {
 		this.viewportWidth = viewportWidth;
 		this.viewportHeight = viewportHeight;
 		camera = new OrthographicCamera(viewportWidth, viewportHeight);
+		this.batch = batch;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public Camera getCamera() {
 		return camera;
 	}
@@ -68,8 +72,10 @@ public class CameraSystem implements Subsystem {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.util.Nameable#getName()
 	 */
 	@Override
@@ -77,29 +83,48 @@ public class CameraSystem implements Subsystem {
 		return "Camera system";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
 	public void start() throws SubsystemException {
-		
+
 		if (viewportWidth <= 0 || viewportHeight <= 0) {
-			throw new SubsystemException("Viewport of " + viewportWidth + "x" + viewportHeight + " is not allowed.");
+			throw new SubsystemException("Viewport of " + viewportWidth + "x"
+					+ viewportHeight + " is not allowed.");
 		}
+		
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#update(float)
 	 */
 	@Override
 	public void update(float delta) {
+		
+		camera.viewportWidth = Gdx.graphics.getWidth();
+        camera.viewportHeight = Gdx.graphics.getHeight();
+
+		camera.setToOrtho(true, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
+
+		camera.position.x = Gdx.input.getX();
+        camera.position.y = Gdx.input.getY();
+
 		float width = Gdx.graphics.getWidth() * 2;
 		float height = Gdx.graphics.getHeight();
 		Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
 		camera.update();
+		batch.setProjectionMatrix(camera.combined);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
@@ -107,8 +132,12 @@ public class CameraSystem implements Subsystem {
 		camera = null;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
+	 * de.myreality.galacticum.core.subsystem.ProgressListener)
 	 */
 	@Override
 	public void addProgressListener(ProgressListener listener) {
@@ -116,8 +145,12 @@ public class CameraSystem implements Subsystem {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
+	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
 	 */
 	@Override
 	public void removeProgressListener(ProgressListener listener) {

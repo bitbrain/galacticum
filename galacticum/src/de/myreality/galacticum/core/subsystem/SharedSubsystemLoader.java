@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.core.GameContainer;
@@ -86,6 +87,8 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 		
 		List<Subsystem> systems = new ArrayList<Subsystem>();
 		
+		SpriteBatch batch = new SpriteBatch();
+		
 		ChunkSystemFactory chunkFactory = new ChunkSystemFactory(new ChunkTarget() {
 
 			private static final long serialVersionUID = 1L;
@@ -116,12 +119,12 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 			
 		}, new ContentProviderAdapter(container));		
 		
-		CameraSystem cameraSystem = new CameraSystem(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		CameraSystem cameraSystem = new CameraSystem(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch);
 		
 		systems.add(chunkFactory.create(configuration));
 		systems.add(cameraSystem);
 		systems.add(new PlayerSubsystem(configuration, SharedSpaceShipFactory.getInstance()));
-		systems.add(new BackgroundSystem(new ViewportAdapter(cameraSystem.getCamera())));
+		systems.add(new BackgroundSystem(new ViewportAdapter(cameraSystem.getCamera()), batch));
 		
 		return systems;
 	}

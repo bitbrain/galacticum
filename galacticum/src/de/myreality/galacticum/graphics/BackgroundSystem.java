@@ -57,9 +57,9 @@ public class BackgroundSystem implements Subsystem {
 	// Constructors
 	// ===========================================================
 
-	public BackgroundSystem(Viewport viewport) {
+	public BackgroundSystem(Viewport viewport, SpriteBatch batch) {
 		this.viewport = viewport;
-		this.batch = new SpriteBatch();
+		this.batch = batch;
 	}
 
 	// ===========================================================

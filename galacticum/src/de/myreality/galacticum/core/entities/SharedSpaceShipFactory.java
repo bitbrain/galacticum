@@ -16,21 +16,24 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import java.io.Serializable;
+
 import de.myreality.galacticum.util.Seed;
 
 /**
- * 
- * 
- * @author miguel
- * @since
- * @version
+ * Singleton implementation of (@see SpaceShipFactory}
+ *
+ * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ * @since 0.1
+ * @version 0.1
  */
-public class SharedSpaceShipFactory implements SpaceShipFactory {
+public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
+	private static final long serialVersionUID = 1L;
 	private static SharedSpaceShipFactory instance;
 
 	// ===========================================================
