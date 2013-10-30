@@ -36,6 +36,12 @@ To deploy the project you need a working Eclipse IDE, including:
 * ```parallax``` user library, pointing to [parallax](https://github.com/MyRealityCoding/parallax)
 * ```box2dlights``` user library, pointing to [box2dlights](https://code.google.com/p/box2dlights)
 
+### Getting started
+
+Before you can begin to work, make sure to switch to the current milestone branch. Never touch the master branch directly (except for documentation). After you forked the project, [download LibGDX](http://libgdx.badlogicgames.com/download.html). Unzip the file and open ```gdx-setup-ui.jar``` via console or double click (under Windows).
+
+Select the core project of **Galacticum** in order to setup all required jar files. After finishing the process, you should be able to work with the project. Make sure to create the user libraries (as mentioned above) in order to get rid of all errors.
+
 Stay connected
 ---
 Follow me [on twitter](https://twitter.com/tweetmyreality/ "Miguel's twitter") or send me [an email](mailto:miguel-gonzalez@gmx.de "Miguel's Email") for further questions.
