@@ -17,6 +17,7 @@
 package de.myreality.galacticum.graphics;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.badlogic.gdx.Gdx;
@@ -24,7 +25,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.PixmapIO;
 
 import de.myreality.galacticum.Resources;
 
@@ -36,19 +36,31 @@ import de.myreality.galacticum.Resources;
  * @version 0.1
  */
 public final class ScreenshotUtils {
-	
+
 	public static void screenshot() {
 		FileHandle handle = createHandle();
+		System.out.println(handle.file().getPath());
 		saveScreenshot(handle);
 	}
-	
+
 	private static void saveScreenshot(FileHandle file) {
 		Pixmap pixmap = getScreenshot(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight(), true);
-		PixmapIO.writePNG(file, pixmap);
+		byte[] bytes;
+
+		try {
+			bytes = PNG.toPNG(pixmap);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		boolean append = false;
+		file.writeBytes(bytes, append);
 	}
 
-	private static Pixmap getScreenshot(int x, int y, int w, int h, boolean flipY) {
+	private static Pixmap getScreenshot(int x, int y, int w, int h,
+			boolean flipY) {
 		Gdx.gl.glPixelStorei(GL10.GL_PACK_ALIGNMENT, 1);
 
 		final Pixmap pixmap = new Pixmap(w, h, Format.RGBA8888);
@@ -73,36 +85,38 @@ public final class ScreenshotUtils {
 
 		return pixmap;
 	}
-	
+
 	private static FileHandle createHandle() {
-		
-		 final String EXT = ".png";
-		 final String FOLDER = "screenshots";
-		 File screenShot = null;
-		 
-         try {
-                 File FileSSDir = Gdx.files.external(Resources.ROOT_PATH + FOLDER + "/").file();
-                 if (!FileSSDir.exists()) {
-                         FileSSDir.mkdirs();
-                 }
 
-                 int number = 0;
-                 String screenShotFileName = Resources.ROOT_PATH + FOLDER + "/" + "screenshot_" + number
-                                 + EXT;
-                 screenShot = Gdx.files.external(screenShotFileName).file();
+		final String EXT = ".png";
+		final String FOLDER = "screenshots/";
+		File screenShot = null;
 
-                 while (screenShot.exists()) {
-                         number++;
-                         screenShotFileName = Resources.ROOT_PATH + FOLDER + "/" + "screenshot_" + number
-                                         + EXT;
-                         screenShot = Gdx.files.external(screenShotFileName).file();
-                 }
+		try {
+			File FileSSDir = Gdx.files.external(
+					Resources.ROOT_PATH + FOLDER + "/").file();
+			if (!FileSSDir.exists()) {
+				FileSSDir.mkdirs();
+			}
 
-                 screenShot.createNewFile();
-         } catch (Exception e) {
-                 e.printStackTrace();
-         }
-         
-         return Gdx.files.external(screenShot.getPath());
+			int number = 0;
+			String screenShotFileName = Resources.ROOT_PATH + FOLDER
+					+ "screenshot_" + number + EXT;
+			screenShot = Gdx.files.external(screenShotFileName).file();
+
+			while (screenShot.exists()) {
+				number++;
+				screenShotFileName = Resources.ROOT_PATH + FOLDER
+						+ "screenshot_" + number + EXT;
+				screenShot = Gdx.files.external(screenShotFileName).file();
+			}
+
+			screenShot.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return Gdx.files.external(Resources.ROOT_PATH + FOLDER
+				+ screenShot.getName());
 	}
 }
