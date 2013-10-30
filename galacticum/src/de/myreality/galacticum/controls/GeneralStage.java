@@ -101,31 +101,31 @@ public class GeneralStage extends Stage {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		return super.mouseMoved(screenX, screenY) ||
+		return super.mouseMoved(screenX, screenY) ^
 				controls.mouseMoved(screenX, screenY);
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		return super.scrolled(amount) ||
+		return super.scrolled(amount) ^
 				controls.scrolled(amount);
 	}
 
 	@Override
 	public boolean keyDown(int keyCode) {
-		return super.keyDown(keyCode) ||
+		return super.keyDown(keyCode) ^
 				controls.keyDown(keyCode);
 	}
 
 	@Override
 	public boolean keyUp(int keyCode) {
-		return super.keyUp(keyCode) ||
+		return super.keyUp(keyCode) ^
 				controls.keyUp(keyCode);
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		return super.keyTyped(character) ||
+		return super.keyTyped(character) ^
 				controls.keyTyped(character);
 	}
 

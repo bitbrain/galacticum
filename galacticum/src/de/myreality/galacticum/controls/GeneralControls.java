@@ -59,7 +59,6 @@ public class GeneralControls implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		
 		if (keycode == Keys.F2) {
-			System.out.println("SCREENSHOT!");
 			ScreenshotUtils.screenshot();
 			return true;
 		}
