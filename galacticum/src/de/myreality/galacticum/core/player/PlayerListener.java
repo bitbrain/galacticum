@@ -16,21 +16,17 @@
  */
 package de.myreality.galacticum.core.player;
 
-import java.io.Serializable;
-import java.util.List;
-
 import de.myreality.galacticum.core.entities.SpaceShip;
-import de.myreality.galacticum.util.Observer;
 
 /**
- * Player class which contains spaceships, statistics and resources
+ * Is called when a player gets updated
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Player extends Serializable, Observer<PlayerListener> {
-
+public interface PlayerListener {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -39,12 +35,43 @@ public interface Player extends Serializable, Observer<PlayerListener> {
 	// Methods
 	// ===========================================================
 	
-	void addSpaceShip(SpaceShip spaceship);
+	/**
+	 * 
+	 * 
+	 * @param player
+	 */
+	void onCreate(Player player);
 	
-	void removeSpaceShip(SpaceShip spaceship);
-	void removeSpaceShip(String spaceshipID);
+	/**
+	 * 
+	 * 
+	 * @param player
+	 */
+	void onDestroy(Player player);
 	
-	List<SpaceShip> getSpaceShips();
+	/**
+	 * 
+	 * 
+	 * @param ship
+	 * @param player
+	 */
+	void onAddSpaceShip(SpaceShip ship, Player player);
 	
+	/**
+	 * 
+	 * 
+	 * @param ship
+	 * @param player
+	 */
+	void onRemoveSpaceShip(SpaceShip ship, Player player);
 	
+	/**
+	 * 
+	 * 
+	 * @param oldValue
+	 * @param newValue
+	 * @param player
+	 */
+	void onChangeMoney(int oldValue, int newValue, Player player);
+
 }
