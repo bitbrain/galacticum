@@ -16,22 +16,24 @@
  */
 package de.myreality.galacticum.core.entities;
 
-import de.myreality.galacticum.util.Seed;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 
 /**
- * 
- * 
- * @author miguel
- * @since
- * @version
+ * Simple implementation of {@see Entity}
+ *
+ * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ * @since 0.1
+ * @version 0.1
  */
-public class SharedSpaceShipFactory implements SpaceShipFactory {
+public class SimpleEntity implements Entity {
 
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	
-	private static SharedSpaceShipFactory instance;
+	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
@@ -40,35 +42,76 @@ public class SharedSpaceShipFactory implements SpaceShipFactory {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	static {
-		instance = new SharedSpaceShipFactory();
-	}
-	
-	private SharedSpaceShipFactory() { }
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
-	public static SharedSpaceShipFactory getInstance() {
-		return instance;
-	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.entities.SpaceShipFactory#create(float,
-	 * float, de.myreality.galacticum.core.entities.SpaceShipType,
-	 * de.myreality.galacticum.util.Seed)
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.IDProvider#getID()
 	 */
 	@Override
-	public SpaceShip create(float x, float y, SpaceShipType type, Seed seed) {
-		return new SimpleSpaceShip();
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getX()
+	 */
+	@Override
+	public float getX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getY()
+	 */
+	@Override
+	public float getY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getWidth()
+	 */
+	@Override
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getHeight()
+	 */
+	@Override
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getType()
+	 */
+	@Override
+	public EntityType getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#draw(float, com.badlogic.gdx.graphics.g2d.SpriteBatch)
+	 */
+	@Override
+	public void draw(float delta, SpriteBatch batch) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	// ===========================================================
@@ -78,22 +121,5 @@ public class SharedSpaceShipFactory implements SpaceShipFactory {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
-	class SimpleSpaceShip extends SimpleEntity implements SpaceShip {
-
-		private static final long serialVersionUID = 8496116234063566152L;
-
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.entities.SpaceShip#getFaction()
-		 */
-		@Override
-		public Faction getFaction() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		
-		
-	}
 
 }
