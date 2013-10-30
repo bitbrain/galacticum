@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -46,10 +47,17 @@ public final class ScreenshotUtils {
 	private static void saveScreenshot(FileHandle file) {
 		Pixmap pixmap = getScreenshot(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight(), true);
+		
+		// Remove alpha
+		Pixmap realmap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Format.RGBA8888);
+		realmap.setColor(Color.BLACK);
+		realmap.fill();
+		realmap.drawPixmap(pixmap, 0, 0);
+		
 		byte[] bytes;
 
 		try {
-			bytes = PNG.toPNG(pixmap);
+			bytes = PNG.toPNG(realmap);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
