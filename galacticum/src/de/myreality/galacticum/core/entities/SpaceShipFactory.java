@@ -16,15 +16,16 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import de.myreality.galacticum.util.Seed;
 
 /**
- * Represents a spaceship
- *
+ * Factory in order to create space ships
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface SpaceShip extends Entity {
+public interface SpaceShipFactory {
 	
 	// ===========================================================
 	// Constants
@@ -33,13 +34,6 @@ public interface SpaceShip extends Entity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	Faction getFaction();
 	
-	
+	SpaceShip create(float x, float y, SpaceShipType type, Seed seed);
 }

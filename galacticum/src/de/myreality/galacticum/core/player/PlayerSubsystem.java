@@ -27,6 +27,9 @@ import java.io.ObjectOutputStream;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
+import de.myreality.galacticum.core.entities.SpaceShip;
+import de.myreality.galacticum.core.entities.SpaceShipFactory;
+import de.myreality.galacticum.core.entities.SpaceShipType;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -54,13 +57,18 @@ public class PlayerSubsystem implements Subsystem {
 	private Player player;
 	
 	private ContextConfiguration configuration;
+	
+	private PlayerFactory playerFactory;
+	
+	private SpaceShipFactory spaceShipFactory;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public PlayerSubsystem(ContextConfiguration config) {
+	public PlayerSubsystem(ContextConfiguration config, SpaceShipFactory factory) {
 		this.configuration = config;
+		spaceShipFactory = factory;
 	}
 
 	// ===========================================================
@@ -94,6 +102,11 @@ public class PlayerSubsystem implements Subsystem {
 	public void start() throws SubsystemException {		
 		File file = getFile();		
 		this.player = loadFromFile(file);
+		
+		if (this.player == null) {
+			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, configuration.getSeed());
+			this.player = playerFactory.create(startShip);
+		}
 	}
 
 	/*

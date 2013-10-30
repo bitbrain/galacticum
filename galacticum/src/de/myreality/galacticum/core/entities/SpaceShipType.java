@@ -16,30 +16,19 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import java.io.Serializable;
 
 /**
- * Represents a spaceship
+ * Represents a single entity type
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface SpaceShip extends Entity {
-	
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
+public enum SpaceShipType implements Serializable {
 
 	/**
 	 * 
-	 * 
-	 * @return
 	 */
-	Faction getFaction();
-	
-	
+	FIGHTER,
 }

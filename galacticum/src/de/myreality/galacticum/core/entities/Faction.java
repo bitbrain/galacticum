@@ -16,15 +16,15 @@
  */
 package de.myreality.galacticum.core.entities;
 
-
 /**
- * Represents a spaceship
+ * Provides faction behavior. Each faction has allies and enemies. In
+ * addition it is possible to earn reputation on each faction.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface SpaceShip extends Entity {
+public interface Faction {
 	
 	// ===========================================================
 	// Constants
@@ -34,12 +34,4 @@ public interface SpaceShip extends Entity {
 	// Methods
 	// ===========================================================
 
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	Faction getFaction();
-	
-	
 }

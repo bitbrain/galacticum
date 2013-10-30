@@ -14,17 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
+package de.myreality.galacticum.core.player;
 
+import de.myreality.galacticum.core.entities.SpaceShip;
 
 /**
- * Represents a spaceship
- *
+ * Factory in order to create players
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface SpaceShip extends Entity {
+public interface PlayerFactory {
 	
 	// ===========================================================
 	// Constants
@@ -33,13 +34,7 @@ public interface SpaceShip extends Entity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	Player create(SpaceShip ship);
 
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	Faction getFaction();
-	
-	
 }

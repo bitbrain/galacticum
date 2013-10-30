@@ -111,7 +111,7 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 				
 			}
 			
-		}, new ContentProviderAdapter(container));
+		}, new ContentProviderAdapter(container));		
 		
 		CameraSystem cameraSystem = new CameraSystem(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
