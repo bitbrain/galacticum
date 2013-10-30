@@ -19,6 +19,7 @@ package de.myreality.galacticum.core.player;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
  * Handles the current player
@@ -38,10 +39,16 @@ public class PlayerSubsystem implements Subsystem {
 	// ===========================================================
 	
 	private Player player;
+	
+	private ContextConfiguration configuration;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public PlayerSubsystem(ContextConfiguration config) {
+		this.configuration = config;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -72,8 +79,7 @@ public class PlayerSubsystem implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	/*
