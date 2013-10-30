@@ -14,23 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.context;
+package de.myreality.galacticum.core.player;
 
-import java.util.Collection;
-
-import de.myreality.galacticum.core.GameContainer;
-import de.myreality.galacticum.core.player.Player;
+import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
-import de.myreality.galacticum.io.ContextConfiguration;
+import de.myreality.galacticum.core.subsystem.SubsystemException;
 
 /**
- * Simple implementation of {@see Context}
+ * Handles the current player
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-class SimpleContext implements Context {
+public class PlayerSubsystem implements Subsystem {
 
 	// ===========================================================
 	// Constants
@@ -40,28 +37,19 @@ class SimpleContext implements Context {
 	// Fields
 	// ===========================================================
 	
-	private Collection<Subsystem> subsystems;
-	
-	private GameContainer container;
-	
-	private ContextConfiguration configuration;
-	
 	private Player player;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public SimpleContext(Collection<Subsystem> subsystems, GameContainer container, Player player, ContextConfiguration configuration) {
-		this.subsystems = subsystems;
-		this.container = container;
-		this.configuration = configuration;
-	}
-	
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public Player getPlayer() {
+		return player;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -70,40 +58,70 @@ class SimpleContext implements Context {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.core.context.Context#getSubsystems()
+	 * @see de.myreality.galacticum.util.Nameable#getName()
 	 */
 	@Override
-	public Collection<Subsystem> getSubsystems() {
-		return subsystems;
+	public String getName() {
+		return "player";
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.core.context.Context#getContainer()
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public GameContainer getContainer() {
-		return container;
+	public void start() throws SubsystemException {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.core.context.Context#getConfiguration()
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#update(float)
 	 */
 	@Override
-	public ContextConfiguration getConfiguration() {
-		return configuration;
+	public void update(float delta) {
+		// TODO Auto-generated method stub
+
 	}
 
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.context.Context#getPlayer()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public Player getPlayer() {
-		return player;
+	public void shutdown() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
+	 * de.myreality.galacticum.core.subsystem.ProgressListener)
+	 */
+	@Override
+	public void addProgressListener(ProgressListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
+	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
+	 */
+	@Override
+	public void removeProgressListener(ProgressListener listener) {
+		// TODO Auto-generated method stub
+
 	}
 
 	// ===========================================================

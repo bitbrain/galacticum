@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.List;
 
 import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.player.Player;
+import de.myreality.galacticum.core.player.PlayerSubsystem;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -42,19 +44,21 @@ public class SimpleContextLoader implements ContextLoader {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private List<Subsystem> subsystems;
-	
+
 	private ContextListenerController listenerController;
-	
+
 	private SubsystemListener subsystemListener;
-	
+
 	private int currentIndex;
+
+	private Player player;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public SimpleContextLoader() {
 		listenerController = new ContextListenerController();
 		subsystems = new ArrayList<Subsystem>();
@@ -77,12 +81,15 @@ public class SimpleContextLoader implements ContextLoader {
 	 * .io.ContextConfiguration)
 	 */
 	@Override
-	public Context load(ContextConfiguration configuration, GameContainer container) throws ContextException {		
-		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems.size(), 0.0f));	
-		Collection<Subsystem> subsystems = loadSubsystems(configuration);	
-		listenerController.onSuccess(new SimpleContextEvent(this, subsystems.size(), subsystems.size(), 1.0f));
-		
-		return new SimpleContext(subsystems, container, configuration);
+	public Context load(ContextConfiguration configuration,
+			GameContainer container) throws ContextException {
+		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems
+				.size(), 0.0f));
+		Collection<Subsystem> subsystems = loadSubsystems(configuration);
+		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
+				.size(), subsystems.size(), 1.0f));
+
+		return new SimpleContext(subsystems, container, player, configuration);
 	}
 
 	/*
@@ -111,27 +118,33 @@ public class SimpleContextLoader implements ContextLoader {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private Collection<Subsystem> loadSubsystems(ContextConfiguration configuration) throws ContextException {	
 
-		List<Subsystem> systems = new ArrayList<Subsystem>();	
-		
-		for (int index = 0; index < subsystems.size(); ++index) {			
+	private Collection<Subsystem> loadSubsystems(
+			ContextConfiguration configuration) throws ContextException {
+
+		List<Subsystem> systems = new ArrayList<Subsystem>();
+
+		for (int index = 0; index < subsystems.size(); ++index) {
 			currentIndex = index;
 			Subsystem system = subsystems.get(index);
 			system.addProgressListener(subsystemListener);
-			SimpleContextEvent event = new SimpleContextEvent(this, index, subsystems.size(), (float)index / (float)subsystems.size());
-			listenerController.onLoad(event, system);				
-			startSubsystem(system, event);	
+			SimpleContextEvent event = new SimpleContextEvent(this, index,
+					subsystems.size(), (float) index
+							/ (float) subsystems.size());
+			listenerController.onLoad(event, system);
+			startSubsystem(system, event);
 			systems.add(system);
 			system.removeProgressListener(subsystemListener);
+
+			loadPlayer(system);
 		}
-		
+
 		return systems;
 	}
-	
-	private void startSubsystem(Subsystem system, ContextEvent event) throws ContextException {
-		
+
+	private void startSubsystem(Subsystem system, ContextEvent event)
+			throws ContextException {
+
 		try {
 			system.start();
 		} catch (SubsystemException e) {
@@ -140,20 +153,31 @@ public class SimpleContextLoader implements ContextLoader {
 		}
 	}
 
+	private void loadPlayer(Subsystem system) {
+		// Fetch the current player if available
+		if (system instanceof PlayerSubsystem) {
+			player = ((PlayerSubsystem) system).getPlayer();
+		}
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
+
 	private class ContextListenerController implements ContextListener {
-		
+
 		private List<ContextListener> listeners;
-		
+
 		public ContextListenerController() {
 			listeners = new ArrayList<ContextListener>();
 		}
 
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.context.ContextListener#onStart(de.myreality.galacticum.core.context.ContextEvent)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.myreality.galacticum.core.context.ContextListener#onStart(de.myreality
+		 * .galacticum.core.context.ContextEvent)
 		 */
 		@Override
 		public void onStart(ContextEvent event) {
@@ -162,8 +186,12 @@ public class SimpleContextLoader implements ContextLoader {
 			}
 		}
 
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.context.ContextListener#onSuccess(de.myreality.galacticum.core.context.ContextEvent)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.myreality.galacticum.core.context.ContextListener#onSuccess(de
+		 * .myreality.galacticum.core.context.ContextEvent)
 		 */
 		@Override
 		public void onSuccess(ContextEvent event) {
@@ -172,8 +200,12 @@ public class SimpleContextLoader implements ContextLoader {
 			}
 		}
 
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.context.ContextListener#onFail(de.myreality.galacticum.core.context.ContextEvent, java.lang.Throwable)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.myreality.galacticum.core.context.ContextListener#onFail(de.myreality
+		 * .galacticum.core.context.ContextEvent, java.lang.Throwable)
 		 */
 		@Override
 		public void onFail(ContextEvent event, Throwable error) {
@@ -182,8 +214,13 @@ public class SimpleContextLoader implements ContextLoader {
 			}
 		}
 
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.context.ContextListener#onLoad(de.myreality.galacticum.core.context.ContextEvent, de.myreality.galacticum.util.Nameable)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.myreality.galacticum.core.context.ContextListener#onLoad(de.myreality
+		 * .galacticum.core.context.ContextEvent,
+		 * de.myreality.galacticum.util.Nameable)
 		 */
 		@Override
 		public void onLoad(ContextEvent event, Nameable target) {
@@ -191,34 +228,40 @@ public class SimpleContextLoader implements ContextLoader {
 				l.onLoad(event, target);
 			}
 		}
-		
+
 		public void addListener(ContextListener listener) {
 			listeners.add(listener);
 		}
-		
+
 	}
-	
+
 	private class SubsystemListener implements ProgressListener {
-		
+
 		private ContextLoader parent;
-		
+
 		public SubsystemListener(ContextLoader parent) {
 			this.parent = parent;
 		}
 
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.subsystem.ProgressListener#onProgress(float, int, int)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.myreality.galacticum.core.subsystem.ProgressListener#onProgress
+		 * (float, int, int)
 		 */
 		@Override
-		public void onProgress(float progress, int current, int total, Subsystem sender) {
-			
-			progress /= (float)subsystems.size();
-			progress += (float)currentIndex / (float)subsystems.size();
-			
-			ContextEvent event = new SimpleContextEvent(parent, current, total, progress);
+		public void onProgress(float progress, int current, int total,
+				Subsystem sender) {
+
+			progress /= (float) subsystems.size();
+			progress += (float) currentIndex / (float) subsystems.size();
+
+			ContextEvent event = new SimpleContextEvent(parent, current, total,
+					progress);
 			listenerController.onLoad(event, sender);
 		}
-		
+
 	}
 
 }
