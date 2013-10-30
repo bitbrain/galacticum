@@ -17,6 +17,9 @@
 package de.myreality.galacticum.core.player;
 
 import java.io.Serializable;
+import java.util.List;
+
+import de.myreality.galacticum.core.entities.SpaceShip;
 
 /**
  * Player class which contains spaceships, statistics and resources
@@ -25,39 +28,22 @@ import java.io.Serializable;
  * @since 0.1
  * @version 0.1
  */
-public class Player implements Serializable {
+public interface Player extends Serializable {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	// ===========================================================
-	// Fields
-	// ===========================================================
-
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
-
-	// ===========================================================
-	// Methods for/from SuperClass/Interfaces
-	// ===========================================================
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
-
+	
+	void addSpaceShip(SpaceShip spaceship);
+	
+	void removeSpaceShip(SpaceShip spaceship);
+	void removeSpaceShip(String spaceshipID);
+	
+	List<SpaceShip> getSpaceShips();
+	
+	
 }

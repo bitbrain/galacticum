@@ -26,7 +26,6 @@ import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
 import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
-import de.myreality.galacticum.graphics.BackgroundSystem;
 import de.myreality.galacticum.graphics.CameraSystem;
 import de.myreality.galacticum.io.ContextConfiguration;
 

@@ -14,22 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import de.myreality.galacticum.core.entities.Entity;
-
+import java.util.List;
 
 /**
- * Simple implementation of {@see GameContainer}
  * 
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * 
+ * @author miguel
+ * @since
+ * @version
  */
-public class SimpleGameContainer implements GameContainer {
+public class SimpleObserver<Type> implements Observer<Type> {
 
 	// ===========================================================
 	// Constants
@@ -39,14 +37,14 @@ public class SimpleGameContainer implements GameContainer {
 	// Fields
 	// ===========================================================
 	
-	private CopyOnWriteArrayList<Object> entities;
+	private List<Type> listeners;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleGameContainer() {
-		entities = new CopyOnWriteArrayList<Object>();
+	public SimpleObserver() {
+		listeners = new ArrayList<Type>();
 	}
 
 	// ===========================================================
@@ -56,31 +54,48 @@ public class SimpleGameContainer implements GameContainer {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#add(de.myreality.galacticum.core.Entity)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.util.Observer#addListener(java.lang.Object)
 	 */
 	@Override
-	public void add(Entity entity) {
-		if (!entities.contains(entity)) {
-			entities.add(entity);
+	public void addListener(Type listener) {
+		if (!hasListener(listener)) {
+			listeners.add(listener);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#remove(de.myreality.galacticum.core.Entity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.util.Observer#removeListener(java.lang.Object)
 	 */
 	@Override
-	public void remove(Entity entity) {
-		entities.remove(entity);
+	public void removeListener(Type listener) {
+		listeners.remove(listener);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#getEntities()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.util.Observer#hasListener(java.lang.Object)
 	 */
 	@Override
-	public Collection<Object> getEntities() {
-		return entities;
+	public boolean hasListener(Type listener) {
+		return listeners.contains(listener);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.util.Observer#getListeners()
+	 */
+	@Override
+	public Collection<Type> getListeners() {
+		return listeners;
 	}
 
 	// ===========================================================

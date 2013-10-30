@@ -19,8 +19,8 @@ package de.myreality.galacticum.core.chunks;
 import java.util.Collection;
 
 import de.myreality.chunx.ContentProvider;
-import de.myreality.galacticum.core.Entity;
 import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.entities.Entity;
 
 /**
  * Adapter to convert {@see GameContainer} to content providers

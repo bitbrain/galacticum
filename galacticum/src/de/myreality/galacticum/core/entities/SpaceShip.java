@@ -14,41 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core;
+package de.myreality.galacticum.core.entities;
 
-import java.io.Serializable;
 
 /**
- * Represents a single entity type
+ * Represents a spaceship
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public enum EntityType implements Serializable {
+public interface SpaceShip extends Entity {
+	
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
-	/**
-	 * 
-	 */
-	SPACESHIP,
-	
-	/**
-	 * 
-	 */
-	PLANET,
-	
-	/**
-	 * 
-	 */
-	RESOURCE,
-	
-	/**
-	 * 
-	 */
-	OBSTACLE,
-	
-	/**
-	 * 
-	 */
-	WEAPON
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
 }
