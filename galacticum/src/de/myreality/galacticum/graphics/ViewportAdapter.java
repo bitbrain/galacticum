@@ -16,8 +16,6 @@
  */
 package de.myreality.galacticum.graphics;
 
-import com.badlogic.gdx.graphics.Camera;
-
 import de.myreality.parallax.Viewport;
 
 /**
@@ -33,13 +31,13 @@ public class ViewportAdapter implements Viewport {
 	// Fields
 	// ===========================================================
 	
-	private Camera camera;
+	private GameCamera camera;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ViewportAdapter(Camera camera) {
+	public ViewportAdapter(GameCamera camera) {
 		this.camera = camera;
 	}
 
@@ -58,7 +56,7 @@ public class ViewportAdapter implements Viewport {
 	 */
 	@Override
 	public float getBottom() {
-		return getTop() + camera.viewportHeight;
+		return getTop() + camera.getHeight();
 	}
 
 	/*
@@ -68,7 +66,7 @@ public class ViewportAdapter implements Viewport {
 	 */
 	@Override
 	public float getLeft() {
-		return camera.position.x;
+		return camera.getX();
 	}
 
 	/*
@@ -78,7 +76,7 @@ public class ViewportAdapter implements Viewport {
 	 */
 	@Override
 	public float getRight() {
-		return getLeft() + camera.viewportWidth;
+		return getLeft() + camera.getWidth();
 	}
 
 	/*
@@ -88,7 +86,7 @@ public class ViewportAdapter implements Viewport {
 	 */
 	@Override
 	public float getTop() {
-		return camera.position.y;
+		return camera.getY();
 	}
 
 	// ===========================================================

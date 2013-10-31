@@ -26,6 +26,8 @@ import de.myreality.galacticum.core.player.PlayerSubsystem;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.galacticum.graphics.CameraSystem;
+import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.util.Nameable;
 
@@ -54,6 +56,8 @@ public class SimpleContextLoader implements ContextLoader {
 	private int currentIndex;
 
 	private Player player;
+	
+	private GameCamera camera;
 
 	// ===========================================================
 	// Constructors
@@ -89,7 +93,7 @@ public class SimpleContextLoader implements ContextLoader {
 		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
 				.size(), subsystems.size(), 1.0f));
 
-		return new SimpleContext(subsystems, container, player, configuration);
+		return new SimpleContext(subsystems, container, player, camera, configuration);
 	}
 
 	/*
@@ -137,6 +141,7 @@ public class SimpleContextLoader implements ContextLoader {
 			system.removeProgressListener(subsystemListener);
 
 			loadPlayer(system);
+			loadCamera(system);
 		}
 
 		return systems;
@@ -157,6 +162,13 @@ public class SimpleContextLoader implements ContextLoader {
 		// Fetch the current player if available
 		if (system instanceof PlayerSubsystem) {
 			player = ((PlayerSubsystem) system).getPlayer();
+		}
+	}
+	
+	private void loadCamera(Subsystem system) {
+		// Fetch the current player if available
+		if (system instanceof CameraSystem) {
+			camera = ((CameraSystem) system).getCamera();
 		}
 	}
 

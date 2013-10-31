@@ -16,9 +16,6 @@
  */
 package de.myreality.galacticum.graphics;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -42,7 +39,7 @@ public class CameraSystem implements Subsystem {
 	// Fields
 	// ===========================================================
 
-	private OrthographicCamera camera;
+	private GameCamera camera;
 
 	private float viewportWidth;
 
@@ -57,7 +54,7 @@ public class CameraSystem implements Subsystem {
 	public CameraSystem(float viewportWidth, float viewportHeight, SpriteBatch batch) {
 		this.viewportWidth = viewportWidth;
 		this.viewportHeight = viewportHeight;
-		camera = new OrthographicCamera(viewportWidth, viewportHeight);
+		camera = new SimpleGameCamera(viewportWidth, viewportHeight);
 		this.batch = batch;
 	}
 
@@ -65,7 +62,7 @@ public class CameraSystem implements Subsystem {
 	// Getter & Setter
 	// ===========================================================
 
-	public Camera getCamera() {
+	public GameCamera getCamera() {
 		return camera;
 	}
 
@@ -104,22 +101,8 @@ public class CameraSystem implements Subsystem {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#update(float)
 	 */
 	@Override
-	public void update(float delta) {
-		
-		camera.viewportWidth = Gdx.graphics.getWidth();
-        camera.viewportHeight = Gdx.graphics.getHeight();
-
-		camera.setToOrtho(true, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-
-		camera.position.x = Gdx.input.getX();
-        camera.position.y = Gdx.input.getY();
-
-		float width = Gdx.graphics.getWidth() * 2;
-		float height = Gdx.graphics.getHeight();
-		Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
+	public void update(float delta) {		
+		camera.update(delta, batch);
 	}
 
 	/*

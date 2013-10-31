@@ -14,25 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.context;
+package de.myreality.galacticum.graphics;
 
-import java.util.Collection;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.galacticum.core.GameContainer;
-import de.myreality.galacticum.core.player.Player;
-import de.myreality.galacticum.core.subsystem.Subsystem;
-import de.myreality.galacticum.graphics.GameCamera;
-import de.myreality.galacticum.io.ContextConfiguration;
-
+import de.myreality.galacticum.core.entities.Entity;
 
 /**
- * Game context which represents one single game
- *
+ * Is provided for contexts in order manipulate the current camera
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Context {
+public interface GameCamera {
 	
 	// ===========================================================
 	// Constants
@@ -43,35 +38,73 @@ public interface Context {
 	// ===========================================================
 	
 	/**
+	 * Shakes the camera of the given value
 	 * 
-	 * 
-	 * @return
+	 * @param factor shaking factor
+	 * @param miliseconds length of the effect
 	 */
-	Collection<Subsystem> getSubsystems();
+	void shake(float factor, int miliseconds);
+	
+	/**
+	 * Tracks a new entity
+	 * 
+	 * @param entity new entity to track
+	 */
+	void setTarget(Entity entity);
+	
+	/**
+	 * Sets a new position
+	 * 
+	 * @param x new x position
+	 * @param y new y position
+	 */
+	void setPosition(float x, float y);
 	
 	/**
 	 * 
 	 * @return
 	 */
-	GameContainer getContainer();
+	float getX();
 	
 	/**
 	 * 
 	 * @return
 	 */
-	ContextConfiguration getConfiguration();
+	float getY();
+	
+	/**
+	 * 
+	 * @param x
+	 */
+	void setX(float x);
+	
+	/**
+	 * 
+	 * @param y
+	 */
+	void setY(float y);
+	
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	float getWidth();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	float getHeight();
+	
+	/**
+	 * Updates the camera
+	 * 
+	 * @param delta time delta
+	 * @param batch sprite batch
+	 */
+	void update(float delta, SpriteBatch batch);
 
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	Player getPlayer();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	GameCamera getCamera();
 }

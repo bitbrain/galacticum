@@ -21,6 +21,7 @@ import java.util.Collection;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.player.Player;
 import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
@@ -47,15 +48,19 @@ class SimpleContext implements Context {
 	private ContextConfiguration configuration;
 	
 	private Player player;
+	
+	private GameCamera camera;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleContext(Collection<Subsystem> subsystems, GameContainer container, Player player, ContextConfiguration configuration) {
+	public SimpleContext(Collection<Subsystem> subsystems, GameContainer container, Player player, GameCamera camera, ContextConfiguration configuration) {
 		this.subsystems = subsystems;
 		this.container = container;
 		this.configuration = configuration;
+		this.camera = camera;
+		this.player = player;
 	}
 	
 
@@ -104,6 +109,15 @@ class SimpleContext implements Context {
 	@Override
 	public Player getPlayer() {
 		return player;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.context.Context#getCamera()
+	 */
+	@Override
+	public GameCamera getCamera() {
+		return camera;
 	}
 
 	// ===========================================================
