@@ -19,7 +19,7 @@ package de.myreality.galacticum.core.chunks;
 import java.util.Collection;
 
 import de.myreality.chunx.ContentProvider;
-import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.entities.Entity;
 
 /**
@@ -39,13 +39,13 @@ public class ContentProviderAdapter implements ContentProvider {
 	// Fields
 	// ===========================================================
 	
-	private GameContainer target;
+	private World target;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ContentProviderAdapter(GameContainer target) {
+	public ContentProviderAdapter(World target) {
 		this.target = target;
 	}
 

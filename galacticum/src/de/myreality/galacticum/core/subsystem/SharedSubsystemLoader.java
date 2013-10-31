@@ -23,7 +23,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
 import de.myreality.galacticum.core.chunks.ChunkTargetAdapter;
 import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
@@ -84,12 +84,9 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 	 * de.myreality.galacticum.core.subsystem.SubsystemLoader#createSubsystems()
 	 */
 	@Override
-	public Collection<Subsystem> createSubsystems(GameContainer container, ContextConfiguration configuration) {
+	public Collection<Subsystem> createSubsystems(World container, SpriteBatch batch, ContextConfiguration configuration) {
 		
 		List<Subsystem> systems = new ArrayList<Subsystem>();
-		
-		SpriteBatch batch = new SpriteBatch();
-
 		
 		CameraSystem cameraSystem = new CameraSystem(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch);
 		

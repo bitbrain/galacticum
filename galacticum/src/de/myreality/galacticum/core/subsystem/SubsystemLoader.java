@@ -18,7 +18,9 @@ package de.myreality.galacticum.core.subsystem;
 
 import java.util.Collection;
 
-import de.myreality.galacticum.core.GameContainer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
@@ -50,7 +52,7 @@ public interface SubsystemLoader {
 	 * 
 	 * @return
 	 */
-	public Collection<Subsystem> createSubsystems(GameContainer gameContainer, ContextConfiguration configuration);
+	public Collection<Subsystem> createSubsystems(World gameContainer, SpriteBatch batch, ContextConfiguration configuration);
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces

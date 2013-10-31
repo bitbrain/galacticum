@@ -29,7 +29,7 @@ import de.myreality.galacticum.core.entities.Entity;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleGameContainer implements GameContainer {
+public class SimpleGameContainer implements World {
 
 	// ===========================================================
 	// Constants

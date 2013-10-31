@@ -18,7 +18,9 @@ package de.myreality.galacticum.core.context;
 
 import java.util.Collection;
 
-import de.myreality.galacticum.core.GameContainer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.player.Player;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.graphics.GameCamera;
@@ -53,7 +55,7 @@ public interface Context {
 	 * 
 	 * @return
 	 */
-	GameContainer getContainer();
+	World getWorld();
 	
 	/**
 	 * 
@@ -74,4 +76,10 @@ public interface Context {
 	 * @return
 	 */
 	GameCamera getCamera();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	SpriteBatch getSpriteBatch();
 }

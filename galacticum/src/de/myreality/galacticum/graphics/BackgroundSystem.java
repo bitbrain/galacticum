@@ -109,9 +109,7 @@ public class BackgroundSystem implements Subsystem {
 	 */
 	@Override
 	public void update(float delta) {
-		batch.begin();
-		mapper.updateAndRender(delta + 1f);
-		batch.end();
+		mapper.updateAndRender(delta + 0.5f);
 	}
 
 	/*
@@ -163,8 +161,8 @@ public class BackgroundSystem implements Subsystem {
 		}
 
 		int fogLayers = 5;
-		float veloX = 1f;
-		float veloY = 2f;
+		float veloX = 6f;
+		float veloY = 8f;
 
 		LayerTexture fogTexture = new GdxTexture(Resources.TEXTURE_FOG_MEDIUM, batch);
 

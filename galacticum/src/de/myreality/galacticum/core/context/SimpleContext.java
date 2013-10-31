@@ -18,7 +18,9 @@ package de.myreality.galacticum.core.context;
 
 import java.util.Collection;
 
-import de.myreality.galacticum.core.GameContainer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.player.Player;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.graphics.GameCamera;
@@ -43,24 +45,27 @@ class SimpleContext implements Context {
 	
 	private Collection<Subsystem> subsystems;
 	
-	private GameContainer container;
+	private World container;
 	
 	private ContextConfiguration configuration;
 	
 	private Player player;
 	
 	private GameCamera camera;
+	
+	private SpriteBatch batch;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleContext(Collection<Subsystem> subsystems, GameContainer container, Player player, GameCamera camera, ContextConfiguration configuration) {
+	public SimpleContext(Collection<Subsystem> subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, ContextConfiguration configuration) {
 		this.subsystems = subsystems;
 		this.container = container;
 		this.configuration = configuration;
 		this.camera = camera;
 		this.player = player;
+		this.batch = batch;
 	}
 	
 
@@ -88,7 +93,7 @@ class SimpleContext implements Context {
 	 * @see de.myreality.galacticum.core.context.Context#getContainer()
 	 */
 	@Override
-	public GameContainer getContainer() {
+	public World getWorld() {
 		return container;
 	}
 
@@ -118,6 +123,15 @@ class SimpleContext implements Context {
 	@Override
 	public GameCamera getCamera() {
 		return camera;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.context.Context#getSpriteBatch()
+	 */
+	@Override
+	public SpriteBatch getSpriteBatch() {
+		return batch;
 	}
 
 	// ===========================================================

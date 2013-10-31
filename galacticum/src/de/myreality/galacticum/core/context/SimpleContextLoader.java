@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.myreality.galacticum.core.GameContainer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.player.Player;
 import de.myreality.galacticum.core.player.PlayerSubsystem;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -58,15 +60,18 @@ public class SimpleContextLoader implements ContextLoader {
 	private Player player;
 	
 	private GameCamera camera;
+	
+	private SpriteBatch batch;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SimpleContextLoader() {
+	public SimpleContextLoader(SpriteBatch batch) {
 		listenerController = new ContextListenerController();
 		subsystems = new ArrayList<Subsystem>();
 		subsystemListener = new SubsystemListener(this);
+		this.batch = batch;
 	}
 
 	// ===========================================================
@@ -86,14 +91,14 @@ public class SimpleContextLoader implements ContextLoader {
 	 */
 	@Override
 	public Context load(ContextConfiguration configuration,
-			GameContainer container) throws ContextException {
+			World container) throws ContextException {
 		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems
 				.size(), 0.0f));
 		Collection<Subsystem> subsystems = loadSubsystems(configuration);
 		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
 				.size(), subsystems.size(), 1.0f));
 
-		return new SimpleContext(subsystems, container, player, camera, configuration);
+		return new SimpleContext(subsystems, container, player, camera, batch, configuration);
 	}
 
 	/*

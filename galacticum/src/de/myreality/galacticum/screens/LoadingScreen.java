@@ -28,7 +28,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.core.GameContainer;
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.SimpleGameContainer;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.context.ContextException;
@@ -69,11 +69,13 @@ public class LoadingScreen extends MenuScreen {
 	
 	private GameLoader gameLoader;
 
-	private GameContainer container;
+	private World container;
 	
 	private LoadingBox box;
 	
 	private SubsystemLoader subsystemLoader;
+	
+	private SpriteBatch batch;
 
 	// ===========================================================
 	// Constructors
@@ -91,7 +93,9 @@ public class LoadingScreen extends MenuScreen {
 			throw new ContextNotFoundException("Context with ID=" + configuration.getID() + " does not exist");
 		}
 		
-		this.contextLoader = new SimpleContextLoader();
+		this.batch = new SpriteBatch();
+		
+		this.contextLoader = new SimpleContextLoader(batch);
 		this.container = new SimpleGameContainer();		
 	}
 
@@ -152,7 +156,7 @@ public class LoadingScreen extends MenuScreen {
 		super.show();
 		
 		// Add subsystems
-		Collection<Subsystem> systems = subsystemLoader.createSubsystems(container, configuration);
+		Collection<Subsystem> systems = subsystemLoader.createSubsystems(container, batch, configuration);
 		
 		for (Subsystem system : systems) {
 			contextLoader.addSubsystem(system);
@@ -179,11 +183,11 @@ public class LoadingScreen extends MenuScreen {
 		
 		private ContextLoader contextLoader;
 		
-		private GameContainer container;
+		private World container;
 		
 		private String message;
 		
-		public GameLoader(ContextLoader contextLoader, GameContainer container) {
+		public GameLoader(ContextLoader contextLoader, World container) {
 			this.contextLoader = contextLoader;
 			this.container = container;
 			message = "";

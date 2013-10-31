@@ -19,6 +19,7 @@ package de.myreality.galacticum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
@@ -78,15 +79,19 @@ public class IngameScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
+		
+		SpriteBatch batch = context.getSpriteBatch();
+		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		stage.act(delta);
 		
+		batch.begin();
 		for (Subsystem system : context.getSubsystems()) {
 			system.update(delta);
 		}
-		
+		batch.end();
 		stage.draw();
 	}
 

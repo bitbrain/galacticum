@@ -27,7 +27,7 @@ import de.myreality.galacticum.core.entities.Entity;
  * @since 0.1
  * @version 0.1
  */
-public interface GameContainer {
+public interface World {
 	
 	// ===========================================================
 	// Constants
