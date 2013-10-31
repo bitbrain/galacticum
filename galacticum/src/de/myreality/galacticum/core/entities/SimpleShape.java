@@ -100,7 +100,7 @@ public class SimpleShape implements Shape {
 	 */
 	@Override
 	public boolean collidesWith(Shape other) {
-		return false;
+		return true;
 	}
 
 	// ===========================================================
