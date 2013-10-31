@@ -21,12 +21,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
 import de.myreality.parallax.LayerConfig;
+import de.myreality.parallax.LayerTexture;
 import de.myreality.parallax.ParallaxMapper;
 import de.myreality.parallax.Viewport;
+import de.myreality.parallax.libgdx.GdxTexture;
 import de.myreality.parallax.libgdx.GdxTextureProcessor;
 import de.myreality.parallax.libgdx.PreprocessedTexture;
 
@@ -89,24 +92,11 @@ public class BackgroundSystem implements Subsystem {
 	public void start() throws SubsystemException {
 
 		mapper = new ParallaxMapper(viewport);
-		final LayerConfig config = new LayerConfig(new PreprocessedTexture(128, 128,
-				batch, new GdxTextureProcessor() {
 
-					@Override
-					public void process(Pixmap pixmap) {
-						pixmap.setColor(Color.RED);
-						pixmap.fillRectangle(0, 0, 5, 5);
-					}
-
-				}));
-
-		// post a Runnable to the rendering thread that processes the result
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
-				mapper.add(1, config);
-				mapper.add(10, config);
-				mapper.add(50, config);
+				initBackground();
 			}
 
 		});
@@ -120,7 +110,7 @@ public class BackgroundSystem implements Subsystem {
 	@Override
 	public void update(float delta) {
 		batch.begin();
-		mapper.updateAndRender(delta);
+		mapper.updateAndRender(delta + 1f);
 		batch.end();
 	}
 
@@ -161,9 +151,74 @@ public class BackgroundSystem implements Subsystem {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void initBackground() {
+		final int starLayers = 8;
+
+		for (int i = 0; i < starLayers; ++i) {
+			LayerTexture texture = new PreprocessedTexture(256, 256, batch,
+					new StarfieldCreator());
+			LayerConfig config = new LayerConfig(texture);
+			mapper.add((float) (Math.pow(i, 1.2) + 5f), config);
+		}
+
+		int fogLayers = 5;
+		float veloX = 1f;
+		float veloY = 2f;
+
+		LayerTexture fogTexture = new GdxTexture(Resources.TEXTURE_FOG_MEDIUM, batch);
+
+		for (int i = 0; i < fogLayers; ++i) {
+			LayerConfig config = new LayerConfig(fogTexture);
+			config.setVelocity(veloX, veloY);
+			mapper.add((float) (Math.sin(i) + 5), config);
+		}
+
+		// Add the background
+		LayerTexture backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
+		LayerConfig config = new LayerConfig(backgroundTexture);
+		config.setFilter(0.3f, 0.1f, 0.4f, 1.0f);
+		mapper.add(20f, config);
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	class StarfieldCreator implements GdxTextureProcessor {
+
+		@Override
+		public void process(Pixmap map) {
+
+			int starAmount = (int) (3 * 40);
+
+			for (int i = 0; i < starAmount; ++i) {
+				drawStar((float) (400 * Math.random()),
+						(float) (400 * Math.random()), map);
+			}
+		}
+
+		private void drawStar(float x, float y, Pixmap map) {
+			Color color = new Color(255, 255, 255, 255);
+			float size = 0.5f;
+			if (Math.random() < 0.03f) {
+				size += 0.5f;
+			} else if (Math.random() < 0.05f) {
+				size += 0.6f;
+			} else if (Math.random() < 0.08f) {
+				size += 0.2f;
+			}
+			color.r = (float) (Math.random() * 0.4f + 0.6f);
+			color.g = (float) (Math.random() * 0.4f + 0.6f);
+			color.b = (float) (Math.random() * 0.4f + 0.6f);
+
+			map.setColor(color);
+			map.fillRectangle((int) (x - size / 2f), (int) (y - size / 2f),
+					(int) (size * 2f), (int) (size * 2f));
+
+			color.a = 1.0f;
+		}
+
+	}
 
 }
