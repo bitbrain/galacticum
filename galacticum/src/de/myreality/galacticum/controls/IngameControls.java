@@ -16,8 +16,11 @@
  */
 package de.myreality.galacticum.controls;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
+import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.player.Player;
 import de.myreality.galacticum.screens.IngameScreen;
 
 /**
@@ -65,15 +68,41 @@ public class IngameControls extends GeneralStage {
 	@Override
 	public boolean keyDown(int keyCode) {
 
-		boolean state  = super.keyDown(keyCode);
-		
-		if (keyCode == Keys.ESCAPE) {
+		boolean state = super.keyDown(keyCode);
+
+		switch (keyCode) {
+		case Keys.ESCAPE:
 			screen.leave();
 			return true;
 		}
 
 		return state;
 	}
+
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+
+		// Control via W,A,S,D
+		Player player = screen.getContext().getPlayer();
+		Entity target = player.getCurrentShip();
+		float speed = 10;
+		if (Gdx.input.isKeyPressed(Keys.W)) {
+			target.setY(target.getY() - speed);
+		}
+
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			target.setX(target.getX() - speed);
+		}
+		if (Gdx.input.isKeyPressed(Keys.S)) {
+			target.setY(target.getY() + speed);
+		}
+		if (Gdx.input.isKeyPressed(Keys.D)) {
+			target.setX(target.getX() + speed);
+		}
+	}
+	
+	
 
 	// ===========================================================
 	// Methods

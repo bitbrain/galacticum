@@ -64,8 +64,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public String getID() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -73,8 +72,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public float getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return shape.getX();
 	}
 
 	/* (non-Javadoc)
@@ -82,8 +80,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public float getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return shape.getY();
 	}
 
 	/* (non-Javadoc)

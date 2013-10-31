@@ -72,6 +72,10 @@ public class IngameScreen implements Screen {
 		return game;
 	}
 	
+	public Context getContext() {
+		return context;
+	}
+	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -166,7 +170,6 @@ public class IngameScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-
 	}
 
 	// ===========================================================
