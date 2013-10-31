@@ -167,8 +167,9 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void update(float delta, SpriteBatch batch) {
-		updateFocus(delta);
 		updateViewport(batch);
+		updateFocus(delta);
+		System.out.println(getX() + " | " + getY());
 	}
 
 	// ===========================================================
@@ -182,8 +183,8 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 		camera.setToOrtho(true, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
 
-		camera.position.x = Gdx.input.getX();
-		camera.position.y = Gdx.input.getY();
+		//camera.position.x = Gdx.input.getX();
+		//camera.position.y = Gdx.input.getY();
 
 		float width = Gdx.graphics.getWidth() * 2;
 		float height = Gdx.graphics.getHeight();
@@ -223,11 +224,15 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	}
 	
 	private void moveToEntity(Entity entity) {
-		setPosition(
-				entity.getX() + (float) Math.floor(entity.getWidth() / 2.0f)
-						- (float) Math.floor(getWidth() / 2.0f), entity.getY()
-						+ (float) Math.floor(entity.getHeight() / 2.0f)
-						- (float) Math.floor(getHeight() / 2.0f));
+		
+		float x = entity.getX() + (float) Math.floor(entity.getWidth() / 2.0f)
+				- (float) Math.floor(getWidth() / 2.0f);
+		
+		float y = entity.getY()
+				+ (float) Math.floor(entity.getHeight() / 2.0f)
+				- (float) Math.floor(getHeight() / 2.0f);
+		
+		setPosition(x, y);
 	}
 
 	// ===========================================================

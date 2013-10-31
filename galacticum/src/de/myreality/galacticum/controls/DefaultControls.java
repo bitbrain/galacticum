@@ -16,46 +16,37 @@
  */
 package de.myreality.galacticum.controls;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.player.Player;
-import de.myreality.galacticum.screens.IngameScreen;
-
 /**
- * Controls for ingame functionality
+ * Contains default controls for the game
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class IngameControls extends GeneralStage {
-
+public final class DefaultControls {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final int SCREENSHOT = Keys.F2;
+	
+	public static final int CLOSE= Keys.ESCAPE;
+	
+	public static final int PLAYER_MOVE_UP = Keys.W;
+	public static final int PLAYER_MOVE_DOWN = Keys.S;
+	public static final int PLAYER_MOVE_LEFT = Keys.A;
+	public static final int PLAYER_MOVE_RIGHT = Keys.D;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	private IngameScreen screen;
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	/**
-	 * @param width
-	 * @param height
-	 * @param keepAspectRatio
-	 */
-	public IngameControls(float width, float height, boolean keepAspectRatio,
-			IngameScreen screen) {
-		super(width, height, keepAspectRatio);
-		this.screen = screen;
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -64,45 +55,6 @@ public class IngameControls extends GeneralStage {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-	@Override
-	public boolean keyDown(int keyCode) {
-
-		boolean state = super.keyDown(keyCode);
-
-		switch (keyCode) {
-		case Keys.ESCAPE:
-			screen.leave();
-			return true;
-		}
-
-		return state;
-	}
-
-	@Override
-	public void act(float delta) {
-		super.act(delta);
-
-		// Control via W,A,S,D
-		Player player = screen.getContext().getPlayer();
-		Entity target = player.getCurrentShip();
-		float speed = 10;
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {
-			target.setY(target.getY() - speed);
-		}
-
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_LEFT)) {
-			target.setX(target.getX() - speed);
-		}
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_DOWN)) {
-			target.setY(target.getY() + speed);
-		}
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_RIGHT)) {
-			target.setX(target.getX() + speed);
-		}
-	}
-	
-	
 
 	// ===========================================================
 	// Methods

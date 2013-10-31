@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.controls;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 
 import de.myreality.galacticum.graphics.ScreenshotUtils;
@@ -58,7 +57,7 @@ public class GeneralControls implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		
-		if (keycode == Keys.F2) {
+		if (keycode == DefaultControls.SCREENSHOT) {
 			ScreenshotUtils.screenshot();
 			return true;
 		}
