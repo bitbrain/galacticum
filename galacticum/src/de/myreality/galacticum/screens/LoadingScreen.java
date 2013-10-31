@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.core.World;
-import de.myreality.galacticum.core.SimpleGameContainer;
+import de.myreality.galacticum.core.SimpleWorld;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.context.ContextException;
 import de.myreality.galacticum.core.context.ContextLoader;
@@ -96,7 +96,7 @@ public class LoadingScreen extends MenuScreen {
 		this.batch = new SpriteBatch();
 		
 		this.contextLoader = new SimpleContextLoader(batch);
-		this.container = new SimpleGameContainer();		
+		this.container = new SimpleWorld();		
 	}
 
 	// ===========================================================

@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.SimpleShape;
 
 /**
  * Adapts libgdx camera to {@see GameCamera}
@@ -30,7 +31,7 @@ import de.myreality.galacticum.core.entities.Entity;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleGameCamera implements GameCamera {
+public class SimpleGameCamera extends SimpleShape implements GameCamera {
 
 	// ===========================================================
 	// Constants

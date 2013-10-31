@@ -84,6 +84,13 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	
 	class SimpleSpaceShip extends SimpleEntity implements SpaceShip {
 
+		/**
+		 * @param type
+		 */
+		public SimpleSpaceShip() {
+			super(EntityType.SPACESHIP);
+		}
+
 		private static final long serialVersionUID = 8496116234063566152L;
 
 		/* (non-Javadoc)

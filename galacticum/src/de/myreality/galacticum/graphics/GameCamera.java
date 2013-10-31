@@ -19,6 +19,7 @@ package de.myreality.galacticum.graphics;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.Shape;
 
 /**
  * Is provided for contexts in order manipulate the current camera
@@ -27,7 +28,7 @@ import de.myreality.galacticum.core.entities.Entity;
  * @since 0.1
  * @version 0.1
  */
-public interface GameCamera {
+public interface GameCamera extends Shape {
 	
 	// ===========================================================
 	// Constants

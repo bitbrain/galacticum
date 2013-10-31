@@ -27,7 +27,7 @@ import de.myreality.galacticum.util.IDProvider;
  * @since 0.1
  * @version 0.1
  */
-public interface Entity extends IDProvider {
+public interface Entity extends IDProvider, Shape {
 	
 	// ===========================================================
 	// Constants
@@ -74,6 +74,13 @@ public interface Entity extends IDProvider {
 	 * @param delta
 	 * @param batch
 	 */
-	void draw(float delta, SpriteBatch batch);
+	void draw(SpriteBatch batch);
+	
+	/**
+	 * 
+	 * 
+	 * @param delta
+	 */
+	void update(float delta);
 
 }

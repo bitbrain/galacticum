@@ -38,10 +38,18 @@ public class SimpleEntity implements Entity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Shape shape;
+	
+	private EntityType type;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SimpleEntity(EntityType type) {
+		shape = new SimpleShape();
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -83,8 +91,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public float getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return shape.getWidth();
 	}
 
 	/* (non-Javadoc)
@@ -92,8 +99,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public float getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return shape.getWidth();
 	}
 
 	/* (non-Javadoc)
@@ -101,17 +107,49 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public EntityType getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.entities.Entity#draw(float, com.badlogic.gdx.graphics.g2d.SpriteBatch)
 	 */
 	@Override
-	public void draw(float delta, SpriteBatch batch) {
+	public void draw(SpriteBatch batch) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#update(float)
+	 */
+	@Override
+	public void update(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Shape#setX(float)
+	 */
+	@Override
+	public void setX(float x) {
+		shape.setX(x);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Shape#setY(float)
+	 */
+	@Override
+	public void setY(float y) {
+		shape.setY(y);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Shape#collidesWith(de.myreality.galacticum.core.entities.Shape)
+	 */
+	@Override
+	public boolean collidesWith(Shape other) {
+		return shape.collidesWith(other);
 	}
 
 	// ===========================================================

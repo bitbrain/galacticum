@@ -29,7 +29,7 @@ import de.myreality.galacticum.core.entities.Entity;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleGameContainer implements World {
+public class SimpleWorld implements World {
 
 	// ===========================================================
 	// Constants
@@ -45,7 +45,7 @@ public class SimpleGameContainer implements World {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleGameContainer() {
+	public SimpleWorld() {
 		entities = new CopyOnWriteArrayList<Object>();
 	}
 
