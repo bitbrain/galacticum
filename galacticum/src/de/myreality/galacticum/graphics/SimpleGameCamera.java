@@ -204,7 +204,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
              if (distance <= 2.0f) {                                
                      moveToEntity(target);
              } else {
-                     double speed = ((10 + delta) * distance) / (getWidth() / 2.0);
+                     double speed = ((10 + delta) * distance) / (getWidth() / 6.0);
                      
                      // Round it up to prevent camera shaking
                      float newXPos = (float) (getX() + velocity.x * speed);

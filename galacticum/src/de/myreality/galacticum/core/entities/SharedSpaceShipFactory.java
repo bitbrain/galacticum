@@ -108,7 +108,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		@Override
 		public void draw(SpriteBatch batch) {			
 			super.draw(batch);
-			batch.draw(Resources.TEXTURE_BLUE, getX(), getY(), 100, 100);
+			batch.draw(Resources.TEXTURE_BLUE, getX(), getY(), 50, 50);
 		}
 		
 		

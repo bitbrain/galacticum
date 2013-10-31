@@ -166,7 +166,7 @@ public class BackgroundSystem implements Subsystem {
 		final int starLayers = 8;
 
 		for (int i = 0; i < starLayers; ++i) {
-			LayerTexture texture = new PreprocessedTexture(256, 256, batch,
+			LayerTexture texture = new PreprocessedTexture(512, 512, batch,
 					new StarfieldCreator());
 			LayerConfig config = new LayerConfig(texture);
 			mapper.add((float) (Math.pow(i, 1.2) + 5f), config);
@@ -200,22 +200,22 @@ public class BackgroundSystem implements Subsystem {
 		@Override
 		public void process(Pixmap map) {
 
-			int starAmount = (int) (3 * 40);
+			int starAmount = (int) (400);
 
 			for (int i = 0; i < starAmount; ++i) {
-				drawStar((float) (400 * Math.random()),
-						(float) (400 * Math.random()), map);
+				drawStar((float) (512 * Math.random()),
+						(float) (512 * Math.random()), map);
 			}
 		}
 
 		private void drawStar(float x, float y, Pixmap map) {
 			Color color = new Color(255, 255, 255, 255);
-			float size = 0.5f;
-			if (Math.random() < 0.03f) {
+			float size = 0.3f;
+			if (Math.random() < 0.02f) {
 				size += 0.5f;
-			} else if (Math.random() < 0.05f) {
-				size += 0.6f;
-			} else if (Math.random() < 0.08f) {
+			} else if (Math.random() < 0.04f) {
+				size += 0.3f;
+			} else if (Math.random() < 0.07f) {
 				size += 0.2f;
 			}
 			color.r = (float) (Math.random() * 0.4f + 0.6f);
