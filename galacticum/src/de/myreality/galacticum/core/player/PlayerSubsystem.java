@@ -61,15 +61,22 @@ public class PlayerSubsystem implements Subsystem {
 	private PlayerFactory playerFactory;
 	
 	private SpaceShipFactory spaceShipFactory;
+	
+	private PlayerListener listener;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public PlayerSubsystem(ContextConfiguration config, SpaceShipFactory factory) {
+	public PlayerSubsystem(ContextConfiguration config, SpaceShipFactory factory, PlayerListener listener) {
 		this.configuration = config;
 		spaceShipFactory = factory;
 		playerFactory = new SimplePlayerFactory();
+		this.listener = listener;
+	}
+	
+	public PlayerSubsystem(ContextConfiguration config, SpaceShipFactory factory) {
+		this(config, factory, null);
 	}
 
 	// ===========================================================
@@ -108,6 +115,10 @@ public class PlayerSubsystem implements Subsystem {
 		if (this.player == null) {
 			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, configuration.getSeed());
 			this.player = playerFactory.create(startShip);
+			
+			if (listener != null) {
+				this.player.addListener(listener);
+			}
 		}
 	}
 
@@ -130,6 +141,11 @@ public class PlayerSubsystem implements Subsystem {
 	@Override
 	public void shutdown() {
 		if (this.player != null) {
+			
+			if (listener != null) {
+				player.removeListener(listener);
+			}
+			
 			try {
 				File file = getFile();
 				saveToFile(file, this.player);
