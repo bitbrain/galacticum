@@ -75,6 +75,16 @@ public class SimplePlayerListener implements PlayerListener {
 	// Constants
 	// ===========================================================
 
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.player.PlayerListener#onSetCurrentShip(de.myreality.galacticum.core.entities.SpaceShip, de.myreality.galacticum.core.entities.SpaceShip, de.myreality.galacticum.core.player.Player)
+	 */
+	@Override
+	public void onSetCurrentShip(SpaceShip oldShip, SpaceShip newShip,
+			Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	// ===========================================================
 	// Fields
 	// ===========================================================

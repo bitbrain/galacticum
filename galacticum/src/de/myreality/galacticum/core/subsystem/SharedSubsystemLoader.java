@@ -23,14 +23,15 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.core.GameContainer;
 import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
+import de.myreality.galacticum.core.chunks.ChunkTargetAdapter;
 import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
 import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
 import de.myreality.galacticum.core.player.PlayerSubsystem;
 import de.myreality.galacticum.graphics.BackgroundSystem;
 import de.myreality.galacticum.graphics.CameraSystem;
+import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.graphics.ViewportAdapter;
 import de.myreality.galacticum.io.ContextConfiguration;
 
@@ -88,38 +89,14 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 		List<Subsystem> systems = new ArrayList<Subsystem>();
 		
 		SpriteBatch batch = new SpriteBatch();
-		
-		ChunkSystemFactory chunkFactory = new ChunkSystemFactory(new ChunkTarget() {
 
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public float getX() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public float getY() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public void setX(float arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void setY(float arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}, new ContentProviderAdapter(container));		
 		
 		CameraSystem cameraSystem = new CameraSystem(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch);
+		
+		GameCamera camera = cameraSystem.getCamera();
+		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
+		
+		ChunkSystemFactory chunkFactory = new ChunkSystemFactory(cameraAdapter, new ContentProviderAdapter(container));		
 		
 		systems.add(chunkFactory.create(configuration));
 		systems.add(cameraSystem);

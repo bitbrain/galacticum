@@ -73,5 +73,13 @@ public interface PlayerListener {
 	 * @param player
 	 */
 	void onChangeMoney(int oldValue, int newValue, Player player);
+	
+	/**
+	 * 
+	 * @param oldShip
+	 * @param newShip
+	 * @param player
+	 */
+	void onSetCurrentShip(SpaceShip oldShip, SpaceShip newShip, Player player);
 
 }
