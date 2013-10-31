@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.core.subsystem;
 
+import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.util.Nameable;
 
 /**
@@ -40,6 +41,13 @@ public interface Subsystem extends Nameable {
 	 * Starts this subsystem
 	 */
 	void start() throws SubsystemException;
+	
+	/**
+	 * 
+	 * 
+	 * @param context
+	 */
+	void onEnter(Context context);
 	
 	/**
 	 * Updates this subsystem by the given delta

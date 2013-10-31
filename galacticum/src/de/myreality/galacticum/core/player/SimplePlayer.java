@@ -46,7 +46,6 @@ public class SimplePlayer extends SimpleObserver<PlayerListener> implements Play
 	
 	private Map<String, SpaceShip> ships;
 
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -71,6 +70,9 @@ public class SimplePlayer extends SimpleObserver<PlayerListener> implements Play
 	@Override
 	public void addSpaceShip(SpaceShip spaceship) {
 		ships.put(spaceship.getID(), spaceship);
+		for (PlayerListener l : getListeners()) {
+			l.onAddSpaceShip(spaceship, this);
+		}
 	}
 
 	/*
@@ -83,6 +85,9 @@ public class SimplePlayer extends SimpleObserver<PlayerListener> implements Play
 	@Override
 	public void removeSpaceShip(SpaceShip spaceship) {
 		ships.remove(spaceship.getID());
+		for (PlayerListener l : getListeners()) {
+			l.onRemoveSpaceShip(spaceship, this);
+		}
 	}
 
 	/*
@@ -114,7 +119,14 @@ public class SimplePlayer extends SimpleObserver<PlayerListener> implements Play
 		SpaceShip ship = getSpaceShip(id);
 		
 		if (ship != null && ship != getCurrentShip()) {
-			currentShip = ship;
+			
+			SpaceShip old = currentShip;
+			currentShip = ship;	
+			
+			for (PlayerListener l : getListeners()) {
+				l.onSetCurrentShip(old, currentShip, this);
+			}
+			
 			return true;
 		} else {
 			return false;

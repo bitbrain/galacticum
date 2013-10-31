@@ -27,6 +27,8 @@ import java.io.ObjectOutputStream;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
+import de.myreality.galacticum.core.World;
+import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.SpaceShip;
 import de.myreality.galacticum.core.entities.SpaceShipFactory;
 import de.myreality.galacticum.core.entities.SpaceShipType;
@@ -63,6 +65,8 @@ public class PlayerSubsystem implements Subsystem {
 	private SpaceShipFactory spaceShipFactory;
 	
 	private PlayerListener listener;
+	
+	private Context context;
 
 	// ===========================================================
 	// Constructors
@@ -121,6 +125,20 @@ public class PlayerSubsystem implements Subsystem {
 			}
 		}
 	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
+	 */
+	@Override
+	public void onEnter(Context context) {
+		this.context = context;
+		
+		World world = context.getWorld();
+		world.add(player.getCurrentShip());
+		
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -141,6 +159,10 @@ public class PlayerSubsystem implements Subsystem {
 	@Override
 	public void shutdown() {
 		if (this.player != null) {
+			
+			if (context != null) {
+				context.getWorld().remove(player.getCurrentShip());
+			}
 			
 			if (listener != null) {
 				player.removeListener(listener);

@@ -14,42 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.chunks;
-
-import de.myreality.chunx.ChunkSystem;
-import de.myreality.galacticum.core.context.Context;
-import de.myreality.galacticum.core.subsystem.ProgressListener;
-import de.myreality.galacticum.core.subsystem.Subsystem;
-import de.myreality.galacticum.core.subsystem.SubsystemException;
+package de.myreality.galacticum.core.entities;
 
 /**
- * Adapter to convert {@see ChunkSystem} to {@see Subsystem}
+ * Simple implementation of {@see Shape}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class ChunkSubsystemAdapter implements Subsystem {
+public class SimpleShape implements Shape {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	private static final String NAME = "chunk system";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private ChunkSystem chunkSystem;
+	private float width, height, x, y;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public ChunkSubsystemAdapter(ChunkSystem chunkSystem) {
-		this.chunkSystem = chunkSystem;
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -60,62 +48,59 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// ===========================================================
 	
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.util.Nameable#getName()
+	 * @see de.myreality.galacticum.core.entities.Shape#getX()
 	 */
 	@Override
-	public String getName() {
-		return NAME;
+	public float getX() {
+		return x;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.Subsystem#start()
+	 * @see de.myreality.galacticum.core.entities.Shape#getY()
 	 */
 	@Override
-	public void start() throws SubsystemException {
-		chunkSystem.start();
-	}
-	
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
-		// TODO Auto-generated method stub
-		
+	public float getY() {
+		return y;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.Subsystem#update(float)
+	 * @see de.myreality.galacticum.core.entities.Shape#setX(float)
 	 */
 	@Override
-	public void update(float delta) {
-		chunkSystem.update(delta);
+	public void setX(float x) {
+		this.x = x;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.Subsystem#shutdown()
+	 * @see de.myreality.galacticum.core.entities.Shape#setY(float)
 	 */
 	@Override
-	public void shutdown() {
-		chunkSystem.shutdown();
+	public void setY(float y) {
+		this.y = y;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
+	 * @see de.myreality.galacticum.core.entities.Shape#getWidth()
 	 */
 	@Override
-	public void addProgressListener(ProgressListener listener) {
-		chunkSystem.addListener(new ChunkSystemListenerAdapter(listener));
+	public float getWidth() {
+		return width;
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
+	 * @see de.myreality.galacticum.core.entities.Shape#getHeight()
 	 */
 	@Override
-	public void removeProgressListener(ProgressListener listener) {
-		chunkSystem.removeListener(new ChunkSystemListenerAdapter(listener));
+	public float getHeight() {
+		return height;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Shape#collidesWith(de.myreality.galacticum.core.entities.Shape)
+	 */
+	@Override
+	public boolean collidesWith(Shape other) {
+		return false;
 	}
 
 	// ===========================================================
@@ -125,5 +110,5 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
+
 }

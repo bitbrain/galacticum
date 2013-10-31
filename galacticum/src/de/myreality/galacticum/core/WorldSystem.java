@@ -14,28 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.screens;
+package de.myreality.galacticum.core;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL11;
+import java.util.Collection;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.controls.IngameControls;
 import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.galacticum.graphics.SimpleEntityRenderer;
+import de.myreality.galacticum.graphics.GameCamera;
 
 /**
- * 
- * 
+ * Handles the current world
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 1.0
- * @version 1.0
+ * @since 0.1
+ * @version 0.1
  */
-public class IngameScreen implements Screen {
-	
+public class WorldSystem implements Subsystem {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -44,34 +45,30 @@ public class IngameScreen implements Screen {
 	// Fields
 	// ===========================================================
 	
-	private GalacticumGame game;
+	private World world;
 	
-	private Context context;
+	private SpriteBatch batch;
 	
-	private Stage stage;
+	private SimpleEntityRenderer renderer;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public IngameScreen(GalacticumGame game, Context context) {
-		this.game = game;
-		this.context = context;
-		
-		for (Subsystem system : context.getSubsystems()) {
-			system.onEnter(context);
-		}
+	public WorldSystem(World world, SpriteBatch batch, GameCamera camera) {
+		this.world = world;
+		this.batch = batch;
+		renderer = new SimpleEntityRenderer(camera);
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
 	
-	public GalacticumGame getGame() {
-		return game;
+	public World getWorld() {
+		return world;
 	}
-	
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -79,107 +76,91 @@ public class IngameScreen implements Screen {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.badlogic.gdx.Screen#render(float)
+	 * @see de.myreality.galacticum.util.Nameable#getName()
 	 */
 	@Override
-	public void render(float delta) {
+	public String getName() {
+		return "world";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
+	 */
+	@Override
+	public void start() throws SubsystemException {
 		
-		SpriteBatch batch = context.getSpriteBatch();
+	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
+	 */
+	@Override
+	public void onEnter(Context context) {
+		// TODO Auto-generated method stub
 		
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#update(float)
+	 */
+	@Override
+	public void update(float delta) {
 		
-		stage.act(delta);
+		Collection<Object> entities = world.getEntities();
 		
-		batch.begin();
-		for (Subsystem system : context.getSubsystems()) {
-			system.update(delta);
+		for (Object o : entities) {
+			
+			if (o instanceof Entity) {
+				Entity entity = (Entity) o;				
+				entity.update(delta);				
+				renderer.render(entity, batch);
+			}
 		}
-		batch.end();
-		stage.draw();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public void resize(int width, int height) {
-		if (stage  == null) {
-			stage = new IngameControls(width, height, false, this);
-			Gdx.input.setInputProcessor(stage);
-		} else {
-			stage.setViewport(width, height, false);
-		}
+	public void shutdown() {
+		
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.badlogic.gdx.Screen#show()
+	 * @see
+	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
+	 * de.myreality.galacticum.core.subsystem.ProgressListener)
 	 */
 	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
+	public void addProgressListener(ProgressListener listener) {
+		
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.badlogic.gdx.Screen#hide()
+	 * @see
+	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
+	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
 	 */
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#pause()
-	 */
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#resume()
-	 */
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Screen#dispose()
-	 */
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
+	public void removeProgressListener(ProgressListener listener) {
+		
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	public void leave() {
-		for (Subsystem system : context.getSubsystems()) {
-			system.shutdown();
-		}		
-
-		game.setScreen(new CreationScreen(game));
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

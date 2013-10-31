@@ -14,19 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.player;
-
-import de.myreality.galacticum.core.entities.SpaceShip;
+package de.myreality.galacticum.core.entities;
 
 /**
- * Is called when a player gets updated
- * 
+ * Provides collision detection and basic 2D layout
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface PlayerListener {
-	
+public interface Shape {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -38,34 +35,51 @@ public interface PlayerListener {
 	/**
 	 * 
 	 * 
-	 * @param ship
-	 * @param player
+	 * @return
 	 */
-	void onAddSpaceShip(SpaceShip ship, Player player);
+	float getX();
 	
 	/**
 	 * 
 	 * 
-	 * @param ship
-	 * @param player
+	 * @return
 	 */
-	void onRemoveSpaceShip(SpaceShip ship, Player player);
+	float getY();
 	
 	/**
 	 * 
 	 * 
-	 * @param oldValue
-	 * @param newValue
-	 * @param player
+	 * @param x
 	 */
-	void onChangeMoney(int oldValue, int newValue, Player player);
+	void setX(float x);
 	
 	/**
 	 * 
-	 * @param oldShip
-	 * @param newShip
-	 * @param player
+	 * 
+	 * @param y
 	 */
-	void onSetCurrentShip(SpaceShip oldShip, SpaceShip newShip, Player player);
+	void setY(float y);
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	float getWidth();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	float getHeight();
+	
+	/**
+	 * 
+	 * 
+	 * @param other
+	 * @return
+	 */
+	boolean collidesWith(Shape other);
 
 }

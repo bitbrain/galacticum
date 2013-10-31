@@ -18,6 +18,7 @@ package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -92,6 +93,17 @@ public class CameraSystem implements Subsystem {
 			throw new SubsystemException("Viewport of " + viewportWidth + "x"
 					+ viewportHeight + " is not allowed.");
 		}
+		
+	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
+	 */
+	@Override
+	public void onEnter(Context context) {
+		// TODO Auto-generated method stub
 		
 	}
 

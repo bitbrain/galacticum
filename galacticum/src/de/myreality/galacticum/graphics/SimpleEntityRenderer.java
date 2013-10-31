@@ -14,67 +14,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.player;
+package de.myreality.galacticum.graphics;
 
-import de.myreality.galacticum.core.entities.SpaceShip;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import de.myreality.galacticum.core.entities.Entity;
 
 /**
- * Simple implementation of {@link PlayerListener}
+ * Simple implementation of {@see EntityRenderer}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SimplePlayerListener implements PlayerListener {
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.player.PlayerListener#onAddSpaceShip(de.myreality.galacticum.core.entities.SpaceShip, de.myreality.galacticum.core.player.Player)
-	 */
-	@Override
-	public void onAddSpaceShip(SpaceShip ship, Player player) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.player.PlayerListener#onRemoveSpaceShip(de.myreality.galacticum.core.entities.SpaceShip, de.myreality.galacticum.core.player.Player)
-	 */
-	@Override
-	public void onRemoveSpaceShip(SpaceShip ship, Player player) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.player.PlayerListener#onChangeMoney(int, int, de.myreality.galacticum.core.player.Player)
-	 */
-	@Override
-	public void onChangeMoney(int oldValue, int newValue, Player player) {
-		// TODO Auto-generated method stub
-
-	}
+public class SimpleEntityRenderer implements EntityRenderer {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.player.PlayerListener#onSetCurrentShip(de.myreality.galacticum.core.entities.SpaceShip, de.myreality.galacticum.core.entities.SpaceShip, de.myreality.galacticum.core.player.Player)
-	 */
-	@Override
-	public void onSetCurrentShip(SpaceShip oldShip, SpaceShip newShip,
-			Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private GameCamera camera;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SimpleEntityRenderer(GameCamera camera) {
+		this.camera = camera;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -87,6 +58,12 @@ public class SimplePlayerListener implements PlayerListener {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	public void render(Entity entity, SpriteBatch batch) {
+		if (camera.collidesWith(entity)) {
+			entity.draw(batch);
+		}
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
