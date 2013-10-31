@@ -54,6 +54,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	public SimpleGameCamera(float viewportWidth, float viewportHeight) {
 		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 		velocity = new Vector2();
+        camera.setToOrtho(true);
 	}
 
 	// ===========================================================
@@ -168,25 +169,16 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	@Override
 	public void update(float delta, SpriteBatch batch) {
 		
+		if (Gdx.graphics.getWidth() != camera.viewportWidth ||
+			Gdx.graphics.getHeight() != camera.viewportHeight) {
+			float x = getX();
+			float y = getY();
+	        camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	        setX(x);
+	        setY(y);
+		}
 		updateFocus(delta);
 		
-		camera.viewportWidth = Gdx.graphics.getWidth() * 2;
-        camera.viewportHeight = Gdx.graphics.getHeight() * 2;
-
-        float x = getX();
-        float y = getY();
-        camera.setToOrtho(true, Gdx.graphics.getWidth() * 2,
-                        Gdx.graphics.getHeight() * 2);
-        
-        setX(x);
-        setY(y);
-
-        //camera.position.x = Gdx.input.getX();
-        //camera.position.y = Gdx.input.getY();
-
-        float width = Gdx.graphics.getWidth() * 2;
-        float height = Gdx.graphics.getHeight();
-        Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 		
@@ -208,14 +200,16 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
              float distance = velocity.len();
 
              velocity = velocity.nor();
-             if (distance <= 1.0f) {                                
+             
+             if (distance <= 2.0f) {                                
                      moveToEntity(target);
              } else {
-                     double speed = ((10 + delta) * distance) / (getWidth() / 4.0);
+                     double speed = ((10 + delta) * distance) / (getWidth() / 2.0);
                      
                      // Round it up to prevent camera shaking
                      float newXPos = (float) (getX() + velocity.x * speed);
                      float newYPos = (float) (getY() + velocity.y * speed);
+                     //setPosition(newXPos, newYPos);
                      setPosition((float)Math.ceil(newXPos), (float)Math.ceil(newYPos));
              }
      }
