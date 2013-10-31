@@ -19,6 +19,7 @@ package de.myreality.galacticum.graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 import de.myreality.galacticum.core.entities.Entity;
 
@@ -31,7 +32,6 @@ import de.myreality.galacticum.core.entities.Entity;
  */
 public class SimpleGameCamera implements GameCamera {
 
-	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -39,17 +39,20 @@ public class SimpleGameCamera implements GameCamera {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private OrthographicCamera camera;
-	
+
 	private Entity target;
+
+	private Vector2 velocity;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public SimpleGameCamera(float viewportWidth, float viewportHeight) {
 		camera = new OrthographicCamera(viewportWidth, viewportHeight);
+		velocity = new Vector2();
 	}
 
 	// ===========================================================
@@ -59,8 +62,10 @@ public class SimpleGameCamera implements GameCamera {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#shake(float, int)
 	 */
 	@Override
@@ -68,16 +73,24 @@ public class SimpleGameCamera implements GameCamera {
 		// TODO
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.GameCamera#setTarget(de.myreality.galacticum.core.entities.Entity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.graphics.GameCamera#setTarget(de.myreality.galacticum
+	 * .core.entities.Entity)
 	 */
 	@Override
-	public void setTarget(Entity entity) {
+	public void focus(Entity entity) {
 		this.target = entity;
+		moveToEntity(entity);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.GameCamera#setPosition(float, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.graphics.GameCamera#setPosition(float,
+	 * float)
 	 */
 	@Override
 	public void setPosition(float x, float y) {
@@ -85,7 +98,9 @@ public class SimpleGameCamera implements GameCamera {
 		setY(y);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#getX()
 	 */
 	@Override
@@ -93,7 +108,9 @@ public class SimpleGameCamera implements GameCamera {
 		return camera.position.x;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#getY()
 	 */
 	@Override
@@ -101,7 +118,9 @@ public class SimpleGameCamera implements GameCamera {
 		return camera.position.y;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#setX(float)
 	 */
 	@Override
@@ -109,7 +128,9 @@ public class SimpleGameCamera implements GameCamera {
 		camera.position.x = x;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#setY(float)
 	 */
 	@Override
@@ -117,9 +138,9 @@ public class SimpleGameCamera implements GameCamera {
 		camera.position.y = y;
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#getWidth()
 	 */
 	@Override
@@ -127,26 +148,41 @@ public class SimpleGameCamera implements GameCamera {
 		return camera.viewportWidth;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#getHeight()
 	 */
 	@Override
 	public float getHeight() {
 		return camera.viewportHeight;
 	}
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.GameCamera#update(float, com.badlogic.gdx.graphics.g2d.SpriteBatch)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.graphics.GameCamera#update(float,
+	 * com.badlogic.gdx.graphics.g2d.SpriteBatch)
 	 */
 	@Override
 	public void update(float delta, SpriteBatch batch) {
+		updateFocus(delta);
+		updateViewport(batch);
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	private void updateViewport(SpriteBatch batch) {
 		camera.viewportWidth = Gdx.graphics.getWidth();
-        camera.viewportHeight = Gdx.graphics.getHeight();
+		camera.viewportHeight = Gdx.graphics.getHeight();
 
 		camera.setToOrtho(true, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
 
 		camera.position.x = Gdx.input.getX();
-        camera.position.y = Gdx.input.getY();
+		camera.position.y = Gdx.input.getY();
 
 		float width = Gdx.graphics.getWidth() * 2;
 		float height = Gdx.graphics.getHeight();
@@ -154,11 +190,44 @@ public class SimpleGameCamera implements GameCamera {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 	}
-	
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
+	private void updateFocus(float delta) {
+		if (target != null) {
+
+			// Create a direction vector
+			velocity.x = (float) (target.getX()
+					+ Math.floor(target.getWidth() / 2.0f) - (getX() + Math
+					.floor(getWidth() / 2.0f)));
+			velocity.y = (float) (target.getY()
+					+ Math.floor(target.getHeight() / 2.0f) - (getY() + Math
+					.floor(getHeight() / 2.0f)));
+
+			float distance = velocity.len();
+
+			velocity = velocity.nor();
+			if (distance <= 1.0f) {
+				moveToEntity(target);
+			} else {
+				double speed = ((1 + delta) * distance) / (getWidth() / 4.0);
+
+				// Round it up to prevent camera shaking
+				float newXPos = (float) Math.ceil(getX() + velocity.x
+						* speed);
+				float newYPos = (float) Math
+						.ceil(getY() + velocity.y * speed);
+
+				setPosition(newXPos, newYPos);
+			}
+		}
+	}
+	
+	private void moveToEntity(Entity entity) {
+		setPosition(
+				entity.getX() + (float) Math.floor(entity.getWidth() / 2.0f)
+						- (float) Math.floor(getWidth() / 2.0f), entity.getY()
+						+ (float) Math.floor(entity.getHeight() / 2.0f)
+						- (float) Math.floor(getHeight() / 2.0f));
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

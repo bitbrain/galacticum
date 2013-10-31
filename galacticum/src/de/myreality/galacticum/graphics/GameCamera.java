@@ -50,7 +50,7 @@ public interface GameCamera {
 	 * 
 	 * @param entity new entity to track
 	 */
-	void setTarget(Entity entity);
+	void focus(Entity entity);
 	
 	/**
 	 * Sets a new position
