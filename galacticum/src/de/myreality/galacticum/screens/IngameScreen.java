@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.screens;
 
+import java.util.Stack;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
@@ -177,9 +179,14 @@ public class IngameScreen implements Screen {
 	// ===========================================================
 	
 	public void leave() {
-		for (Subsystem system : context.getSubsystems()) {
+		
+		Stack<Subsystem> systems = context.getSubsystems();
+		
+		// Free the last element first
+		while (!systems.isEmpty()) {
+			Subsystem system = systems.pop();
 			system.shutdown();
-		}		
+		}
 
 		game.setScreen(new CreationScreen(game));
 	}

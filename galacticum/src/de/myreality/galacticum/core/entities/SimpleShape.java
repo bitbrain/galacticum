@@ -33,6 +33,10 @@ public class SimpleShape implements Shape {
 	// Fields
 	// ===========================================================
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float width, height, x, y;
 
 	// ===========================================================

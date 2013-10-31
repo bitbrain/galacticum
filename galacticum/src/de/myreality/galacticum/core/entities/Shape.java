@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import java.io.Serializable;
+
 /**
  * Provides collision detection and basic 2D layout
  *
@@ -23,7 +25,7 @@ package de.myreality.galacticum.core.entities;
  * @since 0.1
  * @version 0.1
  */
-public interface Shape {
+public interface Shape extends Serializable {
 	// ===========================================================
 	// Constants
 	// ===========================================================

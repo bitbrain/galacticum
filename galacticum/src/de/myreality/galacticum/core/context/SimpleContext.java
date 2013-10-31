@@ -16,7 +16,7 @@
  */
 package de.myreality.galacticum.core.context;
 
-import java.util.Collection;
+import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -43,7 +43,7 @@ class SimpleContext implements Context {
 	// Fields
 	// ===========================================================
 	
-	private Collection<Subsystem> subsystems;
+	private Stack<Subsystem> subsystems;
 	
 	private World container;
 	
@@ -59,7 +59,7 @@ class SimpleContext implements Context {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleContext(Collection<Subsystem> subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, ContextConfiguration configuration) {
+	public SimpleContext(Stack<Subsystem> subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, ContextConfiguration configuration) {
 		this.subsystems = subsystems;
 		this.container = container;
 		this.configuration = configuration;
@@ -83,7 +83,7 @@ class SimpleContext implements Context {
 	 * @see de.myreality.galacticum.core.context.Context#getSubsystems()
 	 */
 	@Override
-	public Collection<Subsystem> getSubsystems() {
+	public Stack<Subsystem> getSubsystems() {
 		return subsystems;
 	}
 

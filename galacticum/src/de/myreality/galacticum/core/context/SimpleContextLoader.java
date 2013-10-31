@@ -17,8 +17,8 @@
 package de.myreality.galacticum.core.context;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -94,7 +94,7 @@ public class SimpleContextLoader implements ContextLoader {
 			World container) throws ContextException {
 		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems
 				.size(), 0.0f));
-		Collection<Subsystem> subsystems = loadSubsystems(configuration);
+		Stack<Subsystem> subsystems = loadSubsystems(configuration);
 		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
 				.size(), subsystems.size(), 1.0f));
 
@@ -128,10 +128,10 @@ public class SimpleContextLoader implements ContextLoader {
 	// Methods
 	// ===========================================================
 
-	private Collection<Subsystem> loadSubsystems(
+	private Stack<Subsystem> loadSubsystems(
 			ContextConfiguration configuration) throws ContextException {
 
-		List<Subsystem> systems = new ArrayList<Subsystem>();
+		Stack<Subsystem> systems = new Stack<Subsystem>();
 
 		for (int index = 0; index < subsystems.size(); ++index) {
 			currentIndex = index;
@@ -142,7 +142,7 @@ public class SimpleContextLoader implements ContextLoader {
 							/ (float) subsystems.size());
 			listenerController.onLoad(event, system);
 			startSubsystem(system, event);
-			systems.add(system);
+			systems.push(system);
 			system.removeProgressListener(subsystemListener);
 
 			loadPlayer(system);

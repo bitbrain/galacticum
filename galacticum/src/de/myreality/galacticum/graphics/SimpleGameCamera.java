@@ -41,6 +41,11 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	// Fields
 	// ===========================================================
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private OrthographicCamera camera;
 
 	private Entity target;
