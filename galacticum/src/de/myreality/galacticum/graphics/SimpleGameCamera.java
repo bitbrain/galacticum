@@ -167,60 +167,58 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void update(float delta, SpriteBatch batch) {
-		updateViewport(batch);
+		
 		updateFocus(delta);
-		System.out.println(getX() + " | " + getY());
+		
+		camera.viewportWidth = Gdx.graphics.getWidth() * 2;
+        camera.viewportHeight = Gdx.graphics.getHeight() * 2;
+
+        float x = getX();
+        float y = getY();
+        camera.setToOrtho(true, Gdx.graphics.getWidth() * 2,
+                        Gdx.graphics.getHeight() * 2);
+        
+        setX(x);
+        setY(y);
+
+        //camera.position.x = Gdx.input.getX();
+        //camera.position.y = Gdx.input.getY();
+
+        float width = Gdx.graphics.getWidth() * 2;
+        float height = Gdx.graphics.getHeight();
+        Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+		
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
-	private void updateViewport(SpriteBatch batch) {
-		camera.viewportWidth = Gdx.graphics.getWidth();
-		camera.viewportHeight = Gdx.graphics.getHeight();
-
-		camera.setToOrtho(true, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-
-		//camera.position.x = Gdx.input.getX();
-		//camera.position.y = Gdx.input.getY();
-
-		float width = Gdx.graphics.getWidth() * 2;
-		float height = Gdx.graphics.getHeight();
-		Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-	}
-
 	private void updateFocus(float delta) {
-		if (target != null) {
+		 if (target != null) {
 
-			// Create a direction vector
-			velocity.x = (float) (target.getX()
-					+ Math.floor(target.getWidth() / 2.0f) - (getX() + Math
-					.floor(getWidth() / 2.0f)));
-			velocity.y = (float) (target.getY()
-					+ Math.floor(target.getHeight() / 2.0f) - (getY() + Math
-					.floor(getHeight() / 2.0f)));
+             // Create a direction vector
+             velocity.x = (float) (target.getX() + Math.floor(target.getWidth() / 2.0f)
+                             - (getX() + Math.floor(getWidth() / 2.0f)));
+             velocity.y = (float) (target.getY() + Math.floor(target.getHeight() / 2.0f)
+                             - (getY() + Math.floor(getHeight() / 2.0f)));
 
-			float distance = velocity.len();
+             float distance = velocity.len();
 
-			velocity = velocity.nor();
-			if (distance <= 1.0f) {
-				moveToEntity(target);
-			} else {
-				double speed = ((1 + delta) * distance) / (getWidth() / 4.0);
-
-				// Round it up to prevent camera shaking
-				float newXPos = (float) Math.ceil(getX() + velocity.x
-						* speed);
-				float newYPos = (float) Math
-						.ceil(getY() + velocity.y * speed);
-
-				setPosition(newXPos, newYPos);
-			}
-		}
+             velocity = velocity.nor();
+             if (distance <= 1.0f) {                                
+                     moveToEntity(target);
+             } else {
+                     double speed = ((10 + delta) * distance) / (getWidth() / 4.0);
+                     
+                     // Round it up to prevent camera shaking
+                     float newXPos = (float) (getX() + velocity.x * speed);
+                     float newYPos = (float) (getY() + velocity.y * speed);
+                     setPosition((float)Math.ceil(newXPos), (float)Math.ceil(newYPos));
+             }
+     }
 	}
 	
 	private void moveToEntity(Entity entity) {

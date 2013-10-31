@@ -34,6 +34,8 @@ public class SimpleEntity implements Entity {
 	// ===========================================================
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static int ids = 0;
 
 	// ===========================================================
 	// Fields
@@ -42,6 +44,8 @@ public class SimpleEntity implements Entity {
 	private Shape shape;
 	
 	private EntityType type;
+	
+	private int id;
 
 	// ===========================================================
 	// Constructors
@@ -49,6 +53,7 @@ public class SimpleEntity implements Entity {
 	
 	public SimpleEntity(EntityType type) {
 		shape = new SimpleShape();
+		this.id = ids++;
 	}
 
 	// ===========================================================
@@ -64,7 +69,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public String getID() {
-		return "";
+		return getClass().getSimpleName() + id;
 	}
 
 	/* (non-Javadoc)

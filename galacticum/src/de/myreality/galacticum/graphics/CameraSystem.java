@@ -103,8 +103,7 @@ public class CameraSystem implements Subsystem {
 	 */
 	@Override
 	public void onEnter(Context context) {
-		// TODO Auto-generated method stub
-		
+		camera.focus(context.getPlayer().getCurrentShip());
 	}
 
 	/*
