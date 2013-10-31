@@ -62,12 +62,18 @@ public final class Resources {
 	
 	public static Texture TEXTURE_BLUE;
 	
+	public static Texture TEXTURE_SPACE_FAR;
+	
+	public static Texture TEXTURE_FOG_MEDIUM;
+	
 	public static void loadTextures() {		
 		unloadTextures();		
 		TEXTURE_MENU_BACKGROUND = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
 		TEXTURE_BRIGHT_TRANSPARENT = createColoredTexture(new Color(0f, 0f, 0f, 0.3f));
 		TEXTURE_DARK_TRANSPARENT = createColoredTexture(new Color(0f, 0f, 0f, 0.5f));
 		TEXTURE_BLUE = createColoredTexture(COLOR_BLUE);
+		TEXTURE_SPACE_FAR = new Texture(Gdx.files.internal("images/space-far.png"));
+		TEXTURE_FOG_MEDIUM = new Texture(Gdx.files.internal("images/space-middle.png"));
 	}
 	
 	public static void unloadTextures() {
@@ -77,6 +83,14 @@ public final class Resources {
 		
 		if (TEXTURE_BRIGHT_TRANSPARENT != null) {
 			TEXTURE_BRIGHT_TRANSPARENT.dispose();
+		}
+		
+		if (TEXTURE_SPACE_FAR != null) {
+			TEXTURE_SPACE_FAR.dispose();
+		}
+		
+		if (TEXTURE_FOG_MEDIUM != null) {
+			TEXTURE_FOG_MEDIUM.dispose();
 		}
 	}
 	
