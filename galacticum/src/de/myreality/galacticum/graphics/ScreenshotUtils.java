@@ -40,7 +40,6 @@ public final class ScreenshotUtils {
 
 	public static void screenshot() {
 		FileHandle handle = createHandle();
-		System.out.println(handle.file().getPath());
 		saveScreenshot(handle);
 	}
 

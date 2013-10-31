@@ -64,13 +64,15 @@ public class IngameControls extends GeneralStage {
 
 	@Override
 	public boolean keyDown(int keyCode) {
+
+		boolean state  = super.keyDown(keyCode);
 		
 		if (keyCode == Keys.ESCAPE) {
 			screen.leave();
 			return true;
 		}
 
-		return false;
+		return state;
 	}
 
 	// ===========================================================
