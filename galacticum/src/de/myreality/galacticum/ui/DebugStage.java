@@ -16,9 +16,11 @@
  */
 package de.myreality.galacticum.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
 
 /**
@@ -34,12 +36,16 @@ public class DebugStage extends Stage implements Debugable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private final int PADDING = 10;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	private boolean debug;
+	
+	private Label lblCaption, lblFps, lblJVM;
 
 	// ===========================================================
 	// Constructors
@@ -54,7 +60,10 @@ public class DebugStage extends Stage implements Debugable {
 		super(width, height, false);
 		this.debug = debug;
 		
-		Label label = new Label("Galacticum 0.1", Resources.STYLE_LABEL_ERROR);
+		MetaData meta = Resources.META_DATA;
+		
+		Label label = new Label(meta.getName() + " " + meta.getVersion() + meta.getPhase(), Resources.STYLE_LABEL_DEBUG);
+		label.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - label.getHeight());
 		addActor(label);
 	}
 

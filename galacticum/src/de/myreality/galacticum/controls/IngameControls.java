@@ -74,6 +74,9 @@ public class IngameControls extends GeneralStage {
 		case Keys.ESCAPE:
 			screen.leave();
 			return true;
+		case Keys.F3:
+			screen.setDebugEnabled(!screen.isDebugEnabled());
+			return true;
 		}
 
 		return state;
