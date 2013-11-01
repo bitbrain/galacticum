@@ -14,23 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.controls;
+package de.myreality.galacticum.io;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.player.Player;
-import de.myreality.galacticum.screens.IngameScreen;
+import de.myreality.galacticum.MetaData;
 
 /**
- * Controls for ingame functionality
+ * Simple implementation of {@see MetaData}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class IngameControls extends GeneralStage {
+public class SimpleMetaData implements MetaData {
 
 	// ===========================================================
 	// Constants
@@ -40,21 +35,31 @@ public class IngameControls extends GeneralStage {
 	// Fields
 	// ===========================================================
 
-	private IngameScreen screen;
+	private String name, version, phase, author, url;
+
+	private int progress;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	/**
-	 * @param width
-	 * @param height
-	 * @param keepAspectRatio
+	 * @param name
+	 * @param version
+	 * @param phase
+	 * @param author
+	 * @param url
+	 * @param progress
 	 */
-	public IngameControls(float width, float height, boolean keepAspectRatio,
-			IngameScreen screen) {
-		super(width, height, keepAspectRatio);
-		this.screen = screen;
+	public SimpleMetaData(String name, String version, String phase,
+			String author, String url, int progress) {
+		super();
+		this.name = name;
+		this.version = version;
+		this.phase = phase;
+		this.author = author;
+		this.url = url;
+		this.progress = progress;
 	}
 
 	// ===========================================================
@@ -65,47 +70,72 @@ public class IngameControls extends GeneralStage {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getName()
+	 */
 	@Override
-	public boolean keyDown(int keyCode) {
+	public String getName() {
+		return name;
+	}
 
-		boolean state = super.keyDown(keyCode);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getVersion()
+	 */
+	@Override
+	public String getVersion() {
+		return version;
+	}
 
-		switch (keyCode) {
-		case Keys.ESCAPE:
-			screen.leave();
-			return true;
-		case Keys.F3:
-			screen.setDebugEnabled(!screen.isDebugEnabled());
-			return true;
-		}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getPhase()
+	 */
+	@Override
+	public String getPhase() {
+		return phase;
+	}
 
-		return state;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getAuthor()
+	 */
+	@Override
+	public String getAuthor() {
+		return author;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getUrl()
+	 */
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getProgress()
+	 */
+	@Override
+	public int getProgress() {
+		return progress;
 	}
 
 	@Override
-	public void act(float delta) {
-		super.act(delta);
-
-		// Control via W,A,S,D
-		Player player = screen.getContext().getPlayer();
-		Entity target = player.getCurrentShip();
-		float speed = 20;
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {
-			target.setY(target.getY() - speed);
-		}
-
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_LEFT)) {
-			target.setX(target.getX() - speed);
-		}
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_DOWN)) {
-			target.setY(target.getY() + speed);
-		}
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_RIGHT)) {
-			target.setX(target.getX() + speed);
-		}
-	}
-	
-	
+	public String toString() {
+		return "SimpleMetaData [name=" + name + ", version=" + version
+				+ ", phase=" + phase + ", author=" + author + ", url=" + url
+				+ ", progress=" + progress + "]";
+	}	
 
 	// ===========================================================
 	// Methods

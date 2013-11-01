@@ -1,0 +1,39 @@
+{
+    "name" : "Galacticum",
+    "author" : "Miguel Gonzalez",
+    "url" : "http://galacticum.my-reality.de",
+    "version" : "0.0.30",
+    "phase" : "dev",
+    "progress" : "28",
+    "phaselist" : [
+        "prototype", "dev", "alpha", "beta", "release"
+    ],
+    
+    "team" : [
+      {
+         "name" : "Miguel Gonzalez",
+         "job": "Developer",
+         "email" : "miguel-gonzalez@gmx.de",
+         "url" : "http://my-reality.de",
+         "facebook" : "https://www.facebook.com/myrealityde",
+         "twitter" : "https://twitter.com/tweetmyreality",
+         "googleplus" : "https://plus.google.com/103183029519102261612"
+      },
+      
+      {
+         "name" : "Reinier Klarenberg",
+         "job": "Developer",
+         "email" : "reinierklarenberg@gmail.com",
+         "url" : "http://galacticum.my-reality.de",
+         "twitter" : "https://twitter.com/DreamBreacher",
+         "googleplus" : "https://plus.google.com/102178017952456150111"
+      },
+      
+      {
+         "name" : "Dennis Pawlik",
+         "job": "Developer",
+         "email" : "pawlik.dennis@gmail.com",
+         "url" : "http://pawlikvoid.contratorrentem.de/"
+      }
+   ]
+}

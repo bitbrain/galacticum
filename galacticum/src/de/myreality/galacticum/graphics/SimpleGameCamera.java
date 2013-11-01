@@ -186,12 +186,8 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 		
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-		
 	}
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
+		
 
 	private void updateFocus(float delta) {
 		 if (target != null) {
