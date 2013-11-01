@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.io;
+package de.myreality.galacticum.io.json;
 
 import java.io.IOException;
 
 import com.badlogic.gdx.files.FileHandle;
+
+import de.myreality.galacticum.io.MetaData;
 
 /**
  * JSON implementation of {@see MetaData}
