@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.core.context.Context;
 
 /**
  * This stage shows up important debug information. Debugging can be enabled or
@@ -46,6 +47,8 @@ public class DebugStage extends Stage implements Debugable {
 	private boolean debug;
 	
 	private Label lblCaption, lblFps, lblJVM;
+	
+	private Context context;
 
 	// ===========================================================
 	// Constructors
@@ -56,15 +59,24 @@ public class DebugStage extends Stage implements Debugable {
 	 * @param height
 	 * @param keepAspectRatio
 	 */
-	public DebugStage(float width, float height, boolean debug) {
+	public DebugStage(float width, float height, boolean debug, Context context) {
 		super(width, height, false);
 		this.debug = debug;
-		
+		this.context = context;
 		MetaData meta = Resources.META_DATA;
 		
-		Label label = new Label(meta.getName() + " " + meta.getVersion() + meta.getPhase(), Resources.STYLE_LABEL_DEBUG);
-		label.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - label.getHeight());
-		addActor(label);
+		lblCaption = new Label(meta.getName() + " " + meta.getVersion() + meta.getPhase(), Resources.STYLE_LABEL_DEBUG);
+		lblCaption.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - lblCaption.getHeight());
+		addActor(lblCaption);
+		
+		lblFps = new Label("FPS: 0", Resources.STYLE_LABEL_DEBUG);
+		lblFps.setPosition(PADDING, lblCaption.getY() - PADDING - lblFps.getHeight());	
+		addActor(lblFps);
+		lblJVM = new Label("JVM: 0", Resources.STYLE_LABEL_DEBUG);
+		lblJVM.setPosition(PADDING, lblFps.getY() - PADDING - lblFps.getHeight());	
+		addActor(lblJVM);
+		
+		updateLabels();
 	}
 
 	// ===========================================================
@@ -90,6 +102,10 @@ public class DebugStage extends Stage implements Debugable {
 	@Override
 	public void draw() {
 		if (isDebugEnabled()) {
+			lblCaption.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - lblCaption.getHeight());
+			lblFps.setPosition(PADDING, lblCaption.getY() - PADDING - lblFps.getHeight());
+			lblJVM.setPosition(PADDING, lblFps.getY() - PADDING - lblFps.getHeight());	
+			updateLabels();
 			super.draw();
 		}
 	}
@@ -107,6 +123,29 @@ public class DebugStage extends Stage implements Debugable {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void updateLabels() {
+		lblJVM.setText(getJVMText());
+		lblFps.setText(getFPSText());
+	}
+	
+	private String getJVMText() {
+		
+		String text = "JVM: ";
+		
+		Runtime r = Runtime.getRuntime();
+		
+		int totalMb = Math.round(r.totalMemory() / (1024 * 1024));
+		int usedMb = Math.round((r.totalMemory() - r.freeMemory()) / (1024 * 1024));
+		
+		int percentage = Math.round(100 * (r.totalMemory() - r.freeMemory()) / (float)r.totalMemory());
+		
+		return text + usedMb + "/" + totalMb + " (" + percentage + "%)";
+	}
+	
+	private String getFPSText() {
+		return "FPS: " + Gdx.graphics.getFramesPerSecond();
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
