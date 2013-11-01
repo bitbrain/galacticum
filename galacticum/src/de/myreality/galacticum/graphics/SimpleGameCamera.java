@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.graphics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -54,6 +53,8 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	public SimpleGameCamera(float viewportWidth, float viewportHeight) {
 		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 		velocity = new Vector2();
+
+		camera.setToOrtho(true);
 	}
 
 	// ===========================================================
@@ -167,31 +168,30 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void update(float delta, SpriteBatch batch) {
-		updateViewport(batch);
+		//updateViewport(batch);
 		updateFocus(delta);
-		System.out.println(getX() + " | " + getY());
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
-	private void updateViewport(SpriteBatch batch) {
-		camera.viewportWidth = Gdx.graphics.getWidth();
-		camera.viewportHeight = Gdx.graphics.getHeight();
-
-		camera.setToOrtho(true, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-
-		//camera.position.x = Gdx.input.getX();
-		//camera.position.y = Gdx.input.getY();
-
-		float width = Gdx.graphics.getWidth() * 2;
-		float height = Gdx.graphics.getHeight();
-		Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-	}
+//	private void updateViewport(SpriteBatch batch) {
+//		camera.viewportWidth = Gdx.graphics.getWidth();
+//		camera.viewportHeight = Gdx.graphics.getHeight();
+//
+//		camera.setToOrtho(true, Gdx.graphics.getWidth(),
+//				Gdx.graphics.getHeight());
+//
+//		//camera.position.x = Gdx.input.getX();
+//		//camera.position.y = Gdx.input.getY();
+//
+//		float width = Gdx.graphics.getWidth() * 2;
+//		float height = Gdx.graphics.getHeight();
+//		Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
+//		camera.update();
+//		batch.setProjectionMatrix(camera.combined);
+//	}
 
 	private void updateFocus(float delta) {
 		if (target != null) {
