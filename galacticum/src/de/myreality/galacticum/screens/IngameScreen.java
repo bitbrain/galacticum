@@ -106,6 +106,10 @@ public class IngameScreen implements Screen, Debugable {
 			system.update(delta);
 		}
 		batch.end();
+		
+		for (Subsystem system : context.getSubsystems()) {
+			system.afterUpdate();
+		}
 		stage.draw();
 		debugStage.draw();
 	}

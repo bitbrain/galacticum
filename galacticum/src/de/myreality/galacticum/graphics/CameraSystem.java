@@ -99,6 +99,16 @@ public class CameraSystem implements Subsystem {
 
 
 	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#afterUpdate()
+	 */
+	@Override
+	public void afterUpdate() {
+		camera.end();
+	}
+	
+
+
+	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
 	 */
 	@Override
@@ -114,6 +124,7 @@ public class CameraSystem implements Subsystem {
 	@Override
 	public void update(float delta) {		
 		camera.update(delta, batch);
+		camera.begin();
 	}
 
 	/*

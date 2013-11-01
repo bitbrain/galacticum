@@ -107,5 +107,15 @@ public interface GameCamera extends Shape {
 	 * @param batch sprite batch
 	 */
 	void update(float delta, SpriteBatch batch);
+	
+	/**
+	 * 
+	 */
+	void begin();
+	
+	/**
+	 * 
+	 */
+	void end();
 
 }

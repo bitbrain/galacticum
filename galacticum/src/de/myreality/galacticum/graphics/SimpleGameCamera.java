@@ -182,10 +182,29 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	        setX(x);
 	        setY(y);
 		}
+		
 		updateFocus(delta);
 		
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.GameCamera#begin()
+	 */
+	@Override
+	public void begin() {
+		//camera.zoom += 2f;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.GameCamera#end()
+	 */
+	@Override
+	public void end() {
+		//camera.translate(0, 0);
 	}
 		
 
