@@ -16,11 +16,15 @@
  */
 package de.myreality.galacticum;
 
+import java.io.IOException;
+
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import de.myreality.galacticum.io.json.JsonMetaData;
 import de.myreality.galacticum.screens.CreationScreen;
 import de.myreality.galacticum.tweens.ActorTween;
 
@@ -61,10 +65,17 @@ public class GalacticumGame extends Game {
 		Resources.loadTextures();
 		Resources.loadFonts();
 		Resources.loadStyles();
-		
-		initTweenEngine();
-		
-		setScreen(new CreationScreen(this));
+		try {
+			Resources.loadMetaData();
+			initTweenEngine();			
+			setScreen(new CreationScreen(this));
+			
+			MetaData data = Resources.META_DATA;
+			Gdx.graphics.setTitle(data.getName() + " " + data.getVersion() + data.getPhase());
+		} catch (IOException e) {
+			e.printStackTrace();
+			Gdx.app.exit();
+		}
 	}
 
 	@Override

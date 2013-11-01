@@ -40,10 +40,14 @@ public class JsonReader {
         StringBuilder buffer = new StringBuilder();
  
         while (index != txt.length()) {
- 
- 
+  
             char c = txt.charAt(index);
- 
+            
+            if (c == '"') {
+            	index++;
+            	continue;
+            }
+            
             if (c == JsonSettings.JSON_OBJECT_LEFT_BRACKET) {
  
                 JsonObject newNode = new JsonObject();
@@ -52,7 +56,6 @@ public class JsonReader {
  
             } else if (c == JsonSettings.JSON_OBJECT_RIGHT_BRACKET) {
                 currentNode.addBuffer(buffer.toString());
- 
  
                 currentNode = checkAndCloseCurrentNode(currentNode);
                 buffer = new StringBuilder();
@@ -71,8 +74,7 @@ public class JsonReader {
                 buffer = new StringBuilder();
  
             } else if (c == JsonSettings.JSON_COMMA) {
-                currentNode.addBuffer(buffer.toString());
- 
+                currentNode.addBuffer(buffer.toString()); 
                 buffer = new StringBuilder();
  
  

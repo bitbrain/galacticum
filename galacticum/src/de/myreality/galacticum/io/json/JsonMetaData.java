@@ -16,11 +16,15 @@
  */
 package de.myreality.galacticum.io.json;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import com.badlogic.gdx.files.FileHandle;
 
-import de.myreality.galacticum.io.MetaData;
+import de.myreality.galacticum.MetaData;
+import de.myreality.galacticum.io.SimpleMetaData;
 
 /**
  * JSON implementation of {@see MetaData}
@@ -112,9 +116,37 @@ public class JsonMetaData implements MetaData {
 	
 	private MetaData createData(FileHandle handle) throws IOException {
 		
+		JsonReader reader = new JsonReader();
+		InputStream input = handle.read();
+		JsonObject object = reader.parse(getJson(input));
 		
+		String name = (String) object.getProperty("name");
+		String author = (String) object.getProperty("author");
+		String url = (String) object.getProperty("url");
+		String version = (String) object.getProperty("version");
+		String phase = (String) object.getProperty("phase");
+		int progress = Integer.valueOf((String) object.getProperty("progress"));
 		
-		return null;
+		return new SimpleMetaData(name, version, phase, author, url, progress);
+	}
+	
+	private String getJson(InputStream input) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+		String result  = "";
+		String line  = "";
+		
+		while ((line = reader.readLine()) != null) {
+			
+			if (line.contains("url")) {
+				continue;
+			}
+			
+			result += line;
+		}
+		
+		reader.close();
+		
+		return result;		
 	}
 
 	// ===========================================================

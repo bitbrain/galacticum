@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.io;
 
+import de.myreality.galacticum.MetaData;
+
 /**
  * Simple implementation of {@see MetaData}
  * 
@@ -127,6 +129,13 @@ public class SimpleMetaData implements MetaData {
 	public int getProgress() {
 		return progress;
 	}
+
+	@Override
+	public String toString() {
+		return "SimpleMetaData [name=" + name + ", version=" + version
+				+ ", phase=" + phase + ", author=" + author + ", url=" + url
+				+ ", progress=" + progress + "]";
+	}	
 
 	// ===========================================================
 	// Methods

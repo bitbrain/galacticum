@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -28,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import de.myreality.galacticum.io.json.JsonMetaData;
 import de.myreality.galacticum.ui.ProgressBar.ProgressBarStyle;
 
 /**
@@ -195,5 +198,16 @@ public final class Resources {
 	public static final String ROOT_PATH = ".galacticum/";
 	
 	public static final String CONTEXT_PATH = ROOT_PATH + "context.xml";
+	
+	// ===========================================================
+	// Meta data
+	// ===========================================================
+	
+	public static MetaData META_DATA;
+	
+	public static void loadMetaData() throws IOException {		
+		META_DATA = new JsonMetaData(Gdx.files.internal("meta.json"));
+	}
+	
 
 }
