@@ -17,7 +17,6 @@
 package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -61,7 +60,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 		super(viewportWidth, viewportHeight);
 		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 		velocity = new Vector2();
-        camera.setToOrtho(true);
+		camera.setToOrtho(true);
 	}
 
 	// ===========================================================
@@ -93,7 +92,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	public void focus(Entity entity) {
 		this.target = entity;
 		moveToTarget();
-		
+
 	}
 
 	/*
@@ -104,10 +103,10 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void setPosition(float x, float y) {
-		
+
 		float deltaX = x - getX();
 		float deltaY = y - getY();
-		
+
 		camera.translate(deltaX, deltaY);
 	}
 
@@ -179,45 +178,78 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void update(float delta, SpriteBatch batch) {
-		
-		if (Gdx.graphics.getWidth() != camera.viewportWidth ||
-			Gdx.graphics.getHeight() != camera.viewportHeight) {
+
+		if (Gdx.graphics.getWidth() != camera.viewportWidth
+				|| Gdx.graphics.getHeight() != camera.viewportHeight) {
 			float x = getX();
 			float y = getY();
-	        camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	        setX(x);
-	        setY(y);
+			camera.setToOrtho(true, Gdx.graphics.getWidth(),
+					Gdx.graphics.getHeight());
+			setX(x);
+			setY(y);
 		}
 		
-		moveToTarget();
-		
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
+		updateFocus(delta);
+
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#begin()
 	 */
 	@Override
 	public void begin() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#end()
 	 */
 	@Override
 	public void end() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	void moveToTarget() {		
+
+	void moveToTarget() {
 		camera.position.x = target.getX() + target.getWidth() / 2f;
 		camera.position.y = target.getY() + target.getHeight() / 2f;
 	}
 
+	private void updateFocus(float delta) {
+		if (target != null) {
+
+			// Create a direction vector
+			velocity.x = (float) (target.getX()
+					+ Math.floor(target.getWidth() / 2.0f) - (getX() + Math
+					.floor(getWidth() / 2.0f)));
+			velocity.y = (float) (target.getY()
+					+ Math.floor(target.getHeight() / 2.0f) - (getY() + Math
+					.floor(getHeight() / 2.0f)));
+
+			float distance = velocity.len();
+			velocity = velocity.nor();
+			
+			if (distance <= 1.0f) {
+				moveToTarget();
+			} else {
+				double speed = ((10 + delta) * distance) / (getWidth() / 10.0);
+
+				// Round it up to prevent camera shaking
+				float newXPos = (float) (getX() + velocity.x * speed);
+				float newYPos = (float) (getY() + velocity.y * speed);
+				// setPosition(newXPos, newYPos);
+				setPosition((float) Math.ceil(newXPos),
+						(float) Math.ceil(newYPos));
+			}
+		}
+	}
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
