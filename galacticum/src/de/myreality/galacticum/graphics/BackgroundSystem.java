@@ -178,10 +178,13 @@ public class BackgroundSystem implements Subsystem {
 		final int starLayers = 8;
 
 		for (int i = 0; i < starLayers; ++i) {
+			
+			float distance = (float) (Math.pow(i, 1.2) + 5f);
+			
 			LayerTexture texture = new PreprocessedTexture(512, 512, batch,
-					new StarfieldCreator());
+					new StarfieldCreator(distance));
 			LayerConfig config = new LayerConfig(texture);
-			mapper.add((float) (Math.pow(i, 1.2) + 5f), config);
+			mapper.add(distance, config);
 		}
 
 		int fogLayers = 5;
@@ -208,11 +211,17 @@ public class BackgroundSystem implements Subsystem {
 	// ===========================================================
 	
 	class StarfieldCreator implements GdxTextureProcessor {
+		
+		private float distance;
+		
+		public StarfieldCreator(float distance) {
+			this.distance = distance;
+		}
 
 		@Override
 		public void process(Pixmap map) {
 
-			int starAmount = (int) (400);
+			int starAmount = (int) (Math.pow(distance, 3) / 12f);
 
 			for (int i = 0; i < starAmount; ++i) {
 				drawStar((float) (512 * Math.random()),
@@ -222,12 +231,12 @@ public class BackgroundSystem implements Subsystem {
 
 		private void drawStar(float x, float y, Pixmap map) {
 			Color color = new Color(255, 255, 255, 255);
-			float size = 0.3f;
-			if (Math.random() < 0.02f) {
+			float size = 10f / distance;
+			if (Math.random() < 0.05f) {
 				size += 0.5f;
-			} else if (Math.random() < 0.04f) {
+			} else if (Math.random() < 0.08f) {
 				size += 0.3f;
-			} else if (Math.random() < 0.07f) {
+			} else if (Math.random() < 0.1f) {
 				size += 0.2f;
 			}
 			color.r = (float) (Math.random() * 0.4f + 0.6f);
