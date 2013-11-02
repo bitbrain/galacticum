@@ -16,8 +16,10 @@
  */
 package de.myreality.galacticum.core.subsystem;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,6 +40,8 @@ public class SubsystemList implements Iterable<Subsystem> {
 	// ===========================================================
 	
 	private Map<Class<?>, Subsystem>  subsystems;
+	
+	private List<Subsystem> systems;
 
 	// ===========================================================
 	// Constructors
@@ -45,6 +49,7 @@ public class SubsystemList implements Iterable<Subsystem> {
 	
 	public SubsystemList() {
 		subsystems = new HashMap<Class<?>, Subsystem>();
+		systems = new ArrayList<Subsystem>();
 	}
 
 	// ===========================================================
@@ -53,6 +58,10 @@ public class SubsystemList implements Iterable<Subsystem> {
 	
 	public void add(Subsystem subsystem) {
 		subsystems.put(subsystem.getClass(), subsystem);
+		
+		if (!systems.contains(subsystem)) {
+			systems.add(subsystem);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -67,6 +76,11 @@ public class SubsystemList implements Iterable<Subsystem> {
 	public boolean isEmpty() {
 		return subsystems.isEmpty();
 	}
+	
+	public void clear() {
+		subsystems.clear();
+		systems.clear();
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -77,7 +91,7 @@ public class SubsystemList implements Iterable<Subsystem> {
 	 */
 	@Override
 	public Iterator<Subsystem> iterator() {
-		return subsystems.values().iterator();
+		return systems.iterator();
 	}
 
 	// ===========================================================
