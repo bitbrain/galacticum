@@ -101,8 +101,11 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void setPosition(float x, float y) {
-		setX(x);
-		setY(y);
+		
+		float deltaX = x - getX();
+		float deltaY = y - getY();
+		
+		camera.translate(deltaX, deltaY);
 	}
 
 	/*
@@ -132,7 +135,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void setX(float x) {
-		camera.position.x = x;
+		setPosition(x, getX());
 	}
 
 	/*
@@ -142,7 +145,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void setY(float y) {
-		camera.position.y = y;
+		setPosition(y, getY());
 	}
 
 	/*
@@ -184,7 +187,6 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 		}
 		
 		updateFocus(delta);
-		
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 	}
