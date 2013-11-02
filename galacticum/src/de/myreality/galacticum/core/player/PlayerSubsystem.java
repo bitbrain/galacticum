@@ -259,9 +259,10 @@ public class PlayerSubsystem implements Subsystem {
 		
 		if (!file.exists()) {
 			try {
+				file.getParentFile().mkdirs();
 				file.createNewFile();
-			} catch (IOException e) {
-				throw new SubsystemException("Can't create player file: " + e.getMessage());
+			} catch (IOException e) {				
+				throw new SubsystemException("Can't create player file at '" + file.getPath() + "': " + e.getMessage());
 			}
 		}
 		

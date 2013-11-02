@@ -193,6 +193,7 @@ public class LoadingScreen extends MenuScreen {
 			} catch (ContextException e) {
 				message = e.getMessage();
 				loadingFuture.cancel(true);
+				e.printStackTrace();
 			}
 		}
 
