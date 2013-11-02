@@ -19,6 +19,7 @@ package de.myreality.galacticum.core.context;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
@@ -120,8 +121,13 @@ public class SimpleContextLoader implements ContextLoader {
 			ContextConfiguration configuration) throws ContextException {
 
 		int index = 0;
+		
+		Gdx.app.log("LOAD", "Loading subsystems..");
 
 		for (Subsystem system : subsystems) {
+			
+			Gdx.app.log("LOAD", "Load " + system.getName() + " system..");
+			
 			currentIndex = index;
 			system.addProgressListener(subsystemListener);
 			SimpleContextEvent event = new SimpleContextEvent(this, index,
@@ -133,6 +139,8 @@ public class SimpleContextLoader implements ContextLoader {
 
 			loadPlayer(system);
 			loadCamera(system);
+			
+			Gdx.app.log("LOAD", "Success!");
 		}
 	}
 
