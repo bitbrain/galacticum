@@ -61,6 +61,10 @@ public class GalacticumGame extends Game {
 	 */
 	@Override
 	public void create() {
+		
+		Resources.unloadTextures();
+		Resources.unloadTextures();
+		
 		Resources.loadTextures();
 		Resources.loadFonts();
 		Resources.loadStyles();

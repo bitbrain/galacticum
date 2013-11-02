@@ -188,22 +188,42 @@ public class BackgroundSystem implements Subsystem {
 		}
 
 		int fogLayers = 5;
-		float veloX = 6f;
-		float veloY = 8f;
+		float veloX = 4f;
+		float veloY = 3f;
 
 		LayerTexture fogTexture = new GdxTexture(Resources.TEXTURE_FOG_MEDIUM, batch);
 
 		for (int i = 0; i < fogLayers; ++i) {
 			LayerConfig config = new LayerConfig(fogTexture);
+			
+			veloX *= (i % 2 == 0) ? 1 : -1;
+			veloY *= (i % 3 == 0) ? 1 : -1;
+			
 			config.setVelocity(veloX, veloY);
-			mapper.add((float) (Math.sin(i) + 5), config);
+			config.setTileWidth(250 + i * 20);
+			config.setTileHeight(250 + i * 20);
+			mapper.add((float) (Math.pow(i, 3) / 5f) + 5, config);
 		}
 
 		// Add the background
 		LayerTexture backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
 		LayerConfig config = new LayerConfig(backgroundTexture);
 		config.setFilter(0.3f, 0.1f, 0.4f, 1.0f);
+		config.setTileWidth(256);
+		config.setTileHeight(256);
 		mapper.add(20f, config);
+		
+		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
+		config = new LayerConfig(backgroundTexture);
+		config.setFilter(0.3f, 0.1f, 0.4f, 0.6f);
+		config.setTileWidth(450);
+		config.setTileHeight(450);
+		mapper.add(15f, config);
+		
+		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
+		config = new LayerConfig(backgroundTexture);
+		config.setFilter(0.3f, 0.1f, 0.4f, 0.6f);
+		mapper.add(12f, config);
 	}
 
 	// ===========================================================
@@ -221,7 +241,7 @@ public class BackgroundSystem implements Subsystem {
 		@Override
 		public void process(Pixmap map) {
 
-			int starAmount = (int) (Math.pow(distance, 3) / 12f);
+			int starAmount = (int) (Math.pow(distance, 3) / 10f);
 
 			for (int i = 0; i < starAmount; ++i) {
 				drawStar((float) (512 * Math.random()),
@@ -242,7 +262,8 @@ public class BackgroundSystem implements Subsystem {
 			color.r = (float) (Math.random() * 0.4f + 0.6f);
 			color.g = (float) (Math.random() * 0.4f + 0.6f);
 			color.b = (float) (Math.random() * 0.4f + 0.6f);
-
+			color.a = (float) (Math.random() * 0.3f + 0.7f);
+			
 			map.setColor(color);
 			map.fillRectangle((int) (x - size / 2f), (int) (y - size / 2f),
 					(int) (size * 2f), (int) (size * 2f));
