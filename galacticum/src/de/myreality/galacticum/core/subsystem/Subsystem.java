@@ -57,6 +57,11 @@ public interface Subsystem extends Nameable {
 	void update(float delta);
 	
 	/**
+	 * Is called after update 
+	 */
+	void afterUpdate();
+	
+	/**
 	 * Closes this subsystem
 	 */
 	void shutdown();

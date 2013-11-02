@@ -14,67 +14,84 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
+package de.myreality.galacticum.core.subsystem;
 
-import java.io.Serializable;
-
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.util.Seed;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Singleton implementation of (@see SpaceShipFactory}
+ * 
  *
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @author miguel
+ * @since
+ * @version
  */
-public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
-
+public class SubsystemList implements Iterable<Subsystem> {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final long serialVersionUID = 1L;
-	private static SharedSpaceShipFactory instance;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Map<Class<?>, Subsystem>  subsystems;
+	
+	private List<Subsystem> systems;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	static {
-		instance = new SharedSpaceShipFactory();
+	public SubsystemList() {
+		subsystems = new HashMap<Class<?>, Subsystem>();
+		systems = new ArrayList<Subsystem>();
 	}
-	
-	private SharedSpaceShipFactory() { }
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 	
-	public static SharedSpaceShipFactory getInstance() {
-		return instance;
+	public void add(Subsystem subsystem) {
+		subsystems.put(subsystem.getClass(), subsystem);
+		
+		if (!systems.contains(subsystem)) {
+			systems.add(subsystem);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <Type extends Subsystem> Type get(Class<Type> subsystemClass) {
+		return (Type) subsystems.get(subsystemClass);
+	}
+	
+	public int size() {
+		return subsystems.size();
+	}
+	
+	public boolean isEmpty() {
+		return subsystems.isEmpty();
+	}
+	
+	public void clear() {
+		subsystems.clear();
+		systems.clear();
 	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.entities.SpaceShipFactory#create(float,
-	 * float, de.myreality.galacticum.core.entities.SpaceShipType,
-	 * de.myreality.galacticum.util.Seed)
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
 	 */
 	@Override
-	public SpaceShip create(float x, float y, SpaceShipType type, Seed seed) {
-		return new SimpleSpaceShip();
+	public Iterator<Subsystem> iterator() {
+		return systems.iterator();
 	}
 
 	// ===========================================================
@@ -84,37 +101,5 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
-	class SimpleSpaceShip extends SimpleEntity implements SpaceShip {
-
-		/**
-		 * @param type
-		 */
-		public SimpleSpaceShip() {
-			super(EntityType.SPACESHIP, 50, 50);
-		}
-
-		private static final long serialVersionUID = 8496116234063566152L;
-
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.entities.SpaceShip#getFaction()
-		 */
-		@Override
-		public Faction getFaction() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void draw(SpriteBatch batch) {			
-			super.draw(batch);
-			batch.draw(Resources.TEXTURE_BLUE, getX(), getY(), 50, 50);
-		}
-		
-		
-
-		
-		
-	}
 
 }

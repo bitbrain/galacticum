@@ -118,11 +118,11 @@ public class SimplePlayer extends SimpleObserver<PlayerListener> implements Play
 	public boolean setCurrentShip(String id) {
 		SpaceShip ship = getSpaceShip(id);
 		
-		if (ship != null && ship != getCurrentShip()) {
+		if (ship != null) {
 			
 			SpaceShip old = currentShip;
 			currentShip = ship;	
-			
+
 			for (PlayerListener l : getListeners()) {
 				l.onSetCurrentShip(old, currentShip, this);
 			}

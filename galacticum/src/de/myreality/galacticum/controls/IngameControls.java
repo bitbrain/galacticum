@@ -74,6 +74,9 @@ public class IngameControls extends GeneralStage {
 		case Keys.ESCAPE:
 			screen.leave();
 			return true;
+		case Keys.F3:
+			screen.setDebugEnabled(!screen.isDebugEnabled());
+			return true;
 		}
 
 		return state;
@@ -86,7 +89,7 @@ public class IngameControls extends GeneralStage {
 		// Control via W,A,S,D
 		Player player = screen.getContext().getPlayer();
 		Entity target = player.getCurrentShip();
-		float speed = 10;
+		float speed = 5;
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {
 			target.setY(target.getY() - speed);
 		}

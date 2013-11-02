@@ -17,9 +17,9 @@
 package de.myreality.galacticum.core.context;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
@@ -28,6 +28,7 @@ import de.myreality.galacticum.core.player.PlayerSubsystem;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.galacticum.core.subsystem.SubsystemList;
 import de.myreality.galacticum.graphics.CameraSystem;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -49,7 +50,7 @@ public class SimpleContextLoader implements ContextLoader {
 	// Fields
 	// ===========================================================
 
-	private List<Subsystem> subsystems;
+	private SubsystemList subsystems;
 
 	private ContextListenerController listenerController;
 
@@ -67,9 +68,9 @@ public class SimpleContextLoader implements ContextLoader {
 	// Constructors
 	// ===========================================================
 
-	public SimpleContextLoader(SpriteBatch batch) {
+	public SimpleContextLoader(SpriteBatch batch, SubsystemList subsystems) {
 		listenerController = new ContextListenerController();
-		subsystems = new ArrayList<Subsystem>();
+		this.subsystems = subsystems;
 		subsystemListener = new SubsystemListener(this);
 		this.batch = batch;
 	}
@@ -94,23 +95,11 @@ public class SimpleContextLoader implements ContextLoader {
 			World container) throws ContextException {
 		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems
 				.size(), 0.0f));
-		Collection<Subsystem> subsystems = loadSubsystems(configuration);
+		loadSubsystems(configuration);
 		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
 				.size(), subsystems.size(), 1.0f));
 
 		return new SimpleContext(subsystems, container, player, camera, batch, configuration);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.ContextLoader#addFactory(de.myreality.galacticum
-	 * .core.SubsystemFactory)
-	 */
-	@Override
-	public void addSubsystem(Subsystem subsystem) {
-		subsystems.add(subsystem);
 	}
 
 	/*
@@ -128,28 +117,31 @@ public class SimpleContextLoader implements ContextLoader {
 	// Methods
 	// ===========================================================
 
-	private Collection<Subsystem> loadSubsystems(
+	private void loadSubsystems(
 			ContextConfiguration configuration) throws ContextException {
 
-		List<Subsystem> systems = new ArrayList<Subsystem>();
+		int index = 0;
+		
+		Gdx.app.log("LOAD", "Loading subsystems..");
 
-		for (int index = 0; index < subsystems.size(); ++index) {
+		for (Subsystem system : subsystems) {
+			
+			Gdx.app.log("LOAD", "Load " + system.getName() + " system..");
+			
 			currentIndex = index;
-			Subsystem system = subsystems.get(index);
 			system.addProgressListener(subsystemListener);
 			SimpleContextEvent event = new SimpleContextEvent(this, index,
 					subsystems.size(), (float) index
 							/ (float) subsystems.size());
 			listenerController.onLoad(event, system);
 			startSubsystem(system, event);
-			systems.add(system);
 			system.removeProgressListener(subsystemListener);
 
 			loadPlayer(system);
 			loadCamera(system);
+			
+			Gdx.app.log("LOAD", "Success!");
 		}
-
-		return systems;
 	}
 
 	private void startSubsystem(Subsystem system, ContextEvent event)

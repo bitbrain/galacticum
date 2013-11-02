@@ -14,52 +14,57 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
+package de.myreality.galacticum.io;
 
-import java.io.Serializable;
-
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.util.Seed;
+import de.myreality.galacticum.MetaData;
 
 /**
- * Singleton implementation of (@see SpaceShipFactory}
- *
+ * Simple implementation of {@see MetaData}
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
+public class SimpleMetaData implements MetaData {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final long serialVersionUID = 1L;
-	private static SharedSpaceShipFactory instance;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
+	private String name, version, phase, author, url;
+
+	private int progress;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	static {
-		instance = new SharedSpaceShipFactory();
+
+	/**
+	 * @param name
+	 * @param version
+	 * @param phase
+	 * @param author
+	 * @param url
+	 * @param progress
+	 */
+	public SimpleMetaData(String name, String version, String phase,
+			String author, String url, int progress) {
+		super();
+		this.name = name;
+		this.version = version;
+		this.phase = phase;
+		this.author = author;
+		this.url = url;
+		this.progress = progress;
 	}
-	
-	private SharedSpaceShipFactory() { }
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
-	public static SharedSpaceShipFactory getInstance() {
-		return instance;
-	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -68,14 +73,69 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.core.entities.SpaceShipFactory#create(float,
-	 * float, de.myreality.galacticum.core.entities.SpaceShipType,
-	 * de.myreality.galacticum.util.Seed)
+	 * @see de.myreality.galacticum.io.MetaData#getName()
 	 */
 	@Override
-	public SpaceShip create(float x, float y, SpaceShipType type, Seed seed) {
-		return new SimpleSpaceShip();
+	public String getName() {
+		return name;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getVersion()
+	 */
+	@Override
+	public String getVersion() {
+		return version;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getPhase()
+	 */
+	@Override
+	public String getPhase() {
+		return phase;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getAuthor()
+	 */
+	@Override
+	public String getAuthor() {
+		return author;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getUrl()
+	 */
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.io.MetaData#getProgress()
+	 */
+	@Override
+	public int getProgress() {
+		return progress;
+	}
+
+	@Override
+	public String toString() {
+		return "SimpleMetaData [name=" + name + ", version=" + version
+				+ ", phase=" + phase + ", author=" + author + ", url=" + url
+				+ ", progress=" + progress + "]";
+	}	
 
 	// ===========================================================
 	// Methods
@@ -84,37 +144,5 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
-	class SimpleSpaceShip extends SimpleEntity implements SpaceShip {
-
-		/**
-		 * @param type
-		 */
-		public SimpleSpaceShip() {
-			super(EntityType.SPACESHIP, 50, 50);
-		}
-
-		private static final long serialVersionUID = 8496116234063566152L;
-
-		/* (non-Javadoc)
-		 * @see de.myreality.galacticum.core.entities.SpaceShip#getFaction()
-		 */
-		@Override
-		public Faction getFaction() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void draw(SpriteBatch batch) {			
-			super.draw(batch);
-			batch.draw(Resources.TEXTURE_BLUE, getX(), getY(), 50, 50);
-		}
-		
-		
-
-		
-		
-	}
 
 }

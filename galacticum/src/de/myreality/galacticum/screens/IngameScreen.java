@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.screens;
 
+import java.util.Stack;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
@@ -26,6 +28,8 @@ import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.controls.IngameControls;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.ui.DebugStage;
+import de.myreality.galacticum.ui.Debugable;
 
 /**
  * 
@@ -34,8 +38,8 @@ import de.myreality.galacticum.core.subsystem.Subsystem;
  * @since 1.0
  * @version 1.0
  */
-public class IngameScreen implements Screen {
-	
+public class IngameScreen implements Screen, Debugable {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -43,21 +47,23 @@ public class IngameScreen implements Screen {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private GalacticumGame game;
-	
+
 	private Context context;
-	
+
 	private Stage stage;
+
+	private DebugStage debugStage;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public IngameScreen(GalacticumGame game, Context context) {
 		this.game = game;
 		this.context = context;
-		
+
 		for (Subsystem system : context.getSubsystems()) {
 			system.onEnter(context);
 		}
@@ -67,15 +73,14 @@ public class IngameScreen implements Screen {
 	// Getter & Setter
 	// ===========================================================
 
-	
 	public GalacticumGame getGame() {
 		return game;
 	}
-	
+
 	public Context getContext() {
 		return context;
 	}
-	
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -87,20 +92,26 @@ public class IngameScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		
+
 		SpriteBatch batch = context.getSpriteBatch();
-		
+
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		
+
 		stage.act(delta);
-		
+		debugStage.act();
+
 		batch.begin();
 		for (Subsystem system : context.getSubsystems()) {
 			system.update(delta);
 		}
 		batch.end();
+		
+		for (Subsystem system : context.getSubsystems()) {
+			system.afterUpdate();
+		}
 		stage.draw();
+		debugStage.draw();
 	}
 
 	/*
@@ -110,11 +121,13 @@ public class IngameScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		if (stage  == null) {
+		if (stage == null) {
 			stage = new IngameControls(width, height, false, this);
+			debugStage = new DebugStage(width, height, true, context);
 			Gdx.input.setInputProcessor(stage);
 		} else {
 			stage.setViewport(width, height, false);
+			debugStage.setViewport(width, height, false);
 		}
 	}
 
@@ -172,14 +185,39 @@ public class IngameScreen implements Screen {
 		// TODO Auto-generated method stub
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.ui.Debugable#setDebugEnabled(boolean)
+	 */
+	@Override
+	public void setDebugEnabled(boolean debug) {
+		debugStage.setDebugEnabled(debug);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.ui.Debugable#isDebugEnabled()
+	 */
+	@Override
+	public boolean isDebugEnabled() {
+		return debugStage.isDebugEnabled();
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	public void leave() {
-		for (Subsystem system : context.getSubsystems()) {
+		
+		Stack<Subsystem> systems = context.getSubsystems();
+		
+		// Free the last element first
+		while (!systems.isEmpty()) {
+			Subsystem system = systems.pop();
 			system.shutdown();
-		}		
+		}
 
 		game.setScreen(new CreationScreen(game));
 	}

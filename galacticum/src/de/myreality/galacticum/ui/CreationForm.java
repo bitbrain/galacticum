@@ -31,8 +31,8 @@ import de.myreality.galacticum.Resources;
  * Form which provides information for a game context
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 1.0
- * @version 1.0
+ * @since 0.1
+ * @version 0.1
  */
 public class CreationForm extends Table {
 	

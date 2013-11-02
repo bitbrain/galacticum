@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -28,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import de.myreality.galacticum.io.json.JsonMetaData;
 import de.myreality.galacticum.ui.ProgressBar.ProgressBarStyle;
 
 /**
@@ -49,6 +52,7 @@ public final class Resources {
 	public static Color COLOR_CYAN = Color.valueOf("00baff");
 	public static Color COLOR_VIOLET = Color.valueOf("6a37bf");
 	public static Color COLOR_VIOLET_LIGHT = Color.valueOf("524ab1");
+	public static Color COLOR_DEBUG = Color.valueOf("ffc515");
 	
 	// ===========================================================
 	// Textures
@@ -165,6 +169,8 @@ public final class Resources {
 	
 	public static LabelStyle STYLE_LABEL_ERROR = new LabelStyle();
 	
+	public static LabelStyle STYLE_LABEL_DEBUG = new LabelStyle();
+	
 	public static void loadStyles() {		
 		STYLE_BUTTON_DEFAULT.up = new SpriteDrawable(new Sprite(TEXTURE_BRIGHT_TRANSPARENT));
 		STYLE_BUTTON_DEFAULT.over = new SpriteDrawable(new Sprite(TEXTURE_DARK_TRANSPARENT));
@@ -182,6 +188,9 @@ public final class Resources {
 		STYLE_LABEL_ERROR.font = FONT_SMALL;
 		STYLE_LABEL_ERROR.fontColor = Color.RED;
 		
+		STYLE_LABEL_DEBUG.font = FONT_SMALL;
+		STYLE_LABEL_DEBUG.fontColor = COLOR_DEBUG;
+		
 		STYLE_PROGRESS_BAR.background = TEXTURE_BRIGHT_TRANSPARENT;
 		STYLE_PROGRESS_BAR.labeled = true;
 		STYLE_PROGRESS_BAR.font = FONT_SMALL;
@@ -195,5 +204,16 @@ public final class Resources {
 	public static final String ROOT_PATH = ".galacticum/";
 	
 	public static final String CONTEXT_PATH = ROOT_PATH + "context.xml";
+	
+	// ===========================================================
+	// Meta data
+	// ===========================================================
+	
+	public static MetaData META_DATA;
+	
+	public static void loadMetaData() throws IOException {		
+		META_DATA = new JsonMetaData(Gdx.files.internal("meta.json"));
+	}
+	
 
 }

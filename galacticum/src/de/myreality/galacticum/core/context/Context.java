@@ -16,7 +16,7 @@
  */
 package de.myreality.galacticum.core.context;
 
-import java.util.Collection;
+import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -49,7 +49,15 @@ public interface Context {
 	 * 
 	 * @return
 	 */
-	Collection<Subsystem> getSubsystems();
+	Stack<Subsystem> getSubsystems();
+	
+	/**
+	 * 
+	 * 
+	 * @param subsystemClass
+	 * @return
+	 */
+	<Type extends Subsystem> Type getSubsystem(Class<Type> subsystemClass);
 	
 	/**
 	 * 

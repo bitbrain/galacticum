@@ -14,21 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.graphics;
-
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.Shape;
+package de.myreality.galacticum;
 
 /**
- * Is provided for contexts in order manipulate the current camera
- * 
+ * Provides a games meta data
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface GameCamera extends Shape {
+public interface MetaData {
 	
 	// ===========================================================
 	// Constants
@@ -39,83 +34,45 @@ public interface GameCamera extends Shape {
 	// ===========================================================
 	
 	/**
-	 * Shakes the camera of the given value
 	 * 
-	 * @param factor shaking factor
-	 * @param miliseconds length of the effect
-	 */
-	void shake(float factor, int miliseconds);
-	
-	/**
-	 * Tracks a new entity
-	 * 
-	 * @param entity new entity to track
-	 */
-	void focus(Entity entity);
-	
-	/**
-	 * Sets a new position
-	 * 
-	 * @param x new x position
-	 * @param y new y position
-	 */
-	void setPosition(float x, float y);
-	
-	/**
 	 * 
 	 * @return
 	 */
-	float getX();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	float getY();
-	
-	/**
-	 * 
-	 * @param x
-	 */
-	void setX(float x);
-	
-	/**
-	 * 
-	 * @param y
-	 */
-	void setY(float y);
-	
+	String getName();
 	
 	/**
 	 * 
 	 * 
 	 * @return
 	 */
-	float getWidth();
+	String getVersion();
 	
 	/**
 	 * 
 	 * 
 	 * @return
 	 */
-	float getHeight();
-	
-	/**
-	 * Updates the camera
-	 * 
-	 * @param delta time delta
-	 * @param batch sprite batch
-	 */
-	void update(float delta, SpriteBatch batch);
+	String getPhase();
 	
 	/**
 	 * 
+	 * 
+	 * @return
 	 */
-	void begin();
+	String getAuthor();
 	
 	/**
 	 * 
+	 * 
+	 * @return
 	 */
-	void end();
+	String getUrl();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int getProgress();
 
 }

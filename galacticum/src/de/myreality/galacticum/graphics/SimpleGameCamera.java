@@ -41,6 +41,11 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	// Fields
 	// ===========================================================
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private OrthographicCamera camera;
 
 	private Entity target;
@@ -52,8 +57,10 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	// ===========================================================
 
 	public SimpleGameCamera(float viewportWidth, float viewportHeight) {
+		super(viewportWidth, viewportHeight);
 		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 		velocity = new Vector2();
+		camera.setToOrtho(true);
 	}
 
 	// ===========================================================
@@ -84,7 +91,8 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	@Override
 	public void focus(Entity entity) {
 		this.target = entity;
-		moveToEntity(entity);
+		moveToTarget();
+
 	}
 
 	/*
@@ -95,8 +103,11 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void setPosition(float x, float y) {
-		setX(x);
-		setY(y);
+
+		float deltaX = x - getX();
+		float deltaY = y - getY();
+
+		camera.translate(deltaX, deltaY);
 	}
 
 	/*
@@ -106,7 +117,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public float getX() {
-		return camera.position.x;
+		return camera.position.x - getWidth() / 2f;
 	}
 
 	/*
@@ -116,7 +127,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public float getY() {
-		return camera.position.y;
+		return camera.position.y - getHeight() / 2f;
 	}
 
 	/*
@@ -126,7 +137,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void setX(float x) {
-		camera.position.x = x;
+		setPosition(x, getX());
 	}
 
 	/*
@@ -136,7 +147,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void setY(float y) {
-		camera.position.y = y;
+		setPosition(getX(), y);
 	}
 
 	/*
@@ -167,30 +178,48 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public void update(float delta, SpriteBatch batch) {
-		updateViewport(batch);
+
+		if (Gdx.graphics.getWidth() != camera.viewportWidth
+				|| Gdx.graphics.getHeight() != camera.viewportHeight) {
+			float x = getX();
+			float y = getY();
+			camera.setToOrtho(true, Gdx.graphics.getWidth(),
+					Gdx.graphics.getHeight());
+			setX(x);
+			setY(y);
+		}
+		
 		updateFocus(delta);
-		System.out.println(getX() + " | " + getY());
-	}
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
-	private void updateViewport(SpriteBatch batch) {
-		camera.viewportWidth = Gdx.graphics.getWidth();
-		camera.viewportHeight = Gdx.graphics.getHeight();
-
-		camera.setToOrtho(true, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-
-		//camera.position.x = Gdx.input.getX();
-		//camera.position.y = Gdx.input.getY();
-
-		float width = Gdx.graphics.getWidth() * 2;
-		float height = Gdx.graphics.getHeight();
-		Gdx.gl.glViewport((int) (-width / 2), 0, (int) width, (int) height * 2);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.graphics.GameCamera#begin()
+	 */
+	@Override
+	public void begin() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.graphics.GameCamera#end()
+	 */
+	@Override
+	public void end() {
+		// TODO Auto-generated method stub
+
+	}
+
+	void moveToTarget() {
+		camera.position.x = target.getX() + target.getWidth() / 2f;
+		camera.position.y = target.getY() + target.getHeight() / 2f;
 	}
 
 	private void updateFocus(float delta) {
@@ -205,36 +234,22 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 					.floor(getHeight() / 2.0f)));
 
 			float distance = velocity.len();
-
 			velocity = velocity.nor();
+			
 			if (distance <= 1.0f) {
-				moveToEntity(target);
+				moveToTarget();
 			} else {
-				double speed = ((1 + delta) * distance) / (getWidth() / 4.0);
+				double speed = ((10 + delta) * distance) / (getWidth() / 10.0);
 
 				// Round it up to prevent camera shaking
-				float newXPos = (float) Math.ceil(getX() + velocity.x
-						* speed);
-				float newYPos = (float) Math
-						.ceil(getY() + velocity.y * speed);
-
-				setPosition(newXPos, newYPos);
+				float newXPos = (float) (getX() + velocity.x * speed);
+				float newYPos = (float) (getY() + velocity.y * speed);
+				// setPosition(newXPos, newYPos);
+				setPosition((float) Math.ceil(newXPos),
+						(float) Math.ceil(newYPos));
 			}
 		}
 	}
-	
-	private void moveToEntity(Entity entity) {
-		
-		float x = entity.getX() + (float) Math.floor(entity.getWidth() / 2.0f)
-				- (float) Math.floor(getWidth() / 2.0f);
-		
-		float y = entity.getY()
-				+ (float) Math.floor(entity.getHeight() / 2.0f)
-				- (float) Math.floor(getHeight() / 2.0f);
-		
-		setPosition(x, y);
-	}
-
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

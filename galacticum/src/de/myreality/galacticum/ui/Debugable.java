@@ -14,18 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
-
-import java.io.Serializable;
+package de.myreality.galacticum.ui;
 
 /**
- * Provides collision detection and basic 2D layout
+ * Provides debugging
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Shape extends Serializable {
+public interface Debugable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,51 +35,15 @@ public interface Shape extends Serializable {
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @param debug
 	 */
-	float getX();
+	void setDebugEnabled(boolean debug);
 	
 	/**
 	 * 
 	 * 
 	 * @return
 	 */
-	float getY();
-	
-	/**
-	 * 
-	 * 
-	 * @param x
-	 */
-	void setX(float x);
-	
-	/**
-	 * 
-	 * 
-	 * @param y
-	 */
-	void setY(float y);
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getWidth();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getHeight();
-	
-	/**
-	 * 
-	 * 
-	 * @param other
-	 * @return
-	 */
-	boolean collidesWith(Shape other);
+	boolean isDebugEnabled();
 
 }

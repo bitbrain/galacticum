@@ -202,6 +202,17 @@ public class PlayerSubsystem implements Subsystem {
 		// TODO Auto-generated method stub
 
 	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.subsystem.Subsystem#afterUpdate()
+	 */
+	@Override
+	public void afterUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	// ===========================================================
 	// Methods
@@ -248,9 +259,10 @@ public class PlayerSubsystem implements Subsystem {
 		
 		if (!file.exists()) {
 			try {
+				file.getParentFile().mkdirs();
 				file.createNewFile();
-			} catch (IOException e) {
-				throw new SubsystemException("Can't create player file: " + e.getMessage());
+			} catch (IOException e) {				
+				throw new SubsystemException("Can't create player file at '" + file.getPath() + "': " + e.getMessage());
 			}
 		}
 		

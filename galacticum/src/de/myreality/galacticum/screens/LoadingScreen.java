@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.screens;
 
-import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -28,13 +27,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.SimpleWorld;
+import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.context.ContextException;
 import de.myreality.galacticum.core.context.ContextLoader;
 import de.myreality.galacticum.core.context.SimpleContextLoader;
-import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.core.subsystem.SubsystemList;
 import de.myreality.galacticum.core.subsystem.SubsystemLoader;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -94,8 +93,6 @@ public class LoadingScreen extends MenuScreen {
 		}
 		
 		this.batch = new SpriteBatch();
-		
-		this.contextLoader = new SimpleContextLoader(batch);
 		this.container = new SimpleWorld();		
 	}
 
@@ -156,12 +153,9 @@ public class LoadingScreen extends MenuScreen {
 		super.show();
 		
 		// Add subsystems
-		Collection<Subsystem> systems = subsystemLoader.createSubsystems(container, batch, configuration);
+		SubsystemList systems = subsystemLoader.createSubsystems(container, batch, configuration);
 		
-		for (Subsystem system : systems) {
-			contextLoader.addSubsystem(system);
-		}		
-		
+		contextLoader = new SimpleContextLoader(batch, systems);			
 		gameLoader = new GameLoader(contextLoader, container);
 		
 		// Load the game
@@ -199,6 +193,7 @@ public class LoadingScreen extends MenuScreen {
 			} catch (ContextException e) {
 				message = e.getMessage();
 				loadingFuture.cancel(true);
+				e.printStackTrace();
 			}
 		}
 
