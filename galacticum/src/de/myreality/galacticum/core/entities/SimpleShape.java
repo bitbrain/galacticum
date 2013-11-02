@@ -42,6 +42,11 @@ public class SimpleShape implements Shape {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SimpleShape(float width, float height) {
+		this.width = width;
+		this.height = height;
+	}
 
 	// ===========================================================
 	// Getter & Setter

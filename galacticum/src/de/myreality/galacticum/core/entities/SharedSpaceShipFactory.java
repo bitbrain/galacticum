@@ -91,7 +91,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		 * @param type
 		 */
 		public SimpleSpaceShip() {
-			super(EntityType.SPACESHIP);
+			super(EntityType.SPACESHIP, 50, 50);
 		}
 
 		private static final long serialVersionUID = 8496116234063566152L;
