@@ -53,6 +53,14 @@ public interface Context {
 	
 	/**
 	 * 
+	 * 
+	 * @param subsystemClass
+	 * @return
+	 */
+	<Type extends Subsystem> Type getSubsystem(Class<Type> subsystemClass);
+	
+	/**
+	 * 
 	 * @return
 	 */
 	World getWorld();

@@ -17,7 +17,6 @@
 package de.myreality.galacticum.core.context;
 
 import de.myreality.galacticum.core.World;
-import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.io.ContextConfiguration;
 
 /**
@@ -44,14 +43,7 @@ public interface ContextLoader {
 	 * @return
 	 */
 	Context load(ContextConfiguration configuration, World container) throws ContextException;
-	
-	/**
-	 * 
-	 * 
-	 * @param factory
-	 */
-	void addSubsystem(Subsystem factory);
-	
+
 	/**
 	 * 
 	 * 

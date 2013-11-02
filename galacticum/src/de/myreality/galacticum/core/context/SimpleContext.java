@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.player.Player;
 import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.core.subsystem.SubsystemList;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
 
@@ -43,7 +44,9 @@ class SimpleContext implements Context {
 	// Fields
 	// ===========================================================
 	
-	private Stack<Subsystem> subsystems;
+	private Stack<Subsystem> subsystemStack;
+	
+	private SubsystemList subsystems;
 	
 	private World container;
 	
@@ -59,13 +62,19 @@ class SimpleContext implements Context {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleContext(Stack<Subsystem> subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, ContextConfiguration configuration) {
+	public SimpleContext(SubsystemList subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, ContextConfiguration configuration) {
 		this.subsystems = subsystems;
 		this.container = container;
 		this.configuration = configuration;
 		this.camera = camera;
 		this.player = player;
 		this.batch = batch;
+		
+		subsystemStack = new Stack<Subsystem>();
+		
+		for (Subsystem system : subsystems) {
+			subsystemStack.push(system);
+		}
 	}
 	
 
@@ -84,7 +93,7 @@ class SimpleContext implements Context {
 	 */
 	@Override
 	public Stack<Subsystem> getSubsystems() {
-		return subsystems;
+		return subsystemStack;
 	}
 
 	/*
@@ -132,6 +141,15 @@ class SimpleContext implements Context {
 	@Override
 	public SpriteBatch getSpriteBatch() {
 		return batch;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.context.Context#getSubsystem(java.lang.Class)
+	 */
+	@Override
+	public <Type extends Subsystem> Type getSubsystem(Class<Type> subsystemClass) {
+		return subsystems.get(subsystemClass);
 	}
 
 	// ===========================================================

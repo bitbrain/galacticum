@@ -16,19 +16,19 @@
  */
 package de.myreality.galacticum.core.subsystem;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.core.World;
-import de.myreality.galacticum.io.ContextConfiguration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
- * Factory which creates new subsystems for further use
+ * 
  *
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @author miguel
+ * @since
+ * @version
  */
-public interface SubsystemLoader {
+public class SubsystemList implements Iterable<Subsystem> {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -36,25 +36,49 @@ public interface SubsystemLoader {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Map<Class<?>, Subsystem>  subsystems;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SubsystemList() {
+		subsystems = new HashMap<Class<?>, Subsystem>();
+	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	public SubsystemList createSubsystems(World gameContainer, SpriteBatch batch, ContextConfiguration configuration);
+	public void add(Subsystem subsystem) {
+		subsystems.put(subsystem.getClass(), subsystem);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <Type extends Subsystem> Type get(Class<Type> subsystemClass) {
+		return (Type) subsystems.get(subsystemClass);
+	}
+	
+	public int size() {
+		return subsystems.size();
+	}
+	
+	public boolean isEmpty() {
+		return subsystems.isEmpty();
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
+	@Override
+	public Iterator<Subsystem> iterator() {
+		return subsystems.values().iterator();
+	}
 
 	// ===========================================================
 	// Methods
