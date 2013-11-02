@@ -89,7 +89,7 @@ public class IngameControls extends GeneralStage {
 		// Control via W,A,S,D
 		Player player = screen.getContext().getPlayer();
 		Entity target = player.getCurrentShip();
-		float speed = 20;
+		float speed = 5;
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {
 			target.setY(target.getY() - speed);
 		}

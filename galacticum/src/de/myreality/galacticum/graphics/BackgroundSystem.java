@@ -179,7 +179,7 @@ public class BackgroundSystem implements Subsystem {
 
 		for (int i = 0; i < starLayers; ++i) {
 			
-			float distance = (float) (Math.pow(i, 1.2) + 5f);
+			float distance = (float) (Math.pow(i, 1.5) + 7f);
 			
 			LayerTexture texture = new PreprocessedTexture(512, 512, batch,
 					new StarfieldCreator(distance));
