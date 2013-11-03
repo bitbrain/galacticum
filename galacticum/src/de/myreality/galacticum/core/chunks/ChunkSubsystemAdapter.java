@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.core.chunks;
 
+import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -54,6 +55,10 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public Chunk getActiveChunk() {
+		return chunkSystem.getActiveChunk();
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces

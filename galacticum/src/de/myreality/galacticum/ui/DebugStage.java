@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.core.chunks.ChunkSubsystemAdapter;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.graphics.GameCamera;
 
@@ -47,7 +48,8 @@ public class DebugStage extends Stage implements Debugable {
 
 	private boolean debug;
 	
-	private Label lblCaption, lblFps, lblJVM, lblObjects, lblCamera;
+	private Label lblCaption, lblFps, lblJVM, lblObjects, lblCameraPos, lblViewport,
+	              lblSeed, lblWorld, lblChunk;
 	
 	private Context context;
 
@@ -66,25 +68,37 @@ public class DebugStage extends Stage implements Debugable {
 		this.context = context;
 		MetaData meta = Resources.META_DATA;
 		
+		// TOP
+		
 		lblCaption = new Label(meta.getName() + " " + meta.getVersion() + meta.getPhase(), Resources.STYLE_LABEL_DEBUG);
 		lblCaption.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - lblCaption.getHeight());
 		addActor(lblCaption);
 		
 		lblFps = new Label("FPS: 0", Resources.STYLE_LABEL_DEBUG);
-		lblFps.setPosition(PADDING, lblCaption.getY() - PADDING - lblFps.getHeight());	
 		addActor(lblFps);
 		
 		lblJVM = new Label("JVM: 0", Resources.STYLE_LABEL_DEBUG);
-		lblJVM.setPosition(PADDING, lblFps.getY() - PADDING - lblFps.getHeight());	
 		addActor(lblJVM);
 		
-		lblCamera = new Label("Camera:", Resources.STYLE_LABEL_DEBUG);
-		lblCamera.setPosition(PADDING, lblJVM.getY() - PADDING - lblCamera.getHeight());	
-		addActor(lblCamera);
+		lblCameraPos = new Label("Camera:", Resources.STYLE_LABEL_DEBUG);
+		addActor(lblCameraPos);
+		
+		lblViewport = new Label("Viewport:", Resources.STYLE_LABEL_DEBUG);
+		addActor(lblViewport);
+		
+		// BOTTOM
 		
 		lblObjects = new Label("Objects: 0", Resources.STYLE_LABEL_DEBUG);
-		lblObjects.setPosition(PADDING, lblCamera.getY() - PADDING - lblObjects.getHeight());	
 		addActor(lblObjects);
+		
+		lblSeed = new Label("Seed: ", Resources.STYLE_LABEL_DEBUG);	
+		addActor(lblSeed);
+		
+		lblWorld = new Label("World: ", Resources.STYLE_LABEL_DEBUG);	
+		addActor(lblWorld);
+		
+		lblChunk = new Label("Chunk: ", Resources.STYLE_LABEL_DEBUG);	
+		addActor(lblChunk);
 		
 		updateLabels();
 	}
@@ -112,11 +126,7 @@ public class DebugStage extends Stage implements Debugable {
 	@Override
 	public void draw() {
 		if (isDebugEnabled()) {
-			lblCaption.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - lblCaption.getHeight());
-			lblFps.setPosition(PADDING, lblCaption.getY() - PADDING - lblFps.getHeight());
-			lblJVM.setPosition(PADDING, lblFps.getY() - PADDING - lblFps.getHeight());	
-			lblCamera.setPosition(PADDING, lblJVM.getY() - PADDING - lblCamera.getHeight());	
-			lblObjects.setPosition(PADDING, lblCamera.getY() - PADDING - lblObjects.getHeight());	
+			
 			updateLabels();
 			super.draw();
 		}
@@ -137,10 +147,25 @@ public class DebugStage extends Stage implements Debugable {
 	// ===========================================================
 	
 	private void updateLabels() {
+		lblCaption.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - lblCaption.getHeight());
+		lblFps.setPosition(PADDING, lblCaption.getY() - PADDING - lblFps.getHeight());
+		lblJVM.setPosition(PADDING, lblFps.getY() - PADDING - lblFps.getHeight());	
+		lblCameraPos.setPosition(PADDING, lblJVM.getY() - PADDING - lblCameraPos.getHeight());	
+		lblViewport.setPosition(PADDING, lblCameraPos.getY() - PADDING - lblViewport.getHeight());	
+		
+		lblObjects.setPosition(PADDING, PADDING);	
+		lblSeed.setPosition(PADDING, lblObjects.getY() + lblObjects.getHeight() + PADDING);	
+		lblWorld.setPosition(PADDING, lblSeed.getY() + lblSeed.getHeight() + PADDING);	
+		lblChunk.setPosition(PADDING, lblWorld.getY() + lblWorld.getHeight() + PADDING);	
+		
 		lblJVM.setText(getJVMText());
 		lblFps.setText(getFPSText());
-		lblCamera.setText(getCameraText());
+		lblCameraPos.setText(getCameraText());
+		lblViewport.setText(getViewportText());
 		lblObjects.setText(getObjectsText());
+		lblSeed.setText(getSeedText());
+		lblWorld.setText(getWorldText());
+		lblChunk.setText(getChunkText());
 	}
 	
 	private String getJVMText() {
@@ -166,7 +191,30 @@ public class DebugStage extends Stage implements Debugable {
 	
 	private String getCameraText() {
 		GameCamera c = context.getCamera();
-		return "Camera: pos = " + c.getX() + "  " + c.getY() + "  size = " + c.getWidth() + "  " + c.getHeight() + "";
+		return "Camera: " + c.getX() + "  " + c.getY();
+	}
+	
+	private String getViewportText() {
+		GameCamera c = context.getCamera();
+		return "Viewport: " + Math.round(c.getWidth()) + "x" + Math.round(c.getHeight());
+	}
+	
+	private String getWorldText() {
+		return "World: " + context.getConfiguration().getName();
+	}
+	
+	private String getSeedText() {
+		return "Seed: " + context.getConfiguration().getSeed();
+	}
+	
+	private String getChunkText() {
+		ChunkSubsystemAdapter c = context.getSubsystem(ChunkSubsystemAdapter.class);
+		
+		if (c != null) {
+			return "Chunk: " + c.getActiveChunk().getIndexX() + " , " + c.getActiveChunk().getIndexY();
+		} else {
+			return "No active chunk";
+		}
 	}
 
 	// ===========================================================

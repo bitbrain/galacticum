@@ -200,8 +200,8 @@ public class BackgroundSystem implements Subsystem {
 			veloY *= (i % 3 == 0) ? 1 : -1;
 			
 			config.setVelocity(veloX, veloY);
-			config.setTileWidth(250 + i * 20);
-			config.setTileHeight(250 + i * 20);
+			config.setTileWidth(450 + i * 20);
+			config.setTileHeight(450 + i * 20);
 			mapper.add((float) (Math.pow(i, 3) / 5f) + 5, config);
 		}
 
@@ -215,14 +215,14 @@ public class BackgroundSystem implements Subsystem {
 		
 		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
 		config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.3f, 0.1f, 0.4f, 0.6f);
+		config.setFilter(0.3f, 0.1f, 0.4f, 0.3f);
 		config.setTileWidth(450);
 		config.setTileHeight(450);
 		mapper.add(15f, config);
 		
 		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
 		config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.3f, 0.1f, 0.4f, 0.6f);
+		config.setFilter(0.3f, 0.1f, 0.4f, 0.4f);
 		mapper.add(12f, config);
 	}
 

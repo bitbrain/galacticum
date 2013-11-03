@@ -187,6 +187,8 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 					Gdx.graphics.getHeight());
 			setX(x);
 			setY(y);
+			
+			moveToTarget();
 		}
 		
 		updateFocus(delta);
