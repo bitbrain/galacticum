@@ -74,7 +74,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	 */
 	@Override
 	public SpaceShip create(float x, float y, SpaceShipType type, Seed seed) {
-		return new SimpleSpaceShip();
+		return new SimpleSpaceShip(x, y);
 	}
 
 	// ===========================================================
@@ -90,8 +90,10 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		/**
 		 * @param type
 		 */
-		public SimpleSpaceShip() {
+		public SimpleSpaceShip(float x, float y) {
 			super(EntityType.SPACESHIP, 50, 50);
+			this.setX(x);
+			this.setY(y);
 		}
 
 		private static final long serialVersionUID = 8496116234063566152L;

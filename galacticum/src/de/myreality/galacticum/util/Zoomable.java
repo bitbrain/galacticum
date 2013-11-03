@@ -14,20 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.subsystem;
-
-import de.myreality.galacticum.core.context.Context;
-import de.myreality.galacticum.util.Nameable;
+package de.myreality.galacticum.util;
 
 /**
- * Provides such functionality for different game sections. A subsystem
- * can be started, shutted down or updated frequently.
+ * Provides zooming
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
-public interface Subsystem extends Nameable {
+public interface Zoomable {
 	
 	// ===========================================================
 	// Constants
@@ -38,40 +34,10 @@ public interface Subsystem extends Nameable {
 	// ===========================================================
 	
 	/**
-	 * Starts this subsystem
-	 */
-	void start() throws SubsystemException;
-	
-	/**
+	 * Zooms by the given factor
 	 * 
-	 * 
-	 * @param context
+	 * @param factor
 	 */
-	void onEnter(Context context);
-	
-	/**
-	 * Updates this subsystem by the given delta
-	 * 
-	 * @param delta
-	 */
-	void update(float delta);
-	
-	/**
-	 * Closes this subsystem
-	 */
-	void shutdown();
-	
-	/**
-	 * 
-	 * @param listener
-	 */
-	void addProgressListener(ProgressListener listener);
-	
-	/**
-	 * 
-	 * 
-	 * @param listener
-	 */
-	void removeProgressListener(ProgressListener listener);
+	void zoom(float factor);
 
 }

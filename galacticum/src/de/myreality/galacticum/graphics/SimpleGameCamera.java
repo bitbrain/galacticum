@@ -17,7 +17,6 @@
 package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -164,6 +163,17 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see de.myreality.galacticum.util.Zoomable#zoom(float)
+	 */
+	@Override
+	public void zoom(float factor) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.GameCamera#update(float,
 	 * com.badlogic.gdx.graphics.g2d.SpriteBatch)
 	 */
@@ -178,38 +188,16 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 					Gdx.graphics.getHeight());
 			setX(x);
 			setY(y);
-			
+
 			moveToTarget();
 		}
-		
+
 		super.update(delta);
-		
+
 		updateFocus(delta);
 
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.graphics.GameCamera#begin()
-	 */
-	@Override
-	public void begin() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.graphics.GameCamera#end()
-	 */
-	@Override
-	public void end() {
-		// TODO Auto-generated method stub
-
 	}
 
 	void moveToTarget() {
@@ -230,7 +218,7 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 
 			float distance = velocity.len();
 			velocity = velocity.nor();
-			
+
 			if (distance <= 1.0f) {
 				moveToTarget();
 			} else {

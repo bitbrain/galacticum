@@ -216,7 +216,7 @@ public class ChunkSystemListenerAdapter implements ChunkSystemListener {
 	private void update(Chunk chunk, ChunkSystem system) {
 		float progress = (float)(system.getCurrentChunkCount() + saveCount)/(float)(system.getTotalChunkCount() * 2);
 		listener.onProgress(progress, system.getCurrentChunkCount() + saveCount,
-				system.getTotalChunkCount() * 2, new ChunkSubsystemAdapter(system));
+				system.getTotalChunkCount() * 2, new ChunkSubsystemAdapter(system, null));
 	}
 
 	// ===========================================================

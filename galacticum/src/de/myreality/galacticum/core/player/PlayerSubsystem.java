@@ -202,17 +202,6 @@ public class PlayerSubsystem implements Subsystem {
 		// TODO Auto-generated method stub
 
 	}
-	
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#afterUpdate()
-	 */
-	@Override
-	public void afterUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	// ===========================================================
 	// Methods

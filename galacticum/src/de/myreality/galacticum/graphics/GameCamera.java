@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.entities.Shape;
 import de.myreality.galacticum.util.Shakeable;
+import de.myreality.galacticum.util.Zoomable;
 
 /**
  * Is provided for contexts in order manipulate the current camera
@@ -29,7 +30,7 @@ import de.myreality.galacticum.util.Shakeable;
  * @since 0.1
  * @version 0.1
  */
-public interface GameCamera extends Shape, Shakeable {
+public interface GameCamera extends Shape, Shakeable, Zoomable {
 	
 	// ===========================================================
 	// Constants
@@ -100,15 +101,4 @@ public interface GameCamera extends Shape, Shakeable {
 	 * @param batch sprite batch
 	 */
 	void update(float delta, SpriteBatch batch);
-	
-	/**
-	 * 
-	 */
-	void begin();
-	
-	/**
-	 * 
-	 */
-	void end();
-
 }

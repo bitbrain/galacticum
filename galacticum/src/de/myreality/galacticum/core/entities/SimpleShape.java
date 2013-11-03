@@ -109,7 +109,18 @@ public class SimpleShape implements Shape {
 	 */
 	@Override
 	public boolean collidesWith(Shape other) {
-		return true;
+		
+		float right = getX() + getWidth();
+		float bottom = getY() + getHeight();
+		
+		float otherRight = other.getX() + other.getWidth();
+		float otherBottom = other.getY() + other.getHeight();
+		
+		boolean collisionX = otherRight >= getX() && other.getX() <= right;
+		boolean collisionY = otherBottom >= getY() && other.getY() <= bottom;
+		
+		return collisionX && collisionY;
+		
 	}
 
 	// ===========================================================

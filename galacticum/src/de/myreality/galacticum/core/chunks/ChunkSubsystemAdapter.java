@@ -18,10 +18,16 @@ package de.myreality.galacticum.core.chunks;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
+import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
+import de.myreality.galacticum.core.entities.SpaceShipFactory;
+import de.myreality.galacticum.core.entities.SpaceShipType;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.galacticum.util.Seed;
 
 /**
  * Adapter to convert {@see ChunkSystem} to {@see Subsystem}
@@ -43,13 +49,16 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// ===========================================================
 	
 	private ChunkSystem chunkSystem;
+	
+	private Seed seed;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ChunkSubsystemAdapter(ChunkSystem chunkSystem) {
+	public ChunkSubsystemAdapter(ChunkSystem chunkSystem, Seed seed) {
 		this.chunkSystem = chunkSystem;
+		this.seed = seed;
 	}
 
 	// ===========================================================
@@ -58,6 +67,10 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	
 	public Chunk getActiveChunk() {
 		return chunkSystem.getActiveChunk();
+	}
+	
+	public void addListener(ChunkSystemListener listener) {
+		chunkSystem.addListener(listener);
 	}
 
 	// ===========================================================
@@ -77,6 +90,7 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {
+		addListener(new ContentProvider(seed));
 		chunkSystem.start();
 	}
 	
@@ -87,8 +101,6 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	 */
 	@Override
 	public void onEnter(Context context) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -123,15 +135,6 @@ public class ChunkSubsystemAdapter implements Subsystem {
 		chunkSystem.removeListener(new ChunkSystemListenerAdapter(listener));
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#afterUpdate()
-	 */
-	@Override
-	public void afterUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -139,5 +142,117 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	class ContentProvider implements ChunkSystemListener {
+		
+		private Seed seed;
+		
+		public ContentProvider(Seed seed) {
+			this.seed = seed;
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#afterCreateChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void afterCreateChunk(Chunk chunk, ChunkSystem system) {
+			
+			SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
+			
+			final int ENTITIES = 500;
+			
+			for (int i = 0; i < ENTITIES; ++i) {
+				
+				float x = (float) (chunk.getX() + Math.random() * chunk.getWidth());
+				float y = (float) (chunk.getY() + Math.random() * chunk.getHeight());
+				
+				Entity e = f.create(x, y, SpaceShipType.FIGHTER, seed);
+				chunk.add(e);
+			}
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#afterLoadChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void afterLoadChunk(Chunk arg0, ChunkSystem arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#afterRemoveChunk(int, int, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void afterRemoveChunk(int arg0, int arg1, ChunkSystem arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#afterSaveChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void afterSaveChunk(Chunk arg0, ChunkSystem arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#beforeCreateChunk(int, int, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void beforeCreateChunk(int arg0, int arg1, ChunkSystem arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#beforeLoadChunk(int, int, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void beforeLoadChunk(int arg0, int arg1, ChunkSystem arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#beforeRemoveChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void beforeRemoveChunk(Chunk arg0, ChunkSystem arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#beforeSaveChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void beforeSaveChunk(Chunk arg0, ChunkSystem arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#onEnterChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void onEnterChunk(Chunk arg0, ChunkSystem arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.chunx.ChunkSystemListener#onLeaveChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
+		 */
+		@Override
+		public void onLeaveChunk(Chunk arg0, ChunkSystem arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	
 }
