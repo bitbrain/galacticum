@@ -72,6 +72,7 @@ public class DebugStage extends Stage implements Debugable {
 		
 		lblCaption = new Label(meta.getName() + " " + meta.getVersion() + meta.getPhase(), Resources.STYLE_LABEL_DEBUG);
 		lblCaption.setPosition(PADDING, Gdx.graphics.getHeight() - PADDING - lblCaption.getHeight());
+		lblCaption.setColor(Resources.COLOR_DEBUG_INFO);
 		addActor(lblCaption);
 		
 		lblFps = new Label("FPS: 0", Resources.STYLE_LABEL_DEBUG);
@@ -178,11 +179,26 @@ public class DebugStage extends Stage implements Debugable {
 		
 		int percentage = Math.round(100 * (r.totalMemory() - r.freeMemory()) / (float)r.totalMemory());
 		
+		if (percentage < 85) {
+			lblJVM.setColor(Resources.COLOR_DEBUG_GOOD);
+		} else {
+			lblJVM.setColor(Resources.COLOR_DEBUG_FAIL);
+		}
+		
 		return text + usedMb + "MB/" + totalMb + "MB (" + percentage + "%)";
 	}
 	
 	private String getFPSText() {
-		return "FPS: " + Gdx.graphics.getFramesPerSecond();
+		
+		int fps = Gdx.graphics.getFramesPerSecond();
+		
+		if (fps > 40) {
+			lblFps.setColor(Resources.COLOR_DEBUG_GOOD);
+		} else {
+			lblFps.setColor(Resources.COLOR_DEBUG_FAIL);
+		}
+		
+		return "FPS: " + fps;
 	}
 	
 	private String getObjectsText() {
