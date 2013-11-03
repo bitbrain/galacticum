@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.entities.Shape;
+import de.myreality.galacticum.util.Shakeable;
 
 /**
  * Is provided for contexts in order manipulate the current camera
@@ -28,7 +29,7 @@ import de.myreality.galacticum.core.entities.Shape;
  * @since 0.1
  * @version 0.1
  */
-public interface GameCamera extends Shape {
+public interface GameCamera extends Shape, Shakeable {
 	
 	// ===========================================================
 	// Constants
@@ -37,14 +38,6 @@ public interface GameCamera extends Shape {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Shakes the camera of the given value
-	 * 
-	 * @param factor shaking factor
-	 * @param miliseconds length of the effect
-	 */
-	void shake(float factor, int miliseconds);
 	
 	/**
 	 * Tracks a new entity

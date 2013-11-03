@@ -17,12 +17,13 @@
 package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.SimpleShape;
+import de.myreality.galacticum.core.entities.ShakeableShape;
 
 /**
  * Adapts libgdx camera to {@see GameCamera}
@@ -31,7 +32,7 @@ import de.myreality.galacticum.core.entities.SimpleShape;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleGameCamera extends SimpleShape implements GameCamera {
+public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 
 	// ===========================================================
 	// Constants
@@ -74,16 +75,6 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.graphics.GameCamera#shake(float, int)
-	 */
-	@Override
-	public void shake(float factor, int miliseconds) {
-		// TODO
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * de.myreality.galacticum.graphics.GameCamera#setTarget(de.myreality.galacticum
 	 * .core.entities.Entity)
@@ -117,7 +108,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public float getX() {
-		return camera.position.x - getWidth() / 2f;
+		return camera.position.x - getWidth() / 2f + super.getX();
 	}
 
 	/*
@@ -127,7 +118,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	 */
 	@Override
 	public float getY() {
-		return camera.position.y - getHeight() / 2f;
+		return camera.position.y - getHeight() / 2f + super.getY();
 	}
 
 	/*
@@ -192,6 +183,12 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 		}
 		
 		updateFocus(delta);
+		
+		super.update(delta);
+		
+		if (Gdx.input.isKeyPressed(Keys.F5)) {
+			shake(50f, 2000);
+		}
 
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
