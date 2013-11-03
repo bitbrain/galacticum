@@ -57,7 +57,6 @@ public class ShakeableShape extends SimpleShape implements Shakeable {
 		shaker = new Shaker();
 	}
 
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -87,6 +86,15 @@ public class ShakeableShape extends SimpleShape implements Shakeable {
 	public float getY() {
 		return super.getY() + shaker.getY();
 	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.Shakeable#isShaking()
+	 */
+	@Override
+	public boolean isShaking() {
+		return shaker.isShaking();
+	}
+		
 
 	// ===========================================================
 	// Methods

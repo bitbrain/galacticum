@@ -182,13 +182,9 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 			moveToTarget();
 		}
 		
-		updateFocus(delta);
-		
 		super.update(delta);
 		
-		if (Gdx.input.isKeyPressed(Keys.F5)) {
-			shake(50f, 2000);
-		}
+		updateFocus(delta);
 
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);

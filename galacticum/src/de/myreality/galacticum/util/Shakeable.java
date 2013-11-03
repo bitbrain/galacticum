@@ -40,5 +40,11 @@ public interface Shakeable {
 	 * @param miliseconds
 	 */
 	void shake(float amount, long miliseconds);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isShaking();
 
 }

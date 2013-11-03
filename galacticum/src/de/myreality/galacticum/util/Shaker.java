@@ -15,15 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package de.myreality.galacticum.util;
+
 /**
  * Shakes an x and y value at the given time
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
 public class Shaker implements Shakeable {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -31,17 +32,17 @@ public class Shaker implements Shakeable {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private float intensX, intensY, startIntensX, startIntensY;
-	
+
 	private Timer timer;
-	
+
 	private long miliseconds;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public Shaker() {
 		timer = new Timer();
 		intensX = 0;
@@ -51,42 +52,51 @@ public class Shaker implements Shakeable {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public float getX() {
-		return (float) intensX;
+		return (float) Math.random() * intensX;
 	}
-	
+
 	public float getY() {
-		return (float) intensY;
+		return (float) Math.random() * intensY;
 	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.util.Shakeable#shake(float, long)
 	 */
 	@Override
 	public void shake(float amount, long miliseconds) {
-		startIntensX = startIntensY = intensX = intensY = amount;
+		intensX = intensY = amount;
+		startIntensX = (float) miliseconds / intensX;
+		startIntensY = (float) miliseconds / intensY;
 		timer.start();
 		this.miliseconds = miliseconds;
+	}
+
+	@Override
+	public boolean isShaking() {
+		return timer.isRunning();
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	public void update(float delta) {
-		
+
 		if (timer.getTicks() >= miliseconds) {
 			timer.stop();
 			intensX = 0;
 			intensY = 0;
 		} else if (timer.isRunning()) {
-			intensX /=2;
-			intensY /=2;
+			intensX /= 1.05 + 1f / startIntensX;
+			intensY /= 1.05 + 1f / startIntensY;
 		}
 	}
 
