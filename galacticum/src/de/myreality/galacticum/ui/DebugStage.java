@@ -174,6 +174,7 @@ public class DebugStage extends Stage implements Debugable {
 		String text = "JVM: ";
 		
 		Runtime r = Runtime.getRuntime();
+		
 		int totalMb = Math.round(r.totalMemory() / (1024 * 1024));
 		int usedMb = Math.round((r.totalMemory() - r.freeMemory()) / (1024 * 1024));
 		
