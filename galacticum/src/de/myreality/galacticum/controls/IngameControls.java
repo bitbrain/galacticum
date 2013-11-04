@@ -16,8 +16,11 @@
  */
 package de.myreality.galacticum.controls;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad.TouchpadStyle;
 
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.player.Player;
@@ -41,6 +44,8 @@ public class IngameControls extends GeneralStage {
 	// ===========================================================
 
 	private IngameScreen screen;
+	
+	private Touchpad touchpad;
 
 	// ===========================================================
 	// Constructors
@@ -55,6 +60,16 @@ public class IngameControls extends GeneralStage {
 			IngameScreen screen) {
 		super(width, height, keepAspectRatio);
 		this.screen = screen;
+		
+		boolean runsOnAndroid = Gdx.app.getType().equals(ApplicationType.Android);
+		boolean runsOniOS = Gdx.app.getType().equals(ApplicationType.iOS);
+		
+		if (runsOnAndroid || runsOniOS) {			 
+			TouchpadStyle style = new TouchpadStyle();
+			touchpad = new Touchpad(10, style);
+			touchpad.setBounds(15, 15, 200, 200);
+			addActor(touchpad);
+		}
 	}
 
 	// ===========================================================
@@ -89,7 +104,7 @@ public class IngameControls extends GeneralStage {
 		// Control via W,A,S,D
 		Player player = screen.getContext().getPlayer();
 		Entity target = player.getCurrentShip();
-		float speed = 14;
+		float speed = (float) Math.ceil(480f * delta);
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {
 			target.setY(target.getY() - speed);
 		}
@@ -102,6 +117,15 @@ public class IngameControls extends GeneralStage {
 		}
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_RIGHT)) {
 			target.setX(target.getX() + speed);
+		}
+		
+		if (touchpad != null) {
+			target.setX(target.getX() + touchpad.getKnobPercentX() * speed);
+			target.setY(target.getY() - touchpad.getKnobPercentY() * speed);
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.F5)) {
+			screen.getContext().getCamera().shake(15f, 2500);
 		}
 	}
 	

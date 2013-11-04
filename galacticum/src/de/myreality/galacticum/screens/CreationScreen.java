@@ -103,6 +103,7 @@ public class CreationScreen extends MenuScreen {
 	protected void onResizeUI(int width, int height) {
 		form.setWidth(width);
 		form.setHeight(height);
+		
 	}
 
 	/*

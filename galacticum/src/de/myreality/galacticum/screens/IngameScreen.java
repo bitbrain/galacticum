@@ -23,6 +23,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad.TouchpadStyle;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.controls.IngameControls;
@@ -55,6 +57,9 @@ public class IngameScreen implements Screen, Debugable {
 	private Stage stage;
 
 	private DebugStage debugStage;
+	
+	private Touchpad touchpad;
+    private TouchpadStyle touchpadStyle;
 
 	// ===========================================================
 	// Constructors
@@ -122,6 +127,8 @@ public class IngameScreen implements Screen, Debugable {
 			stage = new IngameControls(width, height, false, this);
 			debugStage = new DebugStage(width, height, true, context);
 			Gdx.input.setInputProcessor(stage);
+			
+
 		} else {
 			stage.setViewport(width, height, false);
 			debugStage.setViewport(width, height, false);

@@ -159,7 +159,7 @@ public class ChunkSubsystemAdapter implements Subsystem {
 			
 			SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 			
-			final int ENTITIES = 500;
+			final int ENTITIES = 20;
 			
 			for (int i = 0; i < ENTITIES; ++i) {
 				
