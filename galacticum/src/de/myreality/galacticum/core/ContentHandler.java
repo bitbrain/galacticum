@@ -69,7 +69,7 @@ public class ContentHandler implements ContentListener {
 		
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-		final int AMOUNT = 500;
+		final int AMOUNT = 10;
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
