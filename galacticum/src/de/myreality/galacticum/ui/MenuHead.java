@@ -43,6 +43,10 @@ public class MenuHead extends Group {
 	// Fields
 	// ===========================================================
 	
+	private Background background;
+	
+	private Label label;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -50,12 +54,12 @@ public class MenuHead extends Group {
 	public MenuHead(String text, LabelStyle style) {
 		
 		
-		Label label = new Label(text, style);
+		label = new Label(text, style);
 		addActor(label);
 		label.setX(Gdx.graphics.getWidth() / 2f - label.getWidth() / 2f);
 		label.setY(Gdx.graphics.getHeight() - label.getHeight());
 		
-		Background background = new Background();
+		background = new Background();
 		background.setWidth(Gdx.graphics.getWidth());
 		background.setHeight(label.getHeight());
 		background.setY(Gdx.graphics.getHeight() - background.getHeight());
@@ -69,6 +73,13 @@ public class MenuHead extends Group {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+		
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		label.setX(Gdx.graphics.getWidth() / 2f - label.getWidth() / 2f);
+		label.setY(Gdx.graphics.getHeight() - label.getHeight());
+	}
 	
 	// ===========================================================
 	// Methods
@@ -79,7 +90,7 @@ public class MenuHead extends Group {
 	// ===========================================================
 	
 	class Background extends Actor {
-		
+
 		private ShapeRenderer renderer = new ShapeRenderer();
 
 		@Override

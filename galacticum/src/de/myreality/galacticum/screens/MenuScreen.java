@@ -23,10 +23,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.controls.GeneralStage;
 import de.myreality.galacticum.ui.MenuHead;
@@ -61,8 +62,6 @@ public abstract class MenuScreen implements Screen {
 	private float width, height;
 	
 	private String caption;
-	
-	private float padding;
 
 	// ===========================================================
 	// Constructors
@@ -72,7 +71,6 @@ public abstract class MenuScreen implements Screen {
 		this.game = game;
 		this.caption = caption;
 		background = Resources.TEXTURE_MENU_BACKGROUND;
-		padding = 30;
 	}
 
 	// ===========================================================
@@ -142,14 +140,13 @@ public abstract class MenuScreen implements Screen {
 			onCreateUI(stage);
 			onResizeUI(width, height);
 			
-			buttonLeft = new TextButton("Back", Resources.STYLE_BUTTON_DEFAULT);
-			buttonLeft.setX(padding);
-			buttonLeft.setY(padding);
-			buttonLeft.setWidth(buttonLeft.getWidth() + 50f);
-			buttonLeft.setHeight(buttonLeft.getHeight() + 25f);
+			Label label = new Label("", Resources.STYLE_LABEL_DEBUG);
+			MetaData meta = Resources.META_DATA;
+			label.setText(meta.getName() + " " + meta.getVersion() + meta.getPhase());
+			label.setY(20f);
+			label.setX(10f);
+			stage.addActor(label);
 			
-			// TODO: Implement proper button design
-			//stage.addActor(buttonLeft);
 		} else {
 			stage.setViewport(width, height, false);
 			onResizeUI(width, height);
