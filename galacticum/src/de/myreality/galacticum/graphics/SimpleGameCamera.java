@@ -117,6 +117,7 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	 */
 	@Override
 	public float getY() {
+		
 		return camera.position.y - getHeight() / 2f + super.getY();
 	}
 
@@ -147,7 +148,7 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	 */
 	@Override
 	public float getWidth() {
-		return camera.viewportWidth;
+		return camera.viewportWidth * camera.zoom;
 	}
 
 	/*
@@ -157,7 +158,7 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	 */
 	@Override
 	public float getHeight() {
-		return camera.viewportHeight;
+		return camera.viewportHeight * camera.zoom;
 	}
 
 	/*
@@ -167,8 +168,19 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	 */
 	@Override
 	public void zoom(float factor) {
-		// TODO Auto-generated method stub
+		camera.zoom += factor;
+		
+		if (camera.zoom < 0.1f) {
+			camera.zoom = 0.1f;
+		}
+	}
 
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.Zoomable#getZoom()
+	 */
+	@Override
+	public float getZoom() {
+		return camera.zoom;
 	}
 
 	/*

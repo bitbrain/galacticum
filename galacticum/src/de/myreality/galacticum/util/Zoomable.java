@@ -39,5 +39,12 @@ public interface Zoomable {
 	 * @param factor
 	 */
 	void zoom(float factor);
+	
+	/**
+	 * Returns the zoom
+	 * 
+	 * @return
+	 */
+	float getZoom();
 
 }
