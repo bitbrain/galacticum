@@ -20,13 +20,14 @@ import java.util.Collection;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.myreality.galacticum.core.chunks.ContentTargetAdapter;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
-import de.myreality.galacticum.graphics.SimpleEntityRenderer;
 import de.myreality.galacticum.graphics.GameCamera;
+import de.myreality.galacticum.graphics.SimpleEntityRenderer;
 
 /**
  * Handles the current world
@@ -114,13 +115,19 @@ public class WorldSystem implements Subsystem {
 		
 		Collection<Object> entities = world.getEntities();
 		
-		for (Object o : entities) {
-			
-			if (o instanceof Entity) {
-				Entity entity = (Entity) o;				
-				entity.update(delta);				
-				renderer.render(entity, batch);
-			}
+		for (Object o : entities) {			
+			updateObject(o, delta);
+		}
+	}
+	
+	private void updateObject(Object o, float delta) {
+		if (o instanceof Entity) {
+			Entity entity = (Entity) o;				
+			entity.update(delta);				
+			renderer.render(entity, batch);
+		} else if (o instanceof ContentTargetAdapter) {
+			ContentTargetAdapter adapter = (ContentTargetAdapter)o;
+			updateObject(adapter.getTarget(), delta);
 		}
 	}
 

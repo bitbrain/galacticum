@@ -62,9 +62,7 @@ public class ContentProviderAdapter implements ContentProvider {
 	 */
 	@Override
 	public void add(Object object) {
-		if (object instanceof Entity) {
-			target.add((Entity)object);
-		}
+		target.add(object);		
 	}
 
 	/* (non-Javadoc)
@@ -80,9 +78,7 @@ public class ContentProviderAdapter implements ContentProvider {
 	 */
 	@Override
 	public void remove(Object object) {
-		if (object instanceof Entity) {
-			target.remove((Entity)object);
-		}
+		target.remove(object);		
 	}
 
 	// ===========================================================

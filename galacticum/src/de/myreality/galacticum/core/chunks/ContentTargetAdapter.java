@@ -36,6 +36,7 @@ public class ContentTargetAdapter implements ChunkTarget {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
 	private ContentTarget target;
 
 	// ===========================================================
@@ -49,6 +50,10 @@ public class ContentTargetAdapter implements ChunkTarget {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public ContentTarget getTarget() {
+		return target;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces

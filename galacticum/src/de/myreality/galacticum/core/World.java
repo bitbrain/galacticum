@@ -18,8 +18,6 @@ package de.myreality.galacticum.core;
 
 import java.util.Collection;
 
-import de.myreality.galacticum.core.entities.Entity;
-
 /**
  * Contains all entities of a game which are currently handled.
  *
@@ -42,14 +40,14 @@ public interface World {
 	 * 
 	 * @param entity
 	 */
-	void add(Entity entity);
+	void add(Object entity);
 	
 	/**
 	 * 
 	 * 
 	 * @param entity
 	 */
-	void remove(Entity entity);
+	void remove(Object entity);
 	
 	/**
 	 * 

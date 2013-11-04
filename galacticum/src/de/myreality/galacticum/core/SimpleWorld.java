@@ -19,8 +19,6 @@ package de.myreality.galacticum.core;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import de.myreality.galacticum.core.entities.Entity;
-
 
 /**
  * Simple implementation of {@see GameContainer}
@@ -61,7 +59,7 @@ public class SimpleWorld implements World {
 	 * @see de.myreality.galacticum.core.GameContainer#add(de.myreality.galacticum.core.Entity)
 	 */
 	@Override
-	public void add(Entity entity) {
+	public void add(Object entity) {
 		if (!entities.contains(entity)) {
 			entities.add(entity);
 		}
@@ -71,7 +69,7 @@ public class SimpleWorld implements World {
 	 * @see de.myreality.galacticum.core.GameContainer#remove(de.myreality.galacticum.core.Entity)
 	 */
 	@Override
-	public void remove(Entity entity) {
+	public void remove(Object entity) {
 		entities.remove(entity);
 	}
 

@@ -147,7 +147,8 @@ public class ChunkSubsystem implements Subsystem {
 		 * @see de.myreality.chunx.ChunkSystemListener#afterCreateChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
 		 */
 		@Override
-		public void afterCreateChunk(Chunk chunk, ChunkSystem chunkSystem) {			
+		public void afterCreateChunk(Chunk chunk, ChunkSystem chunkSystem) {		
+			
 			for (ContentListener listener : listeners) {
 				listener.onCreate(new ContentAreaAdapter(chunk));
 			}
