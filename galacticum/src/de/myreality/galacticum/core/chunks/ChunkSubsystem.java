@@ -16,18 +16,17 @@
  */
 package de.myreality.galacticum.core.chunks;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.galacticum.core.context.Context;
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
-import de.myreality.galacticum.core.entities.SpaceShipFactory;
-import de.myreality.galacticum.core.entities.SpaceShipType;
+import de.myreality.galacticum.core.entities.ContentListener;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
-import de.myreality.galacticum.util.Seed;
 
 /**
  * Adapter to convert {@see ChunkSystem} to {@see Subsystem}
@@ -36,7 +35,7 @@ import de.myreality.galacticum.util.Seed;
  * @since 0.1
  * @version 0.1
  */
-public class ChunkSubsystemAdapter implements Subsystem {
+public class ChunkSubsystem implements Subsystem {
 
 	// ===========================================================
 	// Constants
@@ -50,15 +49,16 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	
 	private ChunkSystem chunkSystem;
 	
-	private Seed seed;
+	private Set<ContentListener> listeners;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ChunkSubsystemAdapter(ChunkSystem chunkSystem, Seed seed) {
+	public ChunkSubsystem(ChunkSystem chunkSystem) {
 		this.chunkSystem = chunkSystem;
-		this.seed = seed;
+		chunkSystem.addListener(new ContentHandler());
+		listeners = new HashSet<ContentListener>();
 	}
 
 	// ===========================================================
@@ -69,8 +69,8 @@ public class ChunkSubsystemAdapter implements Subsystem {
 		return chunkSystem.getActiveChunk();
 	}
 	
-	public void addListener(ChunkSystemListener listener) {
-		chunkSystem.addListener(listener);
+	public void addListener(ContentListener listener) {
+		listeners.add(listener);
 	}
 
 	// ===========================================================
@@ -90,7 +90,6 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	 */
 	@Override
 	public void start() throws SubsystemException {
-		addListener(new ContentProvider(seed));
 		chunkSystem.start();
 	}
 	
@@ -143,33 +142,16 @@ public class ChunkSubsystemAdapter implements Subsystem {
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	class ContentProvider implements ChunkSystemListener {
-		
-		private Seed seed;
-		
-		public ContentProvider(Seed seed) {
-			this.seed = seed;
-		}
+	private class ContentHandler implements ChunkSystemListener {
 
 		/* (non-Javadoc)
 		 * @see de.myreality.chunx.ChunkSystemListener#afterCreateChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
 		 */
 		@Override
-		public void afterCreateChunk(Chunk chunk, ChunkSystem system) {
-			
-			SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
-			
-			final int ENTITIES = 20;
-			
-			for (int i = 0; i < ENTITIES; ++i) {
-				
-				float x = (float) (chunk.getX() + Math.random() * chunk.getWidth());
-				float y = (float) (chunk.getY() + Math.random() * chunk.getHeight());
-				
-				Entity e = f.create(x, y, SpaceShipType.FIGHTER, seed);
-				chunk.add(e);
+		public void afterCreateChunk(Chunk chunk, ChunkSystem chunkSystem) {			
+			for (ContentListener listener : listeners) {
+				listener.onCreate(new ContentAreaAdapter(chunk));
 			}
-			
 		}
 
 		/* (non-Javadoc)
@@ -254,5 +236,7 @@ public class ChunkSubsystemAdapter implements Subsystem {
 		}
 		
 	}
+	
+	
 	
 }

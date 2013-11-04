@@ -94,7 +94,7 @@ public class ChunkSystemFactory implements SubsystemFactory {
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
 		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));
 		
-		return new ChunkSubsystemAdapter(new ConcurrentChunkSystem(chunkSystem), configuration.getSeed());
+		return new ChunkSubsystem(new ConcurrentChunkSystem(chunkSystem));
 	}
 
 	// ===========================================================
