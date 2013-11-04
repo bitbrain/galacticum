@@ -18,6 +18,8 @@ package de.myreality.galacticum.core.entities;
 
 import java.io.Serializable;
 
+import de.myreality.galacticum.core.chunks.ContentTarget;
+
 /**
  * Provides collision detection and basic 2D layout
  *
@@ -25,7 +27,7 @@ import java.io.Serializable;
  * @since 0.1
  * @version 0.1
  */
-public interface Shape extends Serializable {
+public interface Shape extends Serializable, ContentTarget {
 	// ===========================================================
 	// Constants
 	// ===========================================================

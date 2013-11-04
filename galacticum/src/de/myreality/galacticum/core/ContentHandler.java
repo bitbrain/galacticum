@@ -14,36 +14,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.chunks;
+package de.myreality.galacticum.core;
 
-import de.myreality.chunx.ChunkTarget;
+import de.myreality.galacticum.core.chunks.ContentArea;
+import de.myreality.galacticum.core.chunks.ContentListener;
+import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
+import de.myreality.galacticum.core.entities.SpaceShipFactory;
+import de.myreality.galacticum.core.entities.SpaceShipType;
+import de.myreality.galacticum.util.Seed;
 
 /**
- * Adapts chunk targets to {@see ContentTarget}
+ * Handles the content of the world
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class ContentTargetAdapter implements ChunkTarget {
-
+public class ContentHandler implements ContentListener {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final long serialVersionUID = 1L;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private ContentTarget target;
+	
+	private Seed seed;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	public ContentTargetAdapter(ContentTarget target) {
-		this.target = target;
+	
+	public ContentHandler(Seed seed) {
+		this.seed = seed;
 	}
 
 	// ===========================================================
@@ -53,45 +58,27 @@ public class ContentTargetAdapter implements ChunkTarget {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.entities.ContentTarget#getX()
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.ContentListener#onCreate(de.myreality.galacticum.core.entities.ContentArea)
 	 */
 	@Override
-	public float getX() {
-		return target.getX();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.entities.ContentTarget#getY()
-	 */
-	@Override
-	public float getY() {
-		return target.getY();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.entities.ContentTarget#setX(float)
-	 */
-	@Override
-	public void setX(float x) {
-		target.setX(x);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.entities.ContentTarget#setY(float)
-	 */
-	@Override
-	public void setY(float y) {
-		target.setY(y);
+	public void onCreate(ContentArea area) {
+		
+		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
+		
+		final int AMOUNT = 50;
+		
+		for (int i = 0; i < AMOUNT; ++i) {
+			
+			float x = (float) (area.getX() + Math.random() * area.getWidth());
+			float y = (float) (area.getY() + Math.random() * area.getHeight());
+			
+			Entity entity = f.create(x, y, SpaceShipType.FIGHTER, seed);
+			area.add(entity);			
+		}
 	}
 
 	// ===========================================================

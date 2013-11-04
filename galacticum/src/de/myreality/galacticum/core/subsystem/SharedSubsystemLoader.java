@@ -21,7 +21,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.WorldSystem;
-import de.myreality.galacticum.core.chunks.ChunkSystemFactory;
+import de.myreality.galacticum.core.chunks.ChunkSubsystemFactory;
 import de.myreality.galacticum.core.chunks.ChunkTargetAdapter;
 import de.myreality.galacticum.core.chunks.ContentProviderAdapter;
 import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
@@ -90,7 +90,7 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 		GameCamera camera = cameraSystem.getCamera();
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
 		
-		ChunkSystemFactory chunkFactory = new ChunkSystemFactory(cameraAdapter, new ContentProviderAdapter(world));		
+		ChunkSubsystemFactory chunkFactory = new ChunkSubsystemFactory(cameraAdapter, new ContentProviderAdapter(world));		
 		PlayerSubsystem playerSystem = new PlayerSubsystem(configuration, SharedSpaceShipFactory.getInstance(), cameraAdapter);
 
 		systems.add(chunkFactory.create(configuration));

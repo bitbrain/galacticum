@@ -17,8 +17,6 @@
 package de.myreality.galacticum.core.chunks;
 
 import de.myreality.chunx.Chunk;
-import de.myreality.galacticum.core.entities.ContentArea;
-import de.myreality.galacticum.core.entities.ContentTarget;
 
 /**
  * Adapts chunks to content areas

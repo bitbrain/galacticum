@@ -25,6 +25,7 @@ import de.myreality.chunx.caching.SimpleCachedChunkSystem;
 import de.myreality.chunx.concurrent.ConcurrentChunkSystem;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
+import de.myreality.galacticum.core.ContentHandler;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemFactory;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -38,7 +39,7 @@ import de.myreality.galacticum.io.GDXOutputStreamProvider;
  * @since 0.1
  * @version 0.1
  */
-public class ChunkSystemFactory implements SubsystemFactory {
+public class ChunkSubsystemFactory implements SubsystemFactory {
 	
 	// ===========================================================
 	// Constants
@@ -58,7 +59,7 @@ public class ChunkSystemFactory implements SubsystemFactory {
 	// Constructors
 	// ===========================================================
 	
-	public ChunkSystemFactory(ChunkTarget chunkTarget, ContentProvider contentProvider) {
+	public ChunkSubsystemFactory(ChunkTarget chunkTarget, ContentProvider contentProvider) {
 		this.chunkTarget = chunkTarget;
 		this.contentProvider = contentProvider;
 	}
@@ -92,9 +93,12 @@ public class ChunkSystemFactory implements SubsystemFactory {
 		
 		// Align adapters for LibGDX
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
-		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));
+		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));		
 		
-		return new ChunkSubsystem(new ConcurrentChunkSystem(chunkSystem));
+		ChunkSubsystem result = new ChunkSubsystem(new ConcurrentChunkSystem(chunkSystem));
+		result.addListener(new ContentHandler(configuration.getSeed()));
+		
+		return result;
 	}
 
 	// ===========================================================

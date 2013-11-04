@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
+package de.myreality.galacticum.core.chunks;
 
 /**
- * Provides functionality such as adding creation targets
+ * Listens when a new {@see CreationArea} is created
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContentArea {
+public interface ContentListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -33,38 +33,10 @@ public interface ContentArea {
 	// ===========================================================
 	
 	/**
+	 * Is called when the area is created
 	 * 
-	 * 
-	 * @param target
+	 * @param area
 	 */
-	void add(ContentTarget target);
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getX();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getY();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getWidth();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getHeight();
+	void onCreate(ContentArea area);
 
 }

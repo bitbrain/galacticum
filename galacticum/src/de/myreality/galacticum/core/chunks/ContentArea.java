@@ -14,17 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
+package de.myreality.galacticum.core.chunks;
 
 /**
- * Provides information to add it to a {@see CreationArea}
+ * Provides functionality such as adding creation targets
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ContentTarget {
-	
+public interface ContentArea {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -32,6 +31,13 @@ public interface ContentTarget {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	/**
+	 * 
+	 * 
+	 * @param target
+	 */
+	void add(ContentTarget target);
 	
 	/**
 	 * 
@@ -49,14 +55,16 @@ public interface ContentTarget {
 	
 	/**
 	 * 
-	 * @param x
+	 * 
+	 * @return
 	 */
-	void setX(float x);
+	float getWidth();
 	
 	/**
 	 * 
-	 * @param y
+	 * 
+	 * @return
 	 */
-	void setY(float y);
+	float getHeight();
 
 }

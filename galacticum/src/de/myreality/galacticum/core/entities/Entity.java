@@ -18,7 +18,7 @@ package de.myreality.galacticum.core.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.chunx.ChunkTarget;
+import de.myreality.galacticum.core.chunks.ContentTarget;
 import de.myreality.galacticum.util.IDProvider;
 
 /**
@@ -28,7 +28,7 @@ import de.myreality.galacticum.util.IDProvider;
  * @since 0.1
  * @version 0.1
  */
-public interface Entity extends IDProvider, Shape, ChunkTarget {
+public interface Entity extends IDProvider, Shape, ContentTarget {
 	
 	// ===========================================================
 	// Constants

@@ -23,7 +23,6 @@ import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.galacticum.core.context.Context;
-import de.myreality.galacticum.core.entities.ContentListener;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
