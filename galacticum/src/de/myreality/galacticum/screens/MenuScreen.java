@@ -60,8 +60,6 @@ public abstract class MenuScreen implements Screen {
 	
 	private Button buttonLeft, buttonRight;
 	
-	private float width, height;
-	
 	private OrthographicCamera camera;
 	
 	private String caption;

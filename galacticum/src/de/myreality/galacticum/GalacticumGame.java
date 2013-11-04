@@ -24,7 +24,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import de.myreality.galacticum.screens.CreationScreen;
+import de.myreality.galacticum.screens.MainScreen;
 import de.myreality.galacticum.tweens.ActorTween;
 
 /**
@@ -71,7 +71,7 @@ public class GalacticumGame extends Game {
 		try {
 			Resources.loadMetaData();
 			initTweenEngine();			
-			setScreen(new CreationScreen(this));			
+			setScreen(new MainScreen(this));			
 			MetaData data = Resources.META_DATA;
 			Gdx.graphics.setTitle(data.getName() + " " + data.getVersion() + data.getPhase());
 		} catch (IOException e) {
