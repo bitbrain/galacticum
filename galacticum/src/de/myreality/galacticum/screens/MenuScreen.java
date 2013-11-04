@@ -19,6 +19,7 @@ package de.myreality.galacticum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -61,6 +62,8 @@ public abstract class MenuScreen implements Screen {
 	
 	private float width, height;
 	
+	private OrthographicCamera camera;
+	
 	private String caption;
 
 	// ===========================================================
@@ -71,6 +74,7 @@ public abstract class MenuScreen implements Screen {
 		this.game = game;
 		this.caption = caption;
 		background = Resources.TEXTURE_MENU_BACKGROUND;
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	// ===========================================================
@@ -110,8 +114,15 @@ public abstract class MenuScreen implements Screen {
 		
 		stage.act(delta);
 		
+		camera.update();
+		
+		batch.setProjectionMatrix(camera.combined);
+		
+		float width = Gdx.graphics.getWidth();
+		float height = Gdx.graphics.getHeight();
+		
 		batch.begin();
-		batch.draw(background, 0, 0, width, height);
+		batch.draw(background, -width / 2f, -height / 2f, width, height);
 		onDraw(batch, delta);
 		batch.end();
 		
@@ -125,9 +136,6 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		
-		this.width = width;
-		this.height = height;
 		
 		if (stage == null) {
 			stage = new GeneralStage(width, height, false);
@@ -150,6 +158,8 @@ public abstract class MenuScreen implements Screen {
 		} else {
 			stage.setViewport(width, height, false);
 			onResizeUI(width, height);
+			camera.viewportWidth = width;
+			camera.viewportHeight = height;
 		}
 	}
 
