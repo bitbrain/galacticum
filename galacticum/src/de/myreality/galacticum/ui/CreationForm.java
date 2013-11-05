@@ -23,11 +23,13 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.screens.MenuScreen;
 
 /**
  * Form which provides information for a game context
@@ -70,17 +72,19 @@ public class CreationForm extends Table {
 		tfName.setMessageText(DEFAULT_TEXT_NAME);
 		tfSeed.setMessageText(DEFAULT_TEXT_SEED);	
 		
-		tfName.setBounds(10, 10, 100, 100);
+		float width = Gdx.graphics.getWidth() * MenuScreen.WIDTH_FACTOR;
 		
-		add(lblError).padBottom(20).padTop(30f);
+		add(lblError).padBottom(20);
 		row();
-		add(tfName).width(400f).padBottom(20f).height(110f);
+		add(tfName).width(width).padBottom(20f).height(110f);
 		row();
-		add(tfSeed).width(400f).height(110f);
+		add(tfSeed).width(width).height(110f);
 		
-		btnSubmit = new TextButton("Create", Resources.STYLE_BUTTON_DEFAULT);
+		TextButtonStyle buttonStyle = new TextButtonStyle(Resources.STYLE_BUTTON_DEFAULT);
+		buttonStyle.font = Resources.FONT_REGULAR;
+		btnSubmit = new TextButton("Create", buttonStyle);
 		row();
-		add(btnSubmit).width(400f).padTop(20f).height(50f);
+		add(btnSubmit).width(width).padTop(20f).height(80f);
 		
 		align(Align.center);
 	}
