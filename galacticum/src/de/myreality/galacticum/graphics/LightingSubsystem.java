@@ -75,7 +75,7 @@ public class LightingSubsystem implements Subsystem {
 		handler = new RayHandler(physics.getWorld());
 
 		//handler.setShadows(false);
-		handler.setAmbientLight(0.2f, 0.04f, 0.2f, 0.4f);
+		handler.setAmbientLight(0.4f, 0.1f, 0.6f, 0.2f);
 		PointLight light = new PointLight(handler, 420);
 		light.setDistance(900);
 		light.setColor(0.4f, 0.2f, 0.7f, 0.4f);

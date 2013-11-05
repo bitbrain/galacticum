@@ -16,9 +16,9 @@
  */
 package de.myreality.galacticum.util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 
@@ -44,7 +44,7 @@ public class SimpleObserver<Type> implements Observer<Type> {
 	// ===========================================================
 	
 	public SimpleObserver() {
-		listeners = new ArrayList<Type>();
+		listeners = new CopyOnWriteArrayList<Type>();
 	}
 
 	// ===========================================================

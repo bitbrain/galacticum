@@ -16,46 +16,48 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.entities.Shape.ShapeListener;
 import de.myreality.galacticum.util.SimpleObserver;
 
-
 /**
  * Simple implementation of {@see Entity}
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entity {
-	
+public class SimpleEntity extends SimpleObserver<ShapeListener> implements
+		Entity {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private static int ids = 0;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private Shape shape;
-	
+
 	private EntityType type;
-	
+
 	private int id;
-	
-	private transient Texture texture;
+
+	private transient Sprite sprite;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public SimpleEntity(EntityType type, float width, float height) {
 		shape = new SimpleShape(width, height);
 		this.id = ids++;
@@ -70,7 +72,9 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.util.IDProvider#getID()
 	 */
 	@Override
@@ -78,7 +82,9 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 		return getClass().getSimpleName() + id;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#getX()
 	 */
 	@Override
@@ -86,7 +92,9 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 		return shape.getX();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#getY()
 	 */
 	@Override
@@ -94,7 +102,9 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 		return shape.getY();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#getWidth()
 	 */
 	@Override
@@ -102,7 +112,9 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 		return shape.getWidth();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#getHeight()
 	 */
 	@Override
@@ -110,7 +122,9 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 		return shape.getHeight();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#getType()
 	 */
 	@Override
@@ -118,71 +132,89 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 		return type;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.entities.Entity#draw(float, com.badlogic.gdx.graphics.g2d.SpriteBatch)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.entities.Entity#draw(float,
+	 * com.badlogic.gdx.graphics.g2d.SpriteBatch)
 	 */
 	@Override
 	public void draw(SpriteBatch batch) {
-		if (texture != null) {
-			batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+		if (sprite != null) {
+			batch.draw(sprite,getX(), getY(),
+					   getX() + getWidth() / 2f, getY() + getHeight() / 2f, getWidth(), getHeight(), 1f, 1f,getRotation());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#update(float)
 	 */
 	@Override
 	public void update(float delta) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Shape#setX(float)
 	 */
 	@Override
 	public void setX(float x) {
 		shape.setX(x);
-		
+
 		for (ShapeListener l : getListeners()) {
 			l.onSetX(this);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Shape#setY(float)
 	 */
 	@Override
 	public void setY(float y) {
-		
+
 		shape.setY(y);
-		
+
 		for (ShapeListener l : getListeners()) {
 			l.onSetY(this);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.entities.Shape#collidesWith(de.myreality.galacticum.core.entities.Shape)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.entities.Shape#collidesWith(de.myreality
+	 * .galacticum.core.entities.Shape)
 	 */
 	@Override
 	public boolean collidesWith(Shape other) {
 		return shape.collidesWith(other);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#setRotation(float)
 	 */
 	@Override
 	public void setRotation(float rotation) {
 		shape.setRotation(rotation);
-		
+
 		for (ShapeListener l : getListeners()) {
 			l.onSetRotation(this);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.entities.Entity#getRotation()
 	 */
 	@Override
@@ -190,12 +222,16 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entit
 		return shape.getRotation();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.entities.Entity#setTexture(com.badlogic.gdx.graphics.Texture)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.entities.Entity#setTexture(com.badlogic.
+	 * gdx.graphics.Texture)
 	 */
 	@Override
 	public void setTexture(Texture texture) {
-		this.texture = texture;
+		this.sprite = new Sprite(texture);
 	}
 
 	// ===========================================================

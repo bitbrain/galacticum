@@ -54,7 +54,7 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 
 	public static int POSITION_ITERATIONS = 40;
 
-	public static int VELOCITY_ITERATIONS = 15;
+	public static int VELOCITY_ITERATIONS = 20;
 
 	private Map<Entity, Body> bodyMap;
 
@@ -63,7 +63,7 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 	private List<Entity> addList;
 
 	public PhysicSubsystem() {
-		world = new World(new Vector2(), false);
+		world = new World(new Vector2(0f, 0f), false);
 		bodyMap = new HashMap<Entity, Body>();
 		removalList = new ArrayList<Entity>();
 		addList = new ArrayList<Entity>();
@@ -119,7 +119,7 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 
 		synchronized (world) {
 
-			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+			world.step(1 / 60f, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
 			if (!world.isLocked()) {
 
@@ -275,7 +275,7 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 		
 		Body body = bodyMap.get(entity);
 		
-		if (body != null) {
+		if (body != null && (entity.getX() != body.getPosition().x || entity.getY() != body.getPosition().y)) {
 			entity.setX(body.getPosition().x);
 			entity.setY(body.getPosition().y);
 			entity.setRotation(MathUtils.radiansToDegrees * body.getAngle());
@@ -290,7 +290,7 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 		
 		Body body = bodyMap.get(shape);
 		
-		if (body != null) {
+		if (body != null && shape.getX() != body.getPosition().x) {
 			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
 		}
 	}
@@ -302,7 +302,7 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 	public void onSetY(Shape shape) {
 		Body body = bodyMap.get(shape);
 		
-		if (body != null) {
+		if (body != null && shape.getY() != body.getPosition().y) {
 			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
 		}
 	}

@@ -110,11 +110,8 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		 */
 		@Override
 		public Faction getFaction() {
-			// TODO Auto-generated method stub
 			return null;
 		}
-		
-
 
 		/* (non-Javadoc)
 		 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
