@@ -17,11 +17,14 @@
 package de.myreality.galacticum.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
@@ -48,6 +51,8 @@ public class MainScreen extends MenuScreen {
 	private Texture logo;
 	
 	private TextButton btnNewGame, btnLoadGame;
+	
+	private boolean canLeave = false;
 
 	// ===========================================================
 	// Constructors
@@ -80,7 +85,7 @@ public class MainScreen extends MenuScreen {
 		
 		TextButtonStyle style = new TextButtonStyle(Resources.STYLE_BUTTON_DEFAULT);
 
-		style.font = Resources.FONT_LARGE;
+		style.font = Resources.FONT_REGULAR;
 		btnNewGame = new TextButton("New game", style);
 		btnLoadGame = new TextButton("Load game", style);
 		
@@ -92,6 +97,26 @@ public class MainScreen extends MenuScreen {
 		
 		btnLoadGame.setWidth(getWidth());
 		btnLoadGame.setHeight(100f);
+		
+		// add listeners
+		btnNewGame.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+				game.setScreen(new CreationScreen(game));
+			}
+			
+		});
+		
+		btnLoadGame.addListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+			}
+			
+		});
 	}
 
 	/*
@@ -118,11 +143,11 @@ public class MainScreen extends MenuScreen {
 		final int width = getWidth();
 		final int height = (int) (logo.getHeight() * getScale());
 		
-		float offsetY = Gdx.graphics.getHeight() / 5f;
+		float offsetY = Gdx.graphics.getHeight() / 7f;
 		
 		batch.draw(logo, -width / 2f, Gdx.graphics.getHeight() / 2f - height - offsetY, width, height);		
 		
-		final int PADDING = (int) (Gdx.graphics.getHeight() / 6f) + 30;
+		final int PADDING = (int) (Gdx.graphics.getHeight() / 6f) + 40;
 		offsetY += height + PADDING;
 		
 		btnNewGame.setX(Gdx.graphics.getWidth() / 2f - btnNewGame.getWidth() / 2f);
@@ -134,13 +159,22 @@ public class MainScreen extends MenuScreen {
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
 		super.render(delta);
+		
+		boolean pressed = (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE));
+		
+		if (canLeave && pressed) {
+			Gdx.app.exit();
+		}
+		
+		if (!pressed) {
+			canLeave = true;
+		}
 	}
 	
 	
 	private float getScale() {
-		return Gdx.graphics.getWidth() / logo.getWidth() - 0.5f;
+		return Gdx.graphics.getWidth() / logo.getWidth() - 0.3f;
 	}
 	
 	private int getWidth() {

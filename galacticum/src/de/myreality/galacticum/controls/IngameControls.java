@@ -70,6 +70,8 @@ public class IngameControls extends GeneralStage {
 			touchpad.setBounds(15, 15, 200, 200);
 			addActor(touchpad);
 		}
+		
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	// ===========================================================
@@ -86,7 +88,7 @@ public class IngameControls extends GeneralStage {
 		boolean state = super.keyDown(keyCode);
 
 		switch (keyCode) {
-		case Keys.ESCAPE:
+		case Keys.ESCAPE: case Keys.BACK: 
 			screen.leave();
 			return true;
 		case Keys.F3:

@@ -68,7 +68,9 @@ public class CreationForm extends Table {
 		tfSeed = new TextField("", style);
 		
 		tfName.setMessageText(DEFAULT_TEXT_NAME);
-		tfSeed.setMessageText(DEFAULT_TEXT_SEED);		
+		tfSeed.setMessageText(DEFAULT_TEXT_SEED);	
+		
+		tfName.setBounds(10, 10, 100, 100);
 		
 		add(lblError).padBottom(20).padTop(30f);
 		row();
