@@ -16,7 +16,9 @@
  */
 package de.myreality.galacticum.physics;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.math.Vector2;
@@ -49,10 +51,16 @@ public class PhysicSubsystem implements Subsystem {
 	public static int VELOCITY_ITERATIONS = 5;
 	
 	private Map<Entity, Body> bodyMap;
+	
+	private List<Entity> removalList;
+	
+	private List<Entity> addList;
 
 	public PhysicSubsystem() {
 		world = new World(new Vector2(), false);
 		bodyMap = new HashMap<Entity, Body>();
+		removalList = new ArrayList<Entity>();
+		addList = new ArrayList<Entity>();
 	}
 
 	/*
@@ -98,8 +106,26 @@ public class PhysicSubsystem implements Subsystem {
 	 */
 	@Override
 	public void update(float delta) {
+		
 		synchronized (world) {
-			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+			
+			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);		
+			System.out.println(world.getBodyCount());
+			if (!world.isLocked()) {
+				
+				for (Entity e : removalList) {
+					onRemoveEntity(e);
+				}
+				
+				removalList.clear();
+				
+				for (Entity e : addList) {
+					onAddEntity(e);
+				}
+				
+				addList.clear();
+			}
+		
 		}
 	}
 
@@ -146,19 +172,20 @@ public class PhysicSubsystem implements Subsystem {
 	@Override
 	public void onAddEntity(Entity entity) {
 		
-		synchronized (world) {	
-			// First we create a body definition
-			BodyDef bodyDef = new BodyDef();
-			// We set our body to dynamic, for something like ground which doesn't
-			// move we would set it to StaticBody
-			bodyDef.type = BodyType.DynamicBody;
-			// Set our body's starting position in the world
-			bodyDef.position.set(entity.getX(), entity.getY());
-	
-			// Create our body in the world using our body definition
-			Body body = world.createBody(bodyDef);
-			
-			synchronized (body) {
+		if (!world.isLocked()) {
+			synchronized (world) {
+				// First we create a body definition
+				BodyDef bodyDef = new BodyDef();
+				// We set our body to dynamic, for something like ground which doesn't
+				// move we would set it to StaticBody
+				bodyDef.type = BodyType.DynamicBody;
+				// Set our body's starting position in the world
+				bodyDef.position.set(entity.getX(), entity.getY());
+		
+				// Create our body in the world using our body definition
+				Body body = world.createBody(bodyDef);
+					
+				bodyMap.put(entity, body);
 				body.setUserData(entity);
 		
 				// Create a circle shape and set its radius to 6
@@ -182,8 +209,9 @@ public class PhysicSubsystem implements Subsystem {
 				// Remember to dispose of any shapes after you're done with them!
 				// BodyDef and FixtureDef don't need disposing, but shapes do.
 				shape.dispose();
-			
 			}
+		} else {
+			addList.add(entity);
 		}
 	}
 
@@ -197,11 +225,16 @@ public class PhysicSubsystem implements Subsystem {
 	@Override
 	public void onRemoveEntity(Entity entity) {
 		
-		Body body = bodyMap.get(entity);
-
-		if (body != null) {
-			synchronized (body) {			
-				world.destroyBody(body);			
+		synchronized (world) {
+		
+			if (!world.isLocked()) {
+				Body body = bodyMap.get(entity);
+				
+				synchronized (body) {
+					world.destroyBody(body);
+				}
+			} else {
+				removalList.add(entity);
 			}
 		}
 	}
