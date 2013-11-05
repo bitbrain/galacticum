@@ -18,6 +18,8 @@ package de.myreality.galacticum.screens;
 
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -116,6 +118,10 @@ public class CreationScreen extends MenuScreen {
 	@Override
 	protected void onDraw(SpriteBatch batch, float delta) {
 		tweenManager.update(delta);
+		
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE) || Gdx.input.isKeyPressed(Keys.BACK)) {
+			getGame().setScreen(new MainScreen(getGame()));
+		}
 	}
 
 	// ===========================================================

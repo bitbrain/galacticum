@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.controls;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
 import de.myreality.galacticum.graphics.ScreenshotUtils;
@@ -40,6 +41,10 @@ public class GeneralControls implements InputProcessor {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public GeneralControls() {
+		Gdx.input.setCatchBackKey(true);
+	}
 
 	// ===========================================================
 	// Getter & Setter

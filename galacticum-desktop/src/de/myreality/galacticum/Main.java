@@ -7,10 +7,13 @@ public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Galacticum";
-		cfg.useGL20 = false;
+		cfg.useGL20 = true;
 		cfg.width = 800;
 		cfg.height = 600;
-		
+		cfg.fullscreen =  false;
+		cfg.vSyncEnabled = true;
+		cfg.useCPUSynch = true;
+	
 		new LwjglApplication(new GalacticumGame(), cfg);
 	}
 }

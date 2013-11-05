@@ -18,14 +18,18 @@ package de.myreality.galacticum.ui;
 
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.screens.MenuScreen;
 
 /**
  * Form which provides information for a game context
@@ -66,17 +70,23 @@ public class CreationForm extends Table {
 		tfSeed = new TextField("", style);
 		
 		tfName.setMessageText(DEFAULT_TEXT_NAME);
-		tfSeed.setMessageText(DEFAULT_TEXT_SEED);		
+		tfSeed.setMessageText(DEFAULT_TEXT_SEED);	
 		
-		add(lblError).padBottom(20).padTop(30f);
-		row();
-		add(tfName).width(400f).padBottom(20f).height(110f);
-		row();
-		add(tfSeed).width(400f).height(110f);
+		float width = Gdx.graphics.getWidth() * MenuScreen.WIDTH_FACTOR;
 		
-		btnSubmit = new TextButton("Create", Resources.STYLE_BUTTON_DEFAULT);
+		add(lblError).padBottom(20);
 		row();
-		add(btnSubmit).width(400f).padTop(20f).height(50f);
+		add(tfName).width(width).padBottom(20f).height(110f);
+		row();
+		add(tfSeed).width(width).height(110f);
+		
+		TextButtonStyle buttonStyle = new TextButtonStyle(Resources.STYLE_BUTTON_DEFAULT);
+		buttonStyle.font = Resources.FONT_REGULAR;
+		btnSubmit = new TextButton("Create", buttonStyle);
+		row();
+		add(btnSubmit).width(width).padTop(20f).height(80f);
+		
+		align(Align.center);
 	}
 
 	// ===========================================================
@@ -106,6 +116,24 @@ public class CreationForm extends Table {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		
+		final int PADDING = 20;
+		
+		tfName.setX(Gdx.graphics.getWidth() / 2f - tfName.getWidth() / 2f);
+		tfSeed.setX(Gdx.graphics.getWidth() / 2f - tfSeed.getWidth() / 2f);
+		btnSubmit.setX(Gdx.graphics.getWidth() / 2f - btnSubmit.getWidth() / 2f);
+		lblError.setX(Gdx.graphics.getWidth() / 2f - lblError.getWidth() / 2f);
+		
+		lblError.setY(Gdx.graphics.getHeight()  - Gdx.graphics.getHeight() / 5 - 50);
+		tfName.setY(lblError.getY() - PADDING - tfName.getHeight());
+		tfSeed.setY(tfName.getY() - PADDING - tfSeed.getHeight());
+		btnSubmit.setY(tfSeed.getY() - PADDING - btnSubmit.getHeight());
+		
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

@@ -19,6 +19,7 @@ package de.myreality.galacticum.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -45,50 +46,54 @@ public abstract class MenuScreen implements Screen {
 	// Constants
 	// ===========================================================
 
+	public static final float WIDTH_FACTOR = 0.7f;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private GalacticumGame game;
-	
+
 	private Stage stage;
-	
+
 	private SpriteBatch batch;
-	
+
 	private Texture background;
-	
+
 	private Button buttonLeft, buttonRight;
-	
-	private float width, height;
-	
+
+	private OrthographicCamera camera;
+
 	private String caption;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public MenuScreen(String caption, GalacticumGame game) {
 		this.game = game;
 		this.caption = caption;
 		background = Resources.TEXTURE_MENU_BACKGROUND;
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public GalacticumGame getGame() {
 		return game;
 	}
-	
+
 	public void setBackground(Texture texture) {
 		this.background = texture;
 	}
-	
+
 	public Button getButtonLeft() {
 		return buttonLeft;
 	}
-	
+
 	public Button getButtonRight() {
 		return buttonRight;
 	}
@@ -104,17 +109,24 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		
+
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		
+
 		stage.act(delta);
-		
+
+		camera.update();
+
+		batch.setProjectionMatrix(camera.combined);
+
+		float width = Gdx.graphics.getWidth();
+		float height = Gdx.graphics.getHeight();
+
 		batch.begin();
-		batch.draw(background, 0, 0, width, height);
+		batch.draw(background, -width / 2f, -height / 2f, width, height);
 		onDraw(batch, delta);
 		batch.end();
-		
+
 		stage.draw();
 	}
 
@@ -125,10 +137,7 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		
-		this.width = width;
-		this.height = height;
-		
+
 		if (stage == null) {
 			stage = new GeneralStage(width, height, false);
 			Gdx.input.setInputProcessor(stage);
@@ -139,17 +148,20 @@ public abstract class MenuScreen implements Screen {
 			stage.addActor(head);
 			onCreateUI(stage);
 			onResizeUI(width, height);
-			
+
 			Label label = new Label("", Resources.STYLE_LABEL_DEBUG);
 			MetaData meta = Resources.META_DATA;
-			label.setText(meta.getName() + " " + meta.getVersion() + meta.getPhase());
+			label.setText(meta.getName() + " " + meta.getVersion()
+					+ meta.getPhase());
 			label.setY(20f);
 			label.setX(10f);
 			stage.addActor(label);
-			
+
 		} else {
 			stage.setViewport(width, height, false);
 			onResizeUI(width, height);
+			camera.viewportWidth = width;
+			camera.viewportHeight = height;
 		}
 	}
 
@@ -210,11 +222,11 @@ public abstract class MenuScreen implements Screen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	protected abstract void onCreateUI(Stage stage);
-	
+
 	protected abstract void onResizeUI(int width, int height);
-	
+
 	protected abstract void onDraw(SpriteBatch batch, float delta);
 
 	// ===========================================================
