@@ -16,10 +16,13 @@
  */
 package de.myreality.galacticum.graphics;
 
-import com.badlogic.gdx.math.Vector2;
-
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.math.Vector2;
+
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
@@ -69,9 +72,19 @@ public class LightingSubsystem implements Subsystem {
 		handler = new RayHandler(physics.getWorld());
 		handler.setAmbientLight(0.2f, 0.05f, 0.2f, 0.5f);
 		PointLight light = new PointLight(handler, 20);
-		light.setDistance(400);
-		light.setColor(0.4f, 0.2f, 0.7f, 0.5f);
+		light.setDistance(900);
+		light.setColor(0.4f, 0.2f, 0.7f, 0.8f);
 		light.setPosition(new Vector2());
+		
+		light = new PointLight(handler, 20);
+		light.setPosition(400, 100);
+		light.setDistance(900);
+		light.setColor(0.3f, 0.7f, 0.3f, 0.8f);
+		
+		light = new PointLight(handler, 20);
+		light.setPosition(200, -300);
+		light.setDistance(900);
+		light.setColor(0.6f, 0.2f, 0.2f, 0.8f);
 	}
 
 	/* (non-Javadoc)
@@ -85,6 +98,7 @@ public class LightingSubsystem implements Subsystem {
 		handler.setCombinedMatrix(cam.getCombinedMatrix(), 0, 0, cam.getWidth(), cam.getY());
 		handler.update();
 		handler.render();
+		Gdx.gl.glDisable(GL10.GL_BLEND);
 	}
 
 	/* (non-Javadoc)

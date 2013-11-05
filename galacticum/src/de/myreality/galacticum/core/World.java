@@ -18,6 +18,8 @@ package de.myreality.galacticum.core;
 
 import java.util.Collection;
 
+import de.myreality.chunx.util.Observable;
+
 /**
  * Contains all entities of a game which are currently handled.
  *
@@ -25,7 +27,7 @@ import java.util.Collection;
  * @since 0.1
  * @version 0.1
  */
-public interface World {
+public interface World extends Observable<WorldListener> {
 	
 	// ===========================================================
 	// Constants

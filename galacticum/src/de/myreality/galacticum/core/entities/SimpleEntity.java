@@ -154,6 +154,24 @@ public class SimpleEntity implements Entity {
 		return shape.collidesWith(other);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#setRotation(float)
+	 */
+	@Override
+	public void setRotation(float rotation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getRotation()
+	 */
+	@Override
+	public float getRotation() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

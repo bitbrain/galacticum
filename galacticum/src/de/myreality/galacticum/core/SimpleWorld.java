@@ -19,6 +19,7 @@ package de.myreality.galacticum.core;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import de.myreality.chunx.util.SimpleObservable;
 
 /**
  * Simple implementation of {@see GameContainer}
@@ -27,22 +28,23 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleWorld implements World {
+public class SimpleWorld extends SimpleObservable<WorldListener> implements	World {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
+	private static final long serialVersionUID = 6687408260630855504L;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
 	private CopyOnWriteArrayList<Object> entities;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public SimpleWorld() {
 		entities = new CopyOnWriteArrayList<Object>();
 	}
@@ -54,9 +56,13 @@ public class SimpleWorld implements World {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#add(de.myreality.galacticum.core.Entity)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.GameContainer#add(de.myreality.galacticum
+	 * .core.Entity)
 	 */
 	@Override
 	public void add(Object entity) {
@@ -65,15 +71,21 @@ public class SimpleWorld implements World {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.GameContainer#remove(de.myreality.galacticum.core.Entity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.core.GameContainer#remove(de.myreality.galacticum
+	 * .core.Entity)
 	 */
 	@Override
 	public void remove(Object entity) {
 		entities.remove(entity);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.core.GameContainer#getEntities()
 	 */
 	@Override

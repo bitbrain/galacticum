@@ -121,10 +121,12 @@ public class WorldSystem implements Subsystem {
 	}
 	
 	private void updateObject(Object o, float delta) {
+		
 		if (o instanceof Entity) {
 			Entity entity = (Entity) o;				
 			entity.update(delta);				
 			renderer.render(entity, batch);
+			batch.flush();
 		} else if (o instanceof ContentTargetAdapter) {
 			ContentTargetAdapter adapter = (ContentTargetAdapter)o;
 			updateObject(adapter.getTarget(), delta);

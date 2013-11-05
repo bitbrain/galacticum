@@ -14,21 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
+package de.myreality.galacticum.core;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.core.chunks.ContentTarget;
-import de.myreality.galacticum.util.IDProvider;
+import de.myreality.galacticum.core.entities.Entity;
 
 /**
- * Represents a simple entity in a game
- *
+ * Listens to a {@see World}
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Entity extends IDProvider, Shape, ContentTarget {
+public interface WorldListener {
 	
 	// ===========================================================
 	// Constants
@@ -40,74 +37,16 @@ public interface Entity extends IDProvider, Shape, ContentTarget {
 	
 	/**
 	 * 
-	 * @return
-	 */
-	float getX();
-	
-	/**
 	 * 
-	 * @return
+	 * @param entity
 	 */
-	float getY();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	float getWidth();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	float getHeight();
+	void onAddEntity(Entity entity);
 	
 	/**
 	 * 
 	 * 
-	 * @return
+	 * @param entity
 	 */
-	EntityType getType();
-	
-	/**
-	 * 
-	 * 
-	 * @param delta
-	 * @param batch
-	 */
-	void draw(SpriteBatch batch);
-	
-	/**
-	 * 
-	 * 
-	 * @param delta
-	 */
-	void update(float delta);
-	
-	/**
-	 * 
-	 * 
-	 */
-	void setX(float x);
-	
-	/**
-	 * 
-	 * 
-	 */
-	void setY(float y);
-	
-	/**
-	 * 
-	 * 
-	 * @param rotation
-	 */
-	void setRotation(float rotation);
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	float getRotation();
+	void onRemoveEntity(Entity entity);
 
 }
