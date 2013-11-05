@@ -59,6 +59,7 @@ public class SimpleEntity implements Entity {
 	public SimpleEntity(EntityType type, float width, float height) {
 		shape = new SimpleShape(width, height);
 		this.id = ids++;
+		this.type = type;
 	}
 
 	// ===========================================================

@@ -8,10 +8,11 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Galacticum";
 		cfg.useGL20 = true;
-		cfg.width = 800;
-		cfg.height = 600;
+		cfg.width = 1920;
+		cfg.height = 1080;
 		cfg.fullscreen =  false;
 		cfg.vSyncEnabled = true;
+		cfg.backgroundFPS = 10;
 	
 		new LwjglApplication(new GalacticumGame(), cfg);
 	}

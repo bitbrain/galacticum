@@ -16,10 +16,18 @@
  */
 package de.myreality.galacticum.core;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.core.chunks.ContentArea;
 import de.myreality.galacticum.core.chunks.ContentListener;
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.EntityType;
 import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
+import de.myreality.galacticum.core.entities.SimpleEntity;
 import de.myreality.galacticum.core.entities.SpaceShipFactory;
 import de.myreality.galacticum.core.entities.SpaceShipType;
 import de.myreality.galacticum.util.Seed;
@@ -79,6 +87,15 @@ public class ContentHandler implements ContentListener {
 			Entity entity = f.create(x, y, SpaceShipType.FIGHTER, seed);
 			area.add(entity);			
 		}
+		
+		float x = (float) (area.getX() + Math.random() * area.getWidth());
+		float y = (float) (area.getY() + Math.random() * area.getHeight());
+		
+		// Add planets
+		if (Math.random() * 100 < 10) {
+			Planet planet = new Planet(x, y);
+			area.add(planet);
+		}
 	}
 
 	// ===========================================================
@@ -88,5 +105,39 @@ public class ContentHandler implements ContentListener {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	class Planet extends SimpleEntity implements Externalizable {
+
+		/**
+		 * @param type
+		 * @param width
+		 * @param height
+		 */
+		public Planet(float x, float y) {
+			super(EntityType.PLANET, 512, 512);
+			setX(x);
+			setY(y);
+			setTexture(Resources.TEXTURE_PLANET);
+		}
+
+		/* (non-Javadoc)
+		 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
+		 */
+		@Override
+		public void writeExternal(ObjectOutput out) throws IOException {
+			// TODO Auto-generated method stub
+			
+		}
+
+		/* (non-Javadoc)
+		 * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
+		 */
+		@Override
+		public void readExternal(ObjectInput in) throws IOException,
+				ClassNotFoundException {
+			setTexture(Resources.TEXTURE_PLANET);
+		}
+		
+	}
 
 }

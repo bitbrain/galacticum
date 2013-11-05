@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.graphics;
 
+import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
@@ -42,6 +43,8 @@ public class LightingSubsystem implements Subsystem {
 	private RayHandler handler;
 	
 	private Context context;
+	
+	Light light;
 	
 	public LightingSubsystem() {
 		
@@ -72,21 +75,25 @@ public class LightingSubsystem implements Subsystem {
 		
 		PhysicSubsystem physics = context.getSubsystem(PhysicSubsystem.class);
 		handler = new RayHandler(physics.getWorld());
-		handler.setAmbientLight(0.2f, 0.05f, 0.2f, 0.5f);
+
+		//handler.setShadows(false);
+		handler.setAmbientLight(0.2f, 0.04f, 0.2f, 0.4f);
 		PointLight light = new PointLight(handler, 420);
 		light.setDistance(900);
-		light.setColor(0.4f, 0.2f, 0.7f, 0.8f);
+		light.setColor(0.4f, 0.2f, 0.7f, 0.4f);
 		light.setPosition(new Vector2());
-		
-		light = new PointLight(handler, 420);
-		light.setPosition(400, 100);
-		light.setDistance(900);
-		light.setColor(0.3f, 0.7f, 0.3f, 0.8f);
-		
 		light = new PointLight(handler, 420);
 		light.setPosition(200, -300);
 		light.setDistance(900);
-		light.setColor(0.6f, 0.2f, 0.2f, 0.8f);
+		light.setColor(0.6f, 0.2f, 0.2f, 0.4f);
+		
+		light = new PointLight(handler, 420);
+		light.setPosition(400, 100);
+		light.setDistance(1300);
+		light.setColor(0.2f, 0.2f, 0.7f, 0.6f);
+
+		this.light = light;
+		
 	}
 
 	/* (non-Javadoc)
@@ -96,11 +103,12 @@ public class LightingSubsystem implements Subsystem {
 	public void update(float delta) {
 		
 		GameCamera cam  = context.getCamera();
-		
-		handler.setCombinedMatrix(cam.getCombinedMatrix(), 0, 0, cam.getWidth(), cam.getY());
+		Entity e = context.getPlayer().getCurrentShip();
+		light.setPosition(e.getX(), e.getY());
+		//light.setPosition(cam.getX() + Gdx.input.getX(), cam.getY() + Gdx.input.getY());
+		handler.setCombinedMatrix(cam.getCombinedMatrix());
 		handler.update();
 		handler.render();
-		Gdx.gl.glDisable(GL10.GL_BLEND);
 	}
 
 	/* (non-Javadoc)

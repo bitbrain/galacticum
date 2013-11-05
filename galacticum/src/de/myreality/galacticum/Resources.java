@@ -75,6 +75,10 @@ public final class Resources {
 	
 	public static Texture TEXTURE_LOGO;
 	
+	public static Texture TEXTURE_PLANET;
+	
+	public static Texture TEXTURE_BOX;
+	
 	public static void loadTextures() {		
 		unloadTextures();		
 		TEXTURE_MENU_BACKGROUND = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
@@ -84,6 +88,8 @@ public final class Resources {
 		TEXTURE_SPACE_FAR = new Texture(Gdx.files.internal("images/space-far.png"));
 		TEXTURE_FOG_MEDIUM = new Texture(Gdx.files.internal("images/space-middle.png"));
 		TEXTURE_LOGO = new Texture(Gdx.files.internal("images/logo.png"));
+		TEXTURE_BOX = new Texture(Gdx.files.internal("images/box.png"));
+		TEXTURE_PLANET = new Texture(Gdx.files.internal("images/planet.png"));
 	}
 	
 	public static void unloadTextures() {
@@ -105,6 +111,14 @@ public final class Resources {
 		
 		if (TEXTURE_LOGO != null) {
 			TEXTURE_LOGO.dispose();
+		}
+		
+		if (TEXTURE_PLANET != null) {
+			TEXTURE_PLANET.dispose();
+		}
+		
+		if (TEXTURE_BOX != null) {
+			TEXTURE_BOX.dispose();
 		}
 	}
 	

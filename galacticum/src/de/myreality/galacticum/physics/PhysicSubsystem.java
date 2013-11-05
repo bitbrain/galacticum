@@ -25,8 +25,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import de.myreality.galacticum.core.context.Context;
@@ -49,11 +51,11 @@ public class PhysicSubsystem implements Subsystem {
 	public static int POSITION_ITERATIONS = 5;
 
 	public static int VELOCITY_ITERATIONS = 5;
-	
+
 	private Map<Entity, Body> bodyMap;
-	
+
 	private List<Entity> removalList;
-	
+
 	private List<Entity> addList;
 
 	public PhysicSubsystem() {
@@ -106,26 +108,26 @@ public class PhysicSubsystem implements Subsystem {
 	 */
 	@Override
 	public void update(float delta) {
-		
+
 		synchronized (world) {
-			
+
 			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-			
+
 			if (!world.isLocked()) {
-				
+
 				for (Entity e : removalList) {
 					onRemoveEntity(e);
 				}
-				
+
 				removalList.clear();
-				
+
 				for (Entity e : addList) {
 					onAddEntity(e);
 				}
-				
+
 				addList.clear();
 			}
-		
+
 		}
 	}
 
@@ -171,42 +173,37 @@ public class PhysicSubsystem implements Subsystem {
 	 */
 	@Override
 	public void onAddEntity(Entity entity) {
-		
+
 		if (!world.isLocked()) {
 			synchronized (world) {
 				// First we create a body definition
 				BodyDef bodyDef = new BodyDef();
-				// We set our body to dynamic, for something like ground which doesn't
+				// We set our body to dynamic, for something like ground which
+				// doesn't
 				// move we would set it to StaticBody
 				bodyDef.type = BodyType.DynamicBody;
 				// Set our body's starting position in the world
 				bodyDef.position.set(entity.getX(), entity.getY());
-		
+
 				// Create our body in the world using our body definition
 				Body body = world.createBody(bodyDef);
-					
+
 				bodyMap.put(entity, body);
 				body.setUserData(entity);
-		
-				// Create a circle shape and set its radius to 6
-				PolygonShape shape = new PolygonShape();
-		
-				float[] vertices = new float[] { 0, 0, entity.getWidth(), 0,
-						entity.getWidth(), entity.getHeight(), 0, entity.getHeight() };
-		
-				shape.set(vertices);
-		
+
 				// Create a fixture definition to apply our shape to
 				FixtureDef fixtureDef = new FixtureDef();
+				Shape shape = getShape(entity);
 				fixtureDef.shape = shape;
 				fixtureDef.density = 0.5f;
 				fixtureDef.friction = 0.4f;
 				fixtureDef.restitution = 0.6f; // Make it bounce a little bit
-		
+
 				// Create our fixture and attach it to the body
 				body.createFixture(fixtureDef);
-		
-				// Remember to dispose of any shapes after you're done with them!
+
+				// Remember to dispose of any shapes after you're done with
+				// them!
 				// BodyDef and FixtureDef don't need disposing, but shapes do.
 				shape.dispose();
 			}
@@ -224,12 +221,12 @@ public class PhysicSubsystem implements Subsystem {
 	 */
 	@Override
 	public void onRemoveEntity(Entity entity) {
-		
+
 		synchronized (world) {
-		
+
 			if (!world.isLocked()) {
 				Body body = bodyMap.get(entity);
-				
+
 				synchronized (body) {
 					world.destroyBody(body);
 				}
@@ -239,4 +236,22 @@ public class PhysicSubsystem implements Subsystem {
 		}
 	}
 
+	private Shape getShape(Entity entity) {
+		switch (entity.getType()) {
+			
+			case PLANET:
+				CircleShape circle = new CircleShape();
+				circle.setRadius(entity.getWidth() / 2f);
+				circle.setPosition(new Vector2(entity.getWidth() / 2f, entity.getHeight() / 2f));
+				return circle;			
+			default:
+				PolygonShape poly = new PolygonShape();
+				float[] vertices = new float[] { 0, 0, entity.getWidth(), 0,
+						entity.getWidth(), entity.getHeight(), 0, entity.getHeight() };
+	
+				poly.set(vertices);
+				return poly;		
+		}
+		
+	}
 }

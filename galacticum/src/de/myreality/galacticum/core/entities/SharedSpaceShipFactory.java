@@ -22,8 +22,6 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.util.Seed;
 
@@ -98,7 +96,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 			super(EntityType.SPACESHIP, 50, 50);
 			this.setX(x);
 			this.setY(y);
-			setTexture(Resources.TEXTURE_BLUE);
+			setTexture(Resources.TEXTURE_BOX);
 		}
 		
 		public SimpleSpaceShip() {
