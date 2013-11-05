@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.chunx.util.SimpleObservable;
+import de.myreality.galacticum.core.chunks.ContentTargetAdapter;
+import de.myreality.galacticum.core.entities.Entity;
 
 /**
  * Simple implementation of {@see GameContainer}
@@ -39,6 +41,7 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
 	private CopyOnWriteArrayList<Object> entities;
 
 	// ===========================================================
@@ -68,6 +71,14 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	public void add(Object entity) {
 		if (!entities.contains(entity)) {
 			entities.add(entity);
+			
+			Entity realEntity = deriveEntity(entity);
+			
+			if (realEntity != null) {
+				for (WorldListener l : getListeners()) {
+					l.onAddEntity(realEntity);
+				}
+			}
 		}
 	}
 
@@ -81,6 +92,14 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	@Override
 	public void remove(Object entity) {
 		entities.remove(entity);
+		
+		Entity realEntity = deriveEntity(entity);
+		
+		if (realEntity != null) {
+			for (WorldListener l : getListeners()) {
+				l.onRemoveEntity(realEntity);
+			}
+		}
 	}
 
 	/*
@@ -96,6 +115,18 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private Entity deriveEntity(Object object) {
+		
+		if (object instanceof Entity) {
+			return (Entity)object;
+		} else if (object instanceof ContentTargetAdapter) {
+			ContentTargetAdapter a = (ContentTargetAdapter)object;
+			return deriveEntity(a.getTarget());
+		} else {
+			return null;
+		}
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

@@ -94,6 +94,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 			super(EntityType.SPACESHIP, 50, 50);
 			this.setX(x);
 			this.setY(y);
+			setTexture(Resources.TEXTURE_BLUE);
 		}
 
 		private static final long serialVersionUID = 8496116234063566152L;
@@ -106,16 +107,6 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 			// TODO Auto-generated method stub
 			return null;
 		}
-
-		@Override
-		public void draw(SpriteBatch batch) {			
-			super.draw(batch);
-			batch.draw(Resources.TEXTURE_BLUE, getX(), getY(), 50, 50);
-		}
-		
-		
-
-		
 		
 	}
 

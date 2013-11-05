@@ -92,14 +92,14 @@ public class SimpleContextLoader implements ContextLoader {
 	 */
 	@Override
 	public Context load(ContextConfiguration configuration,
-			World container) throws ContextException {
+			World world) throws ContextException {
 		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems
 				.size(), 0.0f));
-		loadSubsystems(configuration);
+		loadSubsystems(configuration, world);
 		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
 				.size(), subsystems.size(), 1.0f));
 
-		return new SimpleContext(subsystems, container, player, camera, batch, configuration);
+		return new SimpleContext(subsystems, world, player, camera, batch, configuration);
 	}
 
 	/*
@@ -118,9 +118,13 @@ public class SimpleContextLoader implements ContextLoader {
 	// ===========================================================
 
 	private void loadSubsystems(
-			ContextConfiguration configuration) throws ContextException {
+			ContextConfiguration configuration, World world) throws ContextException {
 
 		int index = 0;
+		
+		for (Subsystem system : subsystems) {
+			world.addListener(system);
+		}
 		
 		Gdx.app.log("LOAD", "Loading subsystems..");
 

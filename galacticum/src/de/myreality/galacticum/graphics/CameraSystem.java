@@ -19,6 +19,7 @@ package de.myreality.galacticum.graphics;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -149,6 +150,24 @@ public class CameraSystem implements Subsystem {
 	public void removeProgressListener(ProgressListener listener) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onAddEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onRemoveEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	// ===========================================================

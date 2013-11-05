@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.Settings;
 import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -324,5 +325,23 @@ public class BackgroundSystem implements Subsystem {
 			color.a = 1.0f;
 		}
 
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onAddEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onRemoveEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
 	}
 }

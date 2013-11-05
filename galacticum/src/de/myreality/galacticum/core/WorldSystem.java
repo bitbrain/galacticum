@@ -16,11 +16,11 @@
  */
 package de.myreality.galacticum.core;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.galacticum.core.chunks.ContentTargetAdapter;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -51,6 +51,8 @@ public class WorldSystem implements Subsystem {
 	private SpriteBatch batch;
 	
 	private SimpleEntityRenderer renderer;
+	
+	private List<Entity> entities;
 
 	// ===========================================================
 	// Constructors
@@ -60,6 +62,7 @@ public class WorldSystem implements Subsystem {
 		this.world = world;
 		this.batch = batch;
 		renderer = new SimpleEntityRenderer(camera);
+		entities = new CopyOnWriteArrayList<Entity>();
 	}
 
 	// ===========================================================
@@ -113,23 +116,10 @@ public class WorldSystem implements Subsystem {
 	@Override
 	public void update(float delta) {
 		
-		Collection<Object> entities = world.getEntities();
-		
-		for (Object o : entities) {			
-			updateObject(o, delta);
-		}
-	}
-	
-	private void updateObject(Object o, float delta) {
-		
-		if (o instanceof Entity) {
-			Entity entity = (Entity) o;				
-			entity.update(delta);				
-			renderer.render(entity, batch);
+		for (Entity e : entities) {
+			e.update(delta);
+			renderer.render(e, batch);
 			batch.flush();
-		} else if (o instanceof ContentTargetAdapter) {
-			ContentTargetAdapter adapter = (ContentTargetAdapter)o;
-			updateObject(adapter.getTarget(), delta);
 		}
 	}
 
@@ -165,6 +155,22 @@ public class WorldSystem implements Subsystem {
 	@Override
 	public void removeProgressListener(ProgressListener listener) {
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onAddEntity(Entity entity) {
+		entities.add(entity);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onRemoveEntity(Entity entity) {
+		entities.remove(entity);
 	}
 
 	// ===========================================================

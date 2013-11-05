@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
@@ -46,6 +47,10 @@ public class SimpleEntity implements Entity {
 	private EntityType type;
 	
 	private int id;
+
+	private float rotation;
+	
+	private transient Texture texture;
 
 	// ===========================================================
 	// Constructors
@@ -117,8 +122,9 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public void draw(SpriteBatch batch) {
-		// TODO Auto-generated method stub
-		
+		if (texture != null) {
+			batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+		}
 	}
 
 	/* (non-Javadoc)
@@ -159,8 +165,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public void setRotation(float rotation) {
-		// TODO Auto-generated method stub
-		
+		this.rotation = rotation;
 	}
 
 	/* (non-Javadoc)
@@ -168,8 +173,15 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public float getRotation() {
-		// TODO Auto-generated method stub
-		return 0;
+		return rotation;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#setTexture(com.badlogic.gdx.graphics.Texture)
+	 */
+	@Override
+	public void setTexture(Texture texture) {
+		this.texture = texture;
 	}
 
 	// ===========================================================

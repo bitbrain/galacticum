@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.chunks.ContentTarget;
@@ -109,5 +110,7 @@ public interface Entity extends IDProvider, Shape, ContentTarget {
 	 * @return
 	 */
 	float getRotation();
+	
+	void setTexture(Texture texture);
 
 }

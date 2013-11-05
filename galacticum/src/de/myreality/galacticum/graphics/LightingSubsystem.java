@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.math.Vector2;
 
 import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -43,6 +44,7 @@ public class LightingSubsystem implements Subsystem {
 	private Context context;
 	
 	public LightingSubsystem() {
+		
 	}
 
 	/* (non-Javadoc)
@@ -71,17 +73,17 @@ public class LightingSubsystem implements Subsystem {
 		PhysicSubsystem physics = context.getSubsystem(PhysicSubsystem.class);
 		handler = new RayHandler(physics.getWorld());
 		handler.setAmbientLight(0.2f, 0.05f, 0.2f, 0.5f);
-		PointLight light = new PointLight(handler, 20);
+		PointLight light = new PointLight(handler, 420);
 		light.setDistance(900);
 		light.setColor(0.4f, 0.2f, 0.7f, 0.8f);
 		light.setPosition(new Vector2());
 		
-		light = new PointLight(handler, 20);
+		light = new PointLight(handler, 420);
 		light.setPosition(400, 100);
 		light.setDistance(900);
 		light.setColor(0.3f, 0.7f, 0.3f, 0.8f);
 		
-		light = new PointLight(handler, 20);
+		light = new PointLight(handler, 420);
 		light.setPosition(200, -300);
 		light.setDistance(900);
 		light.setColor(0.6f, 0.2f, 0.2f, 0.8f);
@@ -125,6 +127,24 @@ public class LightingSubsystem implements Subsystem {
 	public void removeProgressListener(ProgressListener listener) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onAddEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onRemoveEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

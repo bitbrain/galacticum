@@ -16,6 +16,7 @@
  */
 package de.myreality.galacticum.core.subsystem;
 
+import de.myreality.galacticum.core.WorldListener;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.util.Nameable;
 
@@ -27,7 +28,7 @@ import de.myreality.galacticum.util.Nameable;
  * @since 0.1
  * @version 0.1
  */
-public interface Subsystem extends Nameable {
+public interface Subsystem extends Nameable, WorldListener {
 	
 	// ===========================================================
 	// Constants
