@@ -154,7 +154,7 @@ public class MainScreen extends MenuScreen {
 		btnNewGame.setY(Gdx.graphics.getHeight() - offsetY);	
 		
 		btnLoadGame.setX(Gdx.graphics.getWidth() / 2f - btnLoadGame.getWidth() / 2f);
-		btnLoadGame.setY(btnNewGame.getY() - PADDING);	
+		btnLoadGame.setY(btnNewGame.getY() - PADDING);
 	}
 
 	@Override

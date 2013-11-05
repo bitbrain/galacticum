@@ -16,25 +16,18 @@
  */
 package de.myreality.galacticum;
 
-import java.io.IOException;
+import java.io.Serializable;
 
-import aurelienribon.tweenengine.Tween;
-
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import de.myreality.galacticum.screens.MainScreen;
-import de.myreality.galacticum.tweens.ActorTween;
 
 /**
- * Main game class which provides game functionality
- *
+ * Provides game settings
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class GalacticumGame extends Game {
+public final class Settings {
 
 	// ===========================================================
 	// Constants
@@ -43,6 +36,10 @@ public class GalacticumGame extends Game {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+
+	public static Quality quality = Quality.MEDIUM;
+
+	public static Language language = Language.ENGLISH;
 
 	// ===========================================================
 	// Constructors
@@ -55,51 +52,35 @@ public class GalacticumGame extends Game {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#create()
-	 */
-	@Override
-	public void create() {
-		
-		Resources.unloadTextures();
-		Resources.unloadTextures();
-		
-		Resources.loadTextures();
-		Resources.loadFonts();
-		Resources.loadStyles();
-		try {
-			Resources.loadMetaData();
-			initTweenEngine();		
-			Settings.loadGdxSettings();
-			setScreen(new MainScreen(this));			
-			MetaData data = Resources.META_DATA;
-			Gdx.graphics.setTitle(data.getName() + " " + data.getVersion() + data.getPhase());
-		} catch (IOException e) {
-			e.printStackTrace();
-			Gdx.app.exit();
-		}
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
-		Resources.unloadTextures();
-		Resources.unloadFonts();
-	}
-	
-	
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private void initTweenEngine() {
-		Tween.registerAccessor(Actor.class, new ActorTween());
+
+	public static void loadGdxSettings() {
+
+		switch (Gdx.app.getType()) {
+			case Android: case iOS:
+				quality = Quality.LOW;
+				break;
+			case Applet: case Desktop: case WebGL:
+				quality = Quality.HIGH;
+				break;
+		}
 	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+	public static enum Quality implements Serializable {
+
+		LOW, MEDIUM, HIGH, EXTREME;
+	}
+
+	public static enum Language implements Serializable {
+
+		ENGLISH
+	}
 
 }

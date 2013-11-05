@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.Settings;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
@@ -162,8 +163,9 @@ public class BackgroundSystem implements Subsystem {
 	// Methods
 	// ===========================================================
 	
-	private void initBackground() {
-		final int starLayers = 5;
+	private void initBackground() {		
+		
+		final int starLayers = getStarLayerCount();
 
 		for (int i = 0; i < starLayers; ++i) {
 			
@@ -175,7 +177,7 @@ public class BackgroundSystem implements Subsystem {
 			mapper.add(distance, config);
 		}
 
-		int fogLayers = 3;
+		int fogLayers = getFogLayerCount();
 		float veloX = 4f;
 		float veloY = 3f;
 
@@ -194,33 +196,87 @@ public class BackgroundSystem implements Subsystem {
 		}
 
 		// Add the background
-		LayerTexture backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
-		LayerConfig config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.5f, 0.3f, 0.4f, 1.0f);
-		int size = Math.round(Gdx.graphics.getWidth() / 2);
-		config.setTileWidth(size);
-		config.setTileHeight(size);
-		mapper.add(20f, config);
-		
-		size = Math.round(Gdx.graphics.getWidth() / 3);
-		
-		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
-		config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.5f, 0.3f, 0.4f, 0.5f);
-		config.setTileWidth(size);
-		config.setTileHeight(size);
-		config.setVelocity(1.5f, 1.8f);
-		mapper.add(15f, config);
-		
-		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
-		config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.5f, 0.3f, 0.4f, 0.4f);
-		config.setVelocity(-1.3f, 1.8f);
-		mapper.add(12f, config);
+        LayerTexture backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
+        LayerConfig config = new LayerConfig(backgroundTexture);
+        config.setFilter(0.5f, 0.3f, 0.4f, 1.0f);
+        int size = Math.round(Gdx.graphics.getWidth() / 2);
+        config.setTileWidth(size);
+        config.setTileHeight(size);
+        mapper.add(25f, config);
+        
+        addDepthLayers();
 	}
 	
 	private int getStarTetureSize() {
 		return Math.round(Gdx.graphics.getWidth() / 1.8f);
+	}
+	
+	private int getStarLayerCount() {
+		switch (Settings.quality) {
+			case EXTREME:
+				return 10;
+			case HIGH:
+				return 7;
+			case LOW:
+				return 3;
+			case MEDIUM:
+				return 5;
+		}
+		
+		return 5;
+	}
+	
+	private int getFogLayerCount() {
+		switch (Settings.quality) {
+		case EXTREME:
+			return 5;
+		case HIGH:
+			return 4;
+		case LOW:
+			return 1;
+		case MEDIUM:
+			return 3;
+		}
+		
+		return 5;
+	}
+	
+	private void addDepthLayers() {
+		int size = Math.round(Gdx.graphics.getWidth() / 3);
+		
+		for (int i = 0; i < getDepthLayerCount(); ++i) {
+			GdxTexture backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
+			LayerConfig config = new LayerConfig(backgroundTexture);
+			config.setFilter(0.5f, 0.3f, 0.4f, 0.5f);
+			config.setTileWidth(size);
+			config.setTileHeight(size);
+			
+			float veloX = 1.3f;
+			float veloY = 1.5f;
+			
+			veloX *= i % 2 == 0 ? 1 : -1;
+			veloY *= i % 3 == 0 ? 1 : -1;
+			
+			config.setVelocity(veloX, veloY);
+			mapper.add((float) (Math.pow(i, 2) + 8), config);
+			
+			size *= 1.2f;
+		}
+	}
+	
+	private int getDepthLayerCount() {
+		switch (Settings.quality) {
+			case EXTREME:
+				return 5;
+			case HIGH:
+				return 4;
+			case LOW:
+				return 1;
+			case MEDIUM:
+				return 3;
+			}
+		
+		return 5;
 	}
 
 	// ===========================================================
