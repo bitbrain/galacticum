@@ -109,8 +109,8 @@ public class PhysicSubsystem implements Subsystem {
 		
 		synchronized (world) {
 			
-			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);		
-			System.out.println(world.getBodyCount());
+			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+			
 			if (!world.isLocked()) {
 				
 				for (Entity e : removalList) {
