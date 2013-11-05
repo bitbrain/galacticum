@@ -20,8 +20,6 @@ import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.math.Vector2;
 
 import de.myreality.galacticum.core.context.Context;
@@ -105,7 +103,6 @@ public class LightingSubsystem implements Subsystem {
 		GameCamera cam  = context.getCamera();
 		Entity e = context.getPlayer().getCurrentShip();
 		light.setPosition(e.getX(), e.getY());
-		//light.setPosition(cam.getX() + Gdx.input.getX(), cam.getY() + Gdx.input.getY());
 		handler.setCombinedMatrix(cam.getCombinedMatrix());
 		handler.update();
 		handler.render();

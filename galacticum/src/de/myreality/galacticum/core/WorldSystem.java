@@ -28,6 +28,7 @@ import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.graphics.SimpleEntityRenderer;
+import de.myreality.galacticum.util.SimpleObserver;
 
 /**
  * Handles the current world
@@ -36,7 +37,7 @@ import de.myreality.galacticum.graphics.SimpleEntityRenderer;
  * @since 0.1
  * @version 0.1
  */
-public class WorldSystem implements Subsystem {
+public class WorldSystem extends SimpleObserver<WorldSystemListener> implements Subsystem {
 
 	// ===========================================================
 	// Constants
@@ -117,7 +118,12 @@ public class WorldSystem implements Subsystem {
 	public void update(float delta) {
 		
 		for (Entity e : entities) {
-			e.update(delta);
+			
+			for (WorldSystemListener l : getListeners()) {
+				l.onUpdateEntity(e, delta);
+			}
+			
+			e.update(delta);			
 			renderer.render(e, batch);
 			batch.flush();
 		}

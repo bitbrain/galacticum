@@ -16,6 +16,9 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import de.myreality.galacticum.core.entities.Shape.ShapeListener;
+import de.myreality.galacticum.util.SimpleObserver;
+
 /**
  * Simple implementation of {@see Shape}
  *
@@ -23,7 +26,7 @@ package de.myreality.galacticum.core.entities;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleShape implements Shape {
+public class SimpleShape extends SimpleObserver<ShapeListener> implements Shape {
 
 	// ===========================================================
 	// Constants
@@ -38,6 +41,7 @@ public class SimpleShape implements Shape {
 	 */
 	private static final long serialVersionUID = 1L;
 	private float width, height, x, y;
+	private float rotation;
 
 	// ===========================================================
 	// Constructors
@@ -78,6 +82,10 @@ public class SimpleShape implements Shape {
 	@Override
 	public void setX(float x) {
 		this.x = x;
+		
+		for (ShapeListener l : getListeners()) {
+			l.onSetX(this);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -86,6 +94,10 @@ public class SimpleShape implements Shape {
 	@Override
 	public void setY(float y) {
 		this.y = y;
+		
+		for (ShapeListener l : getListeners()) {
+			l.onSetY(this);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -102,6 +114,28 @@ public class SimpleShape implements Shape {
 	@Override
 	public float getHeight() {
 		return height;
+	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#setRotation(float)
+	 */
+	@Override
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+		
+		for (ShapeListener l : getListeners()) {
+			l.onSetRotation(this);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getRotation()
+	 */
+	@Override
+	public float getRotation() {
+		return rotation;
 	}
 
 	/* (non-Javadoc)

@@ -19,6 +19,9 @@ package de.myreality.galacticum.core.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.myreality.galacticum.core.entities.Shape.ShapeListener;
+import de.myreality.galacticum.util.SimpleObserver;
+
 
 /**
  * Simple implementation of {@see Entity}
@@ -27,8 +30,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleEntity implements Entity {
-
+public class SimpleEntity extends SimpleObserver<ShapeListener> implements Entity {
 	
 	// ===========================================================
 	// Constants
@@ -47,8 +49,6 @@ public class SimpleEntity implements Entity {
 	private EntityType type;
 	
 	private int id;
-
-	private float rotation;
 	
 	private transient Texture texture;
 
@@ -143,6 +143,10 @@ public class SimpleEntity implements Entity {
 	@Override
 	public void setX(float x) {
 		shape.setX(x);
+		
+		for (ShapeListener l : getListeners()) {
+			l.onSetX(this);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -150,7 +154,12 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public void setY(float y) {
+		
 		shape.setY(y);
+		
+		for (ShapeListener l : getListeners()) {
+			l.onSetY(this);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -166,7 +175,11 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public void setRotation(float rotation) {
-		this.rotation = rotation;
+		shape.setRotation(rotation);
+		
+		for (ShapeListener l : getListeners()) {
+			l.onSetRotation(this);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -174,7 +187,7 @@ public class SimpleEntity implements Entity {
 	 */
 	@Override
 	public float getRotation() {
-		return rotation;
+		return shape.getRotation();
 	}
 
 	/* (non-Javadoc)

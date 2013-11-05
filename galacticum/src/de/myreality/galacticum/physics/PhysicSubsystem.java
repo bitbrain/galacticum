@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -28,11 +29,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import de.myreality.galacticum.core.WorldSystem;
+import de.myreality.galacticum.core.WorldSystemListener;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.Shape;
+import de.myreality.galacticum.core.entities.Shape.ShapeListener;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -44,13 +48,13 @@ import de.myreality.galacticum.core.subsystem.SubsystemException;
  * @since 0.1
  * @version 0.1
  */
-public class PhysicSubsystem implements Subsystem {
+public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeListener {
 
 	private World world;
 
-	public static int POSITION_ITERATIONS = 5;
+	public static int POSITION_ITERATIONS = 40;
 
-	public static int VELOCITY_ITERATIONS = 5;
+	public static int VELOCITY_ITERATIONS = 15;
 
 	private Map<Entity, Body> bodyMap;
 
@@ -98,7 +102,11 @@ public class PhysicSubsystem implements Subsystem {
 	 */
 	@Override
 	public void onEnter(Context context) {
-
+		WorldSystem system = context.getSubsystem(WorldSystem.class);
+		
+		if (system != null) {
+			system.addListener(this);
+		}
 	}
 
 	/*
@@ -173,6 +181,8 @@ public class PhysicSubsystem implements Subsystem {
 	 */
 	@Override
 	public void onAddEntity(Entity entity) {
+		
+		entity.addListener(this);
 
 		if (!world.isLocked()) {
 			synchronized (world) {
@@ -193,7 +203,7 @@ public class PhysicSubsystem implements Subsystem {
 
 				// Create a fixture definition to apply our shape to
 				FixtureDef fixtureDef = new FixtureDef();
-				Shape shape = getShape(entity);
+				com.badlogic.gdx.physics.box2d.Shape shape = getShape(entity);
 				fixtureDef.shape = shape;
 				fixtureDef.density = 0.5f;
 				fixtureDef.friction = 0.4f;
@@ -221,6 +231,8 @@ public class PhysicSubsystem implements Subsystem {
 	 */
 	@Override
 	public void onRemoveEntity(Entity entity) {
+		
+		entity.removeListener(this);
 
 		synchronized (world) {
 
@@ -236,7 +248,7 @@ public class PhysicSubsystem implements Subsystem {
 		}
 	}
 
-	private Shape getShape(Entity entity) {
+	private com.badlogic.gdx.physics.box2d.Shape getShape(Entity entity) {
 		switch (entity.getType()) {
 			
 			case PLANET:
@@ -253,5 +265,57 @@ public class PhysicSubsystem implements Subsystem {
 				return poly;		
 		}
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldSystemListener#onUpdateEntity(de.myreality.galacticum.core.entities.Entity, float)
+	 */
+	@Override
+	public void onUpdateEntity(Entity entity, float delta) {
+		
+		Body body = bodyMap.get(entity);
+		
+		if (body != null) {
+			entity.setX(body.getPosition().x);
+			entity.setY(body.getPosition().y);
+			entity.setRotation(MathUtils.radiansToDegrees * body.getAngle());
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Shape.ShapeListener#onSetX(float)
+	 */
+	@Override
+	public void onSetX(Shape shape) {
+		
+		Body body = bodyMap.get(shape);
+		
+		if (body != null) {
+			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Shape.ShapeListener#onSetY(float)
+	 */
+	@Override
+	public void onSetY(Shape shape) {
+		Body body = bodyMap.get(shape);
+		
+		if (body != null) {
+			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Shape.ShapeListener#onSetRotation(float)
+	 */
+	@Override
+	public void onSetRotation(Shape shape) {
+		Body body = bodyMap.get(shape);
+		
+		if (body != null) {
+			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+		}
 	}
 }

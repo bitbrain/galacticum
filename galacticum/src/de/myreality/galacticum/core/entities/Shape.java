@@ -19,6 +19,8 @@ package de.myreality.galacticum.core.entities;
 import java.io.Serializable;
 
 import de.myreality.galacticum.core.chunks.ContentTarget;
+import de.myreality.galacticum.core.entities.Shape.ShapeListener;
+import de.myreality.galacticum.util.Observer;
 
 /**
  * Provides collision detection and basic 2D layout
@@ -27,7 +29,7 @@ import de.myreality.galacticum.core.chunks.ContentTarget;
  * @since 0.1
  * @version 0.1
  */
-public interface Shape extends Serializable, ContentTarget {
+public interface Shape extends Serializable, ContentTarget, Observer<ShapeListener> {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -85,5 +87,29 @@ public interface Shape extends Serializable, ContentTarget {
 	 * @return
 	 */
 	boolean collidesWith(Shape other);
+	
+	/**
+	 * 
+	 * 
+	 * @param rotation
+	 */
+	void setRotation(float rotation);
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	float getRotation();
+	
+	
+	public static interface ShapeListener {
+		
+		void onSetX(Shape shape);
+		
+		void onSetY(Shape shape);
+		
+		void onSetRotation(Shape shape);
+	}
 
 }
