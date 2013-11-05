@@ -163,19 +163,19 @@ public class BackgroundSystem implements Subsystem {
 	// ===========================================================
 	
 	private void initBackground() {
-		final int starLayers = 8;
+		final int starLayers = 5;
 
 		for (int i = 0; i < starLayers; ++i) {
 			
 			float distance = (float) (Math.pow(i, 1.5) + 7f);
 			
-			LayerTexture texture = new PreprocessedTexture(512, 512, batch,
+			LayerTexture texture = new PreprocessedTexture(getStarTetureSize(), getStarTetureSize(), batch,
 					new StarfieldCreator(distance));
 			LayerConfig config = new LayerConfig(texture);
 			mapper.add(distance, config);
 		}
 
-		int fogLayers = 5;
+		int fogLayers = 3;
 		float veloX = 4f;
 		float veloY = 3f;
 
@@ -196,24 +196,31 @@ public class BackgroundSystem implements Subsystem {
 		// Add the background
 		LayerTexture backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
 		LayerConfig config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.4f, 0.2f, 0.4f, 1.0f);
-		config.setTileWidth(256);
-		config.setTileHeight(256);
+		config.setFilter(0.5f, 0.3f, 0.4f, 1.0f);
+		int size = Math.round(Gdx.graphics.getWidth() / 2);
+		config.setTileWidth(size);
+		config.setTileHeight(size);
 		mapper.add(20f, config);
+		
+		size = Math.round(Gdx.graphics.getWidth() / 3);
 		
 		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
 		config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.4f, 0.2f, 0.4f, 0.5f);
-		config.setTileWidth(450);
-		config.setTileHeight(450);
+		config.setFilter(0.5f, 0.3f, 0.4f, 0.5f);
+		config.setTileWidth(size);
+		config.setTileHeight(size);
 		config.setVelocity(1.5f, 1.8f);
 		mapper.add(15f, config);
 		
 		backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
 		config = new LayerConfig(backgroundTexture);
-		config.setFilter(0.4f, 0.2f, 0.4f, 0.4f);
+		config.setFilter(0.5f, 0.3f, 0.4f, 0.4f);
 		config.setVelocity(-1.3f, 1.8f);
 		mapper.add(12f, config);
+	}
+	
+	private int getStarTetureSize() {
+		return Math.round(Gdx.graphics.getWidth() / 1.8f);
 	}
 
 	// ===========================================================
@@ -234,8 +241,8 @@ public class BackgroundSystem implements Subsystem {
 			int starAmount = (int) (Math.pow(distance, 4) / 100f);
 
 			for (int i = 0; i < starAmount; ++i) {
-				drawStar((float) (512 * Math.random()),
-						(float) (512 * Math.random()), map);
+				drawStar((float) (getStarTetureSize() * Math.random()),
+						(float) (getStarTetureSize() * Math.random()), map);
 			}
 		}
 
