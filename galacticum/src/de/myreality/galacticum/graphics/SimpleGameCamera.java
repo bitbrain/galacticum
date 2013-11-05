@@ -19,6 +19,7 @@ package de.myreality.galacticum.graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
 import de.myreality.galacticum.core.entities.Entity;
@@ -181,6 +182,15 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	@Override
 	public float getZoom() {
 		return camera.zoom;
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.GameCamera#getCombinedMatrix()
+	 */
+	@Override
+	public Matrix4 getCombinedMatrix() {
+		return camera.combined;
 	}
 
 	/*

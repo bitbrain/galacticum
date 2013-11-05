@@ -17,6 +17,7 @@
 package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.entities.Shape;
@@ -93,6 +94,12 @@ public interface GameCamera extends Shape, Shakeable, Zoomable {
 	 * @return
 	 */
 	float getHeight();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	Matrix4 getCombinedMatrix();
 	
 	/**
 	 * Updates the camera

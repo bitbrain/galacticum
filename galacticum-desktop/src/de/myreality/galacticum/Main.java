@@ -12,7 +12,6 @@ public class Main {
 		cfg.height = 600;
 		cfg.fullscreen =  false;
 		cfg.vSyncEnabled = true;
-		cfg.useCPUSynch = true;
 	
 		new LwjglApplication(new GalacticumGame(), cfg);
 	}

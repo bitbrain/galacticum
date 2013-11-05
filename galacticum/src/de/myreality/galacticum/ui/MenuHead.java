@@ -102,9 +102,9 @@ public class MenuHead extends Group {
 			Gdx.gl.glEnable(GL10.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 			
-			renderer.begin(ShapeType.FilledRectangle);
+			renderer.begin(ShapeType.Filled);
 			renderer.setColor(0f, 0f, 0f, 0.25f);
-			renderer.filledRect(getX(), getY(), getWidth(), getHeight());
+			renderer.rect(getX(), getY(), getWidth(), getHeight());
 			renderer.end();
 			      
 			Gdx.gl.glDisable(GL10.GL_BLEND);

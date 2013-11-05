@@ -29,8 +29,10 @@ import de.myreality.galacticum.core.player.PlayerSubsystem;
 import de.myreality.galacticum.graphics.BackgroundSystem;
 import de.myreality.galacticum.graphics.CameraSystem;
 import de.myreality.galacticum.graphics.GameCamera;
+import de.myreality.galacticum.graphics.LightingSubsystem;
 import de.myreality.galacticum.graphics.ViewportAdapter;
 import de.myreality.galacticum.io.ContextConfiguration;
+import de.myreality.galacticum.physics.PhysicSubsystem;
 
 /**
  * Singleton implementation of a {@see SubsystemLoader}
@@ -97,7 +99,9 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 		systems.add(cameraSystem);
 		systems.add(playerSystem);
 		systems.add(new BackgroundSystem(new ViewportAdapter(cameraSystem.getCamera()), batch));
+		systems.add(new PhysicSubsystem());
 		systems.add(new WorldSystem(world, batch, camera));
+		systems.add(new LightingSubsystem());
 		return systems;
 	}
 
