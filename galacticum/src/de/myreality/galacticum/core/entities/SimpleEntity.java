@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.core.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -142,7 +141,7 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	public void draw(SpriteBatch batch) {
 		if (sprite != null) {
 			batch.draw(sprite,getX(), getY(),
-					   getX() + getWidth() / 2f, getY() + getHeight() / 2f, getWidth(), getHeight(), 1f, 1f,getRotation());
+					   0, 0, getWidth(), getHeight(), 1f, 1f,getRotation());
 		}
 	}
 

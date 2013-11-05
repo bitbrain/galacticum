@@ -52,9 +52,9 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 
 	private World world;
 
-	public static int POSITION_ITERATIONS = 40;
+	public static int POSITION_ITERATIONS = 50;
 
-	public static int VELOCITY_ITERATIONS = 20;
+	public static int VELOCITY_ITERATIONS = 10;
 
 	private Map<Entity, Body> bodyMap;
 
