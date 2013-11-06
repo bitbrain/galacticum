@@ -243,7 +243,7 @@ public class BackgroundSystem implements Subsystem {
 	}
 	
 	private void addDepthLayers() {
-		int size = Math.round(Gdx.graphics.getWidth() / 3);
+		int size = Math.round(Gdx.graphics.getWidth() / 1.2f);
 		
 		for (int i = 0; i < getDepthLayerCount(); ++i) {
 			GdxTexture backgroundTexture = new GdxTexture(Resources.TEXTURE_SPACE_FAR, batch);
@@ -295,7 +295,7 @@ public class BackgroundSystem implements Subsystem {
 		@Override
 		public void process(Pixmap map) {
 
-			int starAmount = (int) (Math.pow(distance, 4) / 100f);
+			int starAmount = (int) (Math.pow(distance, 4) / 65f);
 
 			for (int i = 0; i < starAmount; ++i) {
 				drawStar((float) (getStarTetureSize() * Math.random()),

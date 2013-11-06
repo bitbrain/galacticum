@@ -73,22 +73,17 @@ public class LightingSubsystem implements Subsystem {
 		
 		PhysicSubsystem physics = context.getSubsystem(PhysicSubsystem.class);
 		handler = new RayHandler(physics.getWorld());
-
-		//handler.setShadows(false);
-		handler.setAmbientLight(0.4f, 0.1f, 0.6f, 0.2f);
-		PointLight light = new PointLight(handler, 420);
-		light.setDistance(900);
-		light.setColor(0.4f, 0.2f, 0.7f, 0.4f);
-		light.setPosition(new Vector2());
-		light = new PointLight(handler, 420);
-		light.setPosition(200, -300);
-		light.setDistance(900);
-		light.setColor(0.6f, 0.2f, 0.2f, 0.4f);
+		RayHandler.useDiffuseLight(true);
+		handler.setAmbientLight(0.2f, 0.3f, 0.4f, 0.4f);
 		
+		PointLight light = new PointLight(handler, 420);
+		light.setPosition(500, 600);
+		light.setDistance(500);
+		light.setColor(0.9f, 0.3f, 1.0f, 1.0f);
+			
 		light = new PointLight(handler, 420);
-		light.setPosition(400, 100);
-		light.setDistance(1300);
-		light.setColor(0.2f, 0.2f, 0.7f, 0.6f);
+		light.setDistance(1200);
+		light.setColor(0.3f, 0.3f, 0.3f, 0.4f);
 
 		this.light = light;
 		

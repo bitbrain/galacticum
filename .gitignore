@@ -8,6 +8,9 @@
 /doc
 /natives
 */bin
+*.zip
+*.rar
+*.exe
 ~*
 *~
 /config
