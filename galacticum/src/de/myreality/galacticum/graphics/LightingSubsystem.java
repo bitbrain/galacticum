@@ -97,7 +97,7 @@ public class LightingSubsystem implements Subsystem {
 		GameCamera cam  = context.getCamera();
 		Entity e = context.getPlayer().getCurrentShip();
 		light.setPosition(e.getX(), e.getY());
-		handler.setCombinedMatrix(cam.getCombinedMatrix(), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		handler.setCombinedMatrix(cam.getCombinedMatrix(), cam.getX() + Gdx.graphics.getWidth() / 2f, cam.getY() + Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		handler.update();
 		handler.render();
 	}
