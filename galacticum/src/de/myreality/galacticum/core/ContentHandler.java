@@ -16,10 +16,8 @@
  */
 package de.myreality.galacticum.core;
 
-import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
-import java.io.ObjectOutput;
 
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.core.chunks.ContentArea;
@@ -77,7 +75,7 @@ public class ContentHandler implements ContentListener {
 		
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-		final int AMOUNT = 10;
+		final int AMOUNT = 5;
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -106,7 +104,7 @@ public class ContentHandler implements ContentListener {
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	class Planet extends SimpleEntity implements Externalizable {
+	public static class Planet extends SimpleEntity {
 
 		/**
 		 * @param type
@@ -119,14 +117,9 @@ public class ContentHandler implements ContentListener {
 			setY(y);
 			setTexture(Resources.TEXTURE_PLANET);
 		}
-
-		/* (non-Javadoc)
-		 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
-		 */
-		@Override
-		public void writeExternal(ObjectOutput out) throws IOException {
-			// TODO Auto-generated method stub
-			
+		
+		public Planet() {
+			this(0, 0);
 		}
 
 		/* (non-Javadoc)
@@ -135,6 +128,7 @@ public class ContentHandler implements ContentListener {
 		@Override
 		public void readExternal(ObjectInput in) throws IOException,
 				ClassNotFoundException {
+			super.readExternal(in);
 			setTexture(Resources.TEXTURE_PLANET);
 		}
 		

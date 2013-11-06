@@ -16,7 +16,7 @@
  */
 package de.myreality.galacticum.core.entities;
 
-import java.io.Serializable;
+import java.io.Externalizable;
 
 import de.myreality.galacticum.core.chunks.ContentTarget;
 import de.myreality.galacticum.core.entities.Shape.ShapeListener;
@@ -29,7 +29,7 @@ import de.myreality.galacticum.util.Observer;
  * @since 0.1
  * @version 0.1
  */
-public interface Shape extends Serializable, ContentTarget, Observer<ShapeListener> {
+public interface Shape extends Externalizable, ContentTarget, Observer<ShapeListener> {
 	// ===========================================================
 	// Constants
 	// ===========================================================

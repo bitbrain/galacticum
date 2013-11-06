@@ -160,7 +160,6 @@ public class ChunkSubsystem implements Subsystem {
 		 */
 		@Override
 		public void afterLoadChunk(Chunk arg0, ChunkSystem arg1) {
-			// TODO Auto-generated method stub
 			
 		}
 

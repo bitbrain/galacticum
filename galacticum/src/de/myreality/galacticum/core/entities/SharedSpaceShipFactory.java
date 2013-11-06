@@ -16,10 +16,8 @@
  */
 package de.myreality.galacticum.core.entities;
 
-import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.io.Serializable;
 
 import de.myreality.galacticum.Resources;
@@ -87,7 +85,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	class SimpleSpaceShip extends SimpleEntity implements SpaceShip, Externalizable {
+	public static class SimpleSpaceShip extends SimpleEntity implements SpaceShip {
 
 		/**
 		 * @param type
@@ -113,23 +111,14 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 			return null;
 		}
 
-		/* (non-Javadoc)
-		 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
-		 */
-		@Override
-		public void writeExternal(ObjectOutput out) throws IOException {
-			// TODO Auto-generated method stub
-			
-		}
-
-		/* (non-Javadoc)
-		 * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
-		 */
 		@Override
 		public void readExternal(ObjectInput in) throws IOException,
 				ClassNotFoundException {
-			setTexture(Resources.TEXTURE_BLUE);
+			super.readExternal(in);
+			setTexture(Resources.TEXTURE_BOX);
 		}
+		
+		
 		
 	}
 

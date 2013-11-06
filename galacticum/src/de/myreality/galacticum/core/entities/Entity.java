@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import java.io.Externalizable;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -29,7 +31,7 @@ import de.myreality.galacticum.util.IDProvider;
  * @since 0.1
  * @version 0.1
  */
-public interface Entity extends IDProvider, Shape, ContentTarget {
+public interface Entity extends IDProvider, Shape, ContentTarget, Externalizable {
 	
 	// ===========================================================
 	// Constants

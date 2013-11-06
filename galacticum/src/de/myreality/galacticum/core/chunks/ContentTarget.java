@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.core.chunks;
 
+import java.io.Serializable;
+
 /**
  * Provides information to add it to a {@see CreationArea}
  *
@@ -23,7 +25,7 @@ package de.myreality.galacticum.core.chunks;
  * @since 0.1
  * @version 0.1
  */
-public interface ContentTarget {
+public interface ContentTarget extends Serializable {
 	
 	// ===========================================================
 	// Constants

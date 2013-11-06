@@ -22,7 +22,6 @@ import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.caching.CachedChunkConfiguration;
 import de.myreality.chunx.caching.SimpleCachedChunkConfiguration;
 import de.myreality.chunx.caching.SimpleCachedChunkSystem;
-import de.myreality.chunx.concurrent.ConcurrentChunkSystem;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.galacticum.core.ContentHandler;
@@ -95,7 +94,7 @@ public class ChunkSubsystemFactory implements SubsystemFactory {
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
 		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));		
 		
-		ChunkSubsystem result = new ChunkSubsystem(new ConcurrentChunkSystem(chunkSystem));
+		ChunkSubsystem result = new ChunkSubsystem(chunkSystem);
 		result.addListener(new ContentHandler(configuration.getSeed()));
 		
 		return result;

@@ -16,6 +16,10 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -51,7 +55,7 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 
 	private int id;
 
-	private transient Sprite sprite;
+	private Sprite sprite;
 
 	// ===========================================================
 	// Constructors
@@ -231,6 +235,26 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	@Override
 	public void setTexture(Texture texture) {
 		this.sprite = new Sprite(texture);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
+	 */
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		shape.writeExternal(out);
+		out.writeObject(type);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
+	 */
+	@Override
+	public void readExternal(ObjectInput in) throws IOException,
+			ClassNotFoundException {
+		shape.readExternal(in);
+		type = (EntityType)in.readObject();
+		this.id = ids++;
 	}
 
 	// ===========================================================

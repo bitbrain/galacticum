@@ -16,6 +16,10 @@
  */
 package de.myreality.galacticum.core.entities;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 import de.myreality.galacticum.core.entities.Shape.ShapeListener;
 import de.myreality.galacticum.util.SimpleObserver;
 
@@ -155,6 +159,31 @@ public class SimpleShape extends SimpleObserver<ShapeListener> implements Shape 
 		
 		return collisionX && collisionY;
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
+	 */
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeFloat(x);
+		out.writeFloat(y);
+		out.writeFloat(width);
+		out.writeFloat(height);
+		out.writeFloat(rotation);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
+	 */
+	@Override
+	public void readExternal(ObjectInput in) throws IOException,
+			ClassNotFoundException {
+		x = in.readFloat();
+		y = in.readFloat();
+		width = in.readFloat();
+		height = in.readFloat();
+		rotation = in.readFloat();
 	}
 
 	// ===========================================================

@@ -16,12 +16,11 @@
  */
 package de.myreality.galacticum.graphics;
 
+import com.badlogic.gdx.Gdx;
+
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
-
-import com.badlogic.gdx.math.Vector2;
-
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -74,16 +73,16 @@ public class LightingSubsystem implements Subsystem {
 		PhysicSubsystem physics = context.getSubsystem(PhysicSubsystem.class);
 		handler = new RayHandler(physics.getWorld());
 		RayHandler.useDiffuseLight(true);
-		handler.setAmbientLight(0.2f, 0.3f, 0.4f, 0.4f);
+		handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
 		
-		PointLight light = new PointLight(handler, 420);
-		light.setPosition(500, 600);
+		PointLight light = new PointLight(handler, 1420);
+		light.setPosition(500, 300);
 		light.setDistance(500);
 		light.setColor(0.9f, 0.3f, 1.0f, 1.0f);
 			
-		light = new PointLight(handler, 420);
-		light.setDistance(1200);
-		light.setColor(0.3f, 0.3f, 0.3f, 0.4f);
+		light = new PointLight(handler, 300);
+		light.setDistance(600);
+		light.setColor(0.3f, 0.3f, 0.3f, 0.8f);
 
 		this.light = light;
 		
@@ -98,7 +97,7 @@ public class LightingSubsystem implements Subsystem {
 		GameCamera cam  = context.getCamera();
 		Entity e = context.getPlayer().getCurrentShip();
 		light.setPosition(e.getX(), e.getY());
-		handler.setCombinedMatrix(cam.getCombinedMatrix());
+		handler.setCombinedMatrix(cam.getCombinedMatrix(), Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		handler.update();
 		handler.render();
 	}

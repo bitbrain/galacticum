@@ -194,9 +194,11 @@ public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeLis
 				bodyDef.type = BodyType.DynamicBody;
 				// Set our body's starting position in the world
 				bodyDef.position.set(entity.getX(), entity.getY());
-
+				bodyDef.angle = MathUtils.degreesToRadians * entity.getRotation();
+				
 				// Create our body in the world using our body definition
 				Body body = world.createBody(bodyDef);
+				
 
 				bodyMap.put(entity, body);
 				body.setUserData(entity);
