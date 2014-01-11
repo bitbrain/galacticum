@@ -16,10 +16,6 @@
  */
 package de.myreality.galacticum.core;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-
-import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.core.GameLight.GameLightType;
 import de.myreality.galacticum.core.chunks.ContentArea;
 import de.myreality.galacticum.core.chunks.ContentListener;

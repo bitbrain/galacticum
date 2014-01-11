@@ -66,10 +66,11 @@ public class SimpleEntityRenderer implements EntityRenderer {
 
 	@Override
 	public void render(Entity entity, SpriteBatch batch) {
+		
 		if (camera.collidesWith(entity)) {
 			
 			TextureLoader loader = textureLoaders.get(entity.getType());
-			
+			System.out.println(loader);
 			if (loader != null) {
 				Sprite sprite = loader.getSprite(entity.getSeed().get());				
 				batch.draw(sprite, entity.getX(), entity.getY(), 0, 0, entity.getWidth(), entity.getHeight(), 1f, 1f, entity.getRotation());
@@ -88,8 +89,7 @@ public class SimpleEntityRenderer implements EntityRenderer {
 	 */
 	@Override
 	public void addTextureLoader(EntityType type, TextureLoader loader) {
-		// TODO Auto-generated method stub
-
+		textureLoaders.put(type, loader);
 	}
 
 	/*

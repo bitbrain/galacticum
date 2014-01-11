@@ -20,10 +20,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import de.myreality.galacticum.core.entities.Shape.ShapeListener;
 import de.myreality.galacticum.util.Seed;
 import de.myreality.galacticum.util.SimpleObserver;

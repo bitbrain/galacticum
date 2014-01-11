@@ -23,12 +23,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.EntityType;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.graphics.rendering.EntityRenderer;
+import de.myreality.galacticum.graphics.rendering.PlanetTextureLoader;
 import de.myreality.galacticum.graphics.rendering.SimpleEntityRenderer;
+import de.myreality.galacticum.graphics.rendering.SpaceshipTextureLoader;
 import de.myreality.galacticum.util.SimpleObserver;
 
 /**
@@ -65,6 +68,9 @@ public class WorldSystem extends SimpleObserver<WorldSystemListener> implements 
 		this.batch = batch;
 		renderer = new SimpleEntityRenderer(camera);
 		entities = new CopyOnWriteArrayList<Entity>();
+		
+		renderer.addTextureLoader(EntityType.PLANET, new PlanetTextureLoader());
+		renderer.addTextureLoader(EntityType.SPACESHIP, new SpaceshipTextureLoader());
 	}
 
 	// ===========================================================

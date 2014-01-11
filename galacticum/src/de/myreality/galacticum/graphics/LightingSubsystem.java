@@ -167,8 +167,6 @@ public class LightingSubsystem implements Subsystem {
 	@Override
 	public void onAddLight(GameLight light) {
 		
-		System.out.println(light);
-		
 		if (handler != null) {
 			addInternal(light);
 		} else {

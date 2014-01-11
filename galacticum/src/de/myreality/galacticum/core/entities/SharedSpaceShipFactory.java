@@ -16,11 +16,8 @@
  */
 package de.myreality.galacticum.core.entities;
 
-import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.Serializable;
 
-import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.util.Seed;
 
 /**
