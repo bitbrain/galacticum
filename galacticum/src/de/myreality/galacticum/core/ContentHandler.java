@@ -100,7 +100,7 @@ public class ContentHandler implements ContentListener {
 		for (int i = 0; i < LIGHT_COUNT; ++i) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
-			GameColor color = new GameColor((float)Math.random() - 0.4f, (float)Math.random() - 0.4f, (float)Math.random() - 0.4f, 1.0f);
+			GameColor color = new GameColor((float)Math.random() + 0.2f, (float)Math.random() + 0.2f, (float)Math.random() + 0.2f, 1.0f);
 			
 			GameLight light = new SimpleGameLight(x, y, 600, 400, color, GameLightType.POINT);
 			area.add(light);

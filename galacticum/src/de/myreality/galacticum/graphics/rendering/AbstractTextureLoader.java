@@ -45,6 +45,8 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	private Map<Integer, Sprite> sprites;
 	
 	private Map<Integer, Integer> entities;
+	
+	private Map<Integer, float[]> vertices;
 
 	// ===========================================================
 	// Constructors
@@ -54,6 +56,7 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 		textures = new HashMap<Integer, Texture>();
 		sprites = new HashMap<Integer, Sprite>();
 		entities = new HashMap<Integer, Integer>();
+		vertices = new HashMap<Integer, float[]>();
 	}
 
 	// ===========================================================
@@ -80,6 +83,19 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 		}
 		
 		return texture;		
+	}
+	
+
+	@Override
+	public float[] getVertices(int hash, int width, int height) {
+		
+		float[] v = vertices.get(hash);
+		
+		if (v == null) {
+			v = createVertices(hash, width, height);
+		}
+		
+		return v;
 	}
 
 	/* (non-Javadoc)
@@ -108,6 +124,7 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 				Texture texture = textures.remove(hash);
 				entities.remove(hash);
 				sprites.remove(hash);
+				vertices.remove(hash);
 				
 				if (texture != null) {
 					texture.dispose();

@@ -46,6 +46,8 @@ public class SimpleEntityRenderer implements EntityRenderer {
 	private GameCamera camera;
 
 	private Map<EntityType, TextureLoader> textureLoaders;
+	
+	private float[] nullVertices = new float[0];
 
 	// ===========================================================
 	// Constructors
@@ -129,8 +131,13 @@ public class SimpleEntityRenderer implements EntityRenderer {
 	 */
 	@Override
 	public float[] getVerticesFor(Entity entity) {
-		// TODO Auto-generated method stub
-		return null;
+		TextureLoader loader = textureLoaders.get(entity.getType());
+		
+		if (loader != null) {
+			return loader.getVertices(entity.getSeed().get(), Math.round(entity.getWidth()), Math.round(entity.getHeight()));
+		} else {
+			return nullVertices;
+		}
 	}
 
 	// ===========================================================

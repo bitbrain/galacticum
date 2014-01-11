@@ -54,6 +54,16 @@ public interface TextureLoader {
 	Sprite getSprite(int hash, int width, int height);
 	
 	/**
+	 * Returns the vertices for a hash
+	 * 
+	 * @param hash
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	float[] getVertices(int hash, int width, int height);
+	
+	/**
 	 * Disposes the texture which belongs to the hash
 	 * 
 	 * @param hash
