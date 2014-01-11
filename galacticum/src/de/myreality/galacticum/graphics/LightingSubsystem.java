@@ -34,6 +34,7 @@ import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
 import de.myreality.galacticum.physics.PhysicSubsystem;
+import de.myreality.galacticum.util.GameColor;
 
 /**
  * Subsystem to handle lighting
@@ -165,8 +166,15 @@ public class LightingSubsystem implements Subsystem {
 	 */
 	@Override
 	public void onAddLight(GameLight light) {
-		if (!requests.contains(light)) {
-			requests.add(light);
+		
+		System.out.println(light);
+		
+		if (handler != null) {
+			addInternal(light);
+		} else {
+			if (!requests.contains(light)) {
+				requests.add(light);
+			}
 		}
 	}
 
@@ -179,6 +187,7 @@ public class LightingSubsystem implements Subsystem {
 		Light light = lightMap.remove(gameLight);
 		
 		if (light != null) {
+			requests.remove(gameLight);
 			light.remove();
 		}
 	}
@@ -203,7 +212,8 @@ public class LightingSubsystem implements Subsystem {
 		if (light != null) {
 			light.setPosition(gameLight.getX(), gameLight.getY());
 			light.setDistance(gameLight.getRadius());
-			light.setColor(gameLight.getColor());
+			GameColor clr = gameLight.getColor();
+			light.setColor(clr.r, clr.g, clr.b, clr.a);
 			lightMap.put(gameLight, light);
 		}				
 	}

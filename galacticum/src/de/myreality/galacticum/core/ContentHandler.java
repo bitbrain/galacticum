@@ -19,8 +19,6 @@ package de.myreality.galacticum.core;
 import java.io.IOException;
 import java.io.ObjectInput;
 
-import com.badlogic.gdx.graphics.Color;
-
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.core.GameLight.GameLightType;
 import de.myreality.galacticum.core.chunks.ContentArea;
@@ -31,8 +29,8 @@ import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
 import de.myreality.galacticum.core.entities.SimpleEntity;
 import de.myreality.galacticum.core.entities.SpaceShipFactory;
 import de.myreality.galacticum.core.entities.SpaceShipType;
+import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.Seed;
-import de.myreality.galacticum.util.SerializableColor;
 
 /**
  * Handles the content of the world
@@ -101,14 +99,14 @@ public class ContentHandler implements ContentListener {
 		
 		// Add lights
 		
-		final int LIGHT_COUNT = 2;
+		final int LIGHT_COUNT = 3;
 		
 		for (int i = 0; i < LIGHT_COUNT; ++i) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
-			Color color = new SerializableColor((float)Math.random(), (float)Math.random(), (float)Math.random(), 0.6f);
+			GameColor color = new GameColor((float)Math.random() - 0.4f, (float)Math.random() - 0.4f, (float)Math.random() - 0.4f, 1.0f);
 			
-			GameLight light = new SimpleGameLight(x, y, 800, 400, color, GameLightType.POINT);
+			GameLight light = new SimpleGameLight(x, y, 600, 400, color, GameLightType.POINT);
 			area.add(light);
 		}
 	}

@@ -16,9 +16,8 @@
  */
 package de.myreality.galacticum.core;
 
-import com.badlogic.gdx.graphics.Color;
-
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.util.GameColor;
 
 /**
  * Game light representation including types
@@ -45,7 +44,7 @@ public class SimpleGameLight implements GameLight {
 
 	private Entity owner;
 
-	private Color color;
+	private GameColor color;
 	
 	private GameLightType type;
 
@@ -62,7 +61,7 @@ public class SimpleGameLight implements GameLight {
 	 * @param color
 	 */
 	public SimpleGameLight(float x, float y, float radius, int numberOfRays,
-			Entity owner, Color color, GameLightType type) {
+			Entity owner, GameColor color, GameLightType type) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -81,7 +80,7 @@ public class SimpleGameLight implements GameLight {
 	 * @param owner
 	 * @param color
 	 */
-	public SimpleGameLight(float x, float y, float radius, int numberOfRays, Color color, GameLightType type) {
+	public SimpleGameLight(float x, float y, float radius, int numberOfRays, GameColor color, GameLightType type) {
 		this(x, y, radius, numberOfRays, null, color, type);
 	}
 
@@ -149,7 +148,7 @@ public class SimpleGameLight implements GameLight {
 	 * @see de.myreality.galacticum.core.GameLight#getColor()
 	 */
 	@Override
-	public Color getColor() {
+	public GameColor getColor() {
 		return color;
 	}
 
@@ -180,6 +179,15 @@ public class SimpleGameLight implements GameLight {
 	public GameLightType getType() {
 		return type;
 	}
+
+	@Override
+	public String toString() {
+		return "SimpleGameLight [x=" + x + ", y=" + y + ", radius=" + radius
+				+ ", numberOfRays=" + numberOfRays + ", owner=" + owner
+				+ ", color=" + color + ", type=" + type + "]";
+	}
+	
+	
 
 	// ===========================================================
 	// Methods

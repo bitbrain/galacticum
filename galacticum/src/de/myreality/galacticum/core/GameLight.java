@@ -16,11 +16,12 @@
  */
 package de.myreality.galacticum.core;
 
-import com.badlogic.gdx.graphics.Color;
+import java.io.Serializable;
 
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.core.chunks.ContentTarget;
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.util.GameColor;
 
 /**
  * Game light representation including types
@@ -41,7 +42,7 @@ public interface GameLight extends ChunkTarget, ContentTarget {
 	
 	Entity getOwner();
 	
-	Color getColor();
+	GameColor getColor();
 	
 	float getRadius();
 	
@@ -49,7 +50,7 @@ public interface GameLight extends ChunkTarget, ContentTarget {
 	
 	GameLightType getType();
 	
-	public static enum GameLightType {
+	public static enum GameLightType implements Serializable {
 		
 		POINT,
 		CONE,

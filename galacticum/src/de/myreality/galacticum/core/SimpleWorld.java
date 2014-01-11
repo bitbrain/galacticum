@@ -99,9 +99,9 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	 */
 	@Override
 	public void remove(Object entity) {
-		entities.remove(entity);
 		
 		GameLight light = deriveLight(entity);
+		entities.remove(entity);
 		
 		if (light != null) {			
 			

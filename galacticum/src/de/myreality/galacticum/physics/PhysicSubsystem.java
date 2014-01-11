@@ -104,7 +104,6 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 	@Override
 	public void onEnter(Context context) {
 		WorldSystem system = context.getSubsystem(WorldSystem.class);
-		
 		if (system != null) {
 			system.addListener(this);
 		}
@@ -199,7 +198,6 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 				
 				// Create our body in the world using our body definition
 				Body body = world.createBody(bodyDef);
-				
 
 				bodyMap.put(entity, body);
 				body.setUserData(entity);
