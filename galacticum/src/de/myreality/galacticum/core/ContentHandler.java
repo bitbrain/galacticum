@@ -73,7 +73,7 @@ public class ContentHandler implements ContentListener {
 		
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-		final int AMOUNT = 5;
+		final int AMOUNT = 15;
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -95,7 +95,7 @@ public class ContentHandler implements ContentListener {
 		
 		// Add lights
 		
-		final int LIGHT_COUNT = 3;
+		final int LIGHT_COUNT = 4;
 		
 		for (int i = 0; i < LIGHT_COUNT; ++i) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());

@@ -14,27 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.graphics.rendering.spaceships;
+package de.myreality.galacticum.graphics.rendering;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-
-import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.graphics.rendering.AbstractTextureLoader;
 
 /**
- * Loads spaceship textures
+ * Simple implementation of {@see SpaceshipTextureLoader}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @since
+ * @version
  */
-public class SpaceshipTextureLoader extends AbstractTextureLoader {
-
+public class SimpleLayeredTextureLoader  extends AbstractTextureLoader implements LayeredTextureLoader {
+	
+	private List<TextureLayer> layers;
+	
+	public SimpleLayeredTextureLoader() {
+		layers = new ArrayList<TextureLayer>();
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.graphics.rendering.AbstractTextureLoader#createTexture(int)
 	 */
@@ -42,29 +49,18 @@ public class SpaceshipTextureLoader extends AbstractTextureLoader {
 	protected Texture createTexture(int hash, int width, int height) {
 		
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
-		Texture gradient = Resources.TEXTURE_GRADIENT;
-		
+        
 		Gdx.gl.glEnable(GL10.GL_BLEND);
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         
-        int scaleFactor = 60;
-        int padding = 20;
+        for (TextureLayer layer : layers) {
+        	Pixmap layerMap = layer.build(hash, width, height, layers, Color.WHITE);
+        	map.drawPixmap(layerMap, 0, 0, 0, 0, width, height);
+        	layerMap.dispose();
+        }
         
-        TextureData data = gradient.getTextureData();
-		data.prepare();
-        Pixmap gradientMap = data.consumePixmap();
+        Texture texture = new Texture(map);
         
-		map.setColor(1f, 1f, 1f, 1f);
-		map.fill();
-		
-		map.drawPixmap(gradientMap, 0, 0, gradient.getWidth(), gradient.getHeight(), -scaleFactor, -scaleFactor, width + scaleFactor * 2, height + scaleFactor * 2);
-		
-		map.setColor(0.5f, 0.5f, 0.5f, 0.4f);
-		map.fillRectangle(padding, padding, width - padding * 2, height - padding * 2);
-		
-		Texture texture = new Texture(map);
-		map.dispose();
-		gradientMap.dispose();
 		Gdx.gl.glDisable(GL10.GL_BLEND);
 		
 		return texture;		
@@ -75,10 +71,30 @@ public class SpaceshipTextureLoader extends AbstractTextureLoader {
 	 */
 	@Override
 	protected float[] createVertices(int hash, int width, int height) {
-		float[] vertices = new float[] { 0, 0, width, 0,
-				width, height, 0, height };		
-		return vertices;
+		
+		List<float[]> verticesList = new ArrayList<float[]>();
+		
+		for (TextureLayer layer : layers) {
+			float[] vertices = layer.buildEdges(hash, width, height, layers);
+			verticesList.add(vertices);
+		}
+		
+		return createBounds(verticesList, width, height);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.rendering.spaceships.LayeredTextureLoader#addLayer(de.myreality.galacticum.graphics.rendering.spaceships.TextureLayer)
+	 */
+	@Override
+	public void addLayer(TextureLayer layer) {
+		layers.add(layer);
 	}
 	
 	
+	private float[] createBounds(List<float[]> verticesList, float width, float height) {
+		float[] vertices = new float[] { 0, 0, width, 0,
+                width, height, 0, height };                
+		return vertices;
+	}
+
 }
