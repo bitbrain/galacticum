@@ -68,12 +68,12 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLoader#getTexture(int)
 	 */
 	@Override
-	public Texture getTexture(int hash) {
+	public Texture getTexture(int hash, int width, int height) {
 		
 		Texture texture = textures.get(hash);
 		
 		if (texture == null) {
-			texture = createTexture(hash);
+			texture = createTexture(hash, width, height);
 			textures.put(hash, texture);
 			Sprite sprite = new Sprite(texture);
 			sprites.put(hash, sprite);
@@ -86,8 +86,8 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLoader#getSprite(int)
 	 */
 	@Override
-	public Sprite getSprite(int hash) {		
-		getTexture(hash);		
+	public Sprite getSprite(int hash, int width, int height) {		
+		getTexture(hash, width, height);		
 		return sprites.get(hash);
 	}
 
@@ -139,7 +139,9 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	// Methods
 	// ===========================================================
 	
-	protected abstract Texture createTexture(int hash);
+	protected abstract Texture createTexture(int hash, int width, int height);
+	
+	protected abstract float[] createVertices(int hash, int width, int height);
 
 	// ===========================================================
 	// Inner and Anonymous Classes

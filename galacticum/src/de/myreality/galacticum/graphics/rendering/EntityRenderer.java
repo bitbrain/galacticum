@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.entities.EntityType;
+import de.myreality.galacticum.util.VerticesProvider;
 
 /**
  * Renders entities which are focused by the current game camera
@@ -28,7 +29,7 @@ import de.myreality.galacticum.core.entities.EntityType;
  * @since 0.1
  * @version 0.1
  */
-public interface EntityRenderer {
+public interface EntityRenderer extends VerticesProvider {
 	
 	/**
 	 * Registers a new entity
@@ -38,17 +39,19 @@ public interface EntityRenderer {
 	void register(Entity entity);
 	
 	/**
-	 * 
-	 * @param entity
-	 */
-	void render(Entity entity, SpriteBatch batch);
-	
-	/**
 	 * Disposes an existing entity 
 	 * 
 	 * @param entity
 	 */
 	void dispose(Entity entity);
+	
+	/**
+	 * Renders an entity
+	 * 
+	 * @param entity
+	 * @param batch
+	 */
+	void render(Entity entity, SpriteBatch batch);
 	
 	/**
 	 * Adds a new texture loader

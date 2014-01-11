@@ -81,6 +81,9 @@ public class WorldSystem extends SimpleObserver<WorldSystemListener> implements 
 		return world;
 	}
 
+	public EntityRenderer getRenderer() {
+		return renderer;
+	}
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================

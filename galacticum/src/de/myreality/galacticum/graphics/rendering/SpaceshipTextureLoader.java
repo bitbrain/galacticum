@@ -33,8 +33,18 @@ public class SpaceshipTextureLoader extends AbstractTextureLoader {
 	 * @see de.myreality.galacticum.graphics.rendering.AbstractTextureLoader#createTexture(int)
 	 */
 	@Override
-	protected Texture createTexture(int hash) {
+	protected Texture createTexture(int hash, int width, int height) {
 		return Resources.TEXTURE_BOX;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.rendering.AbstractTextureLoader#createVertices(int, int, int)
+	 */
+	@Override
+	protected float[] createVertices(int hash, int width, int height) {
+		float[] vertices = new float[] { 0, 0, width, 0,
+				width, height, 0, height };		
+		return vertices;
 	}
 	
 	

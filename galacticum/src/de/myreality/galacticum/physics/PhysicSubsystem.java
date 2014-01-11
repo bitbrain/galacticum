@@ -41,6 +41,7 @@ import de.myreality.galacticum.core.entities.Shape.ShapeListener;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
+import de.myreality.galacticum.util.VerticesProvider;
 
 /**
  * Subsystem for handling physics
@@ -62,12 +63,15 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 	private List<Entity> removalList;
 
 	private List<Entity> addList;
+	
+	private VerticesProvider verticesProvider;
 
-	public PhysicSubsystem() {
+	public PhysicSubsystem(VerticesProvider provider) {
 		world = new World(new Vector2(0f, 0f), false);
 		bodyMap = new HashMap<Entity, Body>();
 		removalList = new ArrayList<Entity>();
 		addList = new ArrayList<Entity>();
+		this.verticesProvider = provider;
 	}
 
 	/*
@@ -258,11 +262,8 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 				circle.setPosition(new Vector2(entity.getWidth() / 2f, entity.getHeight() / 2f));
 				return circle;			
 			default:
-				PolygonShape poly = new PolygonShape();
-				float[] vertices = new float[] { 0, 0, entity.getWidth(), 0,
-						entity.getWidth(), entity.getHeight(), 0, entity.getHeight() };
-	
-				poly.set(vertices);
+				PolygonShape poly = new PolygonShape();	
+				poly.set(verticesProvider.getVerticesFor(entity));
 				return poly;		
 		}
 		

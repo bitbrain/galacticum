@@ -14,19 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.graphics.rendering;
+package de.myreality.galacticum.util;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import de.myreality.galacticum.core.entities.Entity;
 
 /**
- * Internal texture loader for texture rendering
+ * Provides vertices
  *
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ * @author Miguel Gonzalez <miguel-gonzalez@gmx.de
  * @since 0.1
  * @version 0.1
  */
-public interface TextureLoader {
+public interface VerticesProvider {
 	
 	// ===========================================================
 	// Constants
@@ -36,35 +35,6 @@ public interface TextureLoader {
 	// Methods
 	// ===========================================================
 	
-	/**
-	 * Returns the internal texture for this seed. If not texture was found,
-	 * a new one will be created
-	 * 
-	 * @param hash hash of the texture
-	 * @return texture object
-	 */
-	Texture getTexture(int hash, int width, int height);
-	
-	/**
-	 * Returns the internal texture for this seed as sprite.
-	 * 
-	 * @param hash
-	 * @return
-	 */
-	Sprite getSprite(int hash, int width, int height);
-	
-	/**
-	 * Disposes the texture which belongs to the hash
-	 * 
-	 * @param hash
-	 */
-	void dispose(int hash);
-	
-	/**
-	 * Registers a new hash
-	 * 
-	 * @param hash
-	 */
-	void register(int hash);
+	float[] getVerticesFor(Entity entity);
 
 }

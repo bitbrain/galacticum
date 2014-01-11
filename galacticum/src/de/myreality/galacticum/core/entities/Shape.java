@@ -30,6 +30,7 @@ import de.myreality.galacticum.util.Observer;
  * @version 0.1
  */
 public interface Shape extends Externalizable, ContentTarget, Observer<ShapeListener> {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================

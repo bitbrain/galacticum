@@ -70,9 +70,9 @@ public class SimpleEntityRenderer implements EntityRenderer {
 		if (camera.collidesWith(entity)) {
 			
 			TextureLoader loader = textureLoaders.get(entity.getType());
-			System.out.println(loader);
+			
 			if (loader != null) {
-				Sprite sprite = loader.getSprite(entity.getSeed().get());				
+				Sprite sprite = loader.getSprite(entity.getSeed().get(), Math.round(entity.getWidth()), Math.round(entity.getHeight()));				
 				batch.draw(sprite, entity.getX(), entity.getY(), 0, 0, entity.getWidth(), entity.getHeight(), 1f, 1f, entity.getRotation());
 			}
         }
@@ -122,6 +122,15 @@ public class SimpleEntityRenderer implements EntityRenderer {
 		if (loader != null) {
 			loader.dispose(entity.getSeed().get());
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.rendering.EntityRenderer#getVerticesFor(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public float[] getVerticesFor(Entity entity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// ===========================================================

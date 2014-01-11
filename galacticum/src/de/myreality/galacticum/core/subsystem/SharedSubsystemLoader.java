@@ -94,13 +94,14 @@ public class SharedSubsystemLoader implements SubsystemLoader {
 		
 		ChunkSubsystemFactory chunkFactory = new ChunkSubsystemFactory(cameraAdapter, new ContentProviderAdapter(world));		
 		PlayerSubsystem playerSystem = new PlayerSubsystem(configuration, SharedSpaceShipFactory.getInstance(), cameraAdapter);
-
+		WorldSystem worldSystem = new WorldSystem(world, batch, camera);
+		
 		systems.add(chunkFactory.create(configuration));
 		systems.add(cameraSystem);
 		systems.add(playerSystem);
-		systems.add(new BackgroundSystem(new ViewportAdapter(cameraSystem.getCamera()), batch));
-		systems.add(new PhysicSubsystem());
-		systems.add(new WorldSystem(world, batch, camera));
+		systems.add(new BackgroundSystem(new ViewportAdapter(cameraSystem.getCamera()), batch));		
+		systems.add(worldSystem);
+		systems.add(new PhysicSubsystem(worldSystem.getRenderer()));
 		systems.add(new LightingSubsystem());
 		return systems;
 	}
