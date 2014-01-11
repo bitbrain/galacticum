@@ -70,17 +70,16 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	@Override
 	public void add(Object entity) {
 		if (!entities.contains(entity)) {
-			entities.add(entity);
 			
-			if (entity instanceof GameLight) {
-				
-				GameLight light = deriveEntity(entity, GameLight.class);
-				
+			entities.add(entity);
+			GameLight light = deriveLight(entity);
+			
+			if (light != null) {
 				for (WorldListener l : getListeners()) {
 					l.onAddLight(light);
 				}
 			} else {
-				Entity realEntity = deriveEntity(entity, Entity.class);
+				Entity realEntity = deriveEntity(entity);
 				
 				if (realEntity != null) {
 					for (WorldListener l : getListeners()) {
@@ -102,15 +101,15 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	public void remove(Object entity) {
 		entities.remove(entity);
 		
-		if (entity instanceof GameLight) {
-			
-			GameLight light = deriveEntity(entity, GameLight.class);
+		GameLight light = deriveLight(entity);
+		
+		if (light != null) {			
 			
 			for (WorldListener l : getListeners()) {
 				l.onRemoveLight(light);
 			}
 		} else {
-			Entity realEntity = deriveEntity(entity, Entity.class);
+			Entity realEntity = deriveEntity(entity);
 			
 			if (realEntity != null) {
 				for (WorldListener l : getListeners()) {
@@ -134,14 +133,33 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	// Methods
 	// ===========================================================
 	
-	@SuppressWarnings("unchecked")
-	private <T> T deriveEntity(Object object, Class<T> typeClass) {
+	private Entity deriveEntity(Object object) {
 		
-		if (object instanceof Entity) {
-			return (T)object;
-		} else if (object instanceof ContentTargetAdapter) {
-			ContentTargetAdapter a = (ContentTargetAdapter)object;
-			return deriveEntity(a.getTarget(), typeClass);
+		if (object != null) {
+			if (object instanceof Entity) {
+				return (Entity)object;
+			} else if (object instanceof ContentTargetAdapter) {
+				ContentTargetAdapter a = (ContentTargetAdapter)object;
+				return deriveEntity(a.getTarget());
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	private GameLight deriveLight(Object object) {
+		
+		if (object != null) {
+			if (object instanceof GameLight) {
+				return (GameLight)object;
+			} else if (object instanceof ContentTargetAdapter) {
+				ContentTargetAdapter a = (ContentTargetAdapter)object;
+				return deriveLight(a.getTarget());
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}

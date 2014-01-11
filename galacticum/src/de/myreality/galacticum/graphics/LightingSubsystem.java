@@ -17,7 +17,9 @@
 package de.myreality.galacticum.graphics;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import box2dLight.Light;
 import box2dLight.PointLight;
@@ -26,7 +28,6 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 
 import de.myreality.galacticum.core.GameLight;
-import de.myreality.galacticum.core.SimpleWorldListener;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -41,7 +42,7 @@ import de.myreality.galacticum.physics.PhysicSubsystem;
  * @since 0.1
  * @version 0.1
  */
-public class LightingSubsystem extends SimpleWorldListener implements Subsystem {
+public class LightingSubsystem implements Subsystem {
 	
 	private RayHandler handler;
 	
@@ -51,8 +52,11 @@ public class LightingSubsystem extends SimpleWorldListener implements Subsystem 
 	
 	private Map<GameLight, Light> lightMap;
 	
+	private Set<GameLight> requests;
+	
 	public LightingSubsystem() {
-		lightMap = new HashMap<GameLight, Light>();
+		this.lightMap = new HashMap<GameLight, Light>();
+		this.requests = new HashSet<GameLight>();
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +89,7 @@ public class LightingSubsystem extends SimpleWorldListener implements Subsystem 
 			
 		PointLight light = new PointLight(handler, 300);
 		light.setDistance(600);
-		light.setColor(0.6f, 0.6f, 0.6f, 1.0f);
+		light.setColor(0.6f, 0.6f, 0.6f, 0.8f);
 
 		this.light = light;
 		
@@ -96,6 +100,13 @@ public class LightingSubsystem extends SimpleWorldListener implements Subsystem 
 	 */
 	@Override
 	public void update(float delta) {
+		
+		if (!requests.isEmpty()) {
+			for (GameLight request : requests) {
+				addInternal(request);
+			}
+			requests.clear();
+		}
 		
 		GameCamera cam  = context.getCamera();
 		Entity e = context.getPlayer().getCurrentShip();
@@ -132,45 +143,69 @@ public class LightingSubsystem extends SimpleWorldListener implements Subsystem 
 	}
 
 	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onAddEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void onRemoveEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)
 	 */
 	@Override
-	public void onAddLight(GameLight gameLight) {
-		Light light = null;
-		
-		switch (gameLight.getType()) {
-			case CONE:
-				// TODO
-				break;
-			case DIRECTIONAL:
-				// TODO
-				break;
-			case POINT:
-				light = new PointLight(handler, gameLight.getNumberOfRays());
-				break;
-			default:
-				break;
+	public void onAddLight(GameLight light) {
+		if (!requests.contains(light)) {
+			requests.add(light);
 		}
-		
-
-		light.setPosition(gameLight.getX(), gameLight.getY());
-		light.setDistance(gameLight.getRadius());
-		light.setColor(gameLight.getColor());
-		
-		lightMap.put(gameLight, light);
-		
 	}
 
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.WorldListener#onRemoveLight(de.myreality.galacticum.core.GameLight)
 	 */
 	@Override
-	public void onRemoveLight(GameLight gameLight) {
-		Light light = lightMap.get(gameLight);
+	public void onRemoveLight(GameLight gameLight) {		
+		
+		Light light = lightMap.remove(gameLight);
 		
 		if (light != null) {
 			light.remove();
 		}
+	}
+	
+	private void addInternal(GameLight gameLight) {
+		
+		Light light = null;
+		
+		switch (gameLight.getType()) {
+		case CONE:
+			break;
+		case DIRECTIONAL:
+			break;
+		case POINT:
+			light = new PointLight(handler, gameLight.getNumberOfRays());
+			break;
+		default:
+			break;
+		
+		}
+		
+		if (light != null) {
+			light.setPosition(gameLight.getX(), gameLight.getY());
+			light.setDistance(gameLight.getRadius());
+			light.setColor(gameLight.getColor());
+			lightMap.put(gameLight, light);
+		}				
 	}
 	
 }

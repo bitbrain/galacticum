@@ -101,14 +101,14 @@ public class ContentHandler implements ContentListener {
 		
 		// Add lights
 		
-		final int LIGHT_COUNT = 10;
+		final int LIGHT_COUNT = 2;
 		
 		for (int i = 0; i < LIGHT_COUNT; ++i) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
-			Color color = new SerializableColor(1f, 1f, 1f, 1.0f);
+			Color color = new SerializableColor((float)Math.random(), (float)Math.random(), (float)Math.random(), 0.6f);
 			
-			GameLight light = new SimpleGameLight(x, y, 500, 500, color, GameLightType.POINT);
+			GameLight light = new SimpleGameLight(x, y, 800, 400, color, GameLightType.POINT);
 			area.add(light);
 		}
 	}
