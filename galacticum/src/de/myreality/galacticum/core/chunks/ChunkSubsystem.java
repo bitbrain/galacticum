@@ -22,8 +22,8 @@ import java.util.Set;
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkSystemListener;
+import de.myreality.galacticum.core.SimpleWorldListener;
 import de.myreality.galacticum.core.context.Context;
-import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
@@ -35,7 +35,7 @@ import de.myreality.galacticum.core.subsystem.SubsystemException;
  * @since 0.1
  * @version 0.1
  */
-public class ChunkSubsystem implements Subsystem {
+public class ChunkSubsystem extends SimpleWorldListener implements Subsystem {
 
 	// ===========================================================
 	// Constants
@@ -234,24 +234,6 @@ public class ChunkSubsystem implements Subsystem {
 			// TODO Auto-generated method stub
 			
 		}
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onAddEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onRemoveEntity(Entity entity) {
-		// TODO Auto-generated method stub
 		
 	}
 	

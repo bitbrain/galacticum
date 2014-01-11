@@ -179,6 +179,24 @@ public class WorldSystem extends SimpleObserver<WorldSystemListener> implements 
 		entities.remove(entity);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)
+	 */
+	@Override
+	public void onAddLight(GameLight light) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveLight(de.myreality.galacticum.core.GameLight)
+	 */
+	@Override
+	public void onRemoveLight(GameLight light) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

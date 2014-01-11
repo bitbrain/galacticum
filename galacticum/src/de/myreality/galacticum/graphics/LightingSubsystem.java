@@ -21,6 +21,7 @@ import com.badlogic.gdx.Gdx;
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -77,12 +78,12 @@ public class LightingSubsystem implements Subsystem {
 		
 		PointLight light = new PointLight(handler, 1420);
 		light.setPosition(500, 300);
-		light.setDistance(500);
-		light.setColor(0.9f, 0.3f, 1.0f, 1.0f);
+		light.setDistance(800);
+		light.setColor(0.9f, 0.6f, 1.0f, 1.0f);
 			
 		light = new PointLight(handler, 300);
 		light.setDistance(600);
-		light.setColor(0.3f, 0.3f, 0.3f, 0.8f);
+		light.setColor(0.6f, 0.6f, 0.6f, 1.0f);
 
 		this.light = light;
 		
@@ -142,6 +143,24 @@ public class LightingSubsystem implements Subsystem {
 	 */
 	@Override
 	public void onRemoveEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)
+	 */
+	@Override
+	public void onAddLight(GameLight light) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveLight(de.myreality.galacticum.core.GameLight)
+	 */
+	@Override
+	public void onRemoveLight(GameLight light) {
 		// TODO Auto-generated method stub
 		
 	}

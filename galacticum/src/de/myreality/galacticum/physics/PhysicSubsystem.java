@@ -31,6 +31,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import de.myreality.galacticum.core.SimpleWorldListener;
 import de.myreality.galacticum.core.WorldSystem;
 import de.myreality.galacticum.core.WorldSystemListener;
 import de.myreality.galacticum.core.context.Context;
@@ -48,7 +49,7 @@ import de.myreality.galacticum.core.subsystem.SubsystemException;
  * @since 0.1
  * @version 0.1
  */
-public class PhysicSubsystem implements Subsystem, WorldSystemListener, ShapeListener {
+public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, WorldSystemListener, ShapeListener {
 
 	private World world;
 

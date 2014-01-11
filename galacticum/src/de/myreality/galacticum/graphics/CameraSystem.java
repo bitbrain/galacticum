@@ -18,6 +18,7 @@ package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -166,6 +167,24 @@ public class CameraSystem implements Subsystem {
 	 */
 	@Override
 	public void onRemoveEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)
+	 */
+	@Override
+	public void onAddLight(GameLight light) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.WorldListener#onRemoveLight(de.myreality.galacticum.core.GameLight)
+	 */
+	@Override
+	public void onRemoveLight(GameLight light) {
 		// TODO Auto-generated method stub
 		
 	}

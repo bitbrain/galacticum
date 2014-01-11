@@ -16,40 +16,70 @@
  */
 package de.myreality.galacticum.core;
 
-import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
+import com.badlogic.gdx.graphics.Color;
 
-import de.myreality.chunx.util.SimpleObservable;
-import de.myreality.galacticum.core.chunks.ContentTargetAdapter;
 import de.myreality.galacticum.core.entities.Entity;
 
 /**
- * Simple implementation of {@see GameContainer}
+ * Game light representation including types
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SimpleWorld extends SimpleObservable<WorldListener> implements	World {
+public class SimpleGameLight implements GameLight {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final long serialVersionUID = 6687408260630855504L;
-	
+	private static final long serialVersionUID = 1L;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private CopyOnWriteArrayList<Object> entities;
+
+	private float x, y, radius;
+
+	private int numberOfRays;
+
+	private Entity owner;
+
+	private Color color;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SimpleWorld() {
-		entities = new CopyOnWriteArrayList<Object>();
+	/**
+	 * @param x
+	 * @param y
+	 * @param radius
+	 * @param numberOfRays
+	 * @param owner
+	 * @param color
+	 */
+	public SimpleGameLight(float x, float y, float radius, int numberOfRays,
+			Entity owner, Color color) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+		this.numberOfRays = numberOfRays;
+		this.owner = owner;
+		this.color = color;
+	}
+	
+	/**
+	 * @param x
+	 * @param y
+	 * @param radius
+	 * @param numberOfRays
+	 * @param owner
+	 * @param color
+	 */
+	public SimpleGameLight(float x, float y, float radius, int numberOfRays, Color color) {
+		this(x, y, radius, numberOfRays, null, color);
 	}
 
 	// ===========================================================
@@ -63,82 +93,86 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.myreality.galacticum.core.GameContainer#add(de.myreality.galacticum
-	 * .core.Entity)
+	 * @see de.myreality.chunx.util.Positionable#getX()
 	 */
 	@Override
-	public void add(Object entity) {
-		if (!entities.contains(entity)) {
-			entities.add(entity);
-			
-			if (entity instanceof GameLight) {
-				for (WorldListener l : getListeners()) {
-					l.onAddLight((GameLight)entity);
-				}
-			} else {
-				Entity realEntity = deriveEntity(entity);
-				
-				if (realEntity != null) {
-					for (WorldListener l : getListeners()) {
-						l.onAddEntity(realEntity);
-					}
-				}
-			}
-		}
+	public float getX() {
+		return x;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * de.myreality.galacticum.core.GameContainer#remove(de.myreality.galacticum
-	 * .core.Entity)
+	 * @see de.myreality.chunx.util.Positionable#getY()
 	 */
 	@Override
-	public void remove(Object entity) {
-		entities.remove(entity);
-		
-		if (entity instanceof GameLight) {
-			for (WorldListener l : getListeners()) {
-				l.onRemoveLight((GameLight)entity);
-			}
-		} else {
-			Entity realEntity = deriveEntity(entity);
-			
-			if (realEntity != null) {
-				for (WorldListener l : getListeners()) {
-					l.onRemoveEntity(realEntity);
-				}
-			}
-		} 
+	public float getY() {
+		return y;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.core.GameContainer#getEntities()
+	 * @see de.myreality.chunx.util.Positionable#setX(float)
 	 */
 	@Override
-	public Collection<Object> getEntities() {
-		return entities;
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.chunx.util.Positionable#setY(float)
+	 */
+	@Override
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.GameLight#getOwner()
+	 */
+	@Override
+	public Entity getOwner() {
+		return owner;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.GameLight#getColor()
+	 */
+	@Override
+	public Color getColor() {
+		return color;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.GameLight#getRadius()
+	 */
+	@Override
+	public float getRadius() {
+		return radius;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.core.GameLight#getNumberOfRays()
+	 */
+	@Override
+	public int getNumberOfRays() {
+		return numberOfRays;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private Entity deriveEntity(Object object) {
-		
-		if (object instanceof Entity) {
-			return (Entity)object;
-		} else if (object instanceof ContentTargetAdapter) {
-			ContentTargetAdapter a = (ContentTargetAdapter)object;
-			return deriveEntity(a.getTarget());
-		} else {
-			return null;
-		}
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

@@ -16,16 +16,19 @@
  */
 package de.myreality.galacticum.core;
 
+import com.badlogic.gdx.graphics.Color;
+
+import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.core.entities.Entity;
 
 /**
- * Listens to a {@see World}
- * 
+ * Game light representation including types
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface WorldListener {
+public interface GameLight extends ChunkTarget {
 	
 	// ===========================================================
 	// Constants
@@ -35,23 +38,19 @@ public interface WorldListener {
 	// Methods
 	// ===========================================================
 	
-	/**
-	 * 
-	 * 
-	 * @param entity
-	 */
-	void onAddEntity(Entity entity);
+	Entity getOwner();
 	
-	void onAddLight(GameLight light);
+	Color getColor();
 	
+	float getRadius();
 	
-	/**
-	 * 
-	 * 
-	 * @param entity
-	 */
-	void onRemoveEntity(Entity entity);
+	int getNumberOfRays();	
 	
-	void onRemoveLight(GameLight light);
+	public static enum GameLightType {
+		
+		POINT,
+		CONE,
+		DIRECTIONAL
+	}
 
 }
