@@ -88,7 +88,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		 * @param type
 		 */
 		public SimpleSpaceShip(float x, float y) {
-			super(EntityType.SPACESHIP, 50, 50, new Seed("oedjfoweifj"));
+			super(EntityType.SPACESHIP, 100, 100, new Seed("oedjfoweifj"));
 			this.setX(x);
 			this.setY(y);
 		}

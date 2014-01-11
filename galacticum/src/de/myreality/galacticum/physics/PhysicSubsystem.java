@@ -54,9 +54,9 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 
 	private World world;
 
-	public static int POSITION_ITERATIONS = 50;
+	public static int POSITION_ITERATIONS = 90;
 
-	public static int VELOCITY_ITERATIONS = 10;
+	public static int VELOCITY_ITERATIONS = 50;
 
 	private Map<Entity, Body> bodyMap;
 
