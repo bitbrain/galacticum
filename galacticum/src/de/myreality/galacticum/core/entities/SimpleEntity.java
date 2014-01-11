@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.entities.Shape.ShapeListener;
+import de.myreality.galacticum.util.Seed;
 import de.myreality.galacticum.util.SimpleObserver;
 
 /**
@@ -55,16 +56,17 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 
 	private int id;
 
-	private Sprite sprite;
+	private Seed seed;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SimpleEntity(EntityType type, float width, float height) {
+	public SimpleEntity(EntityType type, float width, float height, Seed seed) {
 		shape = new SimpleShape(width, height);
 		this.id = ids++;
 		this.type = type;
+		this.seed = seed;
 	}
 
 	// ===========================================================
@@ -133,20 +135,6 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	@Override
 	public EntityType getType() {
 		return type;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.entities.Entity#draw(float,
-	 * com.badlogic.gdx.graphics.g2d.SpriteBatch)
-	 */
-	@Override
-	public void draw(SpriteBatch batch) {
-		if (sprite != null) {
-			batch.draw(sprite,getX(), getY(),
-					   0, 0, getWidth(), getHeight(), 1f, 1f,getRotation());
-		}
 	}
 
 	/*
@@ -225,18 +213,6 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 		return shape.getRotation();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.entities.Entity#setTexture(com.badlogic.
-	 * gdx.graphics.Texture)
-	 */
-	@Override
-	public void setTexture(Texture texture) {
-		this.sprite = new Sprite(texture);
-	}
-
 	/* (non-Javadoc)
 	 * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
 	 */
@@ -244,6 +220,7 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	public void writeExternal(ObjectOutput out) throws IOException {
 		shape.writeExternal(out);
 		out.writeObject(type);
+		out.writeObject(seed);
 	}
 
 	/* (non-Javadoc)
@@ -255,6 +232,15 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 		shape.readExternal(in);
 		type = (EntityType)in.readObject();
 		this.id = ids++;
+		this.seed = (Seed) in.readObject();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.entities.Entity#getSeed()
+	 */
+	@Override
+	public Seed getSeed() {
+		return seed;
 	}
 
 	// ===========================================================

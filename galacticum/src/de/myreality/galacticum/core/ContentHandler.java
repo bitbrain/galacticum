@@ -127,24 +127,13 @@ public class ContentHandler implements ContentListener {
 		 * @param height
 		 */
 		public Planet(float x, float y) {
-			super(EntityType.PLANET, 512, 512);
+			super(EntityType.PLANET, 512, 512, new Seed("19191"));
 			setX(x);
 			setY(y);
-			setTexture(Resources.TEXTURE_PLANET);
 		}
 		
 		public Planet() {
 			this(0, 0);
-		}
-
-		/* (non-Javadoc)
-		 * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
-		 */
-		@Override
-		public void readExternal(ObjectInput in) throws IOException,
-				ClassNotFoundException {
-			super.readExternal(in);
-			setTexture(Resources.TEXTURE_PLANET);
 		}
 		
 	}

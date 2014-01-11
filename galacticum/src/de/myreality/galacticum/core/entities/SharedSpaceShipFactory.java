@@ -91,10 +91,9 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		 * @param type
 		 */
 		public SimpleSpaceShip(float x, float y) {
-			super(EntityType.SPACESHIP, 50, 50);
+			super(EntityType.SPACESHIP, 50, 50, new Seed("oedjfoweifj"));
 			this.setX(x);
 			this.setY(y);
-			setTexture(Resources.TEXTURE_BOX);
 		}
 		
 		public SimpleSpaceShip() {
@@ -110,16 +109,6 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		public Faction getFaction() {
 			return null;
 		}
-
-		@Override
-		public void readExternal(ObjectInput in) throws IOException,
-				ClassNotFoundException {
-			super.readExternal(in);
-			setTexture(Resources.TEXTURE_BOX);
-		}
-		
-		
-		
 	}
 
 }

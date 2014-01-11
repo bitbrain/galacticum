@@ -27,7 +27,8 @@ import de.myreality.galacticum.core.subsystem.ProgressListener;
 import de.myreality.galacticum.core.subsystem.Subsystem;
 import de.myreality.galacticum.core.subsystem.SubsystemException;
 import de.myreality.galacticum.graphics.GameCamera;
-import de.myreality.galacticum.graphics.SimpleEntityRenderer;
+import de.myreality.galacticum.graphics.rendering.EntityRenderer;
+import de.myreality.galacticum.graphics.rendering.SimpleEntityRenderer;
 import de.myreality.galacticum.util.SimpleObserver;
 
 /**
@@ -51,7 +52,7 @@ public class WorldSystem extends SimpleObserver<WorldSystemListener> implements 
 	
 	private SpriteBatch batch;
 	
-	private SimpleEntityRenderer renderer;
+	private EntityRenderer renderer;
 	
 	private List<Entity> entities;
 
@@ -169,6 +170,7 @@ public class WorldSystem extends SimpleObserver<WorldSystemListener> implements 
 	@Override
 	public void onAddEntity(Entity entity) {
 		entities.add(entity);
+		renderer.register(entity);
 	}
 
 	/* (non-Javadoc)
@@ -177,6 +179,7 @@ public class WorldSystem extends SimpleObserver<WorldSystemListener> implements 
 	@Override
 	public void onRemoveEntity(Entity entity) {
 		entities.remove(entity);
+		renderer.dispose(entity);
 	}
 
 	/* (non-Javadoc)

@@ -14,22 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.core.entities;
+package de.myreality.galacticum.graphics.rendering;
 
-import java.io.Externalizable;
-
-import de.myreality.galacticum.core.chunks.ContentTarget;
-import de.myreality.galacticum.util.IDProvider;
-import de.myreality.galacticum.util.Seed;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
- * Represents a simple entity in a game
+ * Internal texture loader for texture rendering
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Entity extends IDProvider, Shape, ContentTarget, Externalizable {
+public interface TextureLoader {
 	
 	// ===========================================================
 	// Constants
@@ -40,19 +37,34 @@ public interface Entity extends IDProvider, Shape, ContentTarget, Externalizable
 	// ===========================================================
 	
 	/**
+	 * Returns the internal texture for this seed. If not texture was found,
+	 * a new one will be created
 	 * 
-	 * 
-	 * @return
+	 * @param hash hash of the texture
+	 * @return texture object
 	 */
-	EntityType getType();
+	Texture getTexture(int hash);
 	
 	/**
+	 * Returns the internal texture for this seed as sprite.
 	 * 
-	 * 
-	 * @param delta
+	 * @param hash
+	 * @return
 	 */
-	void update(float delta);
+	Sprite getSprite(int hash);
 	
-	Seed getSeed();
+	/**
+	 * Disposes the texture which belongs to the hash
+	 * 
+	 * @param hash
+	 */
+	void dispose(int hash);
+	
+	/**
+	 * Registers a new hash
+	 * 
+	 * @param hash
+	 */
+	void register(int hash);
 
 }

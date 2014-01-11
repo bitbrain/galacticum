@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.graphics;
+package de.myreality.galacticum.graphics.rendering;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.EntityType;
 
 /**
  * Renders entities which are focused by the current game camera
@@ -30,9 +31,31 @@ import de.myreality.galacticum.core.entities.Entity;
 public interface EntityRenderer {
 	
 	/**
+	 * Registers a new entity
+	 * 
+	 * @param entity
+	 */
+	void register(Entity entity);
+	
+	/**
 	 * 
 	 * @param entity
 	 */
 	void render(Entity entity, SpriteBatch batch);
+	
+	/**
+	 * Disposes an existing entity 
+	 * 
+	 * @param entity
+	 */
+	void dispose(Entity entity);
+	
+	/**
+	 * Adds a new texture loader
+	 * 
+	 * @param type
+	 * @param loader
+	 */
+	void addTextureLoader(EntityType type, TextureLoader loader);
 
 }

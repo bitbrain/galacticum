@@ -14,11 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.graphics;
+package de.myreality.galacticum.graphics.rendering;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.core.entities.EntityType;
+import de.myreality.galacticum.graphics.GameCamera;
 
 /**
  * Simple implementation of {@see EntityRenderer}
@@ -28,7 +34,7 @@ import de.myreality.galacticum.core.entities.Entity;
  * @version 0.1
  */
 public class SimpleEntityRenderer implements EntityRenderer {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -36,15 +42,18 @@ public class SimpleEntityRenderer implements EntityRenderer {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private GameCamera camera;
+
+	private Map<EntityType, TextureLoader> textureLoaders;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public SimpleEntityRenderer(GameCamera camera) {
 		this.camera = camera;
+		textureLoaders = new HashMap<EntityType, TextureLoader>();
 	}
 
 	// ===========================================================
@@ -55,15 +64,69 @@ public class SimpleEntityRenderer implements EntityRenderer {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
+	@Override
+	public void render(Entity entity, SpriteBatch batch) {
+		if (camera.collidesWith(entity)) {
+			
+			TextureLoader loader = textureLoaders.get(entity.getType());
+			
+			if (loader != null) {
+				Sprite sprite = loader.getSprite(entity.getSeed().get());				
+				batch.draw(sprite, entity.getX(), entity.getY(), 0, 0, entity.getWidth(), entity.getHeight(), 1f, 1f, entity.getRotation());
+			}
+        }
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.graphics.rendering.EntityRenderer#addTextureLoader
+	 * (de.myreality.galacticum.core.entities.EntityType,
+	 * de.myreality.galacticum.graphics.rendering.TextureLoader)
+	 */
+	@Override
+	public void addTextureLoader(EntityType type, TextureLoader loader) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.graphics.rendering.EntityRenderer#register(de
+	 * .myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void register(Entity entity) {
+		TextureLoader loader = textureLoaders.get(entity.getType());
+		
+		if (loader != null) {
+			loader.register(entity.getSeed().get());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.graphics.rendering.EntityRenderer#dispose(de.
+	 * myreality.galacticum.core.entities.Entity)
+	 */
+	@Override
+	public void dispose(Entity entity) {
+		TextureLoader loader = textureLoaders.get(entity.getType());
+		
+		if (loader != null) {
+			loader.dispose(entity.getSeed().get());
+		}
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	public void render(Entity entity, SpriteBatch batch) {
-		if (camera.collidesWith(entity)) {
-			entity.draw(batch);
-		}
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
