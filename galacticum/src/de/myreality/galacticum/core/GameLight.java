@@ -19,6 +19,7 @@ package de.myreality.galacticum.core;
 import com.badlogic.gdx.graphics.Color;
 
 import de.myreality.chunx.ChunkTarget;
+import de.myreality.galacticum.core.chunks.ContentTarget;
 import de.myreality.galacticum.core.entities.Entity;
 
 /**
@@ -28,7 +29,7 @@ import de.myreality.galacticum.core.entities.Entity;
  * @since 0.1
  * @version 0.1
  */
-public interface GameLight extends ChunkTarget {
+public interface GameLight extends ChunkTarget, ContentTarget {
 	
 	// ===========================================================
 	// Constants
@@ -45,6 +46,8 @@ public interface GameLight extends ChunkTarget {
 	float getRadius();
 	
 	int getNumberOfRays();	
+	
+	GameLightType getType();
 	
 	public static enum GameLightType {
 		

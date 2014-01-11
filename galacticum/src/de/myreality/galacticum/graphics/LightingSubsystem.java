@@ -16,12 +16,17 @@
  */
 package de.myreality.galacticum.graphics;
 
-import com.badlogic.gdx.Gdx;
+import java.util.HashMap;
+import java.util.Map;
 
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+
+import com.badlogic.gdx.Gdx;
+
 import de.myreality.galacticum.core.GameLight;
+import de.myreality.galacticum.core.SimpleWorldListener;
 import de.myreality.galacticum.core.context.Context;
 import de.myreality.galacticum.core.entities.Entity;
 import de.myreality.galacticum.core.subsystem.ProgressListener;
@@ -36,7 +41,7 @@ import de.myreality.galacticum.physics.PhysicSubsystem;
  * @since 0.1
  * @version 0.1
  */
-public class LightingSubsystem implements Subsystem {
+public class LightingSubsystem extends SimpleWorldListener implements Subsystem {
 	
 	private RayHandler handler;
 	
@@ -44,8 +49,10 @@ public class LightingSubsystem implements Subsystem {
 	
 	Light light;
 	
+	private Map<GameLight, Light> lightMap;
+	
 	public LightingSubsystem() {
-		
+		lightMap = new HashMap<GameLight, Light>();
 	}
 
 	/* (non-Javadoc)
@@ -75,13 +82,8 @@ public class LightingSubsystem implements Subsystem {
 		handler = new RayHandler(physics.getWorld());
 		RayHandler.useDiffuseLight(true);
 		handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
-		
-		PointLight light = new PointLight(handler, 1420);
-		light.setPosition(500, 300);
-		light.setDistance(800);
-		light.setColor(0.9f, 0.6f, 1.0f, 1.0f);
 			
-		light = new PointLight(handler, 300);
+		PointLight light = new PointLight(handler, 300);
 		light.setDistance(600);
 		light.setColor(0.6f, 0.6f, 0.6f, 1.0f);
 
@@ -130,29 +132,32 @@ public class LightingSubsystem implements Subsystem {
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onAddEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onRemoveEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)
 	 */
 	@Override
-	public void onAddLight(GameLight light) {
-		// TODO Auto-generated method stub
+	public void onAddLight(GameLight gameLight) {
+		Light light = null;
+		
+		switch (gameLight.getType()) {
+			case CONE:
+				// TODO
+				break;
+			case DIRECTIONAL:
+				// TODO
+				break;
+			case POINT:
+				light = new PointLight(handler, gameLight.getNumberOfRays());
+				break;
+			default:
+				break;
+		}
+		
+
+		light.setPosition(gameLight.getX(), gameLight.getY());
+		light.setDistance(gameLight.getRadius());
+		light.setColor(gameLight.getColor());
+		
+		lightMap.put(gameLight, light);
 		
 	}
 
@@ -160,9 +165,12 @@ public class LightingSubsystem implements Subsystem {
 	 * @see de.myreality.galacticum.core.WorldListener#onRemoveLight(de.myreality.galacticum.core.GameLight)
 	 */
 	@Override
-	public void onRemoveLight(GameLight light) {
-		// TODO Auto-generated method stub
+	public void onRemoveLight(GameLight gameLight) {
+		Light light = lightMap.get(gameLight);
 		
+		if (light != null) {
+			light.remove();
+		}
 	}
 	
 }

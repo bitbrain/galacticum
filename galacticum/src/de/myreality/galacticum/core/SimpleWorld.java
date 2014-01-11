@@ -73,11 +73,14 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 			entities.add(entity);
 			
 			if (entity instanceof GameLight) {
+				
+				GameLight light = deriveEntity(entity, GameLight.class);
+				
 				for (WorldListener l : getListeners()) {
-					l.onAddLight((GameLight)entity);
+					l.onAddLight(light);
 				}
 			} else {
-				Entity realEntity = deriveEntity(entity);
+				Entity realEntity = deriveEntity(entity, Entity.class);
 				
 				if (realEntity != null) {
 					for (WorldListener l : getListeners()) {
@@ -100,11 +103,14 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 		entities.remove(entity);
 		
 		if (entity instanceof GameLight) {
+			
+			GameLight light = deriveEntity(entity, GameLight.class);
+			
 			for (WorldListener l : getListeners()) {
-				l.onRemoveLight((GameLight)entity);
+				l.onRemoveLight(light);
 			}
 		} else {
-			Entity realEntity = deriveEntity(entity);
+			Entity realEntity = deriveEntity(entity, Entity.class);
 			
 			if (realEntity != null) {
 				for (WorldListener l : getListeners()) {
@@ -128,17 +134,20 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	// Methods
 	// ===========================================================
 	
-	private Entity deriveEntity(Object object) {
+	@SuppressWarnings("unchecked")
+	private <T> T deriveEntity(Object object, Class<T> typeClass) {
 		
 		if (object instanceof Entity) {
-			return (Entity)object;
+			return (T)object;
 		} else if (object instanceof ContentTargetAdapter) {
 			ContentTargetAdapter a = (ContentTargetAdapter)object;
-			return deriveEntity(a.getTarget());
+			return deriveEntity(a.getTarget(), typeClass);
 		} else {
 			return null;
 		}
 	}
+	
+	
 
 	// ===========================================================
 	// Inner and Anonymous Classes

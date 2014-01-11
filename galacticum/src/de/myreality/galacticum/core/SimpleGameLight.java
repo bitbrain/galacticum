@@ -46,6 +46,8 @@ public class SimpleGameLight implements GameLight {
 	private Entity owner;
 
 	private Color color;
+	
+	private GameLightType type;
 
 	// ===========================================================
 	// Constructors
@@ -60,7 +62,7 @@ public class SimpleGameLight implements GameLight {
 	 * @param color
 	 */
 	public SimpleGameLight(float x, float y, float radius, int numberOfRays,
-			Entity owner, Color color) {
+			Entity owner, Color color, GameLightType type) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -68,6 +70,7 @@ public class SimpleGameLight implements GameLight {
 		this.numberOfRays = numberOfRays;
 		this.owner = owner;
 		this.color = color;
+		this.type = type;
 	}
 	
 	/**
@@ -78,8 +81,8 @@ public class SimpleGameLight implements GameLight {
 	 * @param owner
 	 * @param color
 	 */
-	public SimpleGameLight(float x, float y, float radius, int numberOfRays, Color color) {
-		this(x, y, radius, numberOfRays, null, color);
+	public SimpleGameLight(float x, float y, float radius, int numberOfRays, Color color, GameLightType type) {
+		this(x, y, radius, numberOfRays, null, color, type);
 	}
 
 	// ===========================================================
@@ -168,6 +171,14 @@ public class SimpleGameLight implements GameLight {
 	@Override
 	public int getNumberOfRays() {
 		return numberOfRays;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.GameLight#getType()
+	 */
+	@Override
+	public GameLightType getType() {
+		return type;
 	}
 
 	// ===========================================================
