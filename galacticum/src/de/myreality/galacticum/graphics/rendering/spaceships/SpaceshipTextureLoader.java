@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.graphics.rendering;
+package de.myreality.galacticum.graphics.rendering.spaceships;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 
-import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.graphics.rendering.AbstractTextureLoader;
 
 /**
  * Loads spaceship textures
@@ -34,7 +36,16 @@ public class SpaceshipTextureLoader extends AbstractTextureLoader {
 	 */
 	@Override
 	protected Texture createTexture(int hash, int width, int height) {
-		return Resources.TEXTURE_BOX;
+		
+		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
+		
+		map.setColor(1f, 1f, 1f, 1f);
+		map.fill();
+		
+		Texture texture = new Texture(map);
+		map.dispose();
+		
+		return texture;		
 	}
 
 	/* (non-Javadoc)

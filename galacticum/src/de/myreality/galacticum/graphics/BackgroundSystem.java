@@ -295,7 +295,7 @@ public class BackgroundSystem extends SimpleWorldListener implements Subsystem {
 		@Override
 		public void process(Pixmap map) {
 
-			int starAmount = (int) (Math.pow(distance, 4) / 65f);
+			int starAmount = (int) (Math.pow(distance, 4) / 45f);
 
 			for (int i = 0; i < starAmount; ++i) {
 				drawStar((float) (getStarTetureSize() * Math.random()),

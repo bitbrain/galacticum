@@ -31,7 +31,7 @@ import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.graphics.rendering.EntityRenderer;
 import de.myreality.galacticum.graphics.rendering.PlanetTextureLoader;
 import de.myreality.galacticum.graphics.rendering.SimpleEntityRenderer;
-import de.myreality.galacticum.graphics.rendering.SpaceshipTextureLoader;
+import de.myreality.galacticum.graphics.rendering.spaceships.SpaceshipTextureLoader;
 import de.myreality.galacticum.util.SimpleObserver;
 
 /**
