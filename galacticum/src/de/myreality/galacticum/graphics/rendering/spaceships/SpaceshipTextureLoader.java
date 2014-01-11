@@ -16,10 +16,14 @@
  */
 package de.myreality.galacticum.graphics.rendering.spaceships;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 
+import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.graphics.rendering.AbstractTextureLoader;
 
 /**
@@ -38,12 +42,30 @@ public class SpaceshipTextureLoader extends AbstractTextureLoader {
 	protected Texture createTexture(int hash, int width, int height) {
 		
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
+		Texture gradient = Resources.TEXTURE_GRADIENT;
 		
+		Gdx.gl.glEnable(GL10.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        
+        int scaleFactor = 60;
+        int padding = 20;
+        
+        TextureData data = gradient.getTextureData();
+		data.prepare();
+        Pixmap gradientMap = data.consumePixmap();
+        
 		map.setColor(1f, 1f, 1f, 1f);
 		map.fill();
 		
+		map.drawPixmap(gradientMap, 0, 0, gradient.getWidth(), gradient.getHeight(), -scaleFactor, -scaleFactor, width + scaleFactor * 2, height + scaleFactor * 2);
+		
+		map.setColor(0.5f, 0.5f, 0.5f, 0.4f);
+		map.fillRectangle(padding, padding, width - padding * 2, height - padding * 2);
+		
 		Texture texture = new Texture(map);
 		map.dispose();
+		gradientMap.dispose();
+		Gdx.gl.glDisable(GL10.GL_BLEND);
 		
 		return texture;		
 	}

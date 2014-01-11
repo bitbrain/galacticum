@@ -148,8 +148,8 @@ public class SimpleShape extends SimpleObserver<ShapeListener> implements Shape 
 	@Override
 	public boolean collidesWith(Shape other) {
 		
-		float right = getX() + getWidth();
-		float bottom = getY() + getHeight();
+		float right = getX() + getWidth() + other.getWidth();
+		float bottom = getY() + getHeight() + other.getHeight();
 		
 		float otherRight = other.getX() + other.getWidth();
 		float otherBottom = other.getY() + other.getHeight();

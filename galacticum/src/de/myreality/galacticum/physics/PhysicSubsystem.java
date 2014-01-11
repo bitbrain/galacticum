@@ -54,9 +54,9 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 
 	private World world;
 
-	public static int POSITION_ITERATIONS = 90;
+	public static int POSITION_ITERATIONS = 50;
 
-	public static int VELOCITY_ITERATIONS = 50;
+	public static int VELOCITY_ITERATIONS = 10;
 
 	private Map<Entity, Body> bodyMap;
 
@@ -192,6 +192,7 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 			synchronized (world) {
 				// First we create a body definition
 				BodyDef bodyDef = new BodyDef();
+				
 				// We set our body to dynamic, for something like ground which
 				// doesn't
 				// move we would set it to StaticBody
@@ -205,10 +206,11 @@ public class PhysicSubsystem extends SimpleWorldListener implements Subsystem, W
 
 				bodyMap.put(entity, body);
 				body.setUserData(entity);
-
+				
 				// Create a fixture definition to apply our shape to
 				FixtureDef fixtureDef = new FixtureDef();
 				com.badlogic.gdx.physics.box2d.Shape shape = getShape(entity);
+				
 				fixtureDef.shape = shape;
 				fixtureDef.density = 0.5f;
 				fixtureDef.friction = 0.4f;

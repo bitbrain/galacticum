@@ -140,8 +140,9 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	 */
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-
+		
+		// TODO BUG!
+		//setRotation((float) (getRotation() + 0.6));
 	}
 
 	/*

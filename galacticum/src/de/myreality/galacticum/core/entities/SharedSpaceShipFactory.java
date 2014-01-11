@@ -91,6 +91,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 			super(EntityType.SPACESHIP, 100, 100, new Seed("oedjfoweifj"));
 			this.setX(x);
 			this.setY(y);
+			//this.setRotation((float) (360f * Math.random()));
 		}
 		
 		public SimpleSpaceShip() {
