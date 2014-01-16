@@ -90,7 +90,7 @@ public class SharedModuleLoader implements ModuleLoader {
 		ModuleList systems = new ModuleList();
 		
 		CameraModule cameraSystem = new CameraModule(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch);
-		SpaceZoneModule zoneModule = new SpaceZoneModule();		
+		SpaceZoneModule zoneModule = new SpaceZoneModule(configuration.getSeed());		
 		GameCamera camera = cameraSystem.getCamera();
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
 		ContentHandler handler = new ContentHandler(zoneModule);

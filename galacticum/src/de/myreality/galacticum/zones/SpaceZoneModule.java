@@ -66,9 +66,12 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	// Constructors
 	// ===========================================================
 
-	public SpaceZoneModule() {
-		color = new GameColor(1f, 1f, 1f, 1f);
+	public SpaceZoneModule(Seed seed) {
+		color = new GameColor(0.2f, 0.2f, 0.4f, 0.5f);
 		listeners = new HashSet<ZoneHandler.ZoneListener>();
+		this.seed = seed;
+		hashGenerator = new SimpleHashGenerator(seed);
+		oldHash = seed.get();
 	}
 
 	// ===========================================================
@@ -87,15 +90,12 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	@Override
 	public void onEnter(Context context) {
 		super.onEnter(context);
-		this.seed = context.getConfiguration().getSeed();
 
 		PlayerModule playerModule = context.getModule(PlayerModule.class);
 		Player player = playerModule.getPlayer();
 		SpaceShip currentPlayerShip = player.getCurrentShip();
 		this.target = new TargetHandler(currentPlayerShip);
 		player.addListener(target);
-
-		hashGenerator = new SimpleHashGenerator(seed);
 		this.oldHash = generateHash();
 	}
 
@@ -137,11 +137,7 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	// ===========================================================
 
 	private long generateHash() {
-		if (hashGenerator != null) {
-			return hashGenerator.generate(target.getX(), target.getY());
-		} else {
-			return seed.hashCode();
-		}
+		return hashGenerator.generate(target.getX(), target.getY());
 	}
 
 	/*
