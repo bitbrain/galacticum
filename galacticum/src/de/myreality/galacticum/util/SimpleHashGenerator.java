@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.util;
 
-import java.util.Random;
 
 /**
  * Simple implementation of @{see SubSeedGenerator}
@@ -34,10 +33,16 @@ public class SimpleHashGenerator implements HashGenerator {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Seed seed;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SimpleHashGenerator(Seed seed) {
+		this.seed = seed;
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -51,12 +56,8 @@ public class SimpleHashGenerator implements HashGenerator {
 	 * @see de.myreality.galacticum.core.SubSeedGenerator#generate(de.myreality.galacticum.util.Seed, float, float)
 	 */
 	@Override
-	public long generate(Seed seed, float x, float y) {
-		
-		Random random = new Random(seed.get());
-		
-		
-         return random.nextLong();
+	public long generate(float x, float y) {		
+		return (long) (seed.get() * x * y);
 	}
 	
 	// ===========================================================

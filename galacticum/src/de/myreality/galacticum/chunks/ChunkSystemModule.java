@@ -90,7 +90,11 @@ public class ChunkSystemModule extends SimpleWorldListener implements Module {
 	 */
 	@Override
 	public void start() throws ModuleException {
+		try {
 		chunkSystem.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 

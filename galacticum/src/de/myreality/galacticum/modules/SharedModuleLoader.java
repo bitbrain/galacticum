@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.myreality.galacticum.chunks.ChunkSystemModuleFactory;
 import de.myreality.galacticum.chunks.ChunkTargetAdapter;
 import de.myreality.galacticum.chunks.ContentProviderAdapter;
+import de.myreality.galacticum.core.ContentHandler;
 import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.WorldModule;
 import de.myreality.galacticum.entities.SharedSpaceShipFactory;
@@ -89,22 +90,21 @@ public class SharedModuleLoader implements ModuleLoader {
 		ModuleList systems = new ModuleList();
 		
 		CameraModule cameraSystem = new CameraModule(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch);
-		
+		SpaceZoneModule zoneModule = new SpaceZoneModule();		
 		GameCamera camera = cameraSystem.getCamera();
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
-		
-		ChunkSystemModuleFactory chunkFactory = new ChunkSystemModuleFactory(cameraAdapter, new ContentProviderAdapter(world));		
+		ContentHandler handler = new ContentHandler(zoneModule);
+		ChunkSystemModuleFactory chunkFactory = new ChunkSystemModuleFactory(handler, cameraAdapter, new ContentProviderAdapter(world));		
 		PlayerModule playerSystem = new PlayerModule(configuration, SharedSpaceShipFactory.getInstance(), cameraAdapter);
 		WorldModule worldSystem = new WorldModule(world, batch, camera);
-		SpaceZoneModule zoneModule = new SpaceZoneModule();		
-		
+
+		systems.add(playerSystem);
+		systems.add(zoneModule);
 		systems.add(chunkFactory.create(configuration));
 		systems.add(cameraSystem);
-		systems.add(playerSystem);
 		systems.add(new BackgroundRenderingModule(new ViewportAdapter(cameraSystem.getCamera()), batch));		
 		systems.add(worldSystem);
 		systems.add(new Box2DPhysicsModule(worldSystem.getRenderer()));
-		systems.add(zoneModule);
 		systems.add(new LightingModule(zoneModule));
 		return systems;
 	}

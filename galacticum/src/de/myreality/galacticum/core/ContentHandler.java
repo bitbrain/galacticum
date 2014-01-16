@@ -28,7 +28,6 @@ import de.myreality.galacticum.entities.SpaceShipType;
 import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Seed;
-import de.myreality.galacticum.util.SimpleHashGenerator;
 
 /**
  * Handles the content of the world
@@ -47,17 +46,14 @@ public class ContentHandler implements ContentListener {
 	// Fields
 	// ===========================================================
 	
-	private Seed seed;
-	
 	private HashGenerator hashGenerator;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ContentHandler(Seed seed) {
-		this.seed = seed;
-		this.hashGenerator = new SimpleHashGenerator();
+	public ContentHandler(HashGenerator generator) {
+		this.hashGenerator = generator;
 	}
 
 	// ===========================================================
@@ -85,7 +81,7 @@ public class ContentHandler implements ContentListener {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			
-			Seed subseed = new Seed(hashGenerator.generate(seed, x, y));
+			Seed subseed = new Seed(hashGenerator.generate(x, y));
 			Entity entity = f.create(x, y, SpaceShipType.FIGHTER, subseed);
 			area.add(entity);			
 		}
@@ -96,7 +92,7 @@ public class ContentHandler implements ContentListener {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			
-			Seed subseed = new Seed(hashGenerator.generate(seed, x, y));
+			Seed subseed = new Seed(hashGenerator.generate(x, y));
 			Planet planet = new Planet(x, y, subseed, GameColor.WHITE);
 			area.add(planet);
 		}

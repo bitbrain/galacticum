@@ -42,6 +42,6 @@ public interface HashGenerator {
 	 * @param y
 	 * @return
 	 */
-	long generate(Seed seed, float x, float y);
+	long generate(float x, float y);
 
 }

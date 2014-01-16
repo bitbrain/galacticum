@@ -34,13 +34,14 @@ import de.myreality.galacticum.util.SimpleHashGenerator;
 
 /**
  * Module which handles zones in space
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Zone {
-	
+public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
+		ZoneHandler, HashGenerator {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -50,25 +51,24 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 	// ===========================================================
 
 	private GameColor color;
-	
+
 	private TargetHandler target;
-	
+
 	private long oldHash;
-	
+
 	private HashGenerator hashGenerator;
-	
+
 	private Seed seed;
-	
+
 	private Set<ZoneListener> listeners;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public SpaceZoneModule() {
 		color = new GameColor(1f, 1f, 1f, 1f);
-		hashGenerator = new SimpleHashGenerator();
-		listeners = new HashSet<Zone.ZoneListener>();
+		listeners = new HashSet<ZoneHandler.ZoneListener>();
 	}
 
 	// ===========================================================
@@ -82,62 +82,71 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 	@Override
 	public String getName() {
 		return "zones";
-	}	
+	}
 
 	@Override
 	public void onEnter(Context context) {
 		super.onEnter(context);
-		this.seed = context.getConfiguration().getSeed();	
-		
+		this.seed = context.getConfiguration().getSeed();
+
 		PlayerModule playerModule = context.getModule(PlayerModule.class);
 		Player player = playerModule.getPlayer();
 		SpaceShip currentPlayerShip = player.getCurrentShip();
 		this.target = new TargetHandler(currentPlayerShip);
 		player.addListener(target);
-		
+
+		hashGenerator = new SimpleHashGenerator(seed);
 		this.oldHash = generateHash();
 	}
 
 	@Override
 	public void update(float delta) {
 		super.update(delta);
-		
+
 		if (target != null) {
-			
+
 			long currentHash = generateHash();
-			
+
 			if (oldHash != currentHash) {
-							
+
 				for (ZoneListener l : getListeners()) {
 					l.onLeaveZone(oldHash, target);
 					l.onEnterZone(currentHash, target);
 				}
-				
-				System.out.println("Moved from " + oldHash + " to " + currentHash);
+
+				System.out.println("Moved from " + oldHash + " to "
+						+ currentHash);
 			}
-			
+
 			this.oldHash = currentHash;
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.util.ColorProvider#getColor()
 	 */
 	@Override
 	public GameColor getColor() {
 		return color;
 	}
-	
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	private long generateHash() {
-		return hashGenerator.generate(seed, target.getX(), target.getY());
+		if (hashGenerator != null) {
+			return hashGenerator.generate(target.getX(), target.getY());
+		} else {
+			return seed.hashCode();
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.util.Observer#addListener(java.lang.Object)
 	 */
 	@Override
@@ -145,15 +154,20 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 		listeners.add(listener);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.util.Observer#removeListener(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.util.Observer#removeListener(java.lang.Object)
 	 */
 	@Override
 	public void removeListener(ZoneListener listener) {
 		listeners.remove(listener);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.util.Observer#hasListener(java.lang.Object)
 	 */
 	@Override
@@ -161,7 +175,9 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 		return listeners.contains(listener);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.util.Observer#getListeners()
 	 */
 	@Override
@@ -169,7 +185,9 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 		return listeners;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.zones.Zone#getAmbientColor()
 	 */
 	@Override
@@ -177,22 +195,25 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 		return getColor();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.zones.Zone#getHash()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.zones.ZoneHandler#getHashGenerator()
 	 */
 	@Override
-	public long getHash() {
-		return oldHash;
+	public HashGenerator getHashGenerator() {
+		return hashGenerator;
 	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
-	private class TargetHandler extends PlayerListenerPrototype implements ZoneTarget {
-		
+
+	private class TargetHandler extends PlayerListenerPrototype implements
+			ZoneTarget {
+
 		private SpaceShip ship;
-		
+
 		public TargetHandler(SpaceShip initialShip) {
 			this.ship = initialShip;
 		}
@@ -204,7 +225,9 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 			this.ship = newShip;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.myreality.galacticum.zones.ZoneTarget#getX()
 		 */
 		@Override
@@ -212,16 +235,24 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider, Z
 			return ship.getX();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.myreality.galacticum.zones.ZoneTarget#getY()
 		 */
 		@Override
 		public float getY() {
 			return ship.getY();
 		}
-		
-		
-		
+
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.HashGenerator#generate(float, float)
+	 */
+	@Override
+	public long generate(float x, float y) {
+		return hashGenerator.generate(x, y);
 	}
 
 }

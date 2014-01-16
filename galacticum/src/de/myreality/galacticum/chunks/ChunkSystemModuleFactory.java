@@ -53,14 +53,17 @@ public class ChunkSystemModuleFactory implements ModuleFactory {
 	private ContentProvider contentProvider;
 	
 	private ChunkTarget chunkTarget;
+	
+	private ContentHandler contentHandler;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ChunkSystemModuleFactory(ChunkTarget chunkTarget, ContentProvider contentProvider) {
+	public ChunkSystemModuleFactory(ContentHandler contentHandler, ChunkTarget chunkTarget, ContentProvider contentProvider) {
 		this.chunkTarget = chunkTarget;
 		this.contentProvider = contentProvider;
+		this.contentHandler = contentHandler;
 	}
 
 	// ===========================================================
@@ -95,7 +98,7 @@ public class ChunkSystemModuleFactory implements ModuleFactory {
 		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));		
 		
 		ChunkSystemModule result = new ChunkSystemModule(chunkSystem);
-		result.addListener(new ContentHandler(configuration.getSeed()));
+		result.addListener(contentHandler);
 		
 		return result;
 	}

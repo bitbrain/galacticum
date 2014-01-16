@@ -17,8 +17,9 @@
 package de.myreality.galacticum.zones;
 
 import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Observer;
-import de.myreality.galacticum.zones.Zone.ZoneListener;
+import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
 
 /**
  * Zone which covers an area in space
@@ -27,7 +28,7 @@ import de.myreality.galacticum.zones.Zone.ZoneListener;
  * @since 0.1
  * @version 0.1
  */
-public interface Zone extends Observer<ZoneListener> {
+public interface ZoneHandler extends Observer<ZoneListener> {
 	
 	// ===========================================================
 	// Constants
@@ -35,7 +36,7 @@ public interface Zone extends Observer<ZoneListener> {
 	
 	GameColor getAmbientColor();
 	
-	long getHash();
+	HashGenerator getHashGenerator();
 
 	// ===========================================================
 	// Methods
