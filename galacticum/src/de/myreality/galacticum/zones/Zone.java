@@ -14,80 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.context;
+package de.myreality.galacticum.zones;
 
-import java.util.Stack;
-
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import de.myreality.galacticum.core.World;
-import de.myreality.galacticum.graphics.GameCamera;
-import de.myreality.galacticum.io.ContextConfiguration;
-import de.myreality.galacticum.modules.Module;
-import de.myreality.galacticum.player.Player;
-
+import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.util.Observer;
+import de.myreality.galacticum.zones.Zone.ZoneListener;
 
 /**
- * Game context which represents one single game
+ * Zone which covers an area in space
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Context {
+public interface Zone extends Observer<ZoneListener> {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	GameColor getAmbientColor();
+	
+	long getHash();
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	Stack<Module> getSubsystems();
-	
-	/**
-	 * 
-	 * 
-	 * @param subsystemClass
-	 * @return
-	 */
-	<Type extends Module> Type getModule(Class<Type> subsystemClass);
-	
-	/**
-	 * 
-	 * @return
-	 */
-	World getWorld();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	ContextConfiguration getConfiguration();
-
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	Player getPlayer();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	GameCamera getCamera();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	SpriteBatch getSpriteBatch();
+	public interface ZoneListener {
+		
+		void onEnterZone(long hash, ZoneTarget target);
+		
+		void onLeaveZone(long hash, ZoneTarget target);
+	}
 }

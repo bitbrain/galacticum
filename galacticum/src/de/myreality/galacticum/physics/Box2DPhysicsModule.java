@@ -107,7 +107,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	 */
 	@Override
 	public void onEnter(Context context) {
-		WorldModule system = context.getSubsystem(WorldModule.class);
+		WorldModule system = context.getModule(WorldModule.class);
 		if (system != null) {
 			system.addListener(this);
 		}

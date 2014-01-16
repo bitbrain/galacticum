@@ -87,7 +87,7 @@ public class LightingModule implements Module {
 	public void onEnter(Context context) {
 		this.context = context;
 		
-		Box2DPhysicsModule physics = context.getSubsystem(Box2DPhysicsModule.class);
+		Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
 		handler = new RayHandler(physics.getWorld());
 		RayHandler.useDiffuseLight(true);
 		handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);

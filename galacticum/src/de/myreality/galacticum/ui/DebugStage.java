@@ -225,7 +225,7 @@ public class DebugStage extends Stage implements Debugable {
 	}
 	
 	private String getChunkText() {
-		ChunkSystemModule c = context.getSubsystem(ChunkSystemModule.class);
+		ChunkSystemModule c = context.getModule(ChunkSystemModule.class);
 		
 		if (c != null && c.getActiveChunk() != null) {
 			return "Chunk: " + c.getActiveChunk().getIndexX() + " , " + c.getActiveChunk().getIndexY();

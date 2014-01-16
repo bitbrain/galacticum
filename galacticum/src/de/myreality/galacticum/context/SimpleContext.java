@@ -148,7 +148,7 @@ class SimpleContext implements Context {
 	 * @see de.myreality.galacticum.core.context.Context#getSubsystem(java.lang.Class)
 	 */
 	@Override
-	public <Type extends Module> Type getSubsystem(Class<Type> subsystemClass) {
+	public <Type extends Module> Type getModule(Class<Type> subsystemClass) {
 		return subsystems.get(subsystemClass);
 	}
 
