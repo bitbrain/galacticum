@@ -16,7 +16,7 @@
  */
 package de.myreality.galacticum.core;
 
-import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.entities.Entity;
 
 /**
  * Listens to a {@see World}

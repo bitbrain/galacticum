@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.chunx.util.SimpleObservable;
-import de.myreality.galacticum.core.chunks.ContentTargetAdapter;
-import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.chunks.ContentTargetAdapter;
+import de.myreality.galacticum.entities.Entity;
 
 /**
  * Simple implementation of {@see GameContainer}

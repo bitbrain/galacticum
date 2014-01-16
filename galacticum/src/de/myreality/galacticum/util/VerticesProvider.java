@@ -16,7 +16,7 @@
  */
 package de.myreality.galacticum.util;
 
-import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.entities.Entity;
 
 /**
  * Provides vertices

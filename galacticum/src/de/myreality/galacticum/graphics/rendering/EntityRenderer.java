@@ -18,8 +18,8 @@ package de.myreality.galacticum.graphics.rendering;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.EntityType;
+import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.entities.EntityType;
 import de.myreality.galacticum.util.VerticesProvider;
 
 /**

@@ -27,13 +27,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.core.subsystem.SharedSubsystemLoader;
 import de.myreality.galacticum.io.ConfigurationBuilder;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextException;
 import de.myreality.galacticum.io.SharedConfigurationManager;
 import de.myreality.galacticum.io.SimpleConfigurationBuilder;
+import de.myreality.galacticum.modules.SharedModuleLoader;
 import de.myreality.galacticum.ui.CreationForm;
 import de.myreality.galacticum.util.ContextIDConverter;
 
@@ -143,7 +143,7 @@ public class CreationScreen extends MenuScreen {
 		
 		if (!manager.hasContext(configuration.getID())) {
 			manager.save(configuration);			
-			getGame().setScreen(new LoadingScreen(getGame(), configuration, SharedSubsystemLoader.getInstance()));
+			getGame().setScreen(new LoadingScreen(getGame(), configuration, SharedModuleLoader.getInstance()));
 		} else {
 			throw new ContextException("Context '" + configuration.getName() + "' already exists");
 		}

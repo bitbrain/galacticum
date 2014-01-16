@@ -27,18 +27,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.context.Context;
+import de.myreality.galacticum.context.ContextException;
+import de.myreality.galacticum.context.ContextLoader;
+import de.myreality.galacticum.context.SimpleContextLoader;
 import de.myreality.galacticum.core.SimpleWorld;
 import de.myreality.galacticum.core.World;
-import de.myreality.galacticum.core.context.Context;
-import de.myreality.galacticum.core.context.ContextException;
-import de.myreality.galacticum.core.context.ContextLoader;
-import de.myreality.galacticum.core.context.SimpleContextLoader;
-import de.myreality.galacticum.core.subsystem.SubsystemList;
-import de.myreality.galacticum.core.subsystem.SubsystemLoader;
 import de.myreality.galacticum.io.ConfigurationManager;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.io.ContextNotFoundException;
 import de.myreality.galacticum.io.SharedConfigurationManager;
+import de.myreality.galacticum.modules.ModuleList;
+import de.myreality.galacticum.modules.ModuleLoader;
 import de.myreality.galacticum.ui.LoadingBox;
 
 /**
@@ -72,7 +72,7 @@ public class LoadingScreen extends MenuScreen {
 	
 	private LoadingBox box;
 	
-	private SubsystemLoader subsystemLoader;
+	private ModuleLoader subsystemLoader;
 	
 	private SpriteBatch batch;
 
@@ -80,7 +80,7 @@ public class LoadingScreen extends MenuScreen {
 	// Constructors
 	// ===========================================================
 	
-	public LoadingScreen(GalacticumGame game, ContextConfiguration configuration, SubsystemLoader loader) throws ContextNotFoundException {
+	public LoadingScreen(GalacticumGame game, ContextConfiguration configuration, ModuleLoader loader) throws ContextNotFoundException {
 		super("Loading game", game);			
 		
 		this.subsystemLoader = loader;
@@ -153,7 +153,7 @@ public class LoadingScreen extends MenuScreen {
 		super.show();
 		
 		// Add subsystems
-		SubsystemList systems = subsystemLoader.createSubsystems(container, batch, configuration);
+		ModuleList systems = subsystemLoader.createSubsystems(container, batch, configuration);
 		
 		contextLoader = new SimpleContextLoader(batch, systems);			
 		gameLoader = new GameLoader(contextLoader, container);

@@ -44,6 +44,8 @@ public final class Seed implements Serializable {
 
 	// Base of the seed
 	String base;
+	
+	private long customHash;
 
 	// Randomizer
 	private SecureRandom random;
@@ -79,6 +81,14 @@ public final class Seed implements Serializable {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
+	/**
+	 * @param generate
+	 */
+	public Seed(long hash) {
+		this.base = null;
+		customHash = hash;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -86,7 +96,11 @@ public final class Seed implements Serializable {
 	 */
 	@Override
 	public int hashCode() {
-		return base.hashCode();
+		if (base != null) {
+			return base.hashCode();
+		} else {
+			return Math.round(customHash);
+		}
 	}
 
 	/*

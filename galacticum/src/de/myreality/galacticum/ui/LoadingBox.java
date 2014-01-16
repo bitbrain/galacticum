@@ -22,8 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.core.context.ContextEvent;
-import de.myreality.galacticum.core.context.ContextListener;
+import de.myreality.galacticum.context.ContextEvent;
+import de.myreality.galacticum.context.ContextListener;
 import de.myreality.galacticum.util.Nameable;
 
 /**

@@ -19,8 +19,8 @@ package de.myreality.galacticum.graphics;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.Shape;
+import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.entities.Shape;
 import de.myreality.galacticum.util.Shakeable;
 import de.myreality.galacticum.util.Zoomable;
 

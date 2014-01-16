@@ -19,8 +19,8 @@ package de.myreality.galacticum.core;
 import java.io.Serializable;
 
 import de.myreality.chunx.ChunkTarget;
-import de.myreality.galacticum.core.chunks.ContentTarget;
-import de.myreality.galacticum.core.entities.Entity;
+import de.myreality.galacticum.chunks.ContentTarget;
+import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.util.GameColor;
 
 /**

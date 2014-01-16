@@ -22,9 +22,10 @@ import java.util.Map;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.EntityType;
+import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.entities.EntityType;
 import de.myreality.galacticum.graphics.GameCamera;
+import de.myreality.galacticum.util.GameColor;
 
 /**
  * Simple implementation of {@see EntityRenderer}
@@ -74,7 +75,9 @@ public class SimpleEntityRenderer implements EntityRenderer {
 			TextureLoader loader = textureLoaders.get(entity.getType());
 			
 			if (loader != null) {
+				GameColor c = entity.getColor();
 				Sprite sprite = loader.getSprite(entity.getSeed().get(), Math.round(entity.getWidth()), Math.round(entity.getHeight()));				
+				batch.setColor(c.r, c.g, c.b, c.a);
 				batch.draw(sprite, entity.getX(), entity.getY(), 0, 0, entity.getWidth(), entity.getHeight(), 1f, 1f, entity.getRotation());
 			}
         }

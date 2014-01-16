@@ -25,9 +25,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.controls.IngameControls;
-import de.myreality.galacticum.core.context.Context;
-import de.myreality.galacticum.core.subsystem.Subsystem;
+import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.ui.DebugStage;
 import de.myreality.galacticum.ui.Debugable;
 
@@ -64,7 +64,7 @@ public class IngameScreen implements Screen, Debugable {
 		this.game = game;
 		this.context = context;
 
-		for (Subsystem system : context.getSubsystems()) {
+		for (Module system : context.getSubsystems()) {
 			system.onEnter(context);
 		}
 	}
@@ -102,7 +102,7 @@ public class IngameScreen implements Screen, Debugable {
 		debugStage.act();
 
 		batch.begin();
-		for (Subsystem system : context.getSubsystems()) {
+		for (Module system : context.getSubsystems()) {
 			system.update(delta);
 		}
 		batch.end();
@@ -210,11 +210,11 @@ public class IngameScreen implements Screen, Debugable {
 
 	public void leave() {
 		
-		Stack<Subsystem> systems = context.getSubsystems();
+		Stack<Module> systems = context.getSubsystems();
 		
 		// Free the last element first
 		while (!systems.isEmpty()) {
-			Subsystem system = systems.pop();
+			Module system = systems.pop();
 			system.shutdown();
 		}
 

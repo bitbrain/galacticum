@@ -16,17 +16,19 @@
  */
 package de.myreality.galacticum.core;
 
+import de.myreality.galacticum.chunks.ContentArea;
+import de.myreality.galacticum.chunks.ContentListener;
 import de.myreality.galacticum.core.GameLight.GameLightType;
-import de.myreality.galacticum.core.chunks.ContentArea;
-import de.myreality.galacticum.core.chunks.ContentListener;
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.EntityType;
-import de.myreality.galacticum.core.entities.SharedSpaceShipFactory;
-import de.myreality.galacticum.core.entities.SimpleEntity;
-import de.myreality.galacticum.core.entities.SpaceShipFactory;
-import de.myreality.galacticum.core.entities.SpaceShipType;
+import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.entities.EntityType;
+import de.myreality.galacticum.entities.SharedSpaceShipFactory;
+import de.myreality.galacticum.entities.SimpleEntity;
+import de.myreality.galacticum.entities.SpaceShipFactory;
+import de.myreality.galacticum.entities.SpaceShipType;
 import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Seed;
+import de.myreality.galacticum.util.SimpleHashGenerator;
 
 /**
  * Handles the content of the world
@@ -46,6 +48,8 @@ public class ContentHandler implements ContentListener {
 	// ===========================================================
 	
 	private Seed seed;
+	
+	private HashGenerator hashGenerator;
 
 	// ===========================================================
 	// Constructors
@@ -53,6 +57,7 @@ public class ContentHandler implements ContentListener {
 	
 	public ContentHandler(Seed seed) {
 		this.seed = seed;
+		this.hashGenerator = new SimpleHashGenerator();
 	}
 
 	// ===========================================================
@@ -80,7 +85,8 @@ public class ContentHandler implements ContentListener {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			
-			Entity entity = f.create(x, y, SpaceShipType.FIGHTER, seed);
+			Seed subseed = new Seed(hashGenerator.generate(seed, x, y));
+			Entity entity = f.create(x, y, SpaceShipType.FIGHTER, subseed);
 			area.add(entity);			
 		}
 		
@@ -89,7 +95,9 @@ public class ContentHandler implements ContentListener {
 		if (Math.random() * 100 < 10) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
-			Planet planet = new Planet(x, y);
+			
+			Seed subseed = new Seed(hashGenerator.generate(seed, x, y));
+			Planet planet = new Planet(x, y, subseed, GameColor.WHITE);
 			area.add(planet);
 		}
 		
@@ -102,7 +110,7 @@ public class ContentHandler implements ContentListener {
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			GameColor color = new GameColor((float)Math.random() + 0.2f, (float)Math.random() + 0.2f, (float)Math.random() + 0.2f, 1.0f);
 			
-			GameLight light = new SimpleGameLight(x, y, 600, 400, color, GameLightType.POINT);
+			GameLight light = new SimpleGameLight(x, y, 400, 100, color, GameLightType.POINT);
 			area.add(light);
 		}
 	}
@@ -122,14 +130,10 @@ public class ContentHandler implements ContentListener {
 		 * @param width
 		 * @param height
 		 */
-		public Planet(float x, float y) {
-			super(EntityType.PLANET, 512, 512, new Seed("19191"));
+		public Planet(float x, float y, Seed seed, GameColor color) {
+			super(EntityType.PLANET, 512, 512, color, seed);
 			setX(x);
 			setY(y);
-		}
-		
-		public Planet() {
-			this(0, 0);
 		}
 		
 	}

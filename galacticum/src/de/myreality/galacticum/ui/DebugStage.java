@@ -22,8 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.core.chunks.ChunkSubsystem;
-import de.myreality.galacticum.core.context.Context;
+import de.myreality.galacticum.chunks.ChunkSystemModule;
+import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.graphics.GameCamera;
 
 /**
@@ -225,7 +225,7 @@ public class DebugStage extends Stage implements Debugable {
 	}
 	
 	private String getChunkText() {
-		ChunkSubsystem c = context.getSubsystem(ChunkSubsystem.class);
+		ChunkSystemModule c = context.getSubsystem(ChunkSystemModule.class);
 		
 		if (c != null && c.getActiveChunk() != null) {
 			return "Chunk: " + c.getActiveChunk().getIndexX() + " , " + c.getActiveChunk().getIndexY();

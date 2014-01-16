@@ -22,8 +22,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
-import de.myreality.galacticum.core.entities.Entity;
-import de.myreality.galacticum.core.entities.ShakeableShape;
+import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.entities.ShakeableShape;
 
 /**
  * Adapts libgdx camera to {@see GameCamera}
