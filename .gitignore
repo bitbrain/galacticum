@@ -11,6 +11,8 @@
 *.zip
 *.rar
 *.exe
+*.a
+*.so
 ~*
 *~
 /config
