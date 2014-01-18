@@ -37,7 +37,7 @@ public class SpaceshipLayer implements TextureLayer {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#build(int, int, int, java.lang.Iterable, com.badlogic.gdx.graphics.Color)
 	 */
 	@Override
-	public Pixmap build(int hash, int width, int height,
+	public Pixmap build(long hash, int width, int height,
 			Iterable<TextureLayer> others, Color color) {
 		
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
@@ -53,7 +53,7 @@ public class SpaceshipLayer implements TextureLayer {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#buildEdges(int, int, int, java.lang.Iterable)
 	 */
 	@Override
-	public float[] buildEdges(int hash, int width, int height,
+	public float[] buildEdges(long hash, int width, int height,
 			Iterable<TextureLayer> others) {
 		return new float[0];
 	}

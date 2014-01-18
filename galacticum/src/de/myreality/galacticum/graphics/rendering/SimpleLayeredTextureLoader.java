@@ -46,7 +46,7 @@ public class SimpleLayeredTextureLoader  extends AbstractTextureLoader implement
 	 * @see de.myreality.galacticum.graphics.rendering.AbstractTextureLoader#createTexture(int)
 	 */
 	@Override
-	protected Texture createTexture(int hash, int width, int height) {
+	protected Texture createTexture(long hash, int width, int height) {
 		
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
         
@@ -70,7 +70,7 @@ public class SimpleLayeredTextureLoader  extends AbstractTextureLoader implement
 	 * @see de.myreality.galacticum.graphics.rendering.AbstractTextureLoader#createVertices(int, int, int)
 	 */
 	@Override
-	protected float[] createVertices(int hash, int width, int height) {
+	protected float[] createVertices(long hash, int width, int height) {
 		
 		List<float[]> verticesList = new ArrayList<float[]>();
 		

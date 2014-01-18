@@ -46,7 +46,7 @@ public interface TextureLayer {
 	 * @param color
 	 * @return
 	 */
-	Pixmap build(int hash, int width, int height, Iterable<TextureLayer> others, Color color);
+	Pixmap build(long hash, int width, int height, Iterable<TextureLayer> others, Color color);
 	
 	/**
 	 * Builds the edges of this layer
@@ -57,6 +57,6 @@ public interface TextureLayer {
 	 * @param others
 	 * @return
 	 */
-	float[] buildEdges(int hash, int width, int height, Iterable<TextureLayer> others);
+	float[] buildEdges(long hash, int width, int height, Iterable<TextureLayer> others);
 
 }

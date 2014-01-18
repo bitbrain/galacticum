@@ -43,7 +43,7 @@ public interface TextureLoader {
 	 * @param hash hash of the texture
 	 * @return texture object
 	 */
-	Texture getTexture(int hash, int width, int height);
+	Texture getTexture(long hash, int width, int height);
 	
 	/**
 	 * Returns the internal texture for this seed as sprite.
@@ -51,7 +51,7 @@ public interface TextureLoader {
 	 * @param hash
 	 * @return
 	 */
-	Sprite getSprite(int hash, int width, int height);
+	Sprite getSprite(long hash, int width, int height);
 	
 	/**
 	 * Returns the vertices for a hash
@@ -61,20 +61,20 @@ public interface TextureLoader {
 	 * @param height
 	 * @return
 	 */
-	float[] getVertices(int hash, int width, int height);
+	float[] getVertices(long hash, int width, int height);
 	
 	/**
 	 * Disposes the texture which belongs to the hash
 	 * 
 	 * @param hash
 	 */
-	void dispose(int hash);
+	void dispose(long hash);
 	
 	/**
 	 * Registers a new hash
 	 * 
 	 * @param hash
 	 */
-	void register(int hash);
+	void register(long hash);
 
 }

@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.entities;
 
-import de.myreality.galacticum.util.Seed;
 
 /**
  * Factory in order to create space ships
@@ -35,5 +34,5 @@ public interface SpaceShipFactory {
 	// Methods
 	// ===========================================================
 	
-	SpaceShip create(float x, float y, SpaceShipType type, Seed seed);
+	SpaceShip create(float x, float y, SpaceShipType type, long hash);
 }

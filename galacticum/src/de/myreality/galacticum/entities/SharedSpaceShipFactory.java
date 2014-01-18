@@ -19,7 +19,6 @@ package de.myreality.galacticum.entities;
 import java.io.Serializable;
 
 import de.myreality.galacticum.util.GameColor;
-import de.myreality.galacticum.util.Seed;
 
 /**
  * Singleton implementation of (@see SpaceShipFactory}
@@ -71,28 +70,28 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	 * de.myreality.galacticum.util.Seed)
 	 */
 	@Override
-	public SpaceShip create(float x, float y, SpaceShipType type, Seed seed) {
+	public SpaceShip create(float x, float y, SpaceShipType type, long hash) {
 		
-		float r = getSeedRed((int) (seed.get()));
-		float g = getSeedGreen((int) (seed.get()));
-		float b = getSeedBlue((int) (seed.get()));
+		float r = getSeedRed(hash);
+		float g = getSeedGreen(hash);
+		float b = getSeedBlue(hash);
 		
-		return new SimpleSpaceShip(x, y, new GameColor(r, g, b, 1.0f), seed);
+		return new SimpleSpaceShip(x, y, new GameColor(r, g, b, 1.0f), hash);
 	}
 	
-	private float getSeedRed(int hash) {
-		return getValue(0.5f, 1, (int) Math.pow(hash, 3));
+	private float getSeedRed(long hash) {
+		return getValue(0.5f, 1, (long) Math.pow(hash, 3));
 	}
 	
-	private float getSeedGreen(int hash) {
+	private float getSeedGreen(long hash) {
 		return getValue(0.3f, 1, hash * 100);
 	}
 	
-	private float getSeedBlue(int hash) {
+	private float getSeedBlue(long hash) {
 		return getValue(0.5f, 1, hash * 50);
 	}
 	
-	private float getValue(float min, float max, int amplitude) {
+	private float getValue(float min, float max, long amplitude) {
 		float difference = max - min;
         return (float) (difference * Math.sin(amplitude) + difference + min);
 }
@@ -110,8 +109,8 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		/**
 		 * @param type
 		 */
-		public SimpleSpaceShip(float x, float y, GameColor color, Seed seed) {
-			super(EntityType.SPACESHIP, 100, 100, color, seed);
+		public SimpleSpaceShip(float x, float y, GameColor color, long hash) {
+			super(EntityType.SPACESHIP, 100, 100, color, hash);
 			this.setX(x);
 			this.setY(y);
 			//this.setRotation((float) (360f * Math.random()));

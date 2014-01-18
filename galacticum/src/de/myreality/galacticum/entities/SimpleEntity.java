@@ -22,7 +22,6 @@ import java.io.ObjectOutput;
 
 import de.myreality.galacticum.entities.Shape.ShapeListener;
 import de.myreality.galacticum.util.GameColor;
-import de.myreality.galacticum.util.Seed;
 import de.myreality.galacticum.util.SimpleObserver;
 
 /**
@@ -53,7 +52,7 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 
 	private int id;
 
-	private Seed seed;
+	private long hash;
 
 	private GameColor color;
 
@@ -61,11 +60,11 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	// Constructors
 	// ===========================================================
 
-	public SimpleEntity(EntityType type, float width, float height, GameColor color, Seed seed) {
+	public SimpleEntity(EntityType type, float width, float height, GameColor color, long hash) {
 		shape = new SimpleShape(width, height);
 		this.id = ids++;
 		this.type = type;
-		this.seed = seed;
+		this.hash = hash;
 		this.color = color;
 	}
 
@@ -221,7 +220,7 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	public void writeExternal(ObjectOutput out) throws IOException {
 		shape.writeExternal(out);
 		out.writeObject(type);
-		out.writeObject(seed);
+		out.writeObject(hash);
 		out.writeObject(color);
 	}
 
@@ -234,7 +233,7 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 		shape.readExternal(in);
 		type = (EntityType)in.readObject();
 		this.id = ids++;
-		this.seed = (Seed) in.readObject();
+		this.hash = (Long) in.readObject();
 		this.color = (GameColor) in.readObject();
 	}
 
@@ -242,8 +241,8 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	 * @see de.myreality.galacticum.core.entities.Entity#getSeed()
 	 */
 	@Override
-	public Seed getSeed() {
-		return seed;
+	public long getHash() {
+		return hash;
 	}
 
 	/* (non-Javadoc)

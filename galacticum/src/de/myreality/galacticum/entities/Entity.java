@@ -21,7 +21,6 @@ import java.io.Externalizable;
 import de.myreality.galacticum.chunks.ContentTarget;
 import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.IDProvider;
-import de.myreality.galacticum.util.Seed;
 
 /**
  * Represents a simple entity in a game
@@ -54,7 +53,7 @@ public interface Entity extends IDProvider, Shape, ContentTarget, Externalizable
 	 */
 	void update(float delta);
 	
-	Seed getSeed();
+	long getHash();
 	
 	GameColor getColor();
 

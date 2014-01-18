@@ -119,7 +119,7 @@ public class PlayerModule implements Module {
 		this.player = loadFromFile(file);
 		
 		if (this.player == null) {
-			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, configuration.getSeed());
+			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, configuration.getSeed().get());
 			this.player = playerFactory.create(startShip);
 			
 			if (listener != null) {

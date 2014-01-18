@@ -76,7 +76,7 @@ public class SimpleEntityRenderer implements EntityRenderer {
 			
 			if (loader != null) {
 				GameColor c = entity.getColor();
-				Sprite sprite = loader.getSprite(entity.getSeed().get(), Math.round(entity.getWidth()), Math.round(entity.getHeight()));				
+				Sprite sprite = loader.getSprite(entity.getHash(), Math.round(entity.getWidth()), Math.round(entity.getHeight()));				
 				batch.setColor(c.r, c.g, c.b, c.a);
 				batch.draw(sprite, entity.getX(), entity.getY(), 0, 0, entity.getWidth(), entity.getHeight(), 1f, 1f, entity.getRotation());
 			}
@@ -109,7 +109,7 @@ public class SimpleEntityRenderer implements EntityRenderer {
 		TextureLoader loader = textureLoaders.get(entity.getType());
 		
 		if (loader != null) {
-			loader.register(entity.getSeed().get());
+			loader.register(entity.getHash());
 		}
 	}
 
@@ -125,7 +125,7 @@ public class SimpleEntityRenderer implements EntityRenderer {
 		TextureLoader loader = textureLoaders.get(entity.getType());
 		
 		if (loader != null) {
-			loader.dispose(entity.getSeed().get());
+			loader.dispose(entity.getHash());
 		}
 	}
 
@@ -137,7 +137,7 @@ public class SimpleEntityRenderer implements EntityRenderer {
 		TextureLoader loader = textureLoaders.get(entity.getType());
 		
 		if (loader != null) {
-			return loader.getVertices(entity.getSeed().get(), Math.round(entity.getWidth()), Math.round(entity.getHeight()));
+			return loader.getVertices(entity.getHash(), Math.round(entity.getWidth()), Math.round(entity.getHeight()));
 		} else {
 			return nullVertices;
 		}

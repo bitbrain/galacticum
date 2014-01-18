@@ -40,23 +40,23 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	// Fields
 	// ===========================================================
 	
-	private Map<Integer, Texture> textures;
+	private Map<Long, Texture> textures;
 	
-	private Map<Integer, Sprite> sprites;
+	private Map<Long, Sprite> sprites;
 	
-	private Map<Integer, Integer> entities;
+	private Map<Long, Integer> entities;
 	
-	private Map<Integer, float[]> vertices;
+	private Map<Long, float[]> vertices;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public AbstractTextureLoader() {
-		textures = new HashMap<Integer, Texture>();
-		sprites = new HashMap<Integer, Sprite>();
-		entities = new HashMap<Integer, Integer>();
-		vertices = new HashMap<Integer, float[]>();
+		textures = new HashMap<Long, Texture>();
+		sprites = new HashMap<Long, Sprite>();
+		entities = new HashMap<Long, Integer>();
+		vertices = new HashMap<Long, float[]>();
 	}
 
 	// ===========================================================
@@ -71,7 +71,7 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLoader#getTexture(int)
 	 */
 	@Override
-	public Texture getTexture(int hash, int width, int height) {
+	public Texture getTexture(long hash, int width, int height) {
 		
 		Texture texture = textures.get(hash);
 		
@@ -87,7 +87,7 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	
 
 	@Override
-	public float[] getVertices(int hash, int width, int height) {
+	public float[] getVertices(long hash, int width, int height) {
 		
 		float[] v = vertices.get(hash);
 		
@@ -102,7 +102,7 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLoader#getSprite(int)
 	 */
 	@Override
-	public Sprite getSprite(int hash, int width, int height) {		
+	public Sprite getSprite(long hash, int width, int height) {		
 		getTexture(hash, width, height);		
 		return sprites.get(hash);
 	}
@@ -111,7 +111,7 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLoader#dispose(int)
 	 */
 	@Override
-	public void dispose(int hash) {
+	public void dispose(long hash) {
 		
 		Integer entityCount = entities.get(hash);
 		
@@ -139,7 +139,7 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLoader#register(int)
 	 */
 	@Override
-	public void register(int hash) {
+	public void register(long hash) {
 		
 		Integer entityCount = entities.get(hash);
 		
@@ -156,9 +156,9 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 	// Methods
 	// ===========================================================
 	
-	protected abstract Texture createTexture(int hash, int width, int height);
+	protected abstract Texture createTexture(long hash, int width, int height);
 	
-	protected abstract float[] createVertices(int hash, int width, int height);
+	protected abstract float[] createVertices(long hash, int width, int height);
 
 	// ===========================================================
 	// Inner and Anonymous Classes
