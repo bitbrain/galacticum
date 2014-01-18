@@ -57,7 +57,12 @@ public class SimpleHashGenerator implements HashGenerator {
 	 */
 	@Override
 	public long generate(float x, float y) {		
-		return (long) (seed.get() * x * y);
+		x = (float) Math.floor(x / 2500f);
+		y = (float) Math.floor(y / 2500f);
+		
+		long hash = seed.get();
+        
+        return Math.round(Math.pow(x + 1 + hash, 2) + Math.pow(y + hash, 2)) * Math.round(Math.pow(x + 1 + hash, 8));
 	}
 	
 	// ===========================================================

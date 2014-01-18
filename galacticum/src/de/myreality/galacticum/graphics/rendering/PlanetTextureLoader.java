@@ -16,9 +16,10 @@
  */
 package de.myreality.galacticum.graphics.rendering;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 
-import de.myreality.galacticum.Resources;
 
 /**
  * Loads planet textures
@@ -27,23 +28,42 @@ import de.myreality.galacticum.Resources;
  * @since 0.1
  * @version 0.1
  */
-public class PlanetTextureLoader extends AbstractTextureLoader {
+public class PlanetTextureLoader extends SimpleLayeredTextureLoader {
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.rendering.AbstractTextureLoader#createTexture(int)
+	/**
+	 * 
 	 */
-	@Override
-	protected Texture createTexture(int hash, int width, int height) {
-		return Resources.TEXTURE_PLANET;
+	public PlanetTextureLoader() {
+		super();
+		addLayer(new PlanetLayer());
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.rendering.AbstractTextureLoader#createVertices(int, int, int)
-	 */
-	@Override
-	protected float[] createVertices(int hash, int width, int height) {
-		return null;
+	class PlanetLayer implements TextureLayer {
+
+		/* (non-Javadoc)
+		 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#build(int, int, int, java.lang.Iterable, com.badlogic.gdx.graphics.Color)
+		 */
+		@Override
+		public Pixmap build(int hash, int width, int height,
+				Iterable<TextureLayer> others, Color color) {
+			
+			Pixmap map = new Pixmap(width, height, Format.RGBA8888);
+			
+			map.setColor(color);
+			map.fillCircle(width / 2, height / 2, width / 2);
+			
+			return map;
+		}
+
+		/* (non-Javadoc)
+		 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#buildEdges(int, int, int, java.lang.Iterable)
+		 */
+		@Override
+		public float[] buildEdges(int hash, int width, int height,
+				Iterable<TextureLayer> others) {
+			return new float[0];
+		}
+		
 	}
-	
 	
 }

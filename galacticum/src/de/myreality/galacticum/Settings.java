@@ -66,6 +66,8 @@ public final class Settings {
 			case Applet: case Desktop: case WebGL:
 				quality = Quality.LOW;
 				break;
+		default:
+			break;
 		}
 	}
 

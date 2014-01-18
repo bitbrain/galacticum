@@ -18,7 +18,7 @@ package de.myreality.galacticum.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -94,7 +94,7 @@ public class MenuHead extends Group {
 		private ShapeRenderer renderer = new ShapeRenderer();
 
 		@Override
-		public void draw(SpriteBatch batch, float parentAlpha) {
+		public void draw(Batch batch, float parentAlpha) {
 			super.draw(batch, parentAlpha);
 			
 			batch.end();

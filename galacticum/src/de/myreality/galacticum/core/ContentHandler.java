@@ -74,7 +74,7 @@ public class ContentHandler implements ContentListener {
 		
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-		final int AMOUNT = 15;
+		final int AMOUNT = 30;
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -88,7 +88,7 @@ public class ContentHandler implements ContentListener {
 		
 		// Add planets
 		
-		if (Math.random() * 100 < 10) {
+		if (Math.random() < 0.5) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			

@@ -73,23 +73,23 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	@Override
 	public SpaceShip create(float x, float y, SpaceShipType type, Seed seed) {
 		
-		float r = getSeedRed(seed.get());
-		float g = getSeedGreen(seed.get());
-		float b = getSeedBlue(seed.get());
+		float r = getSeedRed((int) (seed.get()));
+		float g = getSeedGreen((int) (seed.get()));
+		float b = getSeedBlue((int) (seed.get()));
 		
 		return new SimpleSpaceShip(x, y, new GameColor(r, g, b, 1.0f), seed);
 	}
 	
 	private float getSeedRed(int hash) {
-		return getValue(0, 1, hash * 2);
+		return getValue(0.5f, 1, (int) Math.pow(hash, 3));
 	}
 	
 	private float getSeedGreen(int hash) {
-		return getValue(0, 1, hash * hash);
+		return getValue(0.3f, 1, hash * 100);
 	}
 	
 	private float getSeedBlue(int hash) {
-		return getValue(0, 1, hash * 3);
+		return getValue(0.5f, 1, hash * 50);
 	}
 	
 	private float getValue(float min, float max, int amplitude) {

@@ -16,10 +16,10 @@
  */
 package de.myreality.galacticum.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.context.ContextEvent;
@@ -88,7 +88,7 @@ public class LoadingBox extends Table implements ContextListener {
 	}
 
 	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
+	public void draw(Batch batch, float parentAlpha) {
 		information.setText(labelText);
 		super.draw(batch, parentAlpha);
 	}

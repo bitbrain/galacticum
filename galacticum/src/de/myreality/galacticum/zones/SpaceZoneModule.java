@@ -58,8 +58,6 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 
 	private HashGenerator hashGenerator;
 
-	private Seed seed;
-
 	private Set<ZoneListener> listeners;
 
 	// ===========================================================
@@ -67,9 +65,8 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	// ===========================================================
 
 	public SpaceZoneModule(Seed seed) {
-		color = new GameColor(0.2f, 0.2f, 0.4f, 0.5f);
+		color = new GameColor(0.1f, 0.0f, 0.1f, 0.7f);
 		listeners = new HashSet<ZoneHandler.ZoneListener>();
-		this.seed = seed;
 		hashGenerator = new SimpleHashGenerator(seed);
 		oldHash = seed.get();
 	}
@@ -113,9 +110,6 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 					l.onLeaveZone(oldHash, target);
 					l.onEnterZone(currentHash, target);
 				}
-
-				System.out.println("Moved from " + oldHash + " to "
-						+ currentHash);
 			}
 
 			this.oldHash = currentHash;

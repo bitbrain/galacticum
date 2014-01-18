@@ -17,8 +17,8 @@
 package de.myreality.galacticum.ui;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 
@@ -117,7 +117,7 @@ public class ProgressBar extends TextButton {
 	class Background extends BaseDrawable {
 		
 		@Override
-		public void draw(SpriteBatch batch, float x, float y, float width,
+		public void draw(Batch batch, float x, float y, float width,
 				float height) {
 			super.draw(batch, x, y, width, height);
 			batch.draw(Resources.TEXTURE_BRIGHT_TRANSPARENT, x, y, width, height);
