@@ -16,7 +16,10 @@
  */
 package de.myreality.galacticum.zones;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
+import de.myreality.galacticum.tweens.GameColorTween;
 import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
@@ -33,6 +36,8 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final float FADE_TIME = 3f;
 
 	// ===========================================================
 	// Fields
@@ -69,11 +74,7 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	 */
 	@Override
 	public GameColor getColor() {
-		return targetColor;
-	}
-	
-	public GameColor getTargetColor() {
-		return targetColor;
+		return color;
 	}
 
 	/*
@@ -85,7 +86,23 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	 */
 	@Override
 	public void onEnterZone(long hash, ZoneTarget target) {
+		
 		targetColor = generateTargetColor(hash);
+		
+		tweenManager.killTarget(color);
+		
+		Tween.to(color, GameColorTween.R, FADE_TIME)
+			.target(targetColor.g)
+			.ease(TweenEquations.easeInOutSine)
+			.start(tweenManager);
+		Tween.to(color, GameColorTween.G, FADE_TIME)
+			.target(targetColor.g)
+			.ease(TweenEquations.easeInOutSine)
+			.start(tweenManager);		
+		Tween.to(color, GameColorTween.B, FADE_TIME)
+			.target(targetColor.b)
+			.ease(TweenEquations.easeInOutSine)
+			.start(tweenManager);
 	}
 
 	/*

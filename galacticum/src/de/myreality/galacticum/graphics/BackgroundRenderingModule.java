@@ -170,7 +170,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 
 		for (int i = 0; i < starLayers; ++i) {
 			
-			float distance = (float) (Math.pow(i, 1.5) + 7f);
+			float distance = (float) (Math.pow(i, 1.5) + 5f);
 			
 			LayerTexture texture = new PreprocessedTexture(getStarTetureSize(), getStarTetureSize(), batch,
 					new StarfieldCreator(distance));
@@ -193,7 +193,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 			config.setVelocity(veloX, veloY);
 			config.setTileWidth(450 + i * 20);
 			config.setTileHeight(450 + i * 20);
-			mapper.add((float) (Math.pow(i, 3) / 5f) + 5, config);
+			mapper.add((float) (Math.pow(i, 3) / 3f) + 5, config);
 		}
 
 		// Add the background

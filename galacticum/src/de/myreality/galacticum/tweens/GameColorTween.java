@@ -14,36 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum;
+package de.myreality.galacticum.tweens;
 
-import java.io.IOException;
-
-import aurelienribon.tweenengine.Tween;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import de.myreality.galacticum.entities.Shape;
-import de.myreality.galacticum.screens.MainScreen;
-import de.myreality.galacticum.tweens.ActorTween;
-import de.myreality.galacticum.tweens.GameColorTween;
-import de.myreality.galacticum.tweens.ShapeTween;
+import aurelienribon.tweenengine.TweenAccessor;
 import de.myreality.galacticum.util.GameColor;
 
 /**
- * Main game class which provides game functionality
- *
+ * Provides tween functionality for GUI actors
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class GalacticumGame extends Game {
+public class GameColorTween implements TweenAccessor<GameColor> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final int R = 1;
 
+	public static final int G = 2;
+	
+	public static final int B = 3;
+	
+	public static final int A = 4;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -59,50 +55,61 @@ public class GalacticumGame extends Game {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#create()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see aurelienribon.tweenengine.TweenAccessor#getValues(java.lang.Object,
+	 * int, float[])
 	 */
 	@Override
-	public void create() {
+	public int getValues(GameColor target, int tweenType, float[] returnValues) {
 		
-		Resources.unloadTextures();
-		Resources.unloadTextures();
-		
-		Resources.loadTextures();
-		Resources.loadFonts();
-		Resources.loadStyles();
-		try {
-			Resources.loadMetaData();
-			initTweenEngine();		
-			Settings.loadGdxSettings();
-			setScreen(new MainScreen(this));			
-			MetaData data = Resources.META_DATA;
-			Gdx.graphics.setTitle(data.getName() + " " + data.getVersion() + data.getPhase());
-		} catch (IOException e) {
-			e.printStackTrace();
-			Gdx.app.exit();
+		switch (tweenType) {
+			case R:
+				returnValues[0] = target.r;
+				return 1;
+			case G:
+				returnValues[0] = target.g;
+				return 1;
+			case B:
+				returnValues[0] = target.b;
+				return 1;
+			case A:
+				returnValues[0] = target.a;
+				return 1;
 		}
+		
+		return 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see aurelienribon.tweenengine.TweenAccessor#setValues(java.lang.Object,
+	 * int, float[])
+	 */
 	@Override
-	public void dispose() {
-		super.dispose();
-		Resources.unloadTextures();
-		Resources.unloadFonts();
+	public void setValues(GameColor target, int tweenType, float[] newValues) {
+		switch (tweenType) {
+			case R:
+				target.r = newValues[0];
+				break;
+			case G:
+				target.g = newValues[0];
+				break;
+			case B:
+				target.b = newValues[0];
+				break;
+			case A:
+				target.a = newValues[0];
+				break;
+		}
 	}
-	
-	
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private void initTweenEngine() {
-		Tween.registerAccessor(Actor.class, new ActorTween());
-		Tween.registerAccessor(Shape.class, new ShapeTween());
-		Tween.registerAccessor(GameColor.class, new GameColorTween());
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
