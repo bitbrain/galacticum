@@ -26,8 +26,6 @@ import de.myreality.galacticum.modules.ModulePrototype;
 import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.player.PlayerListenerPrototype;
 import de.myreality.galacticum.player.PlayerModule;
-import de.myreality.galacticum.util.ColorProvider;
-import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Seed;
 import de.myreality.galacticum.util.SimpleHashGenerator;
@@ -39,8 +37,7 @@ import de.myreality.galacticum.util.SimpleHashGenerator;
  * @since 0.1
  * @version 0.1
  */
-public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
-		ZoneHandler, HashGenerator {
+public class SpaceZoneModule extends ModulePrototype implements ZoneHandler, HashGenerator {
 
 	// ===========================================================
 	// Constants
@@ -49,8 +46,6 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private GameColor color;
 
 	private TargetHandler target;
 
@@ -65,7 +60,6 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	// ===========================================================
 
 	public SpaceZoneModule(Seed seed) {
-		color = new GameColor(1f, 1f, 1f, 1f);
 		listeners = new HashSet<ZoneHandler.ZoneListener>();
 		hashGenerator = new SimpleHashGenerator(seed);
 		oldHash = seed.getHash();
@@ -94,6 +88,10 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 		this.target = new TargetHandler(currentPlayerShip);
 		player.addListener(target);
 		this.oldHash = generateHash();
+		
+		for (ZoneListener l : getListeners()) {
+			l.onEnterZone(oldHash, target);
+		}
 	}
 
 	@Override
@@ -114,16 +112,6 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 
 			this.oldHash = currentHash;
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.util.ColorProvider#getColor()
-	 */
-	@Override
-	public GameColor getColor() {
-		return color;
 	}
 
 	// ===========================================================
@@ -173,16 +161,6 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	@Override
 	public Collection<ZoneListener> getListeners() {
 		return listeners;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.zones.Zone#getAmbientColor()
-	 */
-	@Override
-	public GameColor getAmbientColor() {
-		return getColor();
 	}
 
 	/*

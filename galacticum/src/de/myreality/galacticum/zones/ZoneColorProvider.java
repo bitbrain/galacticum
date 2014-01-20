@@ -14,51 +14,49 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.entities;
+package de.myreality.galacticum.zones;
 
-import java.io.Serializable;
-
+import aurelienribon.tweenengine.TweenManager;
+import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
 
 /**
- * Singleton implementation of (@see SpaceShipFactory}
+ * Provides colors for the current zone
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
+public class ZoneColorProvider implements ZoneListener, ColorProvider {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final long serialVersionUID = 1L;
-	private static SharedSpaceShipFactory instance;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private GameColor color;
+	
+	private TweenManager tweenManager;
+
+	private GameColor targetColor;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	static {
-		instance = new SharedSpaceShipFactory();
-	}
-
-	private SharedSpaceShipFactory() {
-		
+	
+	public ZoneColorProvider(TweenManager tweenManager) {
+		this.tweenManager = tweenManager;
+		color = new GameColor(1f, 1f, 1f, 1f);
+		targetColor = new GameColor(1f, 1f, 1f, 1f);
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	public static SharedSpaceShipFactory getInstance() {
-		return instance;
-	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -67,47 +65,69 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.core.entities.SpaceShipFactory#create(float,
-	 * float, de.myreality.galacticum.core.entities.SpaceShipType,
-	 * de.myreality.galacticum.util.Seed)
+	 * @see de.myreality.galacticum.util.ColorProvider#getColor()
 	 */
 	@Override
-	public SpaceShip create(float x, float y, SpaceShipType type, long hash) {
-		return new SimpleSpaceShip(x, y, new GameColor(1f, 1f, 1f, 1.0f), hash);
+	public GameColor getColor() {
+		return targetColor;
+	}
+	
+	public GameColor getTargetColor() {
+		return targetColor;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.zones.ZoneHandler.ZoneListener#onEnterZone(long,
+	 * de.myreality.galacticum.zones.ZoneTarget)
+	 */
+	@Override
+	public void onEnterZone(long hash, ZoneTarget target) {
+		targetColor = generateTargetColor(hash);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.zones.ZoneHandler.ZoneListener#onLeaveZone(long,
+	 * de.myreality.galacticum.zones.ZoneTarget)
+	 */
+	@Override
+	public void onLeaveZone(long hash, ZoneTarget target) {
+		// TODO Auto-generated method stub
+
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private GameColor generateTargetColor(long hash) {
+		return new GameColor(getSeedRed(hash), getSeedGreen(hash), getSeedBlue(hash), 1f);
+	}
+
+	private float getSeedRed(long hash) {
+		return getValue(0.1f, 0.4f, (long) Math.pow(hash, 3));
+	}
+
+	private float getSeedGreen(long hash) {
+		return getValue(0.1f, 0.4f, hash * 100);
+	}
+
+	private float getSeedBlue(long hash) {
+		return getValue(0.1f, 0.4f, hash * 50);
+	}
+
+	private float getValue(float min, float max, long amplitude) {
+		float difference = max - min;
+		return (float) (difference * Math.sin(amplitude) + difference + min);
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-
-	public static class SimpleSpaceShip extends SimpleEntity implements
-			SpaceShip {
-
-		/**
-		 * @param type
-		 */
-		public SimpleSpaceShip(float x, float y, GameColor color, long hash) {
-			super(EntityType.SPACESHIP, 100, 100, color, hash);
-			this.setX(x);
-			this.setY(y);
-			// this.setRotation((float) (360f * Math.random()));
-		}
-
-		private static final long serialVersionUID = 8496116234063566152L;
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see de.myreality.galacticum.core.entities.SpaceShip#getFaction()
-		 */
-		@Override
-		public Faction getFaction() {
-			return null;
-		}
-	}
 
 }

@@ -16,7 +16,6 @@
  */
 package de.myreality.galacticum.zones;
 
-import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Observer;
 import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
@@ -34,9 +33,9 @@ public interface ZoneHandler extends Observer<ZoneListener> {
 	// Constants
 	// ===========================================================
 	
-	GameColor getAmbientColor();
-	
 	HashGenerator getHashGenerator();
+	
+	void update(float delta);
 
 	// ===========================================================
 	// Methods

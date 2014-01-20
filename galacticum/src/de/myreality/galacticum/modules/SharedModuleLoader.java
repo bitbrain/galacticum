@@ -37,6 +37,7 @@ import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
 import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.zones.SpaceZoneModule;
+import de.myreality.galacticum.zones.ZoneColorProvider;
 
 /**
  * Singleton implementation of a {@see SubsystemLoader}
@@ -91,8 +92,11 @@ public class SharedModuleLoader implements ModuleLoader {
 		
 		ModuleList systems = new ModuleList();
 		
+		ZoneColorProvider zoneColorProvider = new ZoneColorProvider(tweenManager);
+		
 		CameraModule cameraSystem = new CameraModule(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch, tweenManager);
 		SpaceZoneModule zoneModule = new SpaceZoneModule(configuration.getSeed());		
+		zoneModule.addListener(zoneColorProvider);
 		GameCamera camera = cameraSystem.getCamera();
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
 		ContentHandler handler = new ContentHandler(zoneModule);
@@ -107,7 +111,7 @@ public class SharedModuleLoader implements ModuleLoader {
 		systems.add(new BackgroundRenderingModule(new ViewportAdapter(cameraSystem.getCamera()), batch));		
 		systems.add(worldSystem);
 		systems.add(new Box2DPhysicsModule(worldSystem.getRenderer()));
-		systems.add(new LightingModule(zoneModule));
+		systems.add(new LightingModule(zoneColorProvider));
 		return systems;
 	}
 
