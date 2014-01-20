@@ -25,12 +25,10 @@ import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.entities.EntityType;
 import de.myreality.galacticum.graphics.GameCamera;
-import de.myreality.galacticum.graphics.layers.TBodyLayer;
 import de.myreality.galacticum.graphics.rendering.EntityRenderer;
-import de.myreality.galacticum.graphics.rendering.LayeredTextureLoader;
 import de.myreality.galacticum.graphics.rendering.PlanetTextureLoader;
 import de.myreality.galacticum.graphics.rendering.SimpleEntityRenderer;
-import de.myreality.galacticum.graphics.rendering.SimpleLayeredTextureLoader;
+import de.myreality.galacticum.graphics.rendering.SpaceshipTextureLoader;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ProgressListener;
@@ -72,11 +70,7 @@ public class WorldModule extends SimpleObserver<WorldSystemListener> implements 
 		entities = new CopyOnWriteArrayList<Entity>();
 		
 		renderer.addTextureLoader(EntityType.PLANET, new PlanetTextureLoader());
-		
-		// Testing stuff
-		LayeredTextureLoader spaceshipLoader = new SimpleLayeredTextureLoader();
-		spaceshipLoader.addLayer(new TBodyLayer());
-		renderer.addTextureLoader(EntityType.SPACESHIP, spaceshipLoader);
+		renderer.addTextureLoader(EntityType.SPACESHIP, new SpaceshipTextureLoader(5));
 	}
 
 	// ===========================================================

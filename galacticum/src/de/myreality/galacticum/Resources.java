@@ -52,7 +52,7 @@ public final class Resources {
 	public static Color COLOR_CYAN = Color.valueOf("00baff");
 	public static Color COLOR_VIOLET = Color.valueOf("6a37bf");
 	public static Color COLOR_VIOLET_LIGHT = Color.valueOf("524ab1");
-	public static Color COLOR_DEBUG = Color.valueOf("ffffff55");
+	public static Color COLOR_DEBUG = Color.valueOf("ffffffff");
 	public static Color COLOR_DEBUG_INFO = COLOR_CYAN;
 	public static Color COLOR_DEBUG_GOOD = COLOR_GREEN_LIGHT;
 	public static Color COLOR_DEBUG_FAIL = Color.valueOf("ff0000");

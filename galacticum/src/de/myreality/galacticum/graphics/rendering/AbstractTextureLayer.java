@@ -23,70 +23,136 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.util.GLUtils;
 
 /**
  * Generates spaceship textures depending on the hash
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
 public abstract class AbstractTextureLayer implements TextureLayer {
-	
+
 	private boolean shadingEnabled;
-	
+
+	private int textureX, textureY, textureWidth, textureHeight;
+
 	public AbstractTextureLayer(boolean shadingEnabled) {
 		this.shadingEnabled = shadingEnabled;
 	}
-	
-	public AbstractTextureLayer() {
-		this(false);
-	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#build(int, int, int, java.lang.Iterable, com.badlogic.gdx.graphics.Color)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#build(int,
+	 * int, int, java.lang.Iterable, com.badlogic.gdx.graphics.Color)
 	 */
 	@Override
 	public Pixmap build(long hash, int width, int height,
 			Iterable<TextureLayer> others, Color color) {
-		
+
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
 		map.setColor(color);
-		
-		draw(map, width, height, others);
+
+		//draw(map, width, height, others, hash);
 		
 		if (shadingEnabled) {
-			createGradient(map, 0, 0, width, height, color);
+			
+			Pixmap transMap = new Pixmap(width, height, Format.RGBA8888);
+			transMap.setColor(color);
+			GLUtils.setMode(GLUtils.MODE_ADD_ALPHA);
+			
+			draw(transMap, width, height, others, hash);
+			
+			GLUtils.setMode(GLUtils.MODE_ALPHA_BLEND);
+			
+			createGradient(transMap, color);
+			
+			GLUtils.setMode(GLUtils.MODE_NORMAL);
+			
+			map.drawPixmap(transMap, 0, 0);
+			transMap.dispose();
 		}
-		
+
 		return map;
 	}
-	
-	protected abstract void draw(Pixmap map, int width, int height, Iterable<TextureLayer> others);
-	
-	private void createGradient(Pixmap original, int x, int y, int width, int height, Color color) {
-		
+
+	protected abstract void draw(Pixmap map, int width, int height,
+			Iterable<TextureLayer> others, long hash);
+
+	private void createGradient(Pixmap original, Color color) {
+
 		Texture gradient = Resources.TEXTURE_GRADIENT;
 		TextureData data = gradient.getTextureData();
 		data.prepare();
 		Pixmap gradientMap = data.consumePixmap();
 		original.setColor(color);
-		
-		float padding = 80;
-		
-		x -= padding;
-		y -= padding;
+		float padding = 100;
+
+		int xPos = getTextureX();
+		int yPos = getTextureY();
+		int width = getTextureWidth();
+		int height = getTextureHeight();
+
+		xPos -= padding;
+		yPos -= padding;
 		width += padding * 2;
 		height += padding * 2;
-		
-        
-		if (x + width < y + height) {
-			original.drawPixmap(gradientMap, 0, 0, original.getWidth(), original.getHeight(), x, y - (width - height) / 2, width, width);
+
+		if (xPos + width < yPos + height) {
+			original.drawPixmap(gradientMap, 0, 0, original.getWidth(),
+					original.getHeight(), xPos, yPos - (width - height) / 2,
+					width, width);
 		} else {
-			original.drawPixmap(gradientMap, 0, 0, original.getWidth(), original.getHeight(), x - (height - width) / 2, y, height, height);
-		}		
-		
+			original.drawPixmap(gradientMap, 0, 0, original.getWidth(),
+					original.getHeight(), xPos - (height - width) / 2, yPos,
+					height, height);
+		}
+
 		gradientMap.dispose();
+	}
+
+	protected int getTextureX() {
+		return textureX;
+	}
+
+	protected int getTextureY() {
+		return textureY;
+	}
+
+	protected int getTextureWidth() {
+		return textureWidth;
+	}
+
+	protected int getTextureHeight() {
+		return textureHeight;
+	}
+
+	protected void setTextureWidth(int width) {
+		this.textureWidth = width;
+	}
+
+	protected void setTextureHeight(int height) {
+		this.textureHeight = height;
+	}
+
+	protected void setTextureX(int x) {
+		this.textureX = x;
+	}
+
+	protected void setTextureY(int y) {
+		this.textureY = y;
+	}
+
+	protected void alignTextureSize(int newWidth, int newHeight) {
+		if (newWidth > getTextureWidth()) {
+			setTextureWidth(newWidth);
+		}
+
+		if (newHeight > getTextureHeight()) {
+			setTextureHeight(newHeight);
+		}
 	}
 
 }
