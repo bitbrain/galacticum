@@ -127,7 +127,7 @@ public class IngameControls extends GeneralStage {
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.F5)) {
-			screen.getContext().getCamera().shake(15f, 2500);
+			screen.getContext().getCamera().shake(25f, 2500);
 		}
 		
 

@@ -59,7 +59,7 @@ public class CameraModule implements Module {
 	public CameraModule(float viewportWidth, float viewportHeight, SpriteBatch batch, TweenManager tweenManager) {
 		this.viewportWidth = viewportWidth;
 		this.viewportHeight = viewportHeight;
-		camera = new SimpleGameCamera(viewportWidth, viewportHeight, tweenManager);
+		camera = new SimpleGameCamera(viewportWidth, viewportHeight);
 		this.batch = batch;
 	}
 
