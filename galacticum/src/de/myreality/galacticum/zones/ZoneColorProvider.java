@@ -49,6 +49,8 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	private TweenManager tweenManager;
 
 	private GameColor targetColor;
+	
+	private boolean leaved;
 
 	// ===========================================================
 	// Constructors
@@ -90,20 +92,26 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 		
 		targetColor = generateTargetColor(hash);
 		
-		tweenManager.killTarget(color);
+		if (leaved) {
 		
-		Tween.to(color, GameColorTween.R, FADE_TIME)
-			.target(targetColor.g)
-			.ease(TweenEquations.easeInOutSine)
-			.start(tweenManager);
-		Tween.to(color, GameColorTween.G, FADE_TIME)
-			.target(targetColor.g)
-			.ease(TweenEquations.easeInOutSine)
-			.start(tweenManager);		
-		Tween.to(color, GameColorTween.B, FADE_TIME)
-			.target(targetColor.b)
-			.ease(TweenEquations.easeInOutSine)
-			.start(tweenManager);
+			tweenManager.killTarget(color);
+			
+			Tween.to(color, GameColorTween.R, FADE_TIME)
+				.target(targetColor.g)
+				.ease(TweenEquations.easeInOutSine)
+				.start(tweenManager);
+			Tween.to(color, GameColorTween.G, FADE_TIME)
+				.target(targetColor.g)
+				.ease(TweenEquations.easeInOutSine)
+				.start(tweenManager);		
+			Tween.to(color, GameColorTween.B, FADE_TIME)
+				.target(targetColor.b)
+				.ease(TweenEquations.easeInOutSine)
+				.start(tweenManager);
+			leaved = false;
+		} else {
+			color = new GameColor(targetColor);
+		}
 	}
 
 	/*
@@ -115,8 +123,7 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	 */
 	@Override
 	public void onLeaveZone(long hash, ZoneTarget target) {
-		// TODO Auto-generated method stub
-
+		leaved = true;
 	}
 
 	// ===========================================================

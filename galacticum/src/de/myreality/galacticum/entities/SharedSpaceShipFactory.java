@@ -73,7 +73,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	 */
 	@Override
 	public SpaceShip create(float x, float y, SpaceShipType type, long hash) {
-		return new SimpleSpaceShip(x, y, new GameColor(1f, 1f, 1f, 1.0f), hash);
+		return new SimpleSpaceShip(x, y, new GameColor(0.3f, 0.3f, 0.3f, 1.0f), hash);
 	}
 
 	// ===========================================================

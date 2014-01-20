@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 
 import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.util.GLUtils;
 
 /**
  * Generates spaceship textures depending on the hash
@@ -55,24 +54,24 @@ public abstract class AbstractTextureLayer implements TextureLayer {
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
 		map.setColor(color);
 
-		//draw(map, width, height, others, hash);
+		draw(map, width, height, others, hash);
 		
 		if (shadingEnabled) {
 			
-			Pixmap transMap = new Pixmap(width, height, Format.RGBA8888);
-			transMap.setColor(color);
-			GLUtils.setMode(GLUtils.MODE_ADD_ALPHA);
-			
-			draw(transMap, width, height, others, hash);
-			
-			GLUtils.setMode(GLUtils.MODE_ALPHA_BLEND);
-			
-			createGradient(transMap, color);
-			
-			GLUtils.setMode(GLUtils.MODE_NORMAL);
-			
-			map.drawPixmap(transMap, 0, 0);
-			transMap.dispose();
+//			Pixmap transMap = new Pixmap(width, height, Format.RGBA8888);
+//			transMap.setColor(color);
+//			GLUtils.setMode(GLUtils.MODE_ADD_ALPHA);
+//			
+//			draw(transMap, width, height, others, hash);
+//			
+//			GLUtils.setMode(GLUtils.MODE_ALPHA_BLEND);
+//			
+//			createGradient(transMap, color);
+//			
+//			GLUtils.setMode(GLUtils.MODE_NORMAL);
+//			
+//			map.drawPixmap(transMap, 0, 0);
+//			transMap.dispose();
 		}
 
 		return map;
@@ -84,6 +83,7 @@ public abstract class AbstractTextureLayer implements TextureLayer {
 	private void createGradient(Pixmap original, Color color) {
 
 		Texture gradient = Resources.TEXTURE_GRADIENT;
+		
 		TextureData data = gradient.getTextureData();
 		data.prepare();
 		Pixmap gradientMap = data.consumePixmap();

@@ -99,7 +99,7 @@ public class TBodyLayer extends AbstractTextureLayer {
 		Rectangle second = createVertical(width, height, hash);
 		
 		map.fillRectangle((int)first.x, (int)first.y, (int)first.width, (int)first.height);
-		map.fillRectangle((int)second.x, (int)second.y, (int)second.width, (int)second.height);
+		map.fillRectangle(0, 0, width, height);
 	}
 
 	// ===========================================================
