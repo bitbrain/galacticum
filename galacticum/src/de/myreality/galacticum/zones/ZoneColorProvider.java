@@ -22,6 +22,7 @@ import aurelienribon.tweenengine.TweenManager;
 import de.myreality.galacticum.tweens.GameColorTween;
 import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.util.MathUtils;
 import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
 
 /**
@@ -127,20 +128,15 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	}
 
 	private float getSeedRed(long hash) {
-		return getValue(0.1f, 0.4f, (long) Math.pow(hash, 3));
+		return MathUtils.getValue(0f, 0.4f, (long) Math.pow(hash, 3), 2);
 	}
 
 	private float getSeedGreen(long hash) {
-		return getValue(0.1f, 0.4f, hash * 100);
+		return MathUtils.getValue(0f, 0.4f, hash * 100, 3);
 	}
 
 	private float getSeedBlue(long hash) {
-		return getValue(0.1f, 0.4f, hash * 50);
-	}
-
-	private float getValue(float min, float max, long amplitude) {
-		float difference = max - min;
-		return (float) (difference * Math.sin(amplitude) + difference + min);
+		return MathUtils.getValue(0f, 0.4f, hash * 50, 5);
 	}
 
 	// ===========================================================

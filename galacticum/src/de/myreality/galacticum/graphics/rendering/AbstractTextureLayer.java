@@ -31,7 +31,17 @@ import de.myreality.galacticum.Resources;
  * @since 0.1
  * @version 0.1
  */
-public class SpaceshipLayer implements TextureLayer {
+public abstract class AbstractTextureLayer implements TextureLayer {
+	
+	private boolean shadingEnabled;
+	
+	public AbstractTextureLayer(boolean shadingEnabled) {
+		this.shadingEnabled = shadingEnabled;
+	}
+	
+	public AbstractTextureLayer() {
+		this(false);
+	}
 
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#build(int, int, int, java.lang.Iterable, com.badlogic.gdx.graphics.Color)
@@ -42,22 +52,17 @@ public class SpaceshipLayer implements TextureLayer {
 		
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
 		map.setColor(color);
-		map.fill();
 		
-		createGradient(map, 0, 0, width, height, color);
+		draw(map, width, height, others);
+		
+		if (shadingEnabled) {
+			createGradient(map, 0, 0, width, height, color);
+		}
 		
 		return map;
 	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.rendering.TextureLayer#buildEdges(int, int, int, java.lang.Iterable)
-	 */
-	@Override
-	public float[] buildEdges(long hash, int width, int height,
-			Iterable<TextureLayer> others) {
-		return new float[0];
-	}
 	
+	protected abstract void draw(Pixmap map, int width, int height, Iterable<TextureLayer> others);
 	
 	private void createGradient(Pixmap original, int x, int y, int width, int height, Color color) {
 		
