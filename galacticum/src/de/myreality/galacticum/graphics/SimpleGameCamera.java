@@ -16,6 +16,12 @@
  */
 package de.myreality.galacticum.graphics;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,7 +29,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
 import de.myreality.galacticum.entities.Entity;
-import de.myreality.galacticum.entities.ShakeableShape;
+import de.myreality.galacticum.entities.SimpleShape;
+import de.myreality.galacticum.tweens.ShapeTween;
 
 /**
  * Adapts libgdx camera to {@see GameCamera}
@@ -32,7 +39,7 @@ import de.myreality.galacticum.entities.ShakeableShape;
  * @since 0.1
  * @version 0.1
  */
-public class SimpleGameCamera extends ShakeableShape implements GameCamera {
+public class SimpleGameCamera extends SimpleShape implements GameCamera {
 
 	// ===========================================================
 	// Constants
@@ -52,16 +59,22 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	private Entity target;
 
 	private Vector2 velocity;
+	
+	private boolean shaking;
+	
+	private TweenManager tweenManager;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SimpleGameCamera(float viewportWidth, float viewportHeight) {
+	public SimpleGameCamera(float viewportWidth, float viewportHeight, TweenManager tweenManager) {
 		super(viewportWidth, viewportHeight);
 		camera = new OrthographicCamera(viewportWidth, viewportHeight);
 		velocity = new Vector2();
 		camera.setToOrtho(true);
+		this.tweenManager = tweenManager;
+		Tween.registerAccessor(getClass(), new ShapeTween());
 	}
 
 	// ===========================================================
@@ -214,8 +227,6 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 			moveToTarget();
 		}
 
-		super.update(delta);
-
 		updateFocus(delta);
 
 		camera.update();
@@ -258,5 +269,46 @@ public class SimpleGameCamera extends ShakeableShape implements GameCamera {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.Shakeable#shake(float, long)
+	 */
+	@Override
+	public void shake(float amount, long miliseconds) {
+		
+		shaking = true;
+		int times = 3;
+		float singleTime = miliseconds / 1000f / (float)times;
+		
+		tweenManager.killTarget(this);
+		
+		Tween.to(this, ShapeTween.VERTICAL, singleTime)
+	        .target(getX())
+	        .ease(TweenEquations.easeInOutQuad)
+	        .setCallback(new TweenCallback() {
+
+				@Override
+				public void onEvent(int type, BaseTween<?> source) {
+					shaking = false;
+				}
+	        	
+	        })
+	        .setCallbackTriggers(TweenCallback.COMPLETE)
+	        .repeatYoyo(times, 0).start(tweenManager);
+                
+         Tween.to(this, ShapeTween.HORIZONTAL, singleTime)
+	        .target(getY())
+	        .ease(TweenEquations.easeInOutQuad)
+	        .repeatYoyo(times, 0).start(tweenManager);
+                
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.Shakeable#isShaking()
+	 */
+	@Override
+	public boolean isShaking() {
+		return shaking;
+	}
 
 }

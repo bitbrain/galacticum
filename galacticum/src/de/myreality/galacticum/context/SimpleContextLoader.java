@@ -19,6 +19,8 @@ package de.myreality.galacticum.context;
 import java.util.ArrayList;
 import java.util.List;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -26,10 +28,10 @@ import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.graphics.CameraModule;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ModuleList;
+import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.util.Nameable;
@@ -63,16 +65,19 @@ public class SimpleContextLoader implements ContextLoader {
 	private GameCamera camera;
 	
 	private SpriteBatch batch;
+	
+	private TweenManager tweenManager;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SimpleContextLoader(SpriteBatch batch, ModuleList subsystems) {
+	public SimpleContextLoader(SpriteBatch batch, TweenManager tweenManager, ModuleList subsystems) {
 		listenerController = new ContextListenerController();
 		this.subsystems = subsystems;
 		subsystemListener = new SubsystemListener(this);
 		this.batch = batch;
+		this.tweenManager = tweenManager;
 	}
 
 	// ===========================================================
@@ -99,7 +104,7 @@ public class SimpleContextLoader implements ContextLoader {
 		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
 				.size(), subsystems.size(), 1.0f));
 
-		return new SimpleContext(subsystems, world, player, camera, batch, configuration);
+		return new SimpleContext(subsystems, world, player, camera, batch, tweenManager, configuration);
 	}
 
 	/*

@@ -66,14 +66,14 @@ class SimpleContext implements Context {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleContext(ModuleList subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, ContextConfiguration configuration) {
+	public SimpleContext(ModuleList subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, TweenManager tweenManager, ContextConfiguration configuration) {
 		this.subsystems = subsystems;
 		this.container = container;
 		this.configuration = configuration;
 		this.camera = camera;
 		this.player = player;
 		this.batch = batch;
-		this.tweenManager = new TweenManager();
+		this.tweenManager = tweenManager;
 		
 		subsystemStack = new Stack<Module>();
 		

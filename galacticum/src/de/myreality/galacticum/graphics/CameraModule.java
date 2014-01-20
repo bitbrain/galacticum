@@ -16,14 +16,16 @@
  */
 package de.myreality.galacticum.graphics;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.entities.Entity;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
+import de.myreality.galacticum.modules.ProgressListener;
 
 /**
  * Is responsible for providing a camera
@@ -54,10 +56,10 @@ public class CameraModule implements Module {
 	// Constructors
 	// ===========================================================
 
-	public CameraModule(float viewportWidth, float viewportHeight, SpriteBatch batch) {
+	public CameraModule(float viewportWidth, float viewportHeight, SpriteBatch batch, TweenManager tweenManager) {
 		this.viewportWidth = viewportWidth;
 		this.viewportHeight = viewportHeight;
-		camera = new SimpleGameCamera(viewportWidth, viewportHeight);
+		camera = new SimpleGameCamera(viewportWidth, viewportHeight, tweenManager);
 		this.batch = batch;
 	}
 

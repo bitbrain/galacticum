@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.modules;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -85,11 +87,11 @@ public class SharedModuleLoader implements ModuleLoader {
 	 * de.myreality.galacticum.core.subsystem.SubsystemLoader#createSubsystems()
 	 */
 	@Override
-	public ModuleList createSubsystems(World world, SpriteBatch batch, ContextConfiguration configuration) {
+	public ModuleList createSubsystems(World world, SpriteBatch batch, TweenManager tweenManager, ContextConfiguration configuration) {
 		
 		ModuleList systems = new ModuleList();
 		
-		CameraModule cameraSystem = new CameraModule(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch);
+		CameraModule cameraSystem = new CameraModule(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch, tweenManager);
 		SpaceZoneModule zoneModule = new SpaceZoneModule(configuration.getSeed());		
 		GameCamera camera = cameraSystem.getCamera();
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);

@@ -24,8 +24,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import de.myreality.galacticum.entities.Shape;
 import de.myreality.galacticum.screens.MainScreen;
 import de.myreality.galacticum.tweens.ActorTween;
+import de.myreality.galacticum.tweens.ShapeTween;
 
 /**
  * Main game class which provides game functionality
@@ -96,6 +98,7 @@ public class GalacticumGame extends Game {
 	
 	private void initTweenEngine() {
 		Tween.registerAccessor(Actor.class, new ActorTween());
+		Tween.registerAccessor(Shape.class, new ShapeTween());
 	}
 
 	// ===========================================================

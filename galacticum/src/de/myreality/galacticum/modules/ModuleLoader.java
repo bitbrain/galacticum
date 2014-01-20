@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.modules;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
@@ -50,7 +52,7 @@ public interface ModuleLoader {
 	 * 
 	 * @return
 	 */
-	public ModuleList createSubsystems(World gameContainer, SpriteBatch batch, ContextConfiguration configuration);
+	public ModuleList createSubsystems(World gameContainer, SpriteBatch batch, TweenManager tweenManager, ContextConfiguration configuration);
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces

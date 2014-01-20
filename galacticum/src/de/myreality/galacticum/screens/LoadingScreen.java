@@ -94,6 +94,7 @@ public class LoadingScreen extends MenuScreen {
 		
 		this.batch = new SpriteBatch();
 		this.container = new SimpleWorld();		
+		tweenManager = new TweenManager();		
 	}
 
 	// ===========================================================
@@ -111,7 +112,6 @@ public class LoadingScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateUI(Stage stage) {
-		tweenManager = new TweenManager();		
 		box = new LoadingBox();
 		contextLoader.addListener(box);
 		stage.addActor(box);
@@ -153,9 +153,9 @@ public class LoadingScreen extends MenuScreen {
 		super.show();
 		
 		// Add subsystems
-		ModuleList systems = subsystemLoader.createSubsystems(container, batch, configuration);
+		ModuleList systems = subsystemLoader.createSubsystems(container, batch, tweenManager, configuration);
 		
-		contextLoader = new SimpleContextLoader(batch, systems);			
+		contextLoader = new SimpleContextLoader(batch, tweenManager, systems);			
 		gameLoader = new GameLoader(contextLoader, container);
 		
 		// Load the game

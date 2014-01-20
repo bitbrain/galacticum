@@ -14,48 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.entities;
+package de.myreality.galacticum.tweens;
 
-import de.myreality.galacticum.util.Shakeable;
-import de.myreality.galacticum.util.Shaker;
+import aurelienribon.tweenengine.TweenAccessor;
+import de.myreality.galacticum.entities.Shape;
 
 /**
+ * Provides tween functionality for GUI actors
  * 
- *
- * @author miguel
- * @since
- * @version
+ * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ * @since 0.1
+ * @version 0.1
  */
-public class ShakeableShape extends SimpleShape implements Shakeable {
+public class ShapeTween implements TweenAccessor<Shape> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	public static final int HORIZONTAL = 1;
 
+	public static final int VERTICAL = 2;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private Shaker shaker;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-
-	/**
-	 * @param width
-	 * @param height
-	 */
-	public ShakeableShape(float width, float height) {
-		super(width, height);
-		shaker = new Shaker();
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -64,48 +51,49 @@ public class ShakeableShape extends SimpleShape implements Shakeable {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.util.Shakeable#shake(float, long)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see aurelienribon.tweenengine.TweenAccessor#getValues(java.lang.Object,
+	 * int, float[])
 	 */
 	@Override
-	public void shake(float amount, long miliseconds) {
-		shaker.shake(amount, miliseconds);
-	}
-
-
-	@Override
-	public float getX() {
-		return super.getX() + shaker.getX();
-	}
-
-
-	@Override
-	public float getY() {
-		return super.getY() + shaker.getY();
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.util.Shakeable#isShaking()
-	 */
-	@Override
-	public boolean isShaking() {
-		return shaker.isShaking();
-	}
+	public int getValues(Shape target, int tweenType, float[] returnValues) {
 		
+		switch (tweenType) {
+			case HORIZONTAL:
+				returnValues[0] = target.getX();
+				return 1;
+			case VERTICAL:
+				returnValues[0] = target.getY();
+				return 1;
+		}
+		
+		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see aurelienribon.tweenengine.TweenAccessor#setValues(java.lang.Object,
+	 * int, float[])
+	 */
+	@Override
+	public void setValues(Shape target, int tweenType, float[] newValues) {
+		switch (tweenType) {
+			case HORIZONTAL:
+				target.setX(newValues[0]);
+				break;
+			case VERTICAL:
+				target.setY(newValues[0]);
+				break;
+		}
+	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	/**
-	 * 
-	 */
-	public void update(float delta) {
-		shaker.update(delta);
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
