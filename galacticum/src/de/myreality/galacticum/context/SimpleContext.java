@@ -18,6 +18,8 @@ package de.myreality.galacticum.context;
 
 import java.util.Stack;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
@@ -58,6 +60,8 @@ class SimpleContext implements Context {
 	
 	private SpriteBatch batch;
 
+	private TweenManager tweenManager;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -69,6 +73,7 @@ class SimpleContext implements Context {
 		this.camera = camera;
 		this.player = player;
 		this.batch = batch;
+		this.tweenManager = new TweenManager();
 		
 		subsystemStack = new Stack<Module>();
 		
@@ -150,6 +155,15 @@ class SimpleContext implements Context {
 	@Override
 	public <Type extends Module> Type getModule(Class<Type> subsystemClass) {
 		return subsystems.get(subsystemClass);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.context.Context#getTweenManager()
+	 */
+	@Override
+	public TweenManager getTweenManager() {
+		return tweenManager;
 	}
 
 	// ===========================================================

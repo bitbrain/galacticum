@@ -95,7 +95,7 @@ public class SharedModuleLoader implements ModuleLoader {
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
 		ContentHandler handler = new ContentHandler(zoneModule);
 		ChunkSystemModuleFactory chunkFactory = new ChunkSystemModuleFactory(handler, cameraAdapter, new ContentProviderAdapter(world));		
-		PlayerModule playerSystem = new PlayerModule(configuration, SharedSpaceShipFactory.getInstance(), cameraAdapter);
+		PlayerModule playerSystem = new PlayerModule(configuration, SharedSpaceShipFactory.getInstance(), zoneModule, cameraAdapter);
 		WorldModule worldSystem = new WorldModule(world, batch, camera);
 
 		systems.add(playerSystem);

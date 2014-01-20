@@ -44,6 +44,7 @@ public final class ScreenshotUtils {
 	}
 
 	private static void saveScreenshot(FileHandle file) {
+		
 		Pixmap pixmap = getScreenshot(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight(), true);
 		

@@ -97,16 +97,24 @@ public class IngameScreen implements Screen, Debugable {
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
+		
+		// Update tween manager
+		context.getTweenManager().update(delta);
+		
+		// Update UI
 		stage.act(delta);
+		
+		// Update debug stage
 		debugStage.act();
 
+		// Draw everything
 		batch.begin();
 		for (Module system : context.getSubsystems()) {
 			system.update(delta);
 		}
 		batch.end();
 		
+		// Draw UI
 		stage.draw();
 		debugStage.draw();
 	}

@@ -102,7 +102,7 @@ public final class Seed implements Serializable {
 	// Methods
 	// ===========================================================
 	
-	public long get() {
+	public long getHash() {
 		return hashCode();
 	}
 

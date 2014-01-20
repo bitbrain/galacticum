@@ -35,9 +35,10 @@ import de.myreality.galacticum.entities.SpaceShip;
 import de.myreality.galacticum.entities.SpaceShipFactory;
 import de.myreality.galacticum.entities.SpaceShipType;
 import de.myreality.galacticum.io.ContextConfiguration;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
+import de.myreality.galacticum.modules.ProgressListener;
+import de.myreality.galacticum.util.HashGenerator;
 
 /**
  * Handles the current player
@@ -69,20 +70,23 @@ public class PlayerModule implements Module {
 	private PlayerListener listener;
 	
 	private Context context;
+	
+	private HashGenerator generator;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public PlayerModule(ContextConfiguration config, SpaceShipFactory factory, PlayerListener listener) {
+	public PlayerModule(ContextConfiguration config, SpaceShipFactory factory, HashGenerator hashGenerator, PlayerListener listener) {
 		this.configuration = config;
 		spaceShipFactory = factory;
 		playerFactory = new SimplePlayerFactory();
 		this.listener = listener;
+		this.generator = hashGenerator;
 	}
 	
-	public PlayerModule(ContextConfiguration config, SpaceShipFactory factory) {
-		this(config, factory, null);
+	public PlayerModule(ContextConfiguration config, SpaceShipFactory factory, HashGenerator hashGenerator) {
+		this(config, factory, hashGenerator, null);
 	}
 
 	// ===========================================================
@@ -119,7 +123,7 @@ public class PlayerModule implements Module {
 		this.player = loadFromFile(file);
 		
 		if (this.player == null) {
-			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, configuration.getSeed().get());
+			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, generator.generate(0, 0));
 			this.player = playerFactory.create(startShip);
 			
 			if (listener != null) {

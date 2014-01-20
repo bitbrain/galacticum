@@ -18,6 +18,8 @@ package de.myreality.galacticum.context;
 
 import java.util.Stack;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
@@ -90,4 +92,11 @@ public interface Context {
 	 * @return
 	 */
 	SpriteBatch getSpriteBatch();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	TweenManager getTweenManager();
 }

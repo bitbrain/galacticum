@@ -65,10 +65,10 @@ public class SpaceZoneModule extends ModulePrototype implements ColorProvider,
 	// ===========================================================
 
 	public SpaceZoneModule(Seed seed) {
-		color = new GameColor(0.1f, 0.0f, 0.1f, 0.7f);
+		color = new GameColor(1f, 1f, 1f, 1f);
 		listeners = new HashSet<ZoneHandler.ZoneListener>();
 		hashGenerator = new SimpleHashGenerator(seed);
-		oldHash = seed.get();
+		oldHash = seed.getHash();
 	}
 
 	// ===========================================================
