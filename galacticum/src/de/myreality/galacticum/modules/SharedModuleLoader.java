@@ -21,6 +21,8 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.myreality.galacticum.biomes.BiomeModule;
+import de.myreality.galacticum.biomes.BiomeColorProvider;
 import de.myreality.galacticum.chunks.ChunkSystemModuleFactory;
 import de.myreality.galacticum.chunks.ChunkTargetAdapter;
 import de.myreality.galacticum.chunks.ContentProviderAdapter;
@@ -36,8 +38,6 @@ import de.myreality.galacticum.graphics.ViewportAdapter;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
 import de.myreality.galacticum.player.PlayerModule;
-import de.myreality.galacticum.zones.SpaceZoneModule;
-import de.myreality.galacticum.zones.ZoneColorProvider;
 
 /**
  * Singleton implementation of a {@see SubsystemLoader}
@@ -92,10 +92,10 @@ public class SharedModuleLoader implements ModuleLoader {
 		
 		ModuleList systems = new ModuleList();
 		
-		ZoneColorProvider zoneColorProvider = new ZoneColorProvider(tweenManager);
+		BiomeColorProvider zoneColorProvider = new BiomeColorProvider(tweenManager);
 		
 		CameraModule cameraSystem = new CameraModule(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch, tweenManager);
-		SpaceZoneModule zoneModule = new SpaceZoneModule(configuration.getSeed());		
+		BiomeModule zoneModule = new BiomeModule(configuration.getSeed());		
 		zoneModule.addListener(zoneColorProvider);
 		GameCamera camera = cameraSystem.getCamera();
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);

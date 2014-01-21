@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.zones;
+package de.myreality.galacticum.biomes;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ import de.myreality.galacticum.util.SimpleHashGenerator;
  * @since 0.1
  * @version 0.1
  */
-public class SpaceZoneModule extends ModulePrototype implements ZoneHandler, HashGenerator {
+public class BiomeModule extends ModulePrototype implements BiomeHandler, HashGenerator {
 
 	// ===========================================================
 	// Constants
@@ -59,8 +59,8 @@ public class SpaceZoneModule extends ModulePrototype implements ZoneHandler, Has
 	// Constructors
 	// ===========================================================
 
-	public SpaceZoneModule(Seed seed) {
-		listeners = new HashSet<ZoneHandler.ZoneListener>();
+	public BiomeModule(Seed seed) {
+		listeners = new HashSet<BiomeHandler.ZoneListener>();
 		hashGenerator = new SimpleHashGenerator(seed);
 		oldHash = seed.getHash();
 	}
@@ -178,7 +178,7 @@ public class SpaceZoneModule extends ModulePrototype implements ZoneHandler, Has
 	// ===========================================================
 
 	private class TargetHandler extends PlayerListenerPrototype implements
-			ZoneTarget {
+			BiomeTarget {
 
 		private SpaceShip ship;
 

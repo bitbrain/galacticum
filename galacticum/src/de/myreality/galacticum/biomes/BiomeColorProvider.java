@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.zones;
+package de.myreality.galacticum.biomes;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
+import de.myreality.galacticum.biomes.BiomeHandler.ZoneListener;
 import de.myreality.galacticum.tweens.GameColorTween;
 import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.MathUtils;
-import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
 
 /**
  * Provides colors for the current zone
@@ -32,7 +32,7 @@ import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
  * @since 0.1
  * @version 0.1
  */
-public class ZoneColorProvider implements ZoneListener, ColorProvider {
+public class BiomeColorProvider implements ZoneListener, ColorProvider {
 
 	// ===========================================================
 	// Constants
@@ -56,7 +56,7 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	// Constructors
 	// ===========================================================
 	
-	public ZoneColorProvider(TweenManager tweenManager) {
+	public BiomeColorProvider(TweenManager tweenManager) {
 		this.tweenManager = tweenManager;
 		color = new GameColor(1f, 1f, 1f, 1f);
 		targetColor = new GameColor(1f, 1f, 1f, 1f);
@@ -88,7 +88,7 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	 * de.myreality.galacticum.zones.ZoneTarget)
 	 */
 	@Override
-	public void onEnterZone(long hash, ZoneTarget target) {
+	public void onEnterZone(long hash, BiomeTarget target) {
 		
 		targetColor = generateTargetColor(hash);
 		
@@ -122,7 +122,7 @@ public class ZoneColorProvider implements ZoneListener, ColorProvider {
 	 * de.myreality.galacticum.zones.ZoneTarget)
 	 */
 	@Override
-	public void onLeaveZone(long hash, ZoneTarget target) {
+	public void onLeaveZone(long hash, BiomeTarget target) {
 		leaved = true;
 	}
 

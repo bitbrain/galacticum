@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.zones;
+package de.myreality.galacticum.biomes;
 
 /**
  * Target for space zones
@@ -23,7 +23,7 @@ package de.myreality.galacticum.zones;
  * @since 0.1
  * @version 0.1
  */
-public interface ZoneTarget {
+public interface BiomeTarget {
 	
 	// ===========================================================
 	// Constants

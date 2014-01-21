@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.zones;
+package de.myreality.galacticum.biomes;
 
+import de.myreality.galacticum.biomes.BiomeHandler.ZoneListener;
 import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Observer;
-import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
 
 /**
  * Zone which covers an area in space
@@ -27,7 +27,7 @@ import de.myreality.galacticum.zones.ZoneHandler.ZoneListener;
  * @since 0.1
  * @version 0.1
  */
-public interface ZoneHandler extends Observer<ZoneListener> {
+public interface BiomeHandler extends Observer<ZoneListener> {
 	
 	// ===========================================================
 	// Constants
@@ -43,8 +43,8 @@ public interface ZoneHandler extends Observer<ZoneListener> {
 	
 	public interface ZoneListener {
 		
-		void onEnterZone(long hash, ZoneTarget target);
+		void onEnterZone(long hash, BiomeTarget target);
 		
-		void onLeaveZone(long hash, ZoneTarget target);
+		void onLeaveZone(long hash, BiomeTarget target);
 	}
 }
