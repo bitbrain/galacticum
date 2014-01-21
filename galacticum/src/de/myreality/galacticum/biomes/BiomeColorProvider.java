@@ -38,7 +38,7 @@ public class BiomeColorProvider implements ZoneListener, ColorProvider {
 	// Constants
 	// ===========================================================
 	
-	public static final float FADE_TIME = 3f;
+	public static final float FADE_TIME = 5f;
 
 	// ===========================================================
 	// Fields
