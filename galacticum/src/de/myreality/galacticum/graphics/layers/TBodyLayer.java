@@ -96,6 +96,7 @@ public class TBodyLayer extends AbstractTextureLayer {
 	protected void draw(Pixmap map, int width, int height,
 			Iterable<TextureLayer> others, long hash) {
 		Rectangle first = createHorizontal(width, height, hash);
+		@SuppressWarnings("unused")
 		Rectangle second = createVertical(width, height, hash);
 		
 		map.fillRectangle((int)first.x, (int)first.y, (int)first.width, (int)first.height);

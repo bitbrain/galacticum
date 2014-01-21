@@ -80,6 +80,7 @@ public abstract class AbstractTextureLayer implements TextureLayer {
 	protected abstract void draw(Pixmap map, int width, int height,
 			Iterable<TextureLayer> others, long hash);
 
+	@SuppressWarnings("unused")
 	private void createGradient(Pixmap original, Color color) {
 
 		Texture gradient = Resources.TEXTURE_GRADIENT;

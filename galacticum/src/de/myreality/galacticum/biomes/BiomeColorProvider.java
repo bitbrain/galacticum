@@ -97,7 +97,7 @@ public class BiomeColorProvider implements ZoneListener, ColorProvider {
 			tweenManager.killTarget(color);
 			
 			Tween.to(color, GameColorTween.R, FADE_TIME)
-				.target(targetColor.g)
+				.target(targetColor.r)
 				.ease(TweenEquations.easeInOutSine)
 				.start(tweenManager);
 			Tween.to(color, GameColorTween.G, FADE_TIME)

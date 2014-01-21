@@ -88,7 +88,6 @@ public class BiomeModule extends ModulePrototype implements BiomeHandler, HashGe
 		this.target = new TargetHandler(currentPlayerShip);
 		player.addListener(target);
 		this.oldHash = generateHash();
-		
 		for (ZoneListener l : getListeners()) {
 			l.onEnterZone(oldHash, target);
 		}
@@ -103,7 +102,6 @@ public class BiomeModule extends ModulePrototype implements BiomeHandler, HashGe
 			long currentHash = generateHash();
 
 			if (oldHash != currentHash) {
-
 				for (ZoneListener l : getListeners()) {
 					l.onLeaveZone(oldHash, target);
 					l.onEnterZone(currentHash, target);
