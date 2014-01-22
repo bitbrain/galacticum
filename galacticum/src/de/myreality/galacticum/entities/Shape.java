@@ -111,6 +111,8 @@ public interface Shape extends Externalizable, ContentTarget, Observer<ShapeList
 		void onSetY(Shape shape);
 		
 		void onSetRotation(Shape shape);
+		
+		void onMove(float x, float y, Shape shape);
 	}
 
 }

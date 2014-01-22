@@ -22,9 +22,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad.TouchpadStyle;
 
-import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.screens.IngameScreen;
+import de.myreality.galacticum.util.Moveable;
 
 /**
  * Controls for ingame functionality
@@ -105,25 +105,26 @@ public class IngameControls extends GeneralStage {
 
 		// Control via W,A,S,D
 		Player player = screen.getContext().getPlayer();
-		Entity target = player.getCurrentShip();
-		float speed = (float) Math.ceil(780f * delta);
+		Moveable target = player.getCurrentShip();
+		float speed = 100f;
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {
-			target.setY(target.getY() - speed);
+			
+			target.move(0, -speed);
 		}
 
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_LEFT)) {
-			target.setX(target.getX() - speed);
+			target.move(-speed, 0);
 		}
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_DOWN)) {
-			target.setY(target.getY() + speed);
+			target.move(0, speed);
 		}
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_RIGHT)) {
-			target.setX(target.getX() + speed);
+			target.move(speed, 0f);
 		}
 		
 		if (touchpad != null) {
-			target.setX(target.getX() + touchpad.getKnobPercentX() * speed);
-			target.setY(target.getY() - touchpad.getKnobPercentY() * speed);
+			//target.setX(target.getX() + touchpad.getKnobPercentX() * speed);
+			//target.setY(target.getY() - touchpad.getKnobPercentY() * speed);
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.F5)) {

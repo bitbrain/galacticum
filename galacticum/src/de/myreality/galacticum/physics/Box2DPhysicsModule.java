@@ -54,9 +54,9 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 
 	private World world;
 
-	public static int POSITION_ITERATIONS = 50;
+	public static int POSITION_ITERATIONS = 30;
 
-	public static int VELOCITY_ITERATIONS = 10;
+	public static int VELOCITY_ITERATIONS = 30;
 
 	private Map<Entity, Body> bodyMap;
 
@@ -295,7 +295,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		Body body = bodyMap.get(shape);
 		
 		if (body != null && shape.getX() != body.getPosition().x) {
-			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+			//body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
 		}
 	}
 
@@ -307,7 +307,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		Body body = bodyMap.get(shape);
 		
 		if (body != null && shape.getY() != body.getPosition().y) {
-			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+			//body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
 		}
 	}
 
@@ -319,7 +319,21 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		Body body = bodyMap.get(shape);
 		
 		if (body != null) {
-			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+			//body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.entities.Shape.ShapeListener#onMove(float, float)
+	 */
+	@Override
+	public void onMove(float x, float y, Shape shape) {
+		
+		Body body = bodyMap.get(shape);
+		
+		if (body != null) {
+			body.applyLinearImpulse(x * 100, y * 100, shape.getWidth() / 2, 0, true);
+			
 		}
 	}
 }

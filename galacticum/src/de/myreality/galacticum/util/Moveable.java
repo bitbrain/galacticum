@@ -14,19 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.entities;
-
-import de.myreality.galacticum.util.Moveable;
-
+package de.myreality.galacticum.util;
 
 /**
- * Represents a spaceship
+ * 
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface SpaceShip extends Entity, Moveable {
+public interface Moveable {
 	
 	// ===========================================================
 	// Constants
@@ -35,13 +32,12 @@ public interface SpaceShip extends Entity, Moveable {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
+	
 	/**
+	 * Moves the object by x y
 	 * 
-	 * 
-	 * @return
+	 * @param x
+	 * @param y
 	 */
-	Faction getFaction();
-	
-	
+	void move(float x, float y);
 }

@@ -16,25 +16,21 @@
  */
 package de.myreality.galacticum.entities;
 
-import java.io.Serializable;
-
 import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.util.Moveable;
 
 /**
- * Singleton implementation of (@see SpaceShipFactory}
  * 
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * 
+ * @author Miguel Gonzalez
+ * @since
+ * @version
  */
-public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
+public class MoveableEntity extends SimpleEntity implements Moveable {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
-	private static final long serialVersionUID = 1L;
-	private static SharedSpaceShipFactory instance;
 
 	// ===========================================================
 	// Fields
@@ -44,21 +40,21 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	// Constructors
 	// ===========================================================
 
-	static {
-		instance = new SharedSpaceShipFactory();
-	}
-
-	private SharedSpaceShipFactory() {
-		
+	/**
+	 * @param type
+	 * @param width
+	 * @param height
+	 * @param color
+	 * @param hash
+	 */
+	public MoveableEntity(EntityType type, float width, float height,
+			GameColor color, long hash) {
+		super(type, width, height, color, hash);
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	public static SharedSpaceShipFactory getInstance() {
-		return instance;
-	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -67,13 +63,13 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.core.entities.SpaceShipFactory#create(float,
-	 * float, de.myreality.galacticum.core.entities.SpaceShipType,
-	 * de.myreality.galacticum.util.Seed)
+	 * @see de.myreality.galacticum.util.Moveable#move(float, float)
 	 */
 	@Override
-	public SpaceShip create(float x, float y, SpaceShipType type, long hash) {
-		return new SimpleSpaceShip(x, y, new GameColor(0.3f, 0.3f, 0.3f, 1.0f), hash);
+	public void move(float x, float y) {
+		for (ShapeListener l : getListeners()) {
+			l.onMove(x, y, this);
+		}
 	}
 
 	// ===========================================================
@@ -83,31 +79,5 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-
-	public static class SimpleSpaceShip extends MoveableEntity implements
-			SpaceShip {
-
-		/**
-		 * @param type
-		 */
-		public SimpleSpaceShip(float x, float y, GameColor color, long hash) {
-			super(EntityType.SPACESHIP, 100, 100, color, hash);
-			this.setX(x);
-			this.setY(y);
-			// this.setRotation((float) (360f * Math.random()));
-		}
-
-		private static final long serialVersionUID = 8496116234063566152L;
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see de.myreality.galacticum.core.entities.SpaceShip#getFaction()
-		 */
-		@Override
-		public Faction getFaction() {
-			return null;
-		}
-	}
 
 }

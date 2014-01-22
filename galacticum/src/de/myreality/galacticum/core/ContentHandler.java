@@ -73,7 +73,7 @@ public class ContentHandler implements ContentListener {
 		
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-		final int AMOUNT = 30;
+		final int AMOUNT = 0;
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -91,7 +91,7 @@ public class ContentHandler implements ContentListener {
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			
 			Planet planet = new Planet(x, y, hashGenerator.generate(x, y), GameColor.WHITE);
-			area.add(planet);
+			//area.add(planet);
 		}
 		
 		// Add lights

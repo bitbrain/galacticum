@@ -128,7 +128,7 @@ public class IngameScreen implements Screen, Debugable {
 	public void resize(int width, int height) {
 		if (stage == null) {
 			stage = new IngameControls(width, height, false, this);
-			debugStage = new DebugStage(width, height, true, context);
+			debugStage = new DebugStage(width, height, false, context);
 			Gdx.input.setInputProcessor(stage);
 			
 
