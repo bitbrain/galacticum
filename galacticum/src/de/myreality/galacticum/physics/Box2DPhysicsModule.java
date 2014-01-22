@@ -36,6 +36,7 @@ import de.myreality.galacticum.core.SimpleWorldListener;
 import de.myreality.galacticum.core.WorldModule;
 import de.myreality.galacticum.core.WorldSystemListener;
 import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.entities.EntityType;
 import de.myreality.galacticum.entities.Shape;
 import de.myreality.galacticum.entities.Shape.ShapeListener;
 import de.myreality.galacticum.modules.ProgressListener;
@@ -56,7 +57,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 
 	public static int POSITION_ITERATIONS = 30;
 
-	public static int VELOCITY_ITERATIONS = 30;
+	public static int VELOCITY_ITERATIONS = 10;
 
 	private Map<Entity, Body> bodyMap;
 
@@ -123,7 +124,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 
 		synchronized (world) {
 
-			world.step(1 / 60f, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
 			if (!world.isLocked()) {
 
@@ -193,10 +194,11 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 				// First we create a body definition
 				BodyDef bodyDef = new BodyDef();
 				
-				// We set our body to dynamic, for something like ground which
-				// doesn't
-				// move we would set it to StaticBody
-				bodyDef.type = BodyType.DynamicBody;
+				if (entity.getType().equals(EntityType.PLANET)) {
+					bodyDef.type = BodyType.StaticBody;
+				} else {
+					bodyDef.type = BodyType.DynamicBody;
+				}
 				// Set our body's starting position in the world
 				bodyDef.position.set(entity.getX(), entity.getY());
 				bodyDef.angle = MathUtils.degreesToRadians * entity.getRotation();
@@ -212,9 +214,9 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 				com.badlogic.gdx.physics.box2d.Shape shape = getShape(entity);
 				
 				fixtureDef.shape = shape;
-				fixtureDef.density = 0.5f;
-				fixtureDef.friction = 0.4f;
-				fixtureDef.restitution = 0.6f; // Make it bounce a little bit
+				fixtureDef.density = 0.1f;
+				fixtureDef.friction = 0.1f;
+				fixtureDef.restitution = 0.1f; // Make it bounce a little bit
 
 				// Create our fixture and attach it to the body
 				body.createFixture(fixtureDef);
