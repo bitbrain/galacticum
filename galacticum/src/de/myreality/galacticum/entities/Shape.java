@@ -18,7 +18,7 @@ package de.myreality.galacticum.entities;
 
 import java.io.Externalizable;
 
-import de.myreality.galacticum.chunks.ContentTarget;
+import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.entities.Shape.ShapeListener;
 import de.myreality.galacticum.util.Observer;
 
@@ -29,7 +29,7 @@ import de.myreality.galacticum.util.Observer;
  * @since 0.1
  * @version 0.1
  */
-public interface Shape extends Externalizable, ContentTarget, Observer<ShapeListener> {
+public interface Shape extends Externalizable, ChunkTarget, Observer<ShapeListener> {
 	
 	// ===========================================================
 	// Constants

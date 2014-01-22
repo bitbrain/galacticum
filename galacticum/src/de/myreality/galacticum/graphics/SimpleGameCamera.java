@@ -221,7 +221,7 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 
 			moveToTarget();
 		}
-
+		
 		updateFocus(delta);
 
 		camera.update();		

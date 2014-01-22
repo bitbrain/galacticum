@@ -203,7 +203,7 @@ public class DebugStage extends Stage implements Debugable {
 	}
 	
 	private String getObjectsText() {
-		return "Objects: " + context.getWorld().getEntities().size();
+		return "Objects: " + context.getWorld().getContent().size();
 	}
 	
 	private String getCameraText() {

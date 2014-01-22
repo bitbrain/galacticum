@@ -18,6 +18,7 @@ package de.myreality.galacticum.core;
 
 import java.util.Collection;
 
+import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.util.Observable;
 
 /**
@@ -27,7 +28,7 @@ import de.myreality.chunx.util.Observable;
  * @since 0.1
  * @version 0.1
  */
-public interface World extends Observable<WorldListener> {
+public interface World extends Observable<WorldListener>, ContentProvider {
 	
 	// ===========================================================
 	// Constants
@@ -56,5 +57,5 @@ public interface World extends Observable<WorldListener> {
 	 * 
 	 * @return
 	 */
-	Collection<Object> getEntities();
+	Collection<Object> getContent();
 }

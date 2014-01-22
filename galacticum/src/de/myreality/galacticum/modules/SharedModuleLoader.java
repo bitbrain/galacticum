@@ -21,11 +21,10 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.galacticum.biomes.BiomeModule;
 import de.myreality.galacticum.biomes.BiomeColorProvider;
+import de.myreality.galacticum.biomes.BiomeModule;
 import de.myreality.galacticum.chunks.ChunkSystemModuleFactory;
 import de.myreality.galacticum.chunks.ChunkTargetAdapter;
-import de.myreality.galacticum.chunks.ContentProviderAdapter;
 import de.myreality.galacticum.core.ContentHandler;
 import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.WorldModule;
@@ -100,7 +99,7 @@ public class SharedModuleLoader implements ModuleLoader {
 		GameCamera camera = cameraSystem.getCamera();
 		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
 		ContentHandler handler = new ContentHandler(zoneModule);
-		ChunkSystemModuleFactory chunkFactory = new ChunkSystemModuleFactory(handler, cameraAdapter, new ContentProviderAdapter(world));		
+		ChunkSystemModuleFactory chunkFactory = new ChunkSystemModuleFactory(handler, cameraAdapter, world);		
 		PlayerModule playerSystem = new PlayerModule(configuration, SharedSpaceShipFactory.getInstance(), zoneModule, cameraAdapter);
 		WorldModule worldSystem = new WorldModule(world, batch, camera);
 

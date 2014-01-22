@@ -19,7 +19,6 @@ package de.myreality.galacticum.core;
 import java.io.Serializable;
 
 import de.myreality.chunx.ChunkTarget;
-import de.myreality.galacticum.chunks.ContentTarget;
 import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.util.GameColor;
 
@@ -30,7 +29,7 @@ import de.myreality.galacticum.util.GameColor;
  * @since 0.1
  * @version 0.1
  */
-public interface GameLight extends ChunkTarget, ContentTarget {
+public interface GameLight extends ChunkTarget {
 	
 	// ===========================================================
 	// Constants

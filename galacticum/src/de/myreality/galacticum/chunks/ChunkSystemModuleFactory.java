@@ -97,8 +97,8 @@ public class ChunkSystemModuleFactory implements ModuleFactory {
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
 		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));		
 		
+		chunkSystem.addListener(contentHandler);
 		ChunkSystemModule result = new ChunkSystemModule(chunkSystem);
-		result.addListener(contentHandler);
 		
 		return result;
 	}

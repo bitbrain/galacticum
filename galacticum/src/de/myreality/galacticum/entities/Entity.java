@@ -18,7 +18,7 @@ package de.myreality.galacticum.entities;
 
 import java.io.Externalizable;
 
-import de.myreality.galacticum.chunks.ContentTarget;
+import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.IDProvider;
 
@@ -29,7 +29,7 @@ import de.myreality.galacticum.util.IDProvider;
  * @since 0.1
  * @version 0.1
  */
-public interface Entity extends IDProvider, Shape, ContentTarget, Externalizable {
+public interface Entity extends IDProvider, Shape, ChunkTarget, Externalizable {
 	
 	// ===========================================================
 	// Constants

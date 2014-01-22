@@ -16,8 +16,9 @@
  */
 package de.myreality.galacticum.core;
 
-import de.myreality.galacticum.chunks.ContentArea;
-import de.myreality.galacticum.chunks.ContentListener;
+import de.myreality.chunx.Chunk;
+import de.myreality.chunx.ChunkSystem;
+import de.myreality.galacticum.chunks.ChunkSystemListenerPrototype;
 import de.myreality.galacticum.core.GameLight.GameLightType;
 import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.entities.EntityType;
@@ -35,7 +36,7 @@ import de.myreality.galacticum.util.HashGenerator;
  * @since 0.1
  * @version 0.1
  */
-public class ContentHandler implements ContentListener {
+public class ContentHandler extends ChunkSystemListenerPrototype {
 	
 	// ===========================================================
 	// Constants
@@ -62,18 +63,27 @@ public class ContentHandler implements ContentListener {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
 	
-
-
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.entities.ContentListener#onCreate(de.myreality.galacticum.core.entities.ContentArea)
+	 * @see de.myreality.galacticum.chunks.ChunkSystemListenerPrototype#afterCreateChunk(de.myreality.chunx.Chunk, de.myreality.chunx.ChunkSystem)
 	 */
 	@Override
-	public void onCreate(ContentArea area) {
-		
+	public void afterCreateChunk(Chunk area, ChunkSystem chunkSystem) {
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
+<<<<<<< HEAD
 		final int AMOUNT = 2;
+=======
+		final int AMOUNT = 10;
+>>>>>>> Refactored code
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -96,7 +106,11 @@ public class ContentHandler implements ContentListener {
 		
 		// Add lights
 		
+<<<<<<< HEAD
 		final int LIGHT_COUNT = 1;
+=======
+		final int LIGHT_COUNT = 2;
+>>>>>>> Refactored code
 		
 		for (int i = 0; i < LIGHT_COUNT; ++i) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
@@ -108,14 +122,6 @@ public class ContentHandler implements ContentListener {
 		}
 	}
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
-	
 	public static class Planet extends SimpleEntity {
 
 		/**

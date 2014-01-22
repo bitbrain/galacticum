@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.chunx.util.SimpleObservable;
-import de.myreality.galacticum.chunks.ContentTargetAdapter;
 import de.myreality.galacticum.entities.Entity;
 
 /**
@@ -72,14 +71,18 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 		if (!entities.contains(entity)) {
 			
 			entities.add(entity);
-			GameLight light = deriveLight(entity);
+			GameLight light = null;
+			
+			if (entity instanceof GameLight) {
+				light = (GameLight)entity;
+			}
 			
 			if (light != null) {
 				for (WorldListener l : getListeners()) {
 					l.onAddLight(light);
 				}
-			} else {
-				Entity realEntity = deriveEntity(entity);
+			} else if (entity instanceof Entity) {
+				Entity realEntity = (Entity)entity;
 				
 				if (realEntity != null) {
 					for (WorldListener l : getListeners()) {
@@ -100,7 +103,12 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	@Override
 	public void remove(Object entity) {
 		
-		GameLight light = deriveLight(entity);
+		GameLight light = null;
+		
+		if (entity instanceof GameLight) {
+			light = (GameLight)entity;
+		}
+		
 		entities.remove(entity);
 		
 		if (light != null) {			
@@ -108,8 +116,9 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 			for (WorldListener l : getListeners()) {
 				l.onRemoveLight(light);
 			}
-		} else {
-			Entity realEntity = deriveEntity(entity);
+		} else if (entity instanceof Entity) {
+			
+			Entity realEntity = (Entity)entity;
 			
 			if (realEntity != null) {
 				for (WorldListener l : getListeners()) {
@@ -125,47 +134,13 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	 * @see de.myreality.galacticum.core.GameContainer#getEntities()
 	 */
 	@Override
-	public Collection<Object> getEntities() {
+	public Collection<Object> getContent() {
 		return entities;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private Entity deriveEntity(Object object) {
-		
-		if (object != null) {
-			if (object instanceof Entity) {
-				return (Entity)object;
-			} else if (object instanceof ContentTargetAdapter) {
-				ContentTargetAdapter a = (ContentTargetAdapter)object;
-				return deriveEntity(a.getTarget());
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
-	
-	private GameLight deriveLight(Object object) {
-		
-		if (object != null) {
-			if (object instanceof GameLight) {
-				return (GameLight)object;
-			} else if (object instanceof ContentTargetAdapter) {
-				ContentTargetAdapter a = (ContentTargetAdapter)object;
-				return deriveLight(a.getTarget());
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
-	
-	
 
 	// ===========================================================
 	// Inner and Anonymous Classes

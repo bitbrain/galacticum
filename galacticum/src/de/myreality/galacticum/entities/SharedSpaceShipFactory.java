@@ -73,7 +73,7 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 	 */
 	@Override
 	public SpaceShip create(float x, float y, SpaceShipType type, long hash) {
-		return new SimpleSpaceShip(x, y, new GameColor(0.3f, 0.3f, 0.3f, 1.0f), hash);
+		return new SimpleSpaceShip(x, y, (float) (Math.random() * 10 + 1f), new GameColor(0.3f, 0.3f, 0.3f, 1.0f), hash);
 	}
 
 	// ===========================================================
@@ -90,8 +90,8 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 		/**
 		 * @param type
 		 */
-		public SimpleSpaceShip(float x, float y, GameColor color, long hash) {
-			super(EntityType.SPACESHIP, 100, 100, color, hash);
+		public SimpleSpaceShip(float x, float y, float size, GameColor color, long hash) {
+			super(EntityType.SPACESHIP, size, size, color, hash);
 			this.setX(x);
 			this.setY(y);
 			// this.setRotation((float) (360f * Math.random()));
