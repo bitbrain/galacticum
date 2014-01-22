@@ -332,7 +332,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		Body body = bodyMap.get(shape);
 		
 		if (body != null) {
-			body.applyLinearImpulse(x * 100, y * 100, shape.getWidth() / 2, 0, true);
+			body.applyLinearImpulse(new Vector2(x, y), body.getWorldCenter(), true);
 			
 		}
 	}
