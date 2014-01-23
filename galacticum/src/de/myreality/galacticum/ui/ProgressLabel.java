@@ -33,7 +33,7 @@ import de.myreality.galacticum.util.Nameable;
  * @since 0.1
  * @version 0.1
  */
-public class LoadingBox extends Table implements ContextListener {
+public class ProgressLabel extends Table implements ContextListener {
 
 	// ===========================================================
 	// Constants
@@ -53,7 +53,7 @@ public class LoadingBox extends Table implements ContextListener {
 	// Constructors
 	// ===========================================================
 	
-	public LoadingBox() {
+	public ProgressLabel() {
 		progressBar = new ProgressBar(0.0f);
 
 		progressBar.setWidth(40f);

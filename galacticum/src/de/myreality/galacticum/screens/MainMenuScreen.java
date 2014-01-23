@@ -14,35 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum;
+package de.myreality.galacticum.screens;
 
-import java.io.IOException;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import aurelienribon.tweenengine.Tween;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import de.myreality.galacticum.entities.Shape;
-import de.myreality.galacticum.screens.MainMenuScreen;
-import de.myreality.galacticum.tweens.ActorTween;
-import de.myreality.galacticum.tweens.ColorTween;
-import de.myreality.galacticum.tweens.GameColorTween;
-import de.myreality.galacticum.tweens.ShapeTween;
-import de.myreality.galacticum.tweens.SpriteTween;
-import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.GalacticumGame;
 
 /**
- * Main game class which provides game functionality
- *
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
+ * Main menu of Galacticum
+ * 
+ * @author Miguel Gonzalez
  * @since 0.1
  * @version 0.1
  */
-public class GalacticumGame extends Game {
+public class MainMenuScreen extends MenuScreen {
 
 	// ===========================================================
 	// Constants
@@ -56,6 +42,13 @@ public class GalacticumGame extends Game {
 	// Constructors
 	// ===========================================================
 
+	/**
+	 * @param game
+	 */
+	public MainMenuScreen(GalacticumGame game) {
+		super(game);
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -63,50 +56,47 @@ public class GalacticumGame extends Game {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#create()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.screens.MenuScreen#onCreateUI(com.badlogic.gdx
+	 * .scenes.scene2d.Stage)
 	 */
 	@Override
-	public void create() {
-		
-		Resources.unloadTextures();
-		Resources.unloadTextures();
-		
-		Resources.loadTextures();
-		Resources.loadFonts();
-		Resources.loadStyles();
-		try {
-			Resources.loadMetaData();
-			initTweenEngine();		
-			Settings.loadGdxSettings();
-			setScreen(new MainMenuScreen(this));			
-			MetaData data = Resources.META_DATA;
-			Gdx.graphics.setTitle(data.getName() + " " + data.getVersion() + data.getPhase());
-		} catch (IOException e) {
-			e.printStackTrace();
-			Gdx.app.exit();
-		}
+	protected void onCreateUI(Stage stage) {
+		// TODO Auto-generated method stub
+
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.screens.MenuScreen#onResizeUI(int, int)
+	 */
 	@Override
-	public void dispose() {
-		super.dispose();
-		Resources.unloadTextures();
-		Resources.unloadFonts();
+	protected void onResizeUI(int width, int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.galacticum.screens.MenuScreen#onDraw(com.badlogic.gdx.graphics
+	 * .g2d.SpriteBatch, float)
+	 */
+	@Override
+	protected void onDraw(SpriteBatch batch, float delta) {
+		// TODO Auto-generated method stub
+
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private void initTweenEngine() {
-		Tween.registerAccessor(Actor.class, new ActorTween());
-		Tween.registerAccessor(Shape.class, new ShapeTween());
-		Tween.registerAccessor(GameColor.class, new GameColorTween());
-		Tween.registerAccessor(Color.class, new ColorTween());
-		Tween.registerAccessor(Sprite.class, new SpriteTween());
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

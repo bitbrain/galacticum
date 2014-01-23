@@ -16,22 +16,23 @@
  */
 package de.myreality.galacticum.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import de.myreality.galacticum.GalacticumGame;
-import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.controls.GeneralStage;
-import de.myreality.galacticum.ui.MenuHead;
+import de.myreality.galacticum.tweens.ColorTween;
+import de.myreality.galacticum.tweens.SpriteTween;
 
 /**
  * Screen which displays a default template for underlying screens.
@@ -47,6 +48,8 @@ public abstract class MenuScreen implements Screen {
 	// ===========================================================
 
 	public static final float WIDTH_FACTOR = 0.7f;
+	
+	public static final float FADE_IN_TIME = 1f;
 
 	// ===========================================================
 	// Fields
@@ -58,24 +61,18 @@ public abstract class MenuScreen implements Screen {
 
 	private SpriteBatch batch;
 
-	private Texture background;
-
-	private Button buttonLeft, buttonRight;
-
 	private OrthographicCamera camera;
-
-	private String caption;
+	
+	private TweenManager tweenManager;
+	
+	private Sprite background;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public MenuScreen(String caption, GalacticumGame game) {
+	public MenuScreen(GalacticumGame game) {
 		this.game = game;
-		this.caption = caption;
-		background = Resources.TEXTURE_MENU_BACKGROUND;
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
 	}
 
 	// ===========================================================
@@ -85,17 +82,9 @@ public abstract class MenuScreen implements Screen {
 	public GalacticumGame getGame() {
 		return game;
 	}
-
-	public void setBackground(Texture texture) {
-		this.background = texture;
-	}
-
-	public Button getButtonLeft() {
-		return buttonLeft;
-	}
-
-	public Button getButtonRight() {
-		return buttonRight;
+	
+	public TweenManager getTweenManager() {
+		return tweenManager;
 	}
 
 	// ===========================================================
@@ -113,6 +102,7 @@ public abstract class MenuScreen implements Screen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
+		tweenManager.update(delta);
 		stage.act(delta);
 
 		camera.update();
@@ -123,8 +113,9 @@ public abstract class MenuScreen implements Screen {
 		float height = Gdx.graphics.getHeight();
 
 		batch.begin();
-		batch.draw(background, -width / 2f, -height / 2f, width, height);
-		onDraw(batch, delta);
+			background.setBounds(0, 0, width, height);
+			background.draw(batch);
+			onDraw(batch, delta);
 		batch.end();
 
 		stage.draw();
@@ -137,32 +128,15 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-
 		if (stage == null) {
 			stage = new GeneralStage(width, height, false);
 			Gdx.input.setInputProcessor(stage);
-			LabelStyle labelStyle = new LabelStyle();
-			labelStyle.font = Resources.FONT_REGULAR;
-			labelStyle.fontColor = Resources.COLOR_GREEN;
-			MenuHead head = new MenuHead(caption, labelStyle);
-			stage.addActor(head);
-			onCreateUI(stage);
-			onResizeUI(width, height);
-
-			Label label = new Label("", Resources.STYLE_LABEL_DEBUG);
-			MetaData meta = Resources.META_DATA;
-			label.setText(meta.getName() + " " + meta.getVersion()
-					+ meta.getPhase());
-			label.setY(20f);
-			label.setX(10f);
-			stage.addActor(label);
-
 		} else {
 			stage.setViewport(width, height, false);
 			onResizeUI(width, height);
-			camera.viewportWidth = width;
-			camera.viewportHeight = height;
 		}
+		camera.viewportWidth = width;
+		camera.viewportHeight = height;
 	}
 
 	/*
@@ -173,6 +147,12 @@ public abstract class MenuScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
+		tweenManager = new TweenManager();
+		background = new Sprite(Resources.TEXTURE_MENU_BACKGROUND);
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
+		camera.setToOrtho(true);
+		fadeIn();
 	}
 
 	/*
@@ -228,6 +208,15 @@ public abstract class MenuScreen implements Screen {
 	protected abstract void onResizeUI(int width, int height);
 
 	protected abstract void onDraw(SpriteBatch batch, float delta);
+	
+	private void fadeIn() {
+		background.setColor(1f, 1f, 1f, 0f);
+		
+		Tween.to(background, SpriteTween.ALPHA, FADE_IN_TIME)
+			 .target(1f)
+			 .ease(TweenEquations.easeInOutCubic)
+			 .start(tweenManager);
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

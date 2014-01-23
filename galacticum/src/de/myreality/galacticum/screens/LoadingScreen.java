@@ -39,7 +39,7 @@ import de.myreality.galacticum.io.ContextNotFoundException;
 import de.myreality.galacticum.io.SharedConfigurationManager;
 import de.myreality.galacticum.modules.ModuleList;
 import de.myreality.galacticum.modules.ModuleLoader;
-import de.myreality.galacticum.ui.LoadingBox;
+import de.myreality.galacticum.ui.ProgressLabel;
 
 /**
  * Screen which displays the loading progress of current universe creation.
@@ -48,7 +48,7 @@ import de.myreality.galacticum.ui.LoadingBox;
  * @since 0.1
  * @version 0.1
  */
-public class LoadingScreen extends MenuScreen {
+public class LoadingScreen extends SubMenuScreen {
 
 	// ===========================================================
 	// Constants
@@ -70,7 +70,7 @@ public class LoadingScreen extends MenuScreen {
 
 	private World container;
 	
-	private LoadingBox box;
+	private ProgressLabel box;
 	
 	private ModuleLoader subsystemLoader;
 	
@@ -112,7 +112,7 @@ public class LoadingScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateUI(Stage stage) {
-		box = new LoadingBox();
+		box = new ProgressLabel();
 		contextLoader.addListener(box);
 		stage.addActor(box);
 	}
@@ -141,7 +141,8 @@ public class LoadingScreen extends MenuScreen {
 		
 		if (loadingFuture == null || loadingFuture.isCancelled() || !gameLoader.getMessage().isEmpty()) {
 			// Go back to creation screen
-			getGame().setScreen(new CreationScreen("Create new universe", getGame(), gameLoader.getMessage()));
+			// TODO
+			//getGame().setScreen(new CreationScreen("Create new universe", getGame(), gameLoader.getMessage()));
 		} else if (loadingFuture.isDone()) {
 			// Loading is done, go to the next screen
 			getGame().setScreen(new IngameScreen(getGame(), gameLoader.getContext()));
