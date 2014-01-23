@@ -16,10 +16,13 @@
  */
 package de.myreality.galacticum.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.Resources;
 
 /**
  * Main menu of Galacticum
@@ -37,6 +40,8 @@ public class MainMenuScreen extends MenuScreen {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Image logo;
 
 	// ===========================================================
 	// Constructors
@@ -66,8 +71,11 @@ public class MainMenuScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateUI(Stage stage) {
-		// TODO Auto-generated method stub
-
+		
+		// Create the logo
+		logo = new Image(Resources.TEXTURE_LOGO);	
+		stage.addActor(logo);
+		fadeBackground(0f, 1f);
 	}
 
 	/*
@@ -77,8 +85,15 @@ public class MainMenuScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onResizeUI(int width, int height) {
-		// TODO Auto-generated method stub
-
+		
+		float logoWidth = width - width * PADDING;
+		float logoHeight = logo.getHeight() * (logoWidth / (float)logo.getWidth());
+		
+		float logoX = width / 2 - logoWidth / 2;
+		float logoY = height - logoHeight - height * PADDING * 1.5f;
+		
+		logo.setBounds(logoX, logoY, logoWidth, logoHeight);
+				
 	}
 
 	/*

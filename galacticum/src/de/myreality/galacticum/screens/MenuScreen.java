@@ -32,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import de.myreality.galacticum.GalacticumGame;
+import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.controls.GeneralStage;
 import de.myreality.galacticum.tweens.ActorTween;
@@ -101,6 +102,20 @@ public abstract class MenuScreen implements Screen {
 	public int getHeight() {
 		return height;
 	}
+	
+	public Sprite getBackground() {
+		return background;
+	}
+	
+	public void fadeBackground(float from, float to) {
+
+		background.setColor(1f, 1f, 1f, from);
+		
+		Tween.to(background, SpriteTween.ALPHA, FADE_IN_TIME)
+			 .target(to)
+			 .ease(TweenEquations.easeInOutCubic)
+			 .start(tweenManager);
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -154,14 +169,18 @@ public abstract class MenuScreen implements Screen {
 			footerStyle.fontColor = new Color(Resources.COLOR_GREEN);
 			footerStyle.fontColor.a = 0.2f;
 			
-			lblVersion = new Label("version 0.1.30", footerStyle);	
+			lblVersion = new Label("version 0.0", footerStyle);	
 			stage.addActor(lblVersion);
 			lblCopyright = new Label("© 2014, all rights reserved.", footerStyle);			
 			stage.addActor(lblCopyright);
 			
+			MetaData meta = Resources.META_DATA;
+			lblVersion.setText("version " + meta.getVersion()
+                            + meta.getPhase());
+			
 			updateFooter();
 			onCreateUI(stage);
-
+			onResizeUI(width, height);
 			fadeIn();
 		} else {
 			stage.setViewport(width, height, false);
@@ -238,14 +257,7 @@ public abstract class MenuScreen implements Screen {
 
 	protected abstract void onDraw(SpriteBatch batch, float delta);
 	
-	private void fadeIn() {
-		background.setColor(1f, 1f, 1f, 0f);
-		
-		Tween.to(background, SpriteTween.ALPHA, FADE_IN_TIME)
-			 .target(1f)
-			 .ease(TweenEquations.easeInOutCubic)
-			 .start(tweenManager);
-		
+	private void fadeIn() {		
 		stage.getRoot().getColor().a = 0;
 		Tween.to(stage.getRoot(), ActorTween.ALPHA, FADE_IN_TIME)
 		 .target(1f)
