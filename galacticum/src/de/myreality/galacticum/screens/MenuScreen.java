@@ -158,6 +158,7 @@ public abstract class MenuScreen implements Screen {
 			stage.addActor(lblVersion);
 			lblCopyright = new Label("© 2014, all rights reserved.", footerStyle);			
 			stage.addActor(lblCopyright);
+			
 			updateFooter();
 			onCreateUI(stage);
 
@@ -254,8 +255,13 @@ public abstract class MenuScreen implements Screen {
 	
 	private void updateFooter() {
 		
+		float scale = width * 0.0012f;
+		
 		float paddingX = width * PADDING / 2;
 		float paddingY = height * PADDING / 2;
+		
+		lblVersion.setFontScale(scale);
+		lblCopyright.setFontScale(scale);
 		
 		lblVersion.setX(paddingX);
 		lblVersion.setY(paddingY);
