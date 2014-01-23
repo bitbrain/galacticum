@@ -94,7 +94,7 @@ public class SharedConfigurationManager extends SimpleConfigurationIO implements
 			l.onLoad(null);
 		}
 		
-		ContextConfiguration[] configurations = getReader().read();
+		ContextConfiguration[] configurations = getAvailableConfigurations();
 		
 		for (ContextConfiguration configuration : configurations) {
 			if (configuration.getID().equals(id)) {
@@ -185,6 +185,14 @@ public class SharedConfigurationManager extends SimpleConfigurationIO implements
 		ConfigurationEvent event = new SimpleConfigurationEvent(0.0f, "", this, configuration);
 		
 		return event;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.io.ConfigurationManager#getAvailableConfigurations()
+	 */
+	@Override
+	public ContextConfiguration[] getAvailableConfigurations() {
+		return getReader().read();
 	}
 
 	// ===========================================================
