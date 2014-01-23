@@ -69,7 +69,7 @@ public abstract class MenuScreen implements Screen {
 	
 	private TweenManager tweenManager;
 	
-	private Sprite background;
+	private Sprite background, earth;
 	
 	private Label lblVersion, lblCopyright;
 	
@@ -115,6 +115,13 @@ public abstract class MenuScreen implements Screen {
 			 .target(to)
 			 .ease(TweenEquations.easeInOutCubic)
 			 .start(tweenManager);
+		
+		earth.setColor(1f, 1f, 1f, from);
+		
+		Tween.to(earth, SpriteTween.ALPHA, FADE_IN_TIME)
+			 .target(to)
+			 .ease(TweenEquations.easeInOutCubic)
+			 .start(tweenManager);
 	}
 
 	// ===========================================================
@@ -140,8 +147,8 @@ public abstract class MenuScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
-			background.setBounds(0, 0, width, height);
 			background.draw(batch);
+			earth.draw(batch);
 			onDraw(batch, delta);
 		batch.end();
 
@@ -178,13 +185,13 @@ public abstract class MenuScreen implements Screen {
 			lblVersion.setText("version " + meta.getVersion()
                             + meta.getPhase());
 			
-			updateFooter();
+			onResize();
 			onCreateUI(stage);
 			onResizeUI(width, height);
 			fadeIn();
 		} else {
 			stage.setViewport(width, height, false);
-			updateFooter();
+			onResize();
 			onResizeUI(width, height);
 		}
 	}
@@ -199,7 +206,9 @@ public abstract class MenuScreen implements Screen {
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
 		background = new Sprite(Resources.TEXTURE_MENU_BACKGROUND);
+		earth = new Sprite(Resources.TEXTURE_EARTH);
 		background.flip(false, true);
+		earth.flip(false, true);
 		camera = new OrthographicCamera();
 	}
 
@@ -265,7 +274,9 @@ public abstract class MenuScreen implements Screen {
 		 .start(tweenManager);
 	}
 	
-	private void updateFooter() {
+	private void onResize() {
+
+		background.setBounds(0, 0, width, height);
 		
 		float scale = width * 0.0012f;
 		
@@ -280,6 +291,13 @@ public abstract class MenuScreen implements Screen {
 		
 		lblCopyright.setX(Gdx.graphics.getWidth() - paddingX - lblCopyright.getPrefWidth());
 		lblCopyright.setY(paddingY);
+		
+		float earthWidth = width - width * (PADDING * 0.6f);
+		float earthHeight = earth.getHeight() * (earthWidth / earth.getWidth());
+		float earthX = width / 2 - earthWidth / 2;
+		float earthY = height - earthHeight;		
+		
+		earth.setBounds(earthX, earthY, earthWidth, earthHeight);
 	}
 
 	// ===========================================================

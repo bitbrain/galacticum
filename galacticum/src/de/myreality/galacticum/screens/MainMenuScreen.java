@@ -16,13 +16,18 @@
  */
 package de.myreality.galacticum.screens;
 
-import com.badlogic.gdx.Gdx;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
+import de.myreality.galacticum.tweens.ActorTween;
 
 /**
  * Main menu of Galacticum
@@ -75,6 +80,7 @@ public class MainMenuScreen extends MenuScreen {
 		// Create the logo
 		logo = new Image(Resources.TEXTURE_LOGO);	
 		stage.addActor(logo);
+		
 		fadeBackground(0f, 1f);
 	}
 
@@ -85,15 +91,21 @@ public class MainMenuScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onResizeUI(int width, int height) {
+
+		float logoWidth = getWidth() - getWidth() * PADDING;
+		float logoHeight = logo.getPrefHeight() * (logoWidth / (float)logo.getPrefWidth());
 		
-		float logoWidth = width - width * PADDING;
-		float logoHeight = logo.getHeight() * (logoWidth / (float)logo.getWidth());
+		float logoX = getWidth() / 2 - logoWidth / 2;
+		float logoY = getHeight() - logoHeight - getHeight() * PADDING;
 		
-		float logoX = width / 2 - logoWidth / 2;
-		float logoY = height - logoHeight - height * PADDING * 1.5f;
+		logo.setBounds(logoX, logoHeight + getHeight(), logoWidth, logoHeight);
 		
-		logo.setBounds(logoX, logoY, logoWidth, logoHeight);
-				
+		TweenManager tweenManager = getTweenManager();
+		
+		Tween.to(logo, ActorTween.POS_Y, 1.3f)
+			 .target(logoY)
+			 .ease(TweenEquations.easeInOutElastic)
+			 .start(tweenManager);
 	}
 
 	/*
@@ -105,8 +117,7 @@ public class MainMenuScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onDraw(SpriteBatch batch, float delta) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	// ===========================================================

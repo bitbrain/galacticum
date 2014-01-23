@@ -81,6 +81,8 @@ public final class Resources {
 	
 	public static Texture TEXTURE_BOX;
 	
+	public static Texture TEXTURE_EARTH;
+	
 	public static void loadTextures() {		
 		unloadTextures();		
 		TEXTURE_MENU_BACKGROUND = new Texture(Gdx.files.internal("images/backgrounds/main.png"));
@@ -93,6 +95,7 @@ public final class Resources {
 		TEXTURE_BOX = new Texture(Gdx.files.internal("images/box.png"));
 		TEXTURE_PLANET = new Texture(Gdx.files.internal("images/planet.png"));
 		TEXTURE_GRADIENT = new Texture(Gdx.files.internal("images/black-gradient.png"));
+		TEXTURE_EARTH = new Texture(Gdx.files.internal("images/backgrounds/earth.png"));
 	}
 	
 	public static void unloadTextures() {
@@ -126,6 +129,10 @@ public final class Resources {
 		
 		if (TEXTURE_GRADIENT != null) {
 			TEXTURE_GRADIENT.dispose();
+		}
+		
+		if (TEXTURE_EARTH != null) {
+			TEXTURE_EARTH.dispose();
 		}
 	}
 	

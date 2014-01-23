@@ -34,6 +34,14 @@ public class ActorTween implements TweenAccessor<Actor> {
 	// ===========================================================
 	
 	public static final int ALPHA = 1;
+	
+	public static final int SCALE_X = 2;
+	
+	public static final int SCALE_Y = 3;
+	
+	public static final int POS_X = 4;
+	
+	public static final int POS_Y = 5;
 
 	// ===========================================================
 	// Fields
@@ -64,6 +72,19 @@ public class ActorTween implements TweenAccessor<Actor> {
 			case ALPHA:
 				returnValues[0] = target.getColor().a;
 				return 1;
+			case SCALE_X:
+				returnValues[0] = target.getScaleX();
+				return 1;
+			case SCALE_Y:
+				returnValues[0] = target.getScaleY();
+				return 1;
+			case POS_X:
+				returnValues[0] = target.getX();
+				return 1;
+			case POS_Y:
+				returnValues[0] = target.getY();
+				return 1;
+			
 		}
 		
 		return 0;
@@ -80,6 +101,15 @@ public class ActorTween implements TweenAccessor<Actor> {
 		switch (tweenType) {
 			case ALPHA:
 				target.setColor(target.getColor().r, target.getColor().g, target.getColor().b, newValues[0]);
+				break;
+			case SCALE_X: case SCALE_Y:
+				target.scale(newValues[0], newValues[0]);
+				break;
+			case POS_X:
+				target.setX(newValues[0]);
+				break;
+			case POS_Y:
+				target.setY(newValues[0]);
 				break;
 		}
 	}

@@ -2,9 +2,9 @@
     "name" : "Galacticum",
     "author" : "Miguel Gonzalez",
     "url" : "http://galacticum.my-reality.de",
-    "version" : "0.0.40",
+    "version" : "0.0.41",
     "phase" : "dev",
-    "progress" : "20",
+    "progress" : "21",
     "phaselist" : [
         "prototype", "dev", "alpha", "beta", "release"
     ],
