@@ -22,16 +22,19 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.controls.GeneralStage;
-import de.myreality.galacticum.tweens.ColorTween;
+import de.myreality.galacticum.tweens.ActorTween;
 import de.myreality.galacticum.tweens.SpriteTween;
 
 /**
@@ -47,9 +50,9 @@ public abstract class MenuScreen implements Screen {
 	// Constants
 	// ===========================================================
 
-	public static final float WIDTH_FACTOR = 0.7f;
+	public static final float PADDING = 0.1f; // PERCENTAGE
 	
-	public static final float FADE_IN_TIME = 1f;
+	public static final float FADE_IN_TIME = 1.5f;
 
 	// ===========================================================
 	// Fields
@@ -66,6 +69,10 @@ public abstract class MenuScreen implements Screen {
 	private TweenManager tweenManager;
 	
 	private Sprite background;
+	
+	private Label lblVersion, lblCopyright;
+	
+	private int width, height;
 
 	// ===========================================================
 	// Constructors
@@ -85,6 +92,14 @@ public abstract class MenuScreen implements Screen {
 	
 	public TweenManager getTweenManager() {
 		return tweenManager;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 
 	// ===========================================================
@@ -109,15 +124,13 @@ public abstract class MenuScreen implements Screen {
 
 		batch.setProjectionMatrix(camera.combined);
 
-		float width = Gdx.graphics.getWidth();
-		float height = Gdx.graphics.getHeight();
-
 		batch.begin();
 			background.setBounds(0, 0, width, height);
 			background.draw(batch);
 			onDraw(batch, delta);
 		batch.end();
 
+		
 		stage.draw();
 	}
 
@@ -128,15 +141,32 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
+		
+		this.width = width;
+		this.height = height;
+		camera.setToOrtho(true, width, height);
 		if (stage == null) {
 			stage = new GeneralStage(width, height, false);
 			Gdx.input.setInputProcessor(stage);
+			
+			LabelStyle footerStyle = new LabelStyle();
+			footerStyle.font = Resources.FONT_SMALL;
+			footerStyle.fontColor = new Color(Resources.COLOR_GREEN);
+			footerStyle.fontColor.a = 0.2f;
+			
+			lblVersion = new Label("version 0.1.30", footerStyle);	
+			stage.addActor(lblVersion);
+			lblCopyright = new Label("© 2014, all rights reserved.", footerStyle);			
+			stage.addActor(lblCopyright);
+			updateFooter();
+			onCreateUI(stage);
+
+			fadeIn();
 		} else {
 			stage.setViewport(width, height, false);
+			updateFooter();
 			onResizeUI(width, height);
 		}
-		camera.viewportWidth = width;
-		camera.viewportHeight = height;
 	}
 
 	/*
@@ -149,10 +179,8 @@ public abstract class MenuScreen implements Screen {
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
 		background = new Sprite(Resources.TEXTURE_MENU_BACKGROUND);
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-		camera.setToOrtho(true);
-		fadeIn();
+		background.flip(false, true);
+		camera = new OrthographicCamera();
 	}
 
 	/*
@@ -216,6 +244,24 @@ public abstract class MenuScreen implements Screen {
 			 .target(1f)
 			 .ease(TweenEquations.easeInOutCubic)
 			 .start(tweenManager);
+		
+		stage.getRoot().getColor().a = 0;
+		Tween.to(stage.getRoot(), ActorTween.ALPHA, FADE_IN_TIME)
+		 .target(1f)
+		 .ease(TweenEquations.easeInOutCubic)
+		 .start(tweenManager);
+	}
+	
+	private void updateFooter() {
+		
+		float paddingX = width * PADDING / 2;
+		float paddingY = height * PADDING / 2;
+		
+		lblVersion.setX(paddingX);
+		lblVersion.setY(paddingY);
+		
+		lblCopyright.setX(Gdx.graphics.getWidth() - paddingX - lblCopyright.getPrefWidth());
+		lblCopyright.setY(paddingY);
 	}
 
 	// ===========================================================
