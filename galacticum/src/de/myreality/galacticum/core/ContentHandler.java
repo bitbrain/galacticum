@@ -79,11 +79,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 	public void afterCreateChunk(Chunk area, ChunkSystem chunkSystem) {
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-<<<<<<< HEAD
-		final int AMOUNT = 2;
-=======
 		final int AMOUNT = 10;
->>>>>>> Refactored code
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -105,12 +101,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 		}
 		
 		// Add lights
-		
-<<<<<<< HEAD
 		final int LIGHT_COUNT = 1;
-=======
-		final int LIGHT_COUNT = 2;
->>>>>>> Refactored code
 		
 		for (int i = 0; i < LIGHT_COUNT; ++i) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());

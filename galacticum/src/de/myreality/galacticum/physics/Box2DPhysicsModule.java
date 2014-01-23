@@ -214,7 +214,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 				com.badlogic.gdx.physics.box2d.Shape shape = getShape(entity);
 				
 				fixtureDef.shape = shape;
-				fixtureDef.density = 0.1f;
+				fixtureDef.density = 3.1f;
 				fixtureDef.friction = 0.1f;
 				fixtureDef.restitution = 0.1f; // Make it bounce a little bit
 

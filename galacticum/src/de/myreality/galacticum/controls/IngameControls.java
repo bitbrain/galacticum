@@ -107,12 +107,8 @@ public class IngameControls extends GeneralStage {
 		Player player = screen.getContext().getPlayer();
 		Moveable target = player.getCurrentShip();
 		float speed = 500f;
-<<<<<<< HEAD
-		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {			
-=======
+		
 		if (Gdx.input.isKeyPressed(DefaultControls.PLAYER_MOVE_UP)) {
-			
->>>>>>> Refactored code
 			target.move(0, -speed);
 		}
 
