@@ -178,7 +178,7 @@ public abstract class MenuScreen implements Screen {
 			
 			lblVersion = new Label("version 0.0", footerStyle);	
 			stage.addActor(lblVersion);
-			lblCopyright = new Label("© 2014, all rights reserved.", footerStyle);			
+			lblCopyright = new Label("Â© 2014, all rights reserved.", footerStyle);			
 			stage.addActor(lblCopyright);
 			
 			MetaData meta = Resources.META_DATA;

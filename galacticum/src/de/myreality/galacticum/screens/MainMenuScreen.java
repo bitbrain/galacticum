@@ -16,8 +16,9 @@
  */
 package de.myreality.galacticum.screens;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -104,6 +105,15 @@ public class MainMenuScreen extends MenuScreen {
 		
 		Tween.to(logo, ActorTween.POS_Y, 1.3f)
 			 .target(logoY)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .setCallback(new TweenCallback() {
+
+				@Override
+				public void onEvent(int type, BaseTween<?> source) {
+					animateLogo();
+				}
+				 
+			 })
 			 .ease(TweenEquations.easeInOutElastic)
 			 .start(tweenManager);
 	}
@@ -123,6 +133,15 @@ public class MainMenuScreen extends MenuScreen {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void animateLogo() {
+		Tween.to(logo, ActorTween.ALPHA, 3f)
+		     .target(0.7f)
+		     .repeatYoyo(Tween.INFINITY, 0)
+		     .setCallbackTriggers(TweenCallback.COMPLETE)
+		     .ease(TweenEquations.easeInOutBack)
+		     .start(getTweenManager());
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
