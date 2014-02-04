@@ -22,11 +22,17 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -74,6 +80,14 @@ public abstract class MenuScreen implements Screen {
 	private Label lblVersion, lblCopyright;
 	
 	private int width, height;
+	
+	private ShaderProgram blurShader;
+	
+	private float time;
+	
+    private FrameBuffer targetA;
+    
+    private FrameBuffer targetB;
 
 	// ===========================================================
 	// Constructors
@@ -145,15 +159,49 @@ public abstract class MenuScreen implements Screen {
 		camera.update();
 
 		batch.setProjectionMatrix(camera.combined);
-
+		
+		time += delta;
+		
+		drawTargetA(batch, delta);
+		drawTargetB(batch, delta);
+		TextureRegion bg = new TextureRegion(targetB.getColorBufferTexture());
+		
+		batch.setShader(blurShader);
+		batch.begin();
+			blurShader.setUniformi("horizontal", 0);
+			blurShader.setUniformf("u_time", time);
+			batch.draw(bg, 0, 0);
+		batch.end();
+		batch.flush();
+		stage.draw();
+	}
+	
+	private void drawTargetA(Batch batch, float delta) {
+		
+		targetA.begin();
+		
 		batch.begin();
 			background.draw(batch);
 			earth.draw(batch);
-			onDraw(batch, delta);
 		batch.end();
+		targetA.end();		
+		batch.flush();
+	}
+	
+	private void drawTargetB(Batch batch, float delta) {
 
-		
-		stage.draw();
+		batch.setShader(blurShader);
+		TextureRegion targetABuffer = new TextureRegion(targetA.getColorBufferTexture());
+
+		targetB.begin();
+		batch.begin();
+			blurShader.setUniformi("horizontal", 1);
+			blurShader.setUniformf("u_time", time);
+			batch.draw(targetABuffer, 0f, 0f);
+		batch.end();
+		targetB.end();
+		batch.flush();
+		batch.setShader(null);
 	}
 
 	/*
@@ -194,6 +242,11 @@ public abstract class MenuScreen implements Screen {
 			onResize();
 			onResizeUI(width, height);
 		}
+		
+
+		
+		targetA = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
+	    targetB = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
 	}
 
 	/*
@@ -210,6 +263,13 @@ public abstract class MenuScreen implements Screen {
 		background.flip(false, true);
 		earth.flip(false, true);
 		camera = new OrthographicCamera();
+		
+		FileHandle blurVertex = Gdx.files.internal("shaders/blur.vert");
+		FileHandle blurFragment = Gdx.files.internal("shaders/blur.frag");
+		
+		blurShader = new ShaderProgram(blurVertex, blurFragment);
+		
+		System.out.println(blurShader.getLog());
 	}
 
 	/*
