@@ -24,7 +24,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -181,7 +180,7 @@ public abstract class MenuScreen implements Screen {
 		
 		batch.setShader(crtShader);
 		batch.begin();
-			blurShader.setUniformf("u_time", time);
+			crtShader.setUniformf("u_time", time);
 			batch.draw(bg, 0, 0);
 		batch.end();
 		batch.flush();

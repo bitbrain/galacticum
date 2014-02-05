@@ -136,11 +136,11 @@ public class MainMenuScreen extends MenuScreen {
 	// ===========================================================
 	
 	private void animateLogo() {
-		Tween.to(logo, ActorTween.ALPHA, 3f)
+		Tween.to(logo, ActorTween.ALPHA, 10f)
 		     .target(0.7f)
 		     .repeatYoyo(Tween.INFINITY, 0)
 		     .setCallbackTriggers(TweenCallback.COMPLETE)
-		     .ease(TweenEquations.easeInOutBack)
+		     .ease(TweenEquations.easeInOutCubic)
 		     .start(getTweenManager());
 		Tween.to(logo, ActorTween.POS_Y, 5f)
 	     .target(Gdx.graphics.getHeight() - logo.getHeight() * 1.5f)

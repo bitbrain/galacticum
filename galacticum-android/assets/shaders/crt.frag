@@ -16,7 +16,7 @@ float rand(vec2 co, float time){
 
 void main() {
 
-	float global_pos = (v_texCoords.y + (v_time / 100.0) + 1000.0) * frequency;
+	float global_pos = (v_texCoords.y + (v_time / 40.0) + 1000.0) * frequency;
     float wave_pos = cos((fract( global_pos ) - 0.5)*intensity);
     vec4 pel = texture2D( u_texture, v_texCoords );
     
