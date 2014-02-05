@@ -24,6 +24,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -81,13 +82,15 @@ public abstract class MenuScreen implements Screen {
 	
 	private int width, height;
 	
-	private ShaderProgram blurShader;
+	private ShaderProgram blurShader, crtShader;
 	
 	private float time;
 	
     private FrameBuffer targetA;
     
     private FrameBuffer targetB;
+    
+    private FrameBuffer targetC;
 
 	// ===========================================================
 	// Constructors
@@ -155,7 +158,7 @@ public abstract class MenuScreen implements Screen {
 	@Override
 	public void render(float delta) {
 
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		// Rotate the earth
@@ -168,20 +171,20 @@ public abstract class MenuScreen implements Screen {
 
 		batch.setProjectionMatrix(camera.combined);
 		
-		time += delta;
+		time += delta * Math.random();
 		
 		drawTargetA(batch, delta);
 		drawTargetB(batch, delta);
-		TextureRegion bg = new TextureRegion(targetB.getColorBufferTexture());
+		drawTargetC(batch, delta);
+
+		TextureRegion bg = new TextureRegion(targetC.getColorBufferTexture());
 		
-		batch.setShader(blurShader);
+		batch.setShader(crtShader);
 		batch.begin();
-			blurShader.setUniformi("horizontal", 0);
 			blurShader.setUniformf("u_time", time);
 			batch.draw(bg, 0, 0);
 		batch.end();
 		batch.flush();
-		stage.draw();
 	}
 	
 	private void drawTargetA(Batch batch, float delta) {
@@ -203,6 +206,7 @@ public abstract class MenuScreen implements Screen {
 		TextureRegion targetABuffer = new TextureRegion(targetA.getColorBufferTexture());
 
 		targetB.begin();
+		
 		batch.begin();
 			blurShader.setUniformi("horizontal", 1);
 			blurShader.setUniformf("u_time", time);
@@ -210,7 +214,25 @@ public abstract class MenuScreen implements Screen {
 		batch.end();
 		targetB.end();
 		batch.flush();
-		batch.setShader(null);
+	}
+	
+	private void drawTargetC(Batch batch, float delta) {
+		
+		targetC.begin();
+
+		TextureRegion bg = new TextureRegion(targetB.getColorBufferTexture());
+		
+		batch.setShader(blurShader);
+		batch.begin();
+			blurShader.setUniformi("horizontal", 0);
+			blurShader.setUniformf("u_time", time);
+			batch.draw(bg, 0, 0);
+		batch.end();
+		batch.flush();
+
+		stage.draw();
+		
+		targetC.end();
 	}
 
 	/*
@@ -256,6 +278,7 @@ public abstract class MenuScreen implements Screen {
 		
 		targetA = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
 	    targetB = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
+	    targetC = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
 	}
 
 	/*
@@ -280,7 +303,13 @@ public abstract class MenuScreen implements Screen {
 		
 		blurShader = new ShaderProgram(blurVertex, blurFragment);
 		
+		FileHandle crtVertec = Gdx.files.internal("shaders/crt.vert");
+		FileHandle crtFragment = Gdx.files.internal("shaders/crt.frag");
+		
+		crtShader = new ShaderProgram(crtVertec, crtFragment);
+		
 		System.out.println(blurShader.getLog());
+		System.out.println(crtShader.getLog());
 	}
 
 	/*

@@ -22,6 +22,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -141,6 +142,11 @@ public class MainMenuScreen extends MenuScreen {
 		     .setCallbackTriggers(TweenCallback.COMPLETE)
 		     .ease(TweenEquations.easeInOutBack)
 		     .start(getTweenManager());
+		Tween.to(logo, ActorTween.POS_Y, 5f)
+	     .target(Gdx.graphics.getHeight() - logo.getHeight() * 1.5f)
+	     .repeatYoyo(Tween.INFINITY, 0)
+	     .ease(TweenEquations.easeInOutCubic)
+	     .start(getTweenManager());
 	}
 
 	// ===========================================================

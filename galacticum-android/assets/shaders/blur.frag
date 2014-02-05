@@ -11,7 +11,7 @@ uniform int horizontal;
 
 void main() {
 
-  float blurSize = (sin(v_time / 3.0) + 1.8) / 300.0;
+  float blurSize = (sin(v_time / 1.4) + 2.0) / 300.0;
 
    vec4 sum = vec4(0.0);
    
