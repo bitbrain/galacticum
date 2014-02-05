@@ -75,7 +75,7 @@ public abstract class MenuScreen implements Screen {
 	
 	private TweenManager tweenManager;
 	
-	private Sprite background, earth;
+	private Sprite background, earth, earthOverlay;
 	
 	private Label lblVersion, lblCopyright;
 	
@@ -131,11 +131,16 @@ public abstract class MenuScreen implements Screen {
 			 .start(tweenManager);
 		
 		earth.setColor(1f, 1f, 1f, from);
-		
+		earthOverlay.setColor(1f, 1f, 1f, from);
 		Tween.to(earth, SpriteTween.ALPHA, FADE_IN_TIME)
 			 .target(to)
 			 .ease(TweenEquations.easeInOutCubic)
 			 .start(tweenManager);
+		
+		Tween.to(earthOverlay, SpriteTween.ALPHA, FADE_IN_TIME)
+		 .target(to)
+		 .ease(TweenEquations.easeInOutCubic)
+		 .start(tweenManager);
 	}
 
 	// ===========================================================
@@ -152,7 +157,10 @@ public abstract class MenuScreen implements Screen {
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
+		
+		// Rotate the earth
+		earth.setOrigin(earth.getWidth() / 2, earth.getHeight() / 2);
+		earth.rotate(delta * 3.0f);
 		tweenManager.update(delta);
 		stage.act(delta);
 
@@ -183,6 +191,7 @@ public abstract class MenuScreen implements Screen {
 		batch.begin();
 			background.draw(batch);
 			earth.draw(batch);
+			earthOverlay.draw(batch);
 		batch.end();
 		targetA.end();		
 		batch.flush();
@@ -260,8 +269,10 @@ public abstract class MenuScreen implements Screen {
 		tweenManager = new TweenManager();
 		background = new Sprite(Resources.TEXTURE_MENU_BACKGROUND);
 		earth = new Sprite(Resources.TEXTURE_EARTH);
+		earthOverlay = new Sprite(Resources.TEXTURE_EARTH_OVERLAY);
 		background.flip(false, true);
 		earth.flip(false, true);
+		earthOverlay.flip(false, true);
 		camera = new OrthographicCamera();
 		
 		FileHandle blurVertex = Gdx.files.internal("shaders/blur.vert");
@@ -355,9 +366,10 @@ public abstract class MenuScreen implements Screen {
 		float earthWidth = width - width * (PADDING * 0.6f);
 		float earthHeight = earth.getHeight() * (earthWidth / earth.getWidth());
 		float earthX = width / 2 - earthWidth / 2;
-		float earthY = height - earthHeight;		
+		float earthY = height + -earthHeight / 1.5f;		
 		
 		earth.setBounds(earthX, earthY, earthWidth, earthHeight);
+		earthOverlay.setBounds(earthX, earthY, earthWidth, earthHeight);
 	}
 
 	// ===========================================================
