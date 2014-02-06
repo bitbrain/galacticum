@@ -24,6 +24,7 @@ import java.util.Map;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
  * Simple implementation of {@see ShaderManager}
@@ -88,6 +89,45 @@ public class SimpleShaderManager implements ShaderManager {
 	@Override
 	public void updateAndRender(SpriteBatch batch, float delta) {
 
+		for (ShaderData shaderData : data) {
+			
+			FrameBuffer previousBuffer = null;
+			FrameBuffer[] availableBuffers = frameBuffers.get(shaderData);
+			ShadeArea area = shaderData.getTarget();
+			Shader[] shaders = shaderData.getShaders();
+			
+			for (int index = 0; index < shaders.length && index < availableBuffers.length; ++index) {
+				
+				Shader shader = shaders[index];
+				FrameBuffer buffer = availableBuffers[index];
+				
+				buffer.begin();
+				
+				if (previousBuffer != null) {
+					
+					ShaderProgram program = shader.getProgram();
+					batch.setShader(program);
+					
+					batch.begin();
+					
+						shader.update(delta);
+						
+						// Draw the previous buffer onto the current
+						batch.draw(previousBuffer.getColorBufferTexture(), 0f, 0f);
+					
+					batch.end();
+				} else {
+					batch.begin();
+						area.draw(batch, delta);
+					batch.end();
+				}
+				
+				buffer.end();
+				
+				previousBuffer = buffer;
+			}
+		}
+		
 	}
 	
 
