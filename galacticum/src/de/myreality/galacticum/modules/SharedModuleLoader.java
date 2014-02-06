@@ -107,7 +107,7 @@ public class SharedModuleLoader implements ModuleLoader {
 		systems.add(zoneModule);
 		systems.add(chunkFactory.create(configuration));
 		systems.add(cameraSystem);
-		systems.add(new BackgroundRenderingModule(new ViewportAdapter(cameraSystem.getCamera()), batch));		
+		systems.add(new BackgroundRenderingModule(batch));		
 		systems.add(worldSystem);
 		systems.add(new Box2DPhysicsModule(worldSystem.getRenderer()));
 		systems.add(new LightingModule(zoneColorProvider));

@@ -18,6 +18,7 @@ package de.myreality.galacticum.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -25,9 +26,9 @@ import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.Settings;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.SimpleWorldListener;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
+import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.parallax.LayerConfig;
 import de.myreality.parallax.LayerTexture;
 import de.myreality.parallax.ParallaxMapper;
@@ -55,17 +56,19 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 
 	private ParallaxMapper mapper;
 
-	private Viewport viewport;
-
 	private SpriteBatch batch;
+	
+	private Context context;
+	
+	private OrthographicCamera fakeCamera;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public BackgroundRenderingModule(Viewport viewport, SpriteBatch batch) {
-		this.viewport = viewport;
-		this.batch = batch;
+	public BackgroundRenderingModule(SpriteBatch batch) {
+		this.batch = new SpriteBatch();
+		fakeCamera = new OrthographicCamera();
 	}
 
 	// ===========================================================
@@ -94,7 +97,31 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	@Override
 	public void start() throws ModuleException {
 
-		mapper = new ParallaxMapper(viewport);
+		fakeCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		mapper = new ParallaxMapper(new Viewport() {
+
+			@Override
+			public float getLeft() {
+				return fakeCamera.position.x - fakeCamera.viewportWidth / 2;
+			}
+
+			@Override
+			public float getRight() {
+				return getLeft() + fakeCamera.viewportWidth;
+			}
+
+			@Override
+			public float getTop() {
+				return fakeCamera.position.y - fakeCamera.viewportHeight / 2;
+			}
+
+			@Override
+			public float getBottom() {
+				return getTop() + fakeCamera.viewportHeight;
+			}
+			
+			
+		});
 
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
@@ -112,8 +139,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	 */
 	@Override
 	public void onEnter(Context context) {
-		// TODO Auto-generated method stub
-		
+		this.context = context;
 	}
 
 	/*
@@ -123,7 +149,30 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	 */
 	@Override
 	public void update(float delta) {
+		context.getSpriteBatch().end();
+		
+		GameCamera realCamera = context.getCamera();
+		
+		float width = Gdx.graphics.getWidth();
+		float height = Gdx.graphics.getHeight();
+
+		if (width != fakeCamera.viewportWidth || height != fakeCamera.viewportHeight) {			
+			fakeCamera.setToOrtho(true, width, height);			
+		}		
+		
+		float x = realCamera.getX();
+		float y = realCamera.getY();
+		fakeCamera.position.x = x;
+		fakeCamera.position.y = y;
+		
+		fakeCamera.update();
+		
+		batch.setProjectionMatrix(fakeCamera.combined);
+		
+		batch.begin();
 		mapper.updateAndRender(delta + 0.5f);
+		batch.end();
+		context.getSpriteBatch().begin();
 	}
 
 	/*

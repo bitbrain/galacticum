@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -39,9 +40,10 @@ import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.entities.EntityType;
 import de.myreality.galacticum.entities.Shape;
 import de.myreality.galacticum.entities.Shape.ShapeListener;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
+import de.myreality.galacticum.modules.ProgressListener;
+import de.myreality.galacticum.util.Moveable;
 import de.myreality.galacticum.util.VerticesProvider;
 
 /**
@@ -123,9 +125,8 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	public void update(float delta) {
 
 		synchronized (world) {
-
 			world.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-
+			
 			if (!world.isLocked()) {
 
 				for (Entity e : removalList) {
@@ -214,8 +215,8 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 				com.badlogic.gdx.physics.box2d.Shape shape = getShape(entity);
 				
 				fixtureDef.shape = shape;
-				fixtureDef.density = 3.1f;
-				fixtureDef.friction = 0.1f;
+				fixtureDef.density = 0.1f;
+				fixtureDef.friction = 0.5f;
 				fixtureDef.restitution = 0.1f; // Make it bounce a little bit
 
 				// Create our fixture and attach it to the body
@@ -285,6 +286,18 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 			entity.setX(body.getPosition().x);
 			entity.setY(body.getPosition().y);
 			entity.setRotation(MathUtils.radiansToDegrees * body.getAngle());
+		
+			// Reduce local rotation
+			float angleVelo = body.getAngularVelocity();
+			
+			body.setAngularVelocity(body.getAngularVelocity() / 1.01f);
+			
+			if (entity instanceof Moveable && !((Moveable)entity).isMoving()) {
+				
+				Vector2 moveVelo = body.getLinearVelocity();				
+				body.setLinearVelocity(moveVelo.x / 1.01f, moveVelo.y / 1.01f);
+				
+			}
 		}
 	}
 
@@ -335,7 +348,6 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		
 		if (body != null) {
 			body.applyLinearImpulse(new Vector2(x, y), body.getWorldCenter(), true);
-			
 		}
 	}
 }

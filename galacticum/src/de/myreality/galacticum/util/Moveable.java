@@ -40,4 +40,6 @@ public interface Moveable {
 	 * @param y
 	 */
 	void move(float x, float y);
+	
+	boolean isMoving();
 }

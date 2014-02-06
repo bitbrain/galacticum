@@ -35,6 +35,8 @@ public class MoveableEntity extends SimpleEntity implements Moveable {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private boolean isMoving;
 
 	// ===========================================================
 	// Constructors
@@ -55,6 +57,11 @@ public class MoveableEntity extends SimpleEntity implements Moveable {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	@Override
+	public boolean isMoving() {
+		return isMoving;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -67,10 +74,21 @@ public class MoveableEntity extends SimpleEntity implements Moveable {
 	 */
 	@Override
 	public void move(float x, float y) {
+		
+		isMoving = true;
+		
 		for (ShapeListener l : getListeners()) {
 			l.onMove(x, y, this);
 		}
 	}
+
+	@Override
+	public void update(float delta) {
+		super.update(delta);
+		isMoving = false;
+	}
+	
+	
 
 	// ===========================================================
 	// Methods

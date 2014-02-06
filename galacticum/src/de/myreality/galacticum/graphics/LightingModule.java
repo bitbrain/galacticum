@@ -24,15 +24,12 @@ import java.util.Set;
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
-
-import com.badlogic.gdx.Gdx;
-
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.entities.Entity;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
+import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
 import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
@@ -119,7 +116,7 @@ public class LightingModule implements Module {
 		GameCamera cam  = context.getCamera();
 		Entity e = context.getPlayer().getCurrentShip();
 		playerLight.setPosition(e.getX() + e.getWidth() / 2f, e.getY() + e.getHeight() / 2f);
-		handler.setCombinedMatrix(cam.getCombinedMatrix(), cam.getX() + Gdx.graphics.getWidth() / 2f, cam.getY() + Gdx.graphics.getHeight() / 2f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		handler.setCombinedMatrix(cam.getCombinedMatrix(), cam.getX() + cam.getWidth() / 2f, cam.getY() + cam.getHeight() / 2f, cam.getWidth(),cam.getHeight());
 		handler.updateAndRender();
 	}
 
