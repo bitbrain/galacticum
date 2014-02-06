@@ -16,10 +16,10 @@
  */
 package de.myreality.galacticum.graphics.shader;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Is capable of handling multiple shaders
+ * Handles multiple shaders for a single target
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
@@ -35,25 +35,37 @@ public interface ShaderManager {
 	// Methods
 	// ===========================================================
 	
-	void add(Shader shader);
-	
 	/**
-	 * Updates the manager
 	 * 
-	 * @param delta
 	 */
-	void updateAndRender(float delta);
+	void add(ShadeArea shaderTarget, Shader ... shaders);
 	
 	/**
 	 * 
-	 * @param width
-	 * @param height
+	 * 
 	 */
-	void resize(int width, int height);
+	void clear();
 	
 	/**
+	 * 
 	 * 
 	 * @return
 	 */
-	Batch getBatch();
+	int size();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	boolean isEmpty();
+	
+	/**
+	 * 
+	 * 
+	 * @param batch
+	 * @param delta
+	 */
+	void updateAndRender(SpriteBatch batch, float delta);
+
 }

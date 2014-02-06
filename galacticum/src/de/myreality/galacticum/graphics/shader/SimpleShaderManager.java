@@ -16,17 +16,14 @@
  */
 package de.myreality.galacticum.graphics.shader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
  * Simple implementation of {@see ShaderManager}
@@ -44,21 +41,18 @@ public class SimpleShaderManager implements ShaderManager {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private Map<Shader, FrameBuffer> shaders;
-	
-	private SpriteBatch batch;
-	
-	private ShaderTarget target;
+
+	private List<ShaderData> data;
+
+	private Map<ShaderData, FrameBuffer[]> frameBuffers;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public SimpleShaderManager(ShaderTarget target) {
-		shaders = new HashMap<Shader, FrameBuffer>();
-		batch = new SpriteBatch();
-		this.target = target;
+
+	public SimpleShaderManager() {
+		data = new ArrayList<ShaderData>();
+		frameBuffers = new HashMap<SimpleShaderManager.ShaderData, FrameBuffer[]>();
 	}
 
 	// ===========================================================
@@ -73,87 +67,121 @@ public class SimpleShaderManager implements ShaderManager {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * de.myreality.galacticum.graphics.shader.ShaderManager#add(com.badlogic
-	 * .gdx.graphics.glutils.ShaderProgram,
-	 * de.myreality.galacticum.graphics.shader.ShaderBehavior)
+	 * de.myreality.galacticum.graphics.shader.ShaderManager#add(de.myreality
+	 * .galacticum.graphics.shader.ShadeArea,
+	 * de.myreality.galacticum.graphics.shader.Shader[])
 	 */
 	@Override
-	public void add(Shader shader) {
-		shaders.put(shader, new FrameBuffer(Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false));
+	public void add(ShadeArea shaderTarget, Shader... shaders) {
+		ShaderData shaderData = new ShaderData(shaderTarget, shaders);
+		data.add(shaderData);
+		updateFrameBuffers(shaderData);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#update(float)
+	 * @see
+	 * de.myreality.galacticum.graphics.shader.ShaderManager#updateAndRender
+	 * (com.badlogic.gdx.graphics.g2d.SpriteBatch, float)
 	 */
 	@Override
-	public void updateAndRender(float delta) {
+	public void updateAndRender(SpriteBatch batch, float delta) {
+
+	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#clear()
+	 */
+	@Override
+	public void clear() {
 		
-		FrameBuffer previousBuffer = null;
-		
-		for (Entry<Shader, FrameBuffer> entry : shaders.entrySet()) {
-			
-			Shader shader = entry.getKey();
-			FrameBuffer buffer = entry.getValue();
-			ShaderProgram program = shader.getShaderProgram();
-			
-			buffer.begin();
-			
-				if (program != null) {
-					batch.setShader(program);
-				}
-				
-				batch.begin();
-				
-					if (program != null) {
-						shader.update(program, batch, delta);
-					}
-					
-					if (previousBuffer == null) {
-						target.draw(batch, delta);
-					} else {
-						TextureRegion region = new TextureRegion(previousBuffer.getColorBufferTexture());
-						batch.draw(region, 0f, 0f);
-					}
-				
-				batch.end();
-			
-			buffer.end();
-			
-			previousBuffer = buffer;
+		for (FrameBuffer[] buffers : frameBuffers.values()) {
+			for (FrameBuffer buffer : buffers) {
+				buffer.dispose();
+			}
 		}
+		
+		frameBuffers.clear();
+		data.clear();
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#resize(int, int)
+	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#size()
 	 */
 	@Override
-	public void resize(int width, int height) {
-		
-		for (FrameBuffer buffer : shaders.values()) {
-			buffer.dispose();
-		}
-		
-		for (Shader program : shaders.keySet()) {
-			shaders.put(program, new FrameBuffer(Format.RGBA8888, width, height, false));
-		}
+	public int size() {
+		return data.size();
 	}
 
 	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#getBatch()
+	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#isEmpty()
 	 */
 	@Override
-	public Batch getBatch() {
-		return batch;
+	public boolean isEmpty() {
+		return data.isEmpty();
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
+	private void updateFrameBuffers(ShaderData data) {
+		
+		Shader[] shaders = data.getShaders();
+		ShadeArea target = data.getTarget();		
+
+		FrameBuffer[] buffers = new FrameBuffer[shaders.length];
+		
+		for (int i = 0; i < buffers.length; ++i) {
+			
+			if (buffers[i] != null) {
+				buffers[i].dispose();
+			}
+			
+			buffers[i] = new FrameBuffer(Format.RGBA8888,
+					target.getWidth(), target.getHeight(), false);
+		}
+		
+		frameBuffers.put(data, buffers);
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+	private class ShaderData {
+
+		private Shader[] shaders;
+
+		private ShadeArea target;
+
+		/**
+		 * @param shaders
+		 * @param target
+		 */
+		public ShaderData(ShadeArea target, Shader[] shaders) {
+			super();
+			this.shaders = shaders;
+			this.target = target;
+		}
+
+		/**
+		 * @return the shaders
+		 */
+		public Shader[] getShaders() {
+			return shaders;
+		}
+
+		/**
+		 * @return the target
+		 */
+		public ShadeArea getTarget() {
+			return target;
+		}
+
+	}
 
 }

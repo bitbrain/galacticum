@@ -16,11 +16,10 @@
  */
 package de.myreality.galacticum.graphics.shader;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
- * Shader which provides shader layering
+ * Simple shader (wrapper) for {@see ShaderProgram}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
@@ -36,7 +35,16 @@ public interface Shader {
 	// Methods
 	// ===========================================================
 	
-	ShaderProgram getShaderProgram();
+	/**
+	 * 
+	 * @return
+	 */
+	ShaderProgram getProgram();
 	
-	void update(ShaderProgram program, Batch batch, float delta);
+	/**
+	 * 
+	 * @param delta
+	 */
+	void update(float delta);
+
 }

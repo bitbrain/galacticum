@@ -16,17 +16,17 @@
  */
 package de.myreality.galacticum.graphics.shader;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
- * Simple behavior of a shader
+ * Handles multiple shaders for a single target
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ShaderBehavior {
+public interface ShadeArea {
 	
 	// ===========================================================
 	// Constants
@@ -37,9 +37,28 @@ public interface ShaderBehavior {
 	// ===========================================================
 	
 	/**
-	 * Updates the shader behavior
 	 * 
-	 * @param shader
+	 * 
+	 * @param batch
+	 * @param delta
+	 * @param currentShader
 	 */
-	void update(ShaderProgram shader, Batch batch, float delta);
+	void draw(SpriteBatch batch, float delta, ShaderProgram currentShader);
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int getWidth();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int getHeight();
+	
+	
+
 }
