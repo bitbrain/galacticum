@@ -167,12 +167,10 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 		
 		fakeCamera.update();
 		
-		Matrix4 otherProjMatrix = batch.getProjectionMatrix();
-		Matrix4 otherTransMatrix = batch.getTransformMatrix();
-		batch.setProjectionMatrix(fakeCamera.combined);
-		
-		mapper.updateAndRender(delta + 0.5f);
-		
+		// Use the fake matrix for the background
+		batch.setProjectionMatrix(fakeCamera.combined);		
+		mapper.updateAndRender(delta + 0.5f);	
+		// Invoke the old matrix again for the "real" stuff
 		batch.setProjectionMatrix(realCamera.getCombinedMatrix());
 	}
 
