@@ -91,8 +91,12 @@ public class SimpleShaderManager implements ShaderManager {
 	public void updateAndRender(SpriteBatch batch, float delta) {
 
 		FrameBuffer previousBuffer = null;
+		
+		// New area is required if the next shade area has been entered,
+		// we need to consider the last buffer as well for shading
 		boolean newArea = false;
 		
+		// Iterate through each shader data and apply a buffer to it
 		for (ShaderData shaderData : data) {
 			FrameBuffer[] availableBuffers = frameBuffers.get(shaderData);
 			ShadeArea area = shaderData.getTarget();
@@ -103,7 +107,7 @@ public class SimpleShaderManager implements ShaderManager {
 				Shader shader = shaders[index];
 				FrameBuffer buffer = availableBuffers[index];
 				
-				buffer.begin();				
+				buffer.begin();	
 					drawToBuffer(batch, area, previousBuffer, shader, delta, newArea);				
 				buffer.end();
 				
@@ -175,29 +179,37 @@ public class SimpleShaderManager implements ShaderManager {
 	}
 	
 	private void drawToBuffer(SpriteBatch batch, ShadeArea area, FrameBuffer previousBuffer, Shader shader, float delta, boolean newArea) {
-		if (newArea && previousBuffer != null) {			
-			drawTo(previousBuffer, delta, batch, area);			
-		} else if (previousBuffer != null) {			
-			drawTo(previousBuffer, delta, batch, shader);
-		} else {
-			drawTo(delta, batch, area);
+		if (newArea && previousBuffer != null) {
+			// Draw the previous buffer and the area onto
+			drawTo(previousBuffer, delta, batch, area);		
+		} else if (previousBuffer != null) {
+			// Draw only the previous buffer and apply the shader
+			drawTo(previousBuffer, delta, batch, shader);		
+		} else { 
+			// Draw only the area, no previous buffer
+			drawTo(delta, batch, area); 
 		}
 	}
 	
 	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader, ShadeArea area) {
 		
+		// Apply the current shader
 		if (shader != null)
 			batch.setShader(shader.getProgram());		
 		
 		batch.begin();		
-			if (shader != null) 
+			if (shader != null) // Update shader
 				shader.update(delta);			
-			if (buffer != null)
+			if (buffer != null) // Draw buffer
 				batch.draw(buffer.getColorBufferTexture(), 0f, 0f);						
-			if (area != null)
+			if (area != null)   // Draw area
 				area.draw(batch, delta);	
 		batch.end();
 		
+		// Send the data directly through the graphics pipeline
+		batch.flush();
+		
+		// Reset the current shader
 		batch.setShader(null);
 	}
 	

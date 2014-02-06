@@ -194,9 +194,9 @@ public abstract class MenuScreen implements Screen {
 			background.draw(batch);
 			earth.draw(batch);
 			earthOverlay.draw(batch);
-		batch.end();
-		targetA.end();		
+		batch.end();		
 		batch.flush();
+		targetA.end();	
 	}
 	
 	private void drawTargetB(Batch batch, float delta) {
