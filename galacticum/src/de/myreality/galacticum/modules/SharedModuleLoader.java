@@ -33,7 +33,6 @@ import de.myreality.galacticum.graphics.BackgroundRenderingModule;
 import de.myreality.galacticum.graphics.CameraModule;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.graphics.LightingModule;
-import de.myreality.galacticum.graphics.ViewportAdapter;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
 import de.myreality.galacticum.player.PlayerModule;

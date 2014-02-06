@@ -210,8 +210,8 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 	@Override
 	public void update(float delta, SpriteBatch batch) {
 		
-		float width = Gdx.graphics.getWidth() / 6f;
-		float height = Gdx.graphics.getHeight() / 6f;
+		float width = Gdx.graphics.getWidth() / 3.6f;
+		float height = Gdx.graphics.getHeight() / 3.6f;
 
 		if (width != camera.viewportWidth
 				|| height != camera.viewportHeight) {
@@ -252,18 +252,15 @@ public class SimpleGameCamera extends SimpleShape implements GameCamera {
 			float distance = velocity.len();
 			velocity = velocity.nor();
 
-			if (distance <= 1.0f) {
+			if (distance <= 0.01f) {
 				moveToTarget();
 			} else {
-				double speed = ((20.0 + delta) * distance) / (getWidth() / 10.0);
+				double speed = ((10.0 + delta) * distance) / (getWidth() / 3.0);
 
 				// Round it up to prevent camera shaking
 				float newXPos = (float) (getX() + velocity.x * speed);
 				float newYPos = (float) (getY() + velocity.y * speed);
-				// setPosition(newXPos, newYPos);
-				setPosition((float) Math.ceil(newXPos),
-						(float) Math.ceil(newYPos));
-				moveToTarget();
+				setPosition(newXPos, newYPos);
 			}
 		}
 	}

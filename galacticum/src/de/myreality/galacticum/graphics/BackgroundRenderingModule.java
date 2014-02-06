@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.Settings;
@@ -218,7 +217,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 
 		for (int i = 0; i < starLayers; ++i) {
 			
-			float distance = (float) (Math.pow(i, 1.5) + 5f);
+			float distance = (float) (Math.pow(i, 2) / 3f) + 1.3f;
 			
 			LayerTexture texture = new PreprocessedTexture(getStarTetureSize(), getStarTetureSize(), batch,
 					new StarfieldCreator(distance));
@@ -241,7 +240,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 			config.setVelocity(veloX, veloY);
 			config.setTileWidth(450 + i * 20);
 			config.setTileHeight(450 + i * 20);
-			mapper.add((float) (Math.pow(i, 3) / 3f) + 5, config);
+			mapper.add((float) (Math.pow(i, 3) / 5f) + 2, config);
 		}
 
 		// Add the background
@@ -251,7 +250,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
         int size = Math.round(Gdx.graphics.getWidth() / 2);
         config.setTileWidth(size);
         config.setTileHeight(size);
-        mapper.add(25f, config);
+        mapper.add(30f, config);
         
         addDepthLayers();
 	}
@@ -307,7 +306,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 			veloY *= i % 3 == 0 ? 1 : -1;
 			
 			config.setVelocity(veloX, veloY);
-			mapper.add((float) (Math.pow(i, 2) + 8), config);
+			mapper.add((float) (Math.pow(i, 3) + 5), config);
 			
 			size *= 1.2f;
 		}
@@ -343,7 +342,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 		@Override
 		public void process(Pixmap map) {
 
-			int starAmount = (int) (Math.pow(distance, 4) / 45f);
+			int starAmount = (int) (Math.pow(distance, 4.1));
 
 			for (int i = 0; i < starAmount; ++i) {
 				drawStar((float) (getStarTetureSize() * Math.random()),
@@ -353,14 +352,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 
 		private void drawStar(float x, float y, Pixmap map) {
 			Color color = new Color(255, 255, 255, 255);
-			float size = 12f / distance;
-			if (Math.random() < 0.05f) {
-				size += 0.5f;
-			} else if (Math.random() < 0.08f) {
-				size += 0.3f;
-			} else if (Math.random() < 0.1f) {
-				size += 0.2f;
-			}
+			float size = (float) (5f / distance / 2 + Math.random());
 			color.r = (float) (Math.random() * 0.5f + 0.5f);
 			color.g = (float) (Math.random() * 0.5f + 0.5f);
 			color.b = (float) (Math.random() * 0.5f + 0.5f);

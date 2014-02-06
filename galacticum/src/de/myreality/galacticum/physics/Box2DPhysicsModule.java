@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -286,16 +285,13 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 			entity.setX(body.getPosition().x);
 			entity.setY(body.getPosition().y);
 			entity.setRotation(MathUtils.radiansToDegrees * body.getAngle());
-		
-			// Reduce local rotation
-			float angleVelo = body.getAngularVelocity();
 			
-			body.setAngularVelocity(body.getAngularVelocity() / 1.01f);
+			body.setAngularVelocity(body.getAngularVelocity() / 1.005f);
 			
 			if (entity instanceof Moveable && !((Moveable)entity).isMoving()) {
 				
 				Vector2 moveVelo = body.getLinearVelocity();				
-				body.setLinearVelocity(moveVelo.x / 1.01f, moveVelo.y / 1.01f);
+				body.setLinearVelocity(moveVelo.x / 1.005f, moveVelo.y / 1.005f);
 				
 			}
 		}
