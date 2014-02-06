@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.Settings;
@@ -67,7 +68,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	// ===========================================================
 
 	public BackgroundRenderingModule(SpriteBatch batch) {
-		this.batch = new SpriteBatch();
+		this.batch = batch;
 		fakeCamera = new OrthographicCamera();
 	}
 
@@ -149,7 +150,6 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	 */
 	@Override
 	public void update(float delta) {
-		context.getSpriteBatch().end();
 		
 		GameCamera realCamera = context.getCamera();
 		
@@ -167,12 +167,13 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 		
 		fakeCamera.update();
 		
+		Matrix4 otherProjMatrix = batch.getProjectionMatrix();
+		Matrix4 otherTransMatrix = batch.getTransformMatrix();
 		batch.setProjectionMatrix(fakeCamera.combined);
 		
-		batch.begin();
 		mapper.updateAndRender(delta + 0.5f);
-		batch.end();
-		context.getSpriteBatch().begin();
+		
+		batch.setProjectionMatrix(realCamera.getCombinedMatrix());
 	}
 
 	/*
