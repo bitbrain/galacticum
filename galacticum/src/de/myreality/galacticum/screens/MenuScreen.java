@@ -30,7 +30,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -175,13 +174,11 @@ public abstract class MenuScreen implements Screen {
 		drawTargetA(batch, delta);
 		drawTargetB(batch, delta);
 		drawTargetC(batch, delta);
-
-		TextureRegion bg = new TextureRegion(targetC.getColorBufferTexture());
 		
 		batch.setShader(crtShader);
 		batch.begin();
 			crtShader.setUniformf("u_time", time);
-			batch.draw(bg, 0, 0);
+			batch.draw(targetC.getColorBufferTexture(), 0, 0);
 		batch.end();
 		batch.flush();
 	}
@@ -202,14 +199,13 @@ public abstract class MenuScreen implements Screen {
 	private void drawTargetB(Batch batch, float delta) {
 
 		batch.setShader(blurShader);
-		TextureRegion targetABuffer = new TextureRegion(targetA.getColorBufferTexture());
 
 		targetB.begin();
 		
 		batch.begin();
 			blurShader.setUniformi("horizontal", 1);
 			blurShader.setUniformf("u_time", time);
-			batch.draw(targetABuffer, 0f, 0f);
+			batch.draw(targetA.getColorBufferTexture(), 0f, 0f);
 		batch.end();
 		targetB.end();
 		batch.flush();
@@ -218,14 +214,12 @@ public abstract class MenuScreen implements Screen {
 	private void drawTargetC(Batch batch, float delta) {
 		
 		targetC.begin();
-
-		TextureRegion bg = new TextureRegion(targetB.getColorBufferTexture());
 		
 		batch.setShader(blurShader);
 		batch.begin();
 			blurShader.setUniformi("horizontal", 0);
 			blurShader.setUniformf("u_time", time);
-			batch.draw(bg, 0, 0);
+			batch.draw(targetB.getColorBufferTexture(), 0, 0);
 		batch.end();
 		batch.flush();
 
