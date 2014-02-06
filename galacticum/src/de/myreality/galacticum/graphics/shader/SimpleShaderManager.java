@@ -89,9 +89,10 @@ public class SimpleShaderManager implements ShaderManager {
 	@Override
 	public void updateAndRender(SpriteBatch batch, float delta) {
 
+		FrameBuffer previousBuffer = null;
+		boolean newArea = false;
+		
 		for (ShaderData shaderData : data) {
-			
-			FrameBuffer previousBuffer = null;
 			FrameBuffer[] availableBuffers = frameBuffers.get(shaderData);
 			ShadeArea area = shaderData.getTarget();
 			Shader[] shaders = shaderData.getShaders();
@@ -103,7 +104,15 @@ public class SimpleShaderManager implements ShaderManager {
 				
 				buffer.begin();
 				
-				if (previousBuffer != null) {
+				if (newArea && previousBuffer != null) {
+					
+					batch.begin();
+						// Draw the previous buffer onto the current
+						batch.draw(previousBuffer.getColorBufferTexture(), 0f, 0f);
+						area.draw(batch, delta);
+					batch.end();
+					
+				} else if (previousBuffer != null) {
 					
 					ShaderProgram program = shader.getProgram();
 					batch.setShader(program);
@@ -126,6 +135,8 @@ public class SimpleShaderManager implements ShaderManager {
 				
 				previousBuffer = buffer;
 			}
+			
+			newArea = true;
 		}
 		
 	}
