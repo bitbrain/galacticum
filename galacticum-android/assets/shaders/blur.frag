@@ -8,10 +8,9 @@ varying float v_time;
 uniform sampler2D u_texture;
 
 uniform int horizontal;
+uniform float blurSize;
 
 void main() {
-
-  float blurSize = (sin(v_time / 1.4) + 2.0) / 300.0;
 
    vec4 sum = vec4(0.0);
    
