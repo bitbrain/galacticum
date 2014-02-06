@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -102,38 +103,12 @@ public class SimpleShaderManager implements ShaderManager {
 				Shader shader = shaders[index];
 				FrameBuffer buffer = availableBuffers[index];
 				
-				buffer.begin();
-				
-				if (newArea && previousBuffer != null) {
-					
-					batch.begin();
-						// Draw the previous buffer onto the current
-						batch.draw(previousBuffer.getColorBufferTexture(), 0f, 0f);
-						area.draw(batch, delta);
-					batch.end();
-					
-				} else if (previousBuffer != null) {
-					
-					ShaderProgram program = shader.getProgram();
-					batch.setShader(program);
-					
-					batch.begin();
-					
-						shader.update(delta);
-						
-						// Draw the previous buffer onto the current
-						batch.draw(previousBuffer.getColorBufferTexture(), 0f, 0f);
-					
-					batch.end();
-				} else {
-					batch.begin();
-						area.draw(batch, delta);
-					batch.end();
-				}
-				
+				buffer.begin();				
+					drawToBuffer(batch, area, previousBuffer, shader, delta, newArea);				
 				buffer.end();
 				
-				previousBuffer = buffer;
+				previousBuffer = buffer;				
+				newArea = false;
 			}
 			
 			newArea = true;
@@ -197,6 +172,45 @@ public class SimpleShaderManager implements ShaderManager {
 		}
 		
 		frameBuffers.put(data, buffers);
+	}
+	
+	private void drawToBuffer(SpriteBatch batch, ShadeArea area, FrameBuffer previousBuffer, Shader shader, float delta, boolean newArea) {
+		if (newArea && previousBuffer != null) {			
+			drawTo(previousBuffer, delta, batch, area);			
+		} else if (previousBuffer != null) {			
+			drawTo(previousBuffer, delta, batch, shader);
+		} else {
+			drawTo(delta, batch, area);
+		}
+	}
+	
+	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader, ShadeArea area) {
+		
+		if (shader != null)
+			batch.setShader(shader.getProgram());		
+		
+		batch.begin();		
+			if (shader != null) 
+				shader.update(delta);			
+			if (buffer != null)
+				batch.draw(buffer.getColorBufferTexture(), 0f, 0f);						
+			if (area != null)
+				area.draw(batch, delta);	
+		batch.end();
+		
+		batch.setShader(null);
+	}
+	
+	private void drawTo(float delta, Batch batch, ShadeArea area) {
+		drawTo(null, delta, batch, null, area);
+	}
+	
+	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader) {
+		drawTo(buffer, delta, batch, shader, null);
+	}
+	
+	private void drawTo(FrameBuffer buffer, float delta, Batch batch, ShadeArea area) {
+		drawTo(buffer, delta, batch, null, area);
 	}
 
 	// ===========================================================

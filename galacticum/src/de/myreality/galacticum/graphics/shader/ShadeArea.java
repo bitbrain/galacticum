@@ -16,7 +16,7 @@
  */
 package de.myreality.galacticum.graphics.shader;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 /**
  * Handles multiple shaders for a single target
@@ -42,7 +42,7 @@ public interface ShadeArea {
 	 * @param delta
 	 * @param currentShader
 	 */
-	void draw(SpriteBatch batch, float delta);
+	void draw(Batch batch, float delta);
 	
 	/**
 	 * 
