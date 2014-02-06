@@ -92,8 +92,8 @@ public class LightingModule implements Module {
 		RayHandler.useDiffuseLight(true);
 		handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
 		handler.setBlurNum(1);
-		PointLight light = new PointLight(handler, 1600);
-		light.setDistance(600);
+		PointLight light = new PointLight(handler, 1000);
+		light.setDistance(70);
 		light.setColor(0.6f, 0.6f, 0.6f, 0.8f);
 		this.playerLight = light;
 		
