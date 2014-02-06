@@ -79,7 +79,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 	public void afterCreateChunk(Chunk area, ChunkSystem chunkSystem) {
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-		final int AMOUNT = 10;
+		final int AMOUNT = 5;
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -92,7 +92,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 		
 		// Add planets
 		
-		if (Math.random() < 0.05) {
+		if (Math.random() < 0.2) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			
@@ -108,7 +108,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			GameColor color = new GameColor((float)Math.random() + 0.2f, (float)Math.random() + 0.2f, (float)Math.random() + 0.2f, 1.0f);
 			
-			GameLight light = new SimpleGameLight(x, y, 400, 100, color, GameLightType.POINT);
+			GameLight light = new SimpleGameLight(x, y, 400, 600, color, GameLightType.POINT);
 			area.add(light);
 		}
 	}
@@ -121,7 +121,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 		 * @param height
 		 */
 		public Planet(float x, float y, long hash, GameColor color) {
-			super(EntityType.PLANET, 512, 512, color, hash);
+			super(EntityType.PLANET, 50, 50, color, hash);
 			setX(x);
 			setY(y);
 		}

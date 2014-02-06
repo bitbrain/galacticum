@@ -44,7 +44,7 @@ public class ChunkSystemModuleFactory implements ModuleFactory {
 	// Constants
 	// ===========================================================
 	
-	private static final int CHUNK_SIZE = 2048;
+	private static final int CHUNK_SIZE = 512;
 
 	// ===========================================================
 	// Fields
