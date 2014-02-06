@@ -93,10 +93,6 @@ public class SimpleShaderManager implements ShaderManager {
 
 		FrameBuffer previousBuffer = initialBuffer;
 		
-		// New area is required if the next shade area has been entered,
-		// we need to consider the last buffer as well for shading
-		boolean newArea = false;
-		
 		// Iterate through each shader data and apply a buffer to it
 		for (int dataIndex = 0; dataIndex < data.size(); ++dataIndex) {
 			ShaderData shaderData = data.get(dataIndex);
@@ -117,17 +113,14 @@ public class SimpleShaderManager implements ShaderManager {
 				// If it's not the last element, draw to the buffer. Otherwise draw to screen
 				if (index < shaders.length - 1 || dataIndex < data.size() - 1) {
 					buffer.begin();	
-						drawToBuffer(batch, area, previousBuffer, shader, delta, newArea);				
+						drawTo(previousBuffer, delta, batch, shader);				
 					buffer.end();
 				} else {
-					drawToBuffer(batch, area, previousBuffer, shader, delta, newArea);		
+					drawTo(previousBuffer, delta, batch, shader);
 				}
 				
-				previousBuffer = buffer;				
-				newArea = false;
+				previousBuffer = buffer;
 			}
-			
-			newArea = true;
 		}
 		
 	}
@@ -195,11 +188,6 @@ public class SimpleShaderManager implements ShaderManager {
 		
 		initialBuffer = new FrameBuffer(Format.RGBA8888,
 				target.getWidth(), target.getHeight(), false);
-	}
-	
-	private void drawToBuffer(SpriteBatch batch, ShadeArea area, FrameBuffer previousBuffer, Shader shader, float delta, boolean newArea) {
-			// Draw only the previous buffer and apply the shader
-			drawTo(previousBuffer, delta, batch, shader);			
 	}
 	
 	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader, ShadeArea area) {
