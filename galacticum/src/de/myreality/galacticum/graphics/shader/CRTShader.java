@@ -19,75 +19,74 @@ package de.myreality.galacticum.graphics.shader;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
- * Blur shader which supports vertical and horizontal shading. It is also possible to set
- * the strength of the blur effect.
+ * 
  *
- * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 0.1
- * @version 0.1
+ * @author miguel
+ * @since
+ * @version
  */
-public class BlurShader extends AbstractShader {
-
+public class CRTShader extends AbstractShader {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	
-	public static final String VERTEX = "shaders/blur.vert";
+	public static final String VERTEX = "shaders/crt.vert";
 	
-	public static final String FRAGMENT = "shaders/blur.frag";
-	
+	public static final String FRAGMENT = "shaders/crt.frag";
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private boolean horizontal;
+	private float noiseFactor, frequency, lineSpeed, intensity;
 	
-	private float blurSize;
+	private float time;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public BlurShader(boolean horizontal, float blurSize) {
+	/**
+	 * @param vert
+	 * @param frag
+	 */
+	public CRTShader(float noiseFactor, float frequency, float lineSpeed, float intensity) {
 		super(VERTEX, FRAGMENT);
-		this.blurSize = blurSize;
-		this.horizontal = horizontal;
+		this.noiseFactor = noiseFactor;
+		this.frequency = frequency;
+		this.lineSpeed = lineSpeed;
+		this.intensity = intensity;
+		time = 0;
 	}
 	
-	public BlurShader(boolean horizontal) {
-		this(horizontal, 10.0f);
+	public CRTShader() {
+		this(0.1f, 100.0f, 0.8f, 0.9f);
 	}
-	
-	public BlurShader(float blurSize) {
-		this(false, blurSize);
-	}
-	
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	public void setHorizontal(boolean horizontal) {
-		this.horizontal = horizontal;
-	}
-	
-	public void setBlurSize(float blurSize) {
-		this.blurSize = blurSize;
-	}
-
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
+	
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.graphics.shader.Shader#update(float)
 	 */
 	@Override
 	public void update(float delta) {
 		
+		time += delta;
+		
 		ShaderProgram p = getProgram();
 		
-		p.setUniformf("blurSize", blurSize);
-		p.setUniformi("horizontal", (horizontal) ? 1 : 0);
+		p.setUniformf("time", time);
+		p.setUniformf("frequency", frequency);
+		p.setUniformf("noiseFactor", noiseFactor);
+		p.setUniformf("intensity", intensity);
+		p.setUniformf("lineSpeed", lineSpeed);
 	}
 
 	// ===========================================================

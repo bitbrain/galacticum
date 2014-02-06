@@ -16,6 +16,8 @@
  */
 package de.myreality.galacticum.graphics.shader;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
@@ -25,7 +27,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * @since 0.1
  * @version 0.1
  */
-public class AbstractShader implements Shader {
+public abstract class AbstractShader implements Shader {
 	
 	// ===========================================================
 	// Constants
@@ -34,10 +36,19 @@ public class AbstractShader implements Shader {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private ShaderProgram program;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public AbstractShader(String vert, String frag) {
+		FileHandle vertHandle = Gdx.files.internal(vert);
+		FileHandle fragHandle = Gdx.files.internal(frag);
+		program = new ShaderProgram(vertHandle, fragHandle);
+		System.out.println(program.getLog());
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -52,17 +63,7 @@ public class AbstractShader implements Shader {
 	 */
 	@Override
 	public ShaderProgram getProgram() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.graphics.shader.Shader#update(float)
-	 */
-	@Override
-	public void update(float delta) {
-		// TODO Auto-generated method stub
-
+		return program;
 	}
 
 	// ===========================================================

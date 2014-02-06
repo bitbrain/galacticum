@@ -177,7 +177,11 @@ public abstract class MenuScreen implements Screen {
 		
 		batch.setShader(crtShader);
 		batch.begin();
-			crtShader.setUniformf("u_time", time);
+			crtShader.setUniformf("time", time);
+			crtShader.setUniformf("frequency", 100.0f);
+			crtShader.setUniformf("noiseFactor", 0.1f);
+			crtShader.setUniformf("intensity", 0.9f);
+			crtShader.setUniformf("lineSpeed", 0.8f);
 			batch.draw(targetC.getColorBufferTexture(), 0, 0);
 		batch.end();
 		batch.flush();
@@ -204,7 +208,7 @@ public abstract class MenuScreen implements Screen {
 		
 		batch.begin();
 			blurShader.setUniformi("horizontal", 1);
-			blurShader.setUniformf("u_time", time);
+			blurShader.setUniformf("blurSize", (float) (0.2f + Math.abs(Math.sin(time) * 0.3f)));
 			batch.draw(targetA.getColorBufferTexture(), 0f, 0f);
 		batch.end();
 		targetB.end();
@@ -218,7 +222,7 @@ public abstract class MenuScreen implements Screen {
 		batch.setShader(blurShader);
 		batch.begin();
 			blurShader.setUniformi("horizontal", 0);
-			blurShader.setUniformf("u_time", time);
+			blurShader.setUniformf("blurSize", (float) (0.2f + Math.abs(Math.sin(time) * 0.3f)));
 			batch.draw(targetB.getColorBufferTexture(), 0, 0);
 		batch.end();
 		batch.flush();
