@@ -14,17 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.io;
+package de.myreality.galacticum.graphics.shader;
 
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
- * Manages all context configurations and loads them
+ * Simple shader (wrapper) for {@see ShaderProgram}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ConfigurationManager extends ConfigurationIO, ConfigurationProvider {
+public interface Shader {
 	
 	// ===========================================================
 	// Constants
@@ -36,35 +37,14 @@ public interface ConfigurationManager extends ConfigurationIO, ConfigurationProv
 	
 	/**
 	 * 
-	 * 
-	 * @param configuration
-	 * @return
-	 * @throws ContextNotFoundException
-	 */
-	ContextConfiguration load(String id) throws ContextNotFoundException;
-	
-	/**
-	 * 
-	 * 
-	 * @param context
-	 */
-	void save(ContextConfiguration context);
-	
-	/**
-	 * 
-	 * 
-	 * @param context
-	 */
-	void remove(String id) throws ContextNotFoundException;
-	
-	/**
-	 * 
-	 * 
-	 * @param configuration
 	 * @return
 	 */
-	boolean hasContext(String id);
+	ShaderProgram getProgram();
 	
-	
-	void addListener(ConfigurationListener listener);
+	/**
+	 * 
+	 * @param delta
+	 */
+	void update(float delta);
+
 }

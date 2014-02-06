@@ -1,96 +1,26 @@
-/*******************************************************************************
- * Copyright 2012 bmanuel
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
-
-/**
- * Credits to Inigo Quilez 2009 (iq/rgba) for the original 'Postpro'
- * code at http://www.iquilezles.org/apps/shadertoy/?p=postpro
- *
- * This version of the original fragment program has been adapted and
- * parameterized to permit runtime configuration.
- *
- * Furthermore it has been reworked to mimic the GL_REPEAT texture
- * wrapping on the FBO due to problems arised when running on a real
- * Android device, equipped with a Tegra2 GPU (Asus TF101).
- */
-
 #ifdef GL_ES
-	#define PRECISION mediump
-	precision PRECISION float;
-#else
-	#define PRECISION
+    precision mediump float;
 #endif
 
-uniform vec3 tint;
-uniform float time;
-uniform float offset = 0.001;	// ~0.001-0.003;
-
-#ifdef ENABLE_BARREL_DISTORTION
-	uniform float Distortion = 0.3;	// ~0.3
-	uniform float zoom;
-#endif
-
-uniform sampler2D u_texture0;
+varying vec4 v_color;
 varying vec2 v_texCoords;
+varying float v_time;
+uniform sampler2D u_texture;
 
-#ifdef ENABLE_BARREL_DISTORTION
+float frequency = 20.0;
+float intensity = 0.8;
 
-	vec2 barrelDistortion(vec2 coord)
-	{
-		vec2 cc = coord - 0.5;
-		float dist = dot(cc, cc) * Distortion;
-		return (coord + cc * (1.0 + dist) * dist);
-	}
+float rand(vec2 co, float time){
+    return fract(sin(dot(co.xy ,vec2(12.9898 + time / 10.0,78.233))) * 43758.5453);
+}
 
-#endif
+void main() {
 
-void main(void)
-{
-	vec2 uv = v_texCoords;
-	uv.y = 1.0 - uv.y;
-
-#ifdef ENABLE_BARREL_DISTORTION
-	const vec4 Zero = vec4(0.0,0.0,0.0,1.0);
-
-    uv = barrelDistortion(uv);
-    uv = 0.5 + (uv-0.5)*(zoom);
-
-    if(uv.s<0.0 || uv.s>1.0 || uv.t<0.0 || uv.t >1.0) {
-        gl_FragColor = Zero;
-        return;
-    }
-#endif
-
-	vec3 oricol = texture2D(u_texture0,vec2(uv.x,1.0-uv.y)).xyz;
-	vec3 col;
-
-	// uses fract instead of GL_REPEAT since Tegra2 seems buggy with
-	// GL_REPEAT on FBOs.. WTF?! Can anyone confirm this?
-	col.r = texture2D(u_texture0,fract(vec2(uv.x+offset,-uv.y))).x;
-	col.g = texture2D(u_texture0,fract(vec2(uv.x+0.000,-uv.y))).y;
-	col.b = texture2D(u_texture0,fract(vec2(uv.x-offset,-uv.y))).z;
-
-	col = clamp(col*0.5+0.5*col*col*1.2,0.0,1.0);
-
-	col *= 0.5 + 0.5*16.0*uv.x*uv.y*(1.0-uv.x)*(1.0-uv.y);
-
-	col *= tint;
-
-	col *= 0.9+0.1*sin(10.0*time-uv.y*1000.0);
-
-	col *= 0.97+0.03*sin(110.0*time);
-
-	gl_FragColor = vec4(col,1.0);
+	float global_pos = (v_texCoords.y + (v_time / 40.0) + 1000.0) * frequency;
+    float wave_pos = cos((fract( global_pos ) - 0.5)*intensity);
+    vec4 pel = texture2D( u_texture, v_texCoords );
+    
+    vec4 colorNoise = mix(pel, pel * rand(v_texCoords, v_time),0.16);
+    vec4 color = mix(colorNoise / 1.5, colorNoise, wave_pos + 0.5);
+    gl_FragColor = color;
 }

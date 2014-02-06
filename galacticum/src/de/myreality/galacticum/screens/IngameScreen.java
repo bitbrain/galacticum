@@ -226,7 +226,8 @@ public class IngameScreen implements Screen, Debugable {
 			system.shutdown();
 		}
 
-		game.setScreen(new MainScreen(game));
+		// TODO
+		//game.setScreen(new MainScreen(game));
 	}
 
 	// ===========================================================

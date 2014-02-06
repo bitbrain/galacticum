@@ -14,57 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.ui;
+package de.myreality.galacticum.tweens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import aurelienribon.tweenengine.TweenAccessor;
+
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
- * Displays a head on top of the screen
- *
+ * Provides tween functionality for GUI actors
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since 1.0
- * @version 1.0
+ * @since 0.1
+ * @version 0.1
  */
-public class MenuHead extends Group {
-	
+public class SpriteTween implements TweenAccessor<Sprite> {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	
+	public static final int ALPHA = 1;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private Background background;
-	
-	private Label label;
-	
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public MenuHead(String text, LabelStyle style) {
-		
-		
-		label = new Label(text, style);
-		addActor(label);
-		label.setX(Gdx.graphics.getWidth() / 2f - label.getWidth() / 2f);
-		label.setY(Gdx.graphics.getHeight() - label.getHeight());
-		
-		background = new Background();
-		background.setWidth(Gdx.graphics.getWidth());
-		background.setHeight(label.getHeight());
-		background.setY(Gdx.graphics.getHeight() - background.getHeight());
-		addActorBefore(label, background);
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -73,14 +50,40 @@ public class MenuHead extends Group {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-		
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see aurelienribon.tweenengine.TweenAccessor#getValues(java.lang.Object,
+	 * int, float[])
+	 */
 	@Override
-	public void act(float delta) {
-		super.act(delta);
-		label.setX(Gdx.graphics.getWidth() / 2f - label.getWidth() / 2f);
-		label.setY(Gdx.graphics.getHeight() - label.getHeight());
+	public int getValues(Sprite target, int tweenType, float[] returnValues) {
+		
+		switch (tweenType) {
+			case ALPHA:
+				returnValues[0] = target.getColor().a;
+				return 1;
+		}
+		
+		return 0;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see aurelienribon.tweenengine.TweenAccessor#setValues(java.lang.Object,
+	 * int, float[])
+	 */
+	@Override
+	public void setValues(Sprite target, int tweenType, float[] newValues) {
+		switch (tweenType) {
+			case ALPHA:
+				target.setAlpha(newValues[0]);
+				break;
+		}
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -88,28 +91,5 @@ public class MenuHead extends Group {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
-	class Background extends Actor {
 
-		private ShapeRenderer renderer = new ShapeRenderer();
-
-		@Override
-		public void draw(Batch batch, float parentAlpha) {
-			super.draw(batch, parentAlpha);
-			
-			batch.end();
-			    
-			Gdx.gl.glEnable(GL10.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-			
-			renderer.begin(ShapeType.Filled);
-			renderer.setColor(0f, 0f, 0f, 0.25f);
-			renderer.rect(getX(), getY(), getWidth(), getHeight());
-			renderer.end();
-			      
-			Gdx.gl.glDisable(GL10.GL_BLEND);
-			      
-			batch.begin();
-		}
-	}
 }

@@ -16,15 +16,14 @@
  */
 package de.myreality.galacticum.io;
 
-
 /**
- * Manages all context configurations and loads them
+ * Provides available configurations
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ConfigurationManager extends ConfigurationIO, ConfigurationProvider {
+public interface ConfigurationProvider {
 	
 	// ===========================================================
 	// Constants
@@ -35,36 +34,10 @@ public interface ConfigurationManager extends ConfigurationIO, ConfigurationProv
 	// ===========================================================
 	
 	/**
+	 * Returns all available configurations
 	 * 
-	 * 
-	 * @param configuration
-	 * @return
-	 * @throws ContextNotFoundException
-	 */
-	ContextConfiguration load(String id) throws ContextNotFoundException;
-	
-	/**
-	 * 
-	 * 
-	 * @param context
-	 */
-	void save(ContextConfiguration context);
-	
-	/**
-	 * 
-	 * 
-	 * @param context
-	 */
-	void remove(String id) throws ContextNotFoundException;
-	
-	/**
-	 * 
-	 * 
-	 * @param configuration
 	 * @return
 	 */
-	boolean hasContext(String id);
-	
-	
-	void addListener(ConfigurationListener listener);
+	ContextConfiguration[] getAvailableConfigurations();
+
 }

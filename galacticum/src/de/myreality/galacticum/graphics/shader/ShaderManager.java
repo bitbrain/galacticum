@@ -14,17 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.io;
+package de.myreality.galacticum.graphics.shader;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Manages all context configurations and loads them
+ * Handles multiple shaders for a single target
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface ConfigurationManager extends ConfigurationIO, ConfigurationProvider {
+public interface ShaderManager {
 	
 	// ===========================================================
 	// Constants
@@ -36,35 +37,35 @@ public interface ConfigurationManager extends ConfigurationIO, ConfigurationProv
 	
 	/**
 	 * 
-	 * 
-	 * @param configuration
-	 * @return
-	 * @throws ContextNotFoundException
 	 */
-	ContextConfiguration load(String id) throws ContextNotFoundException;
+	void add(ShadeArea shaderTarget, Shader ... shaders);
 	
 	/**
 	 * 
 	 * 
-	 * @param context
 	 */
-	void save(ContextConfiguration context);
+	void clear();
 	
 	/**
 	 * 
 	 * 
-	 * @param context
-	 */
-	void remove(String id) throws ContextNotFoundException;
-	
-	/**
-	 * 
-	 * 
-	 * @param configuration
 	 * @return
 	 */
-	boolean hasContext(String id);
+	int size();
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	boolean isEmpty();
 	
-	void addListener(ConfigurationListener listener);
+	/**
+	 * 
+	 * 
+	 * @param batch
+	 * @param delta
+	 */
+	void updateAndRender(SpriteBatch batch, float delta);
+
 }
