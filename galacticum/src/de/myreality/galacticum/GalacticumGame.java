@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.myreality.galacticum.entities.Shape;
 import de.myreality.galacticum.screens.CreationScreen;
-import de.myreality.galacticum.screens.MainMenuScreen;
 import de.myreality.galacticum.tweens.ActorTween;
 import de.myreality.galacticum.tweens.ColorTween;
 import de.myreality.galacticum.tweens.GameColorTween;

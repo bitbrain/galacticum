@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import de.myreality.galacticum.Resources;
-import de.myreality.galacticum.screens.MenuScreen;
 
 /**
  * Form which provides information for a game context

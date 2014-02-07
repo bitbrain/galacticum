@@ -96,9 +96,13 @@ public class SimpleShaderManager implements ShaderManager {
 			Shader<?>[] shaders = shaderData.getShaders();
 			
 			// Draw the area onto the previous buffer
-			previousBuffer.begin();
-				drawTo(delta, batch, area);
-			previousBuffer.end();
+			if (shaders.length > 0) {
+				previousBuffer.begin();
+			}
+			drawTo(delta, batch, area);
+			if (shaders.length > 0) {
+				previousBuffer.end();
+			}
 			
 			for (int index = 0; index < shaders.length; ++index) {
 				
@@ -116,7 +120,7 @@ public class SimpleShaderManager implements ShaderManager {
 				
 				previousBuffer = currentBuffer;
 			}
-		}		
+		}
 	}
 	
 
