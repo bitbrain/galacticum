@@ -43,21 +43,4 @@ public interface ShadeArea {
 	 * @param currentShader
 	 */
 	void draw(Batch batch, float delta);
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	int getWidth();
-	
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	int getHeight();
-	
-	
-
 }

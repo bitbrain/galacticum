@@ -17,9 +17,7 @@
 package de.myreality.galacticum.graphics.shader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -44,18 +42,18 @@ public class SimpleShaderManager implements ShaderManager {
 	// ===========================================================
 
 	private List<ShaderData> data;
-
-	private Map<ShaderData, FrameBuffer[]> frameBuffers;
 	
-	private FrameBuffer initialBuffer;
+	private FrameBuffer initialBuffer, bufferA, bufferB;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SimpleShaderManager() {
+	public SimpleShaderManager(int width, int height) {
 		data = new ArrayList<ShaderData>();
-		frameBuffers = new HashMap<SimpleShaderManager.ShaderData, FrameBuffer[]>();
+		initialBuffer = new FrameBuffer(Format.RGBA4444, width, height, false);
+		bufferA = new FrameBuffer(Format.RGBA4444, width, height, false);
+		bufferB = new FrameBuffer(Format.RGBA4444, width, height, false);
 	}
 
 	// ===========================================================
@@ -78,7 +76,6 @@ public class SimpleShaderManager implements ShaderManager {
 	public void add(ShadeArea shaderTarget, Shader... shaders) {
 		ShaderData shaderData = new ShaderData(shaderTarget, shaders);
 		data.add(shaderData);
-		updateFrameBuffers(shaderData);
 	}
 
 	/*
@@ -92,11 +89,11 @@ public class SimpleShaderManager implements ShaderManager {
 	public void updateAndRender(SpriteBatch batch, float delta) {
 
 		FrameBuffer previousBuffer = initialBuffer;
+		FrameBuffer currentBuffer = bufferA;
 		
 		// Iterate through each shader data and apply a buffer to it
 		for (int dataIndex = 0; dataIndex < data.size(); ++dataIndex) {
 			ShaderData shaderData = data.get(dataIndex);
-			FrameBuffer[] availableBuffers = frameBuffers.get(shaderData);
 			ShadeArea area = shaderData.getTarget();
 			Shader[] shaders = shaderData.getShaders();
 			
@@ -105,24 +102,23 @@ public class SimpleShaderManager implements ShaderManager {
 				drawTo(delta, batch, area);
 			previousBuffer.end();
 			
-			for (int index = 0; index < shaders.length && index < availableBuffers.length; ++index) {
+			for (int index = 0; index < shaders.length; ++index) {
 				
 				Shader shader = shaders[index];
-				FrameBuffer buffer = availableBuffers[index];
+				currentBuffer = flipBuffer(currentBuffer);
 				
 				// If it's not the last element, draw to the buffer. Otherwise draw to screen
 				if (index < shaders.length - 1 || dataIndex < data.size() - 1) {
-					buffer.begin();	
+					currentBuffer.begin();	
 						drawTo(previousBuffer, delta, batch, shader);				
-					buffer.end();
+						currentBuffer.end();
 				} else {
 					drawTo(previousBuffer, delta, batch, shader);
 				}
 				
-				previousBuffer = buffer;
+				previousBuffer = currentBuffer;
 			}
-		}
-		
+		}		
 	}
 	
 
@@ -132,14 +128,6 @@ public class SimpleShaderManager implements ShaderManager {
 	 */
 	@Override
 	public void clear() {
-		
-		for (FrameBuffer[] buffers : frameBuffers.values()) {
-			for (FrameBuffer buffer : buffers) {
-				buffer.dispose();
-			}
-		}
-		
-		frameBuffers.clear();
 		data.clear();
 	}
 
@@ -162,39 +150,15 @@ public class SimpleShaderManager implements ShaderManager {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	private void updateFrameBuffers(ShaderData data) {
-		
-		Shader[] shaders = data.getShaders();
-		ShadeArea target = data.getTarget();		
-
-		FrameBuffer[] buffers = new FrameBuffer[shaders.length];
-		
-		for (int i = 0; i < buffers.length; ++i) {
-			
-			if (buffers[i] != null) {
-				buffers[i].dispose();
-			}
-			
-			buffers[i] = new FrameBuffer(Format.RGBA8888,
-					target.getWidth(), target.getHeight(), false);
-		}
-		
-		frameBuffers.put(data, buffers);
-		
-		if (initialBuffer != null) {
-			initialBuffer.dispose();
-		}
-		
-		initialBuffer = new FrameBuffer(Format.RGBA8888,
-				target.getWidth(), target.getHeight(), false);
-	}
 	
 	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader, ShadeArea area) {
 		
 		// Apply the current shader
-		if (shader != null)
-			batch.setShader(shader.getProgram());		
+		if (shader != null) {
+			batch.setShader(shader.getProgram());
+		} else {
+			batch.setShader(null);
+		}
 		
 		batch.begin();		
 			if (shader != null) // Update shader
@@ -218,6 +182,10 @@ public class SimpleShaderManager implements ShaderManager {
 	
 	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader) {
 		drawTo(buffer, delta, batch, shader, null);
+	}
+	
+	private FrameBuffer flipBuffer(FrameBuffer current) {
+		return current.equals(bufferA) ? bufferB : bufferA;
 	}
 
 	// ===========================================================

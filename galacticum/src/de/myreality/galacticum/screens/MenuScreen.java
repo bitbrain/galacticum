@@ -22,16 +22,12 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -40,6 +36,11 @@ import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.MetaData;
 import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.controls.GeneralStage;
+import de.myreality.galacticum.graphics.shader.BlurShader;
+import de.myreality.galacticum.graphics.shader.CRTShader;
+import de.myreality.galacticum.graphics.shader.ShadeArea;
+import de.myreality.galacticum.graphics.shader.ShaderManager;
+import de.myreality.galacticum.graphics.shader.SimpleShaderManager;
 import de.myreality.galacticum.tweens.ActorTween;
 import de.myreality.galacticum.tweens.SpriteTween;
 
@@ -57,7 +58,7 @@ public abstract class MenuScreen implements Screen {
 	// ===========================================================
 
 	public static final float PADDING = 0.1f; // PERCENTAGE
-	
+
 	public static final float FADE_IN_TIME = 1.5f;
 
 	// ===========================================================
@@ -71,24 +72,38 @@ public abstract class MenuScreen implements Screen {
 	private SpriteBatch batch;
 
 	private OrthographicCamera camera;
-	
+
 	private TweenManager tweenManager;
-	
+
 	private Sprite background, earth, earthOverlay;
-	
+
 	private Label lblVersion, lblCopyright;
-	
+
 	private int width, height;
 	
-	private ShaderProgram blurShader, crtShader;
-	
-	private float time;
-	
-    private FrameBuffer targetA;
-    
-    private FrameBuffer targetB;
-    
-    private FrameBuffer targetC;
+	private ShaderManager shaderManager;
+
+	private ShadeArea backgroundArea = new ShadeArea() {
+
+		@Override
+		public void draw(Batch batch, float delta) {
+			background.draw(batch);
+			earth.draw(batch);
+			earthOverlay.draw(batch);
+		}
+
+	};
+
+	private ShadeArea stageArea = new ShadeArea() {
+
+		@Override
+		public void draw(Batch batch, float delta) {
+			batch.end();
+			stage.draw();
+			batch.begin();
+		}
+
+	};
 
 	// ===========================================================
 	// Constructors
@@ -105,43 +120,37 @@ public abstract class MenuScreen implements Screen {
 	public GalacticumGame getGame() {
 		return game;
 	}
-	
+
 	public TweenManager getTweenManager() {
 		return tweenManager;
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}
-	
+
 	public Sprite getBackground() {
 		return background;
 	}
-	
+
 	public void fadeBackground(float from, float to) {
 
 		background.setColor(1f, 1f, 1f, from);
-		
-		Tween.to(background, SpriteTween.ALPHA, FADE_IN_TIME)
-			 .target(to)
-			 .ease(TweenEquations.easeInOutCubic)
-			 .start(tweenManager);
-		
+
+		Tween.to(background, SpriteTween.ALPHA, FADE_IN_TIME).target(to)
+				.ease(TweenEquations.easeInOutCubic).start(tweenManager);
+
 		earth.setColor(1f, 1f, 1f, from);
 		earthOverlay.setColor(1f, 1f, 1f, from);
-		Tween.to(earth, SpriteTween.ALPHA, FADE_IN_TIME)
-			 .target(to)
-			 .ease(TweenEquations.easeInOutCubic)
-			 .start(tweenManager);
-		
-		Tween.to(earthOverlay, SpriteTween.ALPHA, FADE_IN_TIME)
-		 .target(to)
-		 .ease(TweenEquations.easeInOutCubic)
-		 .start(tweenManager);
+		Tween.to(earth, SpriteTween.ALPHA, FADE_IN_TIME).target(to)
+				.ease(TweenEquations.easeInOutCubic).start(tweenManager);
+
+		Tween.to(earthOverlay, SpriteTween.ALPHA, FADE_IN_TIME).target(to)
+				.ease(TweenEquations.easeInOutCubic).start(tweenManager);
 	}
 
 	// ===========================================================
@@ -158,7 +167,7 @@ public abstract class MenuScreen implements Screen {
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		
+
 		// Rotate the earth
 		earth.setOrigin(earth.getWidth() / 2, earth.getHeight() / 2);
 		earth.rotate(delta * 3.0f);
@@ -169,67 +178,7 @@ public abstract class MenuScreen implements Screen {
 
 		batch.setProjectionMatrix(camera.combined);
 		
-		time += delta * Math.random();
-		
-		drawTargetA(batch, delta);
-		drawTargetB(batch, delta);
-		drawTargetC(batch, delta);
-		
-		batch.setShader(crtShader);
-		batch.begin();
-			crtShader.setUniformf("time", time);
-			crtShader.setUniformf("frequency", 100.0f);
-			crtShader.setUniformf("noiseFactor", 0.1f);
-			crtShader.setUniformf("intensity", 0.9f);
-			crtShader.setUniformf("lineSpeed", 0.8f);
-			batch.draw(targetC.getColorBufferTexture(), 0, 0);
-		batch.end();
-		batch.flush();
-	}
-	
-	private void drawTargetA(Batch batch, float delta) {
-		
-		targetA.begin();
-		
-		batch.begin();
-			background.draw(batch);
-			earth.draw(batch);
-			earthOverlay.draw(batch);
-		batch.end();		
-		batch.flush();
-		targetA.end();	
-	}
-	
-	private void drawTargetB(Batch batch, float delta) {
-
-		batch.setShader(blurShader);
-
-		targetB.begin();
-		
-		batch.begin();
-			blurShader.setUniformi("horizontal", 1);
-			blurShader.setUniformf("blurSize", (float) (0.2f + Math.abs(Math.sin(time) * 0.3f)));
-			batch.draw(targetA.getColorBufferTexture(), 0f, 0f);
-		batch.end();
-		targetB.end();
-		batch.flush();
-	}
-	
-	private void drawTargetC(Batch batch, float delta) {
-		
-		targetC.begin();
-		
-		batch.setShader(blurShader);
-		batch.begin();
-			blurShader.setUniformi("horizontal", 0);
-			blurShader.setUniformf("blurSize", (float) (0.2f + Math.abs(Math.sin(time) * 0.3f)));
-			batch.draw(targetB.getColorBufferTexture(), 0, 0);
-		batch.end();
-		batch.flush();
-
-		stage.draw();
-		
-		targetC.end();
+		shaderManager.updateAndRender(batch, delta);
 	}
 
 	/*
@@ -239,28 +188,29 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		
+
 		this.width = width;
 		this.height = height;
 		camera.setToOrtho(true, width, height);
 		if (stage == null) {
 			stage = new GeneralStage(width, height, false);
 			Gdx.input.setInputProcessor(stage);
-			
+
 			LabelStyle footerStyle = new LabelStyle();
 			footerStyle.font = Resources.FONT_SMALL;
 			footerStyle.fontColor = new Color(Resources.COLOR_GREEN);
 			footerStyle.fontColor.a = 0.2f;
-			
-			lblVersion = new Label("version 0.0", footerStyle);	
+
+			lblVersion = new Label("version 0.0", footerStyle);
 			stage.addActor(lblVersion);
-			lblCopyright = new Label("© 2014, all rights reserved.", footerStyle);			
+			lblCopyright = new Label("© 2014, all rights reserved.",
+					footerStyle);
 			stage.addActor(lblCopyright);
-			
+
 			MetaData meta = Resources.META_DATA;
-			lblVersion.setText("version " + meta.getVersion()
-                            + meta.getPhase());
-			
+			lblVersion
+					.setText("version " + meta.getVersion() + meta.getPhase());
+
 			onResize();
 			onCreateUI(stage);
 			onResizeUI(width, height);
@@ -270,12 +220,6 @@ public abstract class MenuScreen implements Screen {
 			onResize();
 			onResizeUI(width, height);
 		}
-		
-
-		
-		targetA = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
-	    targetB = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
-	    targetC = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
 	}
 
 	/*
@@ -294,19 +238,13 @@ public abstract class MenuScreen implements Screen {
 		earth.flip(false, true);
 		earthOverlay.flip(false, true);
 		camera = new OrthographicCamera();
+		shaderManager = new SimpleShaderManager(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
-		FileHandle blurVertex = Gdx.files.internal("shaders/blur.vert");
-		FileHandle blurFragment = Gdx.files.internal("shaders/blur.frag");
+		// Add horizontal and vertical blur
+		shaderManager.add(backgroundArea, new BlurShader(true), new BlurShader(false));
 		
-		blurShader = new ShaderProgram(blurVertex, blurFragment);
-		
-		FileHandle crtVertec = Gdx.files.internal("shaders/crt.vert");
-		FileHandle crtFragment = Gdx.files.internal("shaders/crt.frag");
-		
-		crtShader = new ShaderProgram(crtVertec, crtFragment);
-		
-		System.out.println(blurShader.getLog());
-		System.out.println(crtShader.getLog());
+		// Add ui
+		shaderManager.add(stageArea, new CRTShader());
 	}
 
 	/*
@@ -362,38 +300,37 @@ public abstract class MenuScreen implements Screen {
 	protected abstract void onResizeUI(int width, int height);
 
 	protected abstract void onDraw(SpriteBatch batch, float delta);
-	
-	private void fadeIn() {		
+
+	private void fadeIn() {
 		stage.getRoot().getColor().a = 0;
-		Tween.to(stage.getRoot(), ActorTween.ALPHA, FADE_IN_TIME)
-		 .target(1f)
-		 .ease(TweenEquations.easeInOutCubic)
-		 .start(tweenManager);
+		Tween.to(stage.getRoot(), ActorTween.ALPHA, FADE_IN_TIME).target(1f)
+				.ease(TweenEquations.easeInOutCubic).start(tweenManager);
 	}
-	
+
 	private void onResize() {
 
 		background.setBounds(0, 0, width, height);
-		
+
 		float scale = width * 0.0012f;
-		
+
 		float paddingX = width * PADDING / 2;
 		float paddingY = height * PADDING / 2;
-		
+
 		lblVersion.setFontScale(scale);
 		lblCopyright.setFontScale(scale);
-		
+
 		lblVersion.setX(paddingX);
 		lblVersion.setY(paddingY);
-		
-		lblCopyright.setX(Gdx.graphics.getWidth() - paddingX - lblCopyright.getPrefWidth());
+
+		lblCopyright.setX(Gdx.graphics.getWidth() - paddingX
+				- lblCopyright.getPrefWidth());
 		lblCopyright.setY(paddingY);
-		
+
 		float earthWidth = width - width * (PADDING * 0.6f);
 		float earthHeight = earth.getHeight() * (earthWidth / earth.getWidth());
 		float earthX = width / 2 - earthWidth / 2;
-		float earthY = height + -earthHeight / 1.5f;		
-		
+		float earthY = height + -earthHeight / 1.5f;
+
 		earth.setBounds(earthX, earthY, earthWidth, earthHeight);
 		earthOverlay.setBounds(earthX, earthY, earthWidth, earthHeight);
 	}

@@ -55,7 +55,7 @@ public class BlurShader extends AbstractShader {
 	}
 	
 	public BlurShader(boolean horizontal) {
-		this(horizontal, 10.0f);
+		this(horizontal, 1f);
 	}
 	
 	public BlurShader(float blurSize) {
