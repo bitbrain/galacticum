@@ -51,9 +51,7 @@ public class SimpleShaderManager implements ShaderManager {
 
 	public SimpleShaderManager(int width, int height) {
 		data = new ArrayList<ShaderData>();
-		initialBuffer = new FrameBuffer(Format.RGBA4444, width, height, false);
-		bufferA = new FrameBuffer(Format.RGBA4444, width, height, false);
-		bufferB = new FrameBuffer(Format.RGBA4444, width, height, false);
+		initBuffers(width, height);
 	}
 
 	// ===========================================================
@@ -73,7 +71,7 @@ public class SimpleShaderManager implements ShaderManager {
 	 * de.myreality.galacticum.graphics.shader.Shader[])
 	 */
 	@Override
-	public void add(ShadeArea shaderTarget, Shader... shaders) {
+	public void add(ShadeArea shaderTarget, Shader<?> ... shaders) {
 		ShaderData shaderData = new ShaderData(shaderTarget, shaders);
 		data.add(shaderData);
 	}
@@ -95,7 +93,7 @@ public class SimpleShaderManager implements ShaderManager {
 		for (int dataIndex = 0; dataIndex < data.size(); ++dataIndex) {
 			ShaderData shaderData = data.get(dataIndex);
 			ShadeArea area = shaderData.getTarget();
-			Shader[] shaders = shaderData.getShaders();
+			Shader<?>[] shaders = shaderData.getShaders();
 			
 			// Draw the area onto the previous buffer
 			previousBuffer.begin();
@@ -104,7 +102,7 @@ public class SimpleShaderManager implements ShaderManager {
 			
 			for (int index = 0; index < shaders.length; ++index) {
 				
-				Shader shader = shaders[index];
+				Shader<?> shader = shaders[index];
 				currentBuffer = flipBuffer(currentBuffer);
 				
 				// If it's not the last element, draw to the buffer. Otherwise draw to screen
@@ -146,12 +144,35 @@ public class SimpleShaderManager implements ShaderManager {
 	public boolean isEmpty() {
 		return data.isEmpty();
 	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#dispose()
+	 */
+	@Override
+	public void dispose() {
+		initialBuffer.dispose();
+		bufferA.dispose();
+		bufferB.dispose();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.shader.ShaderManager#resize(int, int)
+	 */
+	@Override
+	public void resize(int width, int height) {
+		initialBuffer.dispose();
+		bufferA.dispose();
+		bufferB.dispose();
+		initBuffers(width, height);
+	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 	
-	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader, ShadeArea area) {
+	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader<?> shader, ShadeArea area) {
 		
 		// Apply the current shader
 		if (shader != null) {
@@ -180,12 +201,18 @@ public class SimpleShaderManager implements ShaderManager {
 		drawTo(null, delta, batch, null, area);
 	}
 	
-	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader shader) {
+	private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader<?> shader) {
 		drawTo(buffer, delta, batch, shader, null);
 	}
 	
 	private FrameBuffer flipBuffer(FrameBuffer current) {
 		return current.equals(bufferA) ? bufferB : bufferA;
+	}
+	
+	private void initBuffers(int width, int height) {
+		initialBuffer = new FrameBuffer(Format.RGBA4444, width, height, false);
+		bufferA = new FrameBuffer(Format.RGBA4444, width, height, false);
+		bufferB = new FrameBuffer(Format.RGBA4444, width, height, false);
 	}
 
 	// ===========================================================
@@ -194,7 +221,7 @@ public class SimpleShaderManager implements ShaderManager {
 
 	private class ShaderData {
 
-		private Shader[] shaders;
+		private Shader<?>[] shaders;
 
 		private ShadeArea target;
 
@@ -202,7 +229,7 @@ public class SimpleShaderManager implements ShaderManager {
 		 * @param shaders
 		 * @param target
 		 */
-		public ShaderData(ShadeArea target, Shader[] shaders) {
+		public ShaderData(ShadeArea target, Shader<?>[] shaders) {
 			super();
 			this.shaders = shaders;
 			this.target = target;
@@ -211,7 +238,7 @@ public class SimpleShaderManager implements ShaderManager {
 		/**
 		 * @return the shaders
 		 */
-		public Shader[] getShaders() {
+		public Shader<?>[] getShaders() {
 			return shaders;
 		}
 

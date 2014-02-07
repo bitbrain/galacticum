@@ -25,7 +25,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * @since 0.1
  * @version 0.1
  */
-public interface Shader {
+public interface Shader<Type extends Shader<Type> > {
 	
 	// ===========================================================
 	// Constants
@@ -47,4 +47,9 @@ public interface Shader {
 	 */
 	void update(float delta);
 
+	/**
+	 * 
+	 * @param behavior
+	 */
+	void setBehavior(ShaderBehavior<Type> behavior);
 }

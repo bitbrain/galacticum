@@ -25,7 +25,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * @since
  * @version
  */
-public class CRTShader extends AbstractShader {
+public class CRTShader extends AbstractShader<CRTShader> {
 	
 	// ===========================================================
 	// Constants
@@ -77,6 +77,7 @@ public class CRTShader extends AbstractShader {
 	 */
 	@Override
 	public void update(float delta) {
+		super.update(delta);
 		
 		time += delta;
 		

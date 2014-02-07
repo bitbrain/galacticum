@@ -39,6 +39,7 @@ import de.myreality.galacticum.controls.GeneralStage;
 import de.myreality.galacticum.graphics.shader.BlurShader;
 import de.myreality.galacticum.graphics.shader.CRTShader;
 import de.myreality.galacticum.graphics.shader.ShadeArea;
+import de.myreality.galacticum.graphics.shader.ShaderBehavior;
 import de.myreality.galacticum.graphics.shader.ShaderManager;
 import de.myreality.galacticum.graphics.shader.SimpleShaderManager;
 import de.myreality.galacticum.tweens.ActorTween;
@@ -217,6 +218,7 @@ public abstract class MenuScreen implements Screen {
 			fadeIn();
 		} else {
 			stage.setViewport(width, height, false);
+			shaderManager.resize(width, height);
 			onResize();
 			onResizeUI(width, height);
 		}
@@ -241,7 +243,12 @@ public abstract class MenuScreen implements Screen {
 		shaderManager = new SimpleShaderManager(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		// Add horizontal and vertical blur
-		shaderManager.add(backgroundArea, new BlurShader(true), new BlurShader(false));
+		BlurShader horizontalBlur = new BlurShader(true);
+		BlurShader verticalBlur = new BlurShader(false);
+		horizontalBlur.setBehavior(new BlurAnimation());
+		verticalBlur.setBehavior(new BlurAnimation());
+		
+		shaderManager.add(backgroundArea, horizontalBlur, verticalBlur);
 		
 		// Add ui
 		shaderManager.add(stageArea, new CRTShader());
@@ -287,8 +294,7 @@ public abstract class MenuScreen implements Screen {
 	 */
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		shaderManager.dispose();
 	}
 
 	// ===========================================================
@@ -338,5 +344,20 @@ public abstract class MenuScreen implements Screen {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	private class BlurAnimation implements ShaderBehavior<BlurShader> {
+		
+		private float time;
+
+		/* (non-Javadoc)
+		 * @see de.myreality.galacticum.graphics.shader.ShaderBehavior#update(float, de.myreality.galacticum.graphics.shader.Shader)
+		 */
+		@Override
+		public void update(float delta, BlurShader shader) {
+			time += delta;
+			shader.setBlurSize((float) Math.abs(Math.sin(time / 30.0)) / 0.5f + 0.5f);
+		}
+		
+	}
 
 }

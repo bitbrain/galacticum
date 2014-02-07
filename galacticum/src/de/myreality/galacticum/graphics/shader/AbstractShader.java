@@ -27,7 +27,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * @since 0.1
  * @version 0.1
  */
-public abstract class AbstractShader implements Shader {
+public abstract class AbstractShader<Type extends Shader<Type> > implements Shader<Type> {
 	
 	// ===========================================================
 	// Constants
@@ -38,6 +38,8 @@ public abstract class AbstractShader implements Shader {
 	// ===========================================================
 	
 	private ShaderProgram program;
+	
+	private ShaderBehavior<Type> behavior;
 
 	// ===========================================================
 	// Constructors
@@ -65,6 +67,22 @@ public abstract class AbstractShader implements Shader {
 	public ShaderProgram getProgram() {
 		return program;
 	}
+	
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.graphics.shader.Shader#setBehavior(de.myreality.galacticum.graphics.shader.ShaderBehavior)
+	 */
+	@Override
+	public void setBehavior(ShaderBehavior<Type> behavior) {
+		this.behavior = behavior;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void update(float delta) {
+		if (behavior != null) {
+			behavior.update(delta, (Type) this);
+		}
+	}	
 
 	// ===========================================================
 	// Methods

@@ -26,7 +26,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * @since 0.1
  * @version 0.1
  */
-public class BlurShader extends AbstractShader {
+public class BlurShader extends AbstractShader<BlurShader> {
 
 	// ===========================================================
 	// Constants
@@ -55,7 +55,7 @@ public class BlurShader extends AbstractShader {
 	}
 	
 	public BlurShader(boolean horizontal) {
-		this(horizontal, 1f);
+		this(horizontal, 0.4f);
 	}
 	
 	public BlurShader(float blurSize) {
@@ -83,6 +83,7 @@ public class BlurShader extends AbstractShader {
 	 */
 	@Override
 	public void update(float delta) {
+		super.update(delta);
 		
 		ShaderProgram p = getProgram();
 		
