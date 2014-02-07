@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.myreality.galacticum.entities.Shape;
+import de.myreality.galacticum.screens.CreationScreen;
 import de.myreality.galacticum.screens.MainMenuScreen;
 import de.myreality.galacticum.tweens.ActorTween;
 import de.myreality.galacticum.tweens.ColorTween;
@@ -80,7 +81,7 @@ public class GalacticumGame extends Game {
 			Resources.loadMetaData();
 			initTweenEngine();		
 			Settings.loadGdxSettings();
-			setScreen(new MainMenuScreen(this));			
+			setScreen(new CreationScreen(this));			
 			MetaData data = Resources.META_DATA;
 			Gdx.graphics.setTitle(data.getName() + " " + data.getVersion() + data.getPhase());
 		} catch (IOException e) {

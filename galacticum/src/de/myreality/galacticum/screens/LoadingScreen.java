@@ -48,7 +48,7 @@ import de.myreality.galacticum.ui.ProgressLabel;
  * @since 0.1
  * @version 0.1
  */
-public class LoadingScreen extends SubMenuScreen {
+public class LoadingScreen extends MenuScreen {
 
 	// ===========================================================
 	// Constants
@@ -81,7 +81,7 @@ public class LoadingScreen extends SubMenuScreen {
 	// ===========================================================
 	
 	public LoadingScreen(GalacticumGame game, ContextConfiguration configuration, ModuleLoader loader) throws ContextNotFoundException {
-		super("Loading game", game);			
+		super(game);			
 		
 		this.subsystemLoader = loader;
 		this.configuration = configuration;
@@ -142,7 +142,7 @@ public class LoadingScreen extends SubMenuScreen {
 		if (loadingFuture == null || loadingFuture.isCancelled() || !gameLoader.getMessage().isEmpty()) {
 			// Go back to creation screen
 			// TODO
-			//getGame().setScreen(new CreationScreen("Create new universe", getGame(), gameLoader.getMessage()));
+			getGame().setScreen(new CreationScreen("Create new universe", getGame(), gameLoader.getMessage()));
 		} else if (loadingFuture.isDone()) {
 			// Loading is done, go to the next screen
 			getGame().setScreen(new IngameScreen(getGame(), gameLoader.getContext()));

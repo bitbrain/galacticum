@@ -21,12 +21,18 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.controls.IngameControls;
+import de.myreality.galacticum.graphics.shader.CRTShader;
+import de.myreality.galacticum.graphics.shader.ShadeArea;
+import de.myreality.galacticum.graphics.shader.ShaderManager;
+import de.myreality.galacticum.graphics.shader.SimpleShaderManager;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.ui.DebugStage;
 import de.myreality.galacticum.ui.Debugable;
@@ -55,6 +61,29 @@ public class IngameScreen implements Screen, Debugable {
 	private Stage stage;
 
 	private DebugStage debugStage;
+	
+	private ShaderManager shaderManager;
+	
+	private OrthographicCamera fakeCamera;
+	
+	private ShadeArea gameContent = new ShadeArea() {
+
+		@Override
+		public void draw(Batch batch, float delta) {
+			
+			
+			for (Module system : context.getSubsystems()) {
+				system.update(delta);
+			}
+			batch.end();
+			stage.draw();
+			debugStage.draw();
+			batch.setProjectionMatrix(fakeCamera.combined);
+
+			batch.begin();
+		}
+		
+	};
 
 	// ===========================================================
 	// Constructors
@@ -106,17 +135,8 @@ public class IngameScreen implements Screen, Debugable {
 		
 		// Update debug stage
 		debugStage.act();
-
-		// Draw everything
-		batch.begin();
-		for (Module system : context.getSubsystems()) {
-			system.update(delta);
-		}
-		batch.end();
 		
-		// Draw UI
-		stage.draw();
-		debugStage.draw();
+		shaderManager.updateAndRender(batch, delta);
 	}
 
 	/*
@@ -135,7 +155,11 @@ public class IngameScreen implements Screen, Debugable {
 		} else {
 			stage.setViewport(width, height, false);
 			debugStage.setViewport(width, height, false);
+			shaderManager.resize(width, height);
 		}
+		
+
+		fakeCamera.setToOrtho(true, width, height);
 	}
 
 	/*
@@ -145,8 +169,17 @@ public class IngameScreen implements Screen, Debugable {
 	 */
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
+		fakeCamera = new OrthographicCamera();
+		shaderManager = new SimpleShaderManager(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		CRTShader crtShader = new CRTShader();
+		
+		crtShader.setIntensity(1.0f);
+		crtShader.setLineSpeed(0.3f);
+		crtShader.setNoiseFactor(0.15f);
+		crtShader.setFrequency(120.0f);
+		
+		shaderManager.add(gameContent, crtShader);
 	}
 
 	/*
@@ -189,7 +222,7 @@ public class IngameScreen implements Screen, Debugable {
 	 */
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		shaderManager.dispose();
 	}
 
 	/*

@@ -180,6 +180,8 @@ public abstract class MenuScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined);
 		
 		shaderManager.updateAndRender(batch, delta);
+		
+		onDraw(batch, delta);
 	}
 
 	/*

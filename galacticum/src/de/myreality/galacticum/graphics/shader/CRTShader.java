@@ -20,38 +20,39 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
  * 
- *
+ * 
  * @author miguel
  * @since
  * @version
  */
 public class CRTShader extends AbstractShader<CRTShader> {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	public static final String VERTEX = "shaders/crt.vert";
-	
+
 	public static final String FRAGMENT = "shaders/crt.frag";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private float noiseFactor, frequency, lineSpeed, intensity;
-	
+
 	private float time;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	/**
 	 * @param vert
 	 * @param frag
 	 */
-	public CRTShader(float noiseFactor, float frequency, float lineSpeed, float intensity) {
+	public CRTShader(float noiseFactor, float frequency, float lineSpeed,
+			float intensity) {
 		super(VERTEX, FRAGMENT);
 		this.noiseFactor = noiseFactor;
 		this.frequency = frequency;
@@ -59,30 +60,64 @@ public class CRTShader extends AbstractShader<CRTShader> {
 		this.intensity = intensity;
 		time = 0;
 	}
-	
+
 	public CRTShader() {
-		this(0.1f, 100.0f, 0.8f, 0.9f);
+		this(0.1f, 100.0f, 0.5f, 0.9f);
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
+	public float getNoiseFactor() {
+		return noiseFactor;
+	}
+
+	public void setNoiseFactor(float noiseFactor) {
+		this.noiseFactor = noiseFactor;
+	}
+
+	public float getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(float frequency) {
+		this.frequency = frequency;
+	}
+
+	public float getLineSpeed() {
+		return lineSpeed;
+	}
+
+	public void setLineSpeed(float lineSpeed) {
+		this.lineSpeed = lineSpeed;
+	}
+
+	public float getIntensity() {
+		return intensity;
+	}
+
+	public void setIntensity(float intensity) {
+		this.intensity = intensity;
+	}
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.myreality.galacticum.graphics.shader.Shader#update(float)
 	 */
 	@Override
 	public void update(float delta) {
 		super.update(delta);
-		
+
 		time += delta;
-		
+
 		ShaderProgram p = getProgram();
-		
+
 		p.setUniformf("time", time);
 		p.setUniformf("frequency", frequency);
 		p.setUniformf("noiseFactor", noiseFactor);

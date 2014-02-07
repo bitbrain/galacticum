@@ -286,13 +286,15 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 			entity.setY(body.getPosition().y);
 			entity.setRotation(MathUtils.radiansToDegrees * body.getAngle());
 			
-			body.setAngularVelocity(body.getAngularVelocity() / 1.005f);
-			
-			if (entity instanceof Moveable && !((Moveable)entity).isMoving()) {
+			if (entity.getType() == EntityType.SPACESHIP) {
+				body.setAngularVelocity(body.getAngularVelocity() / 1.005f);
 				
-				Vector2 moveVelo = body.getLinearVelocity();				
-				body.setLinearVelocity(moveVelo.x / 1.005f, moveVelo.y / 1.005f);
-				
+				if (entity instanceof Moveable && !((Moveable)entity).isMoving()) {
+					
+					Vector2 moveVelo = body.getLinearVelocity();				
+					body.setLinearVelocity(moveVelo.x / 1.005f, moveVelo.y / 1.005f);
+					
+				}
 			}
 		}
 	}
