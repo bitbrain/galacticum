@@ -90,8 +90,8 @@ public class LightingModule implements Module {
 		handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
 		handler.setBlurNum(1);
 		PointLight light = new PointLight(handler, 1000);
-		light.setDistance(70);
-		light.setColor(0.6f, 0.6f, 0.6f, 0.8f);
+		light.setDistance(170);
+		light.setColor(0.6f, 0.6f, 0.6f, 0.5f);
 		this.playerLight = light;
 		
 	}

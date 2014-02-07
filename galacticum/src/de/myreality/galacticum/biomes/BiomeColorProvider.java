@@ -135,15 +135,15 @@ public class BiomeColorProvider implements ZoneListener, ColorProvider {
 	}
 
 	private float getSeedRed(long hash) {
-		return MathUtils.getValue(0f, 0.4f, (long) Math.pow(hash, 3), 2);
+		return MathUtils.getValue(0f, 0.2f, (long) Math.pow(hash, 3), 2);
 	}
 
 	private float getSeedGreen(long hash) {
-		return MathUtils.getValue(0f, 0.4f, hash * 100, 3);
+		return MathUtils.getValue(0f, 0.2f, hash * 100, 3);
 	}
 
 	private float getSeedBlue(long hash) {
-		return MathUtils.getValue(0f, 0.4f, hash * 50, 5);
+		return MathUtils.getValue(0f, 0.2f, hash * 50, 5);
 	}
 
 	// ===========================================================

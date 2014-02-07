@@ -106,9 +106,9 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 		for (int i = 0; i < LIGHT_COUNT; ++i) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
-			GameColor color = new GameColor((float)Math.random() + 0.2f, (float)Math.random() + 0.2f, (float)Math.random() + 0.2f, 1.0f);
+			GameColor color = new GameColor((float)Math.random() + 0.2f, (float)Math.random() + 0.2f, (float)Math.random() + 0.2f, 0.3f);
 			
-			GameLight light = new SimpleGameLight(x, y, 70, 800, color, GameLightType.POINT);
+			GameLight light = new SimpleGameLight(x, y, 100, 800, color, GameLightType.POINT);
 			area.add(light);
 		}
 	}
