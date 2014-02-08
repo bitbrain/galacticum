@@ -99,9 +99,7 @@ public abstract class MenuScreen implements Screen {
 
 		@Override
 		public void draw(Batch batch, float delta) {
-			batch.end();
 			stage.draw();
-			batch.begin();
 		}
 
 	};
@@ -197,6 +195,7 @@ public abstract class MenuScreen implements Screen {
 		camera.setToOrtho(true, width, height);
 		if (stage == null) {
 			stage = new GeneralStage(width, height, false);
+			
 			Gdx.input.setInputProcessor(stage);
 
 			LabelStyle footerStyle = new LabelStyle();

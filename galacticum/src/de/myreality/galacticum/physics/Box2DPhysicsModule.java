@@ -221,6 +221,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 				// Create our fixture and attach it to the body
 				body.createFixture(fixtureDef);
 
+				
 				// Remember to dispose of any shapes after you're done with
 				// them!
 				// BodyDef and FixtureDef don't need disposing, but shapes do.
@@ -308,7 +309,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		Body body = bodyMap.get(shape);
 		
 		if (body != null && shape.getX() != body.getPosition().x) {
-			//body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
 		}
 	}
 
@@ -320,7 +321,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		Body body = bodyMap.get(shape);
 		
 		if (body != null && shape.getY() != body.getPosition().y) {
-			//body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
 		}
 	}
 
@@ -332,7 +333,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		Body body = bodyMap.get(shape);
 		
 		if (body != null) {
-			//body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
+			body.setTransform(shape.getX(), shape.getY(), MathUtils.degreesToRadians * shape.getRotation());
 		}
 	}
 
@@ -347,5 +348,10 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		if (body != null) {
 			body.applyLinearImpulse(new Vector2(x, y), body.getWorldCenter(), true);
 		}
+	}
+	
+	
+	public Body getBody(Entity entity) {
+		return bodyMap.get(entity);
 	}
 }

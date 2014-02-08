@@ -76,7 +76,8 @@ public abstract class AbstractTextureLoader implements TextureLoader {
 		Texture texture = textures.get(hash);
 		
 		if (texture == null) {
-			texture = createTexture(hash, width, height);
+			final float quality = 40.0f;
+			texture = createTexture(hash, (int) (width * quality), (int) (height * quality));
 			textures.put(hash, texture);
 			Sprite sprite = new Sprite(texture);
 			sprites.put(hash, sprite);

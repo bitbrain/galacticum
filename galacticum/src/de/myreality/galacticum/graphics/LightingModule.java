@@ -24,6 +24,9 @@ import java.util.Set;
 import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
+
+import com.badlogic.gdx.physics.box2d.Body;
+
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.entities.Entity;
@@ -92,7 +95,10 @@ public class LightingModule implements Module {
 		PointLight light = new PointLight(handler, 1000);
 		light.setDistance(170);
 		light.setColor(0.6f, 0.6f, 0.6f, 0.5f);
-		this.playerLight = light;
+		
+		Entity ship = context.getPlayer().getCurrentShip();
+		Body body = physics.getBody(ship);
+		light.attachToBody(body, ship.getWidth() / 2f, ship.getHeight() / 2f);
 		
 	}
 
@@ -114,8 +120,6 @@ public class LightingModule implements Module {
 		handler.setAmbientLight(ambient.r, ambient.g, ambient.b, ambient.a);
 		
 		GameCamera cam  = context.getCamera();
-		Entity e = context.getPlayer().getCurrentShip();
-		playerLight.setPosition(e.getX() + e.getWidth() / 2f, e.getY() + e.getHeight() / 2f);
 		handler.setCombinedMatrix(cam.getCombinedMatrix(), cam.getX() + cam.getWidth() / 2f, cam.getY() + cam.getHeight() / 2f, cam.getWidth(),cam.getHeight());
 		handler.updateAndRender();
 	}
