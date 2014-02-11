@@ -26,6 +26,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import de.myreality.chunx.util.Updateable;
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.controls.IngameControls;
@@ -72,9 +73,8 @@ public class IngameScreen implements Screen, Debugable {
 
 		@Override
 		public void draw(Batch batch, float delta) {			
-			
-			for (Module system : context.getSubsystems()) {
-				system.update(delta);
+			if (context instanceof Updateable) {
+				((Updateable)context).update(delta);
 			}
 			//batch.setProjectionMatrix(fakeCamera.combined);
 		}
@@ -99,10 +99,6 @@ public class IngameScreen implements Screen, Debugable {
 	public IngameScreen(GalacticumGame game, Context context) {
 		this.game = game;
 		this.context = context;
-
-		for (Module system : context.getSubsystems()) {
-			system.onEnter(context);
-		}
 	}
 
 	// ===========================================================
@@ -263,15 +259,7 @@ public class IngameScreen implements Screen, Debugable {
 	// ===========================================================
 
 	public void leave() {
-		
-		Stack<Module> systems = context.getSubsystems();
-		
-		// Free the last element first
-		while (!systems.isEmpty()) {
-			Module system = systems.pop();
-			system.shutdown();
-		}
-
+		context.dispose();
 		game.setScreen(new MainMenuScreen(game));
 	}
 

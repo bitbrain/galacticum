@@ -16,13 +16,17 @@
  */
 package de.myreality.galacticum.context;
 
+import java.util.Collection;
 import java.util.Stack;
 
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.myreality.chunx.util.Updateable;
 import de.myreality.galacticum.core.World;
+import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.entities.EntityScreenDetector;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
@@ -36,7 +40,7 @@ import de.myreality.galacticum.player.Player;
  * @since 0.1
  * @version 0.1
  */
-class SimpleContext implements Context {
+class SimpleContext implements Context, Updateable {
 
 	// ===========================================================
 	// Constants
@@ -61,6 +65,8 @@ class SimpleContext implements Context {
 	private SpriteBatch batch;
 
 	private TweenManager tweenManager;
+	
+	private EntityScreenDetector entityScreenDetector;
 
 	// ===========================================================
 	// Constructors
@@ -79,7 +85,9 @@ class SimpleContext implements Context {
 		
 		for (Module system : subsystems) {
 			subsystemStack.push(system);
-		}
+		}		
+
+		this.entityScreenDetector = new EntityScreenDetector(this);
 	}
 	
 
@@ -90,16 +98,6 @@ class SimpleContext implements Context {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.context.Context#getSubsystems()
-	 */
-	@Override
-	public Stack<Module> getSubsystems() {
-		return subsystemStack;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -164,6 +162,48 @@ class SimpleContext implements Context {
 	@Override
 	public TweenManager getTweenManager() {
 		return tweenManager;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.context.Context#getVisibleEntities()
+	 */
+	@Override
+	public Collection<Entity> getVisibleEntities() {
+		return entityScreenDetector.getVisibleEntities();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.chunx.util.Updateable#update()
+	 */
+	@Override
+	public void update() {
+		update(1/60f);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.chunx.util.Updateable#update(float)
+	 */
+	@Override
+	public void update(float delta) {
+		for (Module system : subsystems) {
+			system.update(delta);
+		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.context.Context#dispose()
+	 */
+	@Override
+	public void dispose() {		
+		// Free the last element first
+		while (!subsystemStack.isEmpty()) {
+			Module system = subsystemStack.pop();
+			system.shutdown();
+		}
 	}
 
 	// ===========================================================

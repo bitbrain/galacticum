@@ -21,6 +21,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import de.myreality.galacticum.entities.Shape.ShapeListener;
+import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.SimpleObserver;
 
@@ -251,6 +252,14 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 	@Override
 	public GameColor getColor() {
 		return color;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.entities.Shape#isOnScreen(de.myreality.galacticum.graphics.GameCamera)
+	 */
+	@Override
+	public boolean isOnScreen(GameCamera camera) {
+		return shape.isOnScreen(camera);
 	}
 
 	// ===========================================================

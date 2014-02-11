@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import com.badlogic.gdx.graphics.Camera;
+
 import de.myreality.galacticum.entities.Shape.ShapeListener;
+import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.util.SimpleObserver;
 
 /**
@@ -184,6 +187,14 @@ public class SimpleShape extends SimpleObserver<ShapeListener> implements Shape 
 		width = in.readFloat();
 		height = in.readFloat();
 		rotation = in.readFloat();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.entities.Shape#isOnScreen(com.badlogic.gdx.graphics.Camera)
+	 */
+	@Override
+	public boolean isOnScreen(GameCamera camera) {
+		return camera.collidesWith(this);
 	}
 
 	// ===========================================================

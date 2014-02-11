@@ -20,6 +20,7 @@ import java.io.Externalizable;
 
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.galacticum.entities.Shape.ShapeListener;
+import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.util.Observer;
 
 /**
@@ -88,6 +89,14 @@ public interface Shape extends Externalizable, ChunkTarget, Observer<ShapeListen
 	 * @return
 	 */
 	boolean collidesWith(Shape other);
+	
+	/**
+	 * 
+	 * 
+	 * @param camera
+	 * @return
+	 */
+	boolean isOnScreen(GameCamera camera);
 	
 	/**
 	 * 

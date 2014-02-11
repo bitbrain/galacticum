@@ -16,13 +16,14 @@
  */
 package de.myreality.galacticum.context;
 
-import java.util.Stack;
+import java.util.Collection;
 
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
+import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
@@ -49,13 +50,6 @@ public interface Context {
 	/**
 	 * 
 	 * 
-	 * @return
-	 */
-	Stack<Module> getSubsystems();
-	
-	/**
-	 * 
-	 * 
 	 * @param subsystemClass
 	 * @return
 	 */
@@ -72,6 +66,12 @@ public interface Context {
 	 * @return
 	 */
 	ContextConfiguration getConfiguration();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	Collection<Entity> getVisibleEntities();
 
 	/**
 	 * 
@@ -99,4 +99,9 @@ public interface Context {
 	 * @return
 	 */
 	TweenManager getTweenManager();
+	
+	/**
+	 * 
+	 */
+	void dispose();
 }
