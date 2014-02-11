@@ -129,6 +129,9 @@ public class MainMenuScreen extends MenuScreen {
 	@Override
 	protected void onDraw(SpriteBatch batch, float delta) {
 		
+		if (Gdx.input.isTouched()) {
+			getGame().setScreen(new CreationScreen(getGame()));
+		}
 	}
 
 	// ===========================================================

@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.controls.IngameControls;
-import de.myreality.galacticum.graphics.shader.BlurShader;
 import de.myreality.galacticum.graphics.shader.CRTShader;
 import de.myreality.galacticum.graphics.shader.ShadeArea;
 import de.myreality.galacticum.graphics.shader.ShaderManager;
@@ -66,6 +65,8 @@ public class IngameScreen implements Screen, Debugable {
 	private ShaderManager shaderManager;
 	
 	private OrthographicCamera fakeCamera;
+
+	private boolean shadingEnabled = false;
 	
 	private ShadeArea gameContent = new ShadeArea() {
 
@@ -86,7 +87,7 @@ public class IngameScreen implements Screen, Debugable {
 		public void draw(Batch batch, float delta) {
 			stage.draw();
 			debugStage.draw();
-			//batch.setProjectionMatrix(fakeCamera.combined);
+			batch.setProjectionMatrix(fakeCamera.combined);
 		}
 		
 	};
@@ -187,11 +188,11 @@ public class IngameScreen implements Screen, Debugable {
 		crtShader.setFrequency(120.0f);
 		
 		// Add horizontal and vertical blur
-		BlurShader horizontalBlur = new BlurShader(true,.4f);
-		BlurShader verticalBlur = new BlurShader(false, 4f);
+		//BlurShader horizontalBlur = new BlurShader(true,.4f);
+		//BlurShader verticalBlur = new BlurShader(false, 4f);
 		
 		shaderManager.add(gameContent);
-		shaderManager.add(stageArea, crtShader);
+		shaderManager.add(stageArea);
 	}
 
 	/*
@@ -271,8 +272,7 @@ public class IngameScreen implements Screen, Debugable {
 			system.shutdown();
 		}
 
-		// TODO
-		//game.setScreen(new MainScreen(game));
+		game.setScreen(new MainMenuScreen(game));
 	}
 
 	// ===========================================================

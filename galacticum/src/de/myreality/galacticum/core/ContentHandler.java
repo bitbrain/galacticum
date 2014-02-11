@@ -79,7 +79,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 	public void afterCreateChunk(Chunk area, ChunkSystem chunkSystem) {
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
-		final int AMOUNT = 5;
+		final int AMOUNT = 20;
 		
 		for (int i = 0; i < AMOUNT; ++i) {
 			
@@ -92,7 +92,7 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 		
 		// Add planets
 		
-		if (Math.random() < 0.2) {
+		if (Math.random() < 0.4) {
 			float x = (float) (area.getX() + Math.random() * area.getWidth());
 			float y = (float) (area.getY() + Math.random() * area.getHeight());
 			
