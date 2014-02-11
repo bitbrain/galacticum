@@ -18,7 +18,15 @@ package de.myreality.galacticum.chunks;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
+import de.myreality.chunx.caching.CachedChunkConfiguration;
+import de.myreality.chunx.caching.SimpleCachedChunkConfiguration;
+import de.myreality.chunx.caching.SimpleCachedChunkSystem;
+import de.myreality.chunx.concurrent.ConcurrentChunkSystem;
+import de.myreality.chunx.io.ChunkLoader;
+import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.galacticum.context.Context;
+import de.myreality.galacticum.io.GDXInputStreamProvider;
+import de.myreality.galacticum.io.GDXOutputStreamProvider;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ProgressListener;
@@ -39,6 +47,8 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 	// ===========================================================
 	
 	private static final String NAME = "chunk system";
+	
+	private static final int CHUNK_SIZE = 512;
 
 	// ===========================================================
 	// Fields
@@ -50,8 +60,8 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 	// Constructors
 	// ===========================================================
 	
-	public ChunkSystemModule(ChunkSystem chunkSystem) {
-		this.chunkSystem = chunkSystem;
+	public ChunkSystemModule() {
+		
 	}
 
 	// ===========================================================
@@ -65,6 +75,38 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.Subsystem#start()
+	 */
+	@Override
+	public void load(Context context) throws ModuleException {
+		
+		CachedChunkConfiguration chunkConfiguration = new SimpleCachedChunkConfiguration();		
+		ChunkSystem chunkSystem = new SimpleCachedChunkSystem(chunkConfiguration);		
+		ChunkSaver saver = chunkSystem.getSaver();
+		ChunkLoader loader = chunkSystem.getLoader();
+		loader.setPath(context.getConfiguration().getChunkPath());
+		saver.setPath(context.getConfiguration().getChunkPath());
+		
+		chunkConfiguration.setContentProvider(context.getWorld());
+		chunkConfiguration.setFocused(context.getPlayer().getCurrentShip());
+		chunkConfiguration.setChunkSize(CHUNK_SIZE);
+		
+		chunkConfiguration.setCacheSize(1);
+		
+		// Align adapters for LibGDX
+		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
+		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));		
+		
+		chunkSystem = new ConcurrentChunkSystem(new SimpleCachedChunkSystem(chunkConfiguration));
+		
+		try {
+		chunkSystem.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.util.Nameable#getName()
@@ -72,18 +114,6 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 	@Override
 	public String getName() {
 		return NAME;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.Subsystem#start()
-	 */
-	@Override
-	public void load(Context context) throws ModuleException {
-		try {
-		chunkSystem.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/* (non-Javadoc)
@@ -100,16 +130,6 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 	@Override
 	public void dispose() {
 		chunkSystem.shutdown();
-	}
-
-	@Override
-	public void addListener(ProgressListener listener) {
-		chunkSystem.addListener(new ChunkSystemListenerAdapter(listener));
-	}
-
-	@Override
-	public void removeListener(ProgressListener listener) {
-		chunkSystem.removeListener(new ChunkSystemListenerAdapter(listener));
 	}
 
 	// ===========================================================

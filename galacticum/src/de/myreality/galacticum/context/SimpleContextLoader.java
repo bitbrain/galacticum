@@ -161,6 +161,8 @@ public class SimpleContextLoader implements ContextLoader {
 			loadCamera(system);
 			
 			Gdx.app.log("LOAD", "Success!");
+			
+			context.addModule(system);
 		}
 	}
 

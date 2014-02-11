@@ -27,6 +27,7 @@ import box2dLight.RayHandler;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
+import de.myreality.galacticum.biomes.BiomeModule;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.core.WorldListener;
@@ -59,10 +60,9 @@ public class LightingModule implements Module, WorldListener, Updateable {
 	
 	private ColorProvider ambientColorProvider;
 	
-	public LightingModule(ColorProvider ambientColorProvider) {
+	public LightingModule() {
 		this.lightMap = new HashMap<GameLight, Light>();
 		this.requests = new HashSet<GameLight>();
-		this.ambientColorProvider = ambientColorProvider;
 	}
 
 	/* (non-Javadoc)
@@ -78,7 +78,10 @@ public class LightingModule implements Module, WorldListener, Updateable {
 	 */
 	@Override
 	public void load(Context context) throws ModuleException {
-		this.context = context;
+		
+		this.context = context;		
+		BiomeModule biomeModule = context.getModule(BiomeModule.class);
+		this.ambientColorProvider = biomeModule.getAmbientColorProvider();
 		
 		Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
 		handler = new RayHandler(physics.getWorld());

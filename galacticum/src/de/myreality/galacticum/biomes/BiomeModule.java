@@ -27,6 +27,7 @@ import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.player.PlayerListenerPrototype;
 import de.myreality.galacticum.player.PlayerModule;
+import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Seed;
 import de.myreality.galacticum.util.SimpleHashGenerator;
@@ -56,15 +57,11 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 
 	private Set<ZoneListener> listeners;
 
+	private BiomeColorProvider colorProvider;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	public BiomeModule(Seed seed) {
-		listeners = new HashSet<BiomeHandler.ZoneListener>();
-		hashGenerator = new SimpleHashGenerator(seed);
-		oldHash = seed.getHash();
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -95,6 +92,10 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 
 			this.oldHash = currentHash;
 		}
+	}
+	
+	public ColorProvider getAmbientColorProvider() {
+		return colorProvider;
 	}
 
 	// ===========================================================
@@ -211,6 +212,17 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 	 */
 	@Override
 	public void load(Context context) throws ModuleException {
+		
+		
+		this.colorProvider = new BiomeColorProvider(context.getTweenManager());
+		
+		addListener(colorProvider);
+		
+		Seed seed = context.getConfiguration().getSeed();
+		listeners = new HashSet<BiomeHandler.ZoneListener>();
+		hashGenerator = new SimpleHashGenerator(seed);
+		oldHash = seed.getHash();
+		
 		PlayerModule playerModule = context.getModule(PlayerModule.class);
 		Player player = playerModule.getPlayer();
 		SpaceShip currentPlayerShip = player.getCurrentShip();

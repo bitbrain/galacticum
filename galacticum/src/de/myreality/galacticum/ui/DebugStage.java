@@ -25,6 +25,7 @@ import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.chunks.ChunkSystemModule;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.graphics.GameCamera;
+import de.myreality.galacticum.modules.ModuleException;
 
 /**
  * This stage shows up important debug information. Debugging can be enabled or
@@ -225,13 +226,20 @@ public class DebugStage extends Stage implements Debugable {
 	}
 	
 	private String getChunkText() {
-		ChunkSystemModule c = context.getModule(ChunkSystemModule.class);
-		
-		if (c != null && c.getActiveChunk() != null) {
-			return "Chunk: " + c.getActiveChunk().getIndexX() + " , " + c.getActiveChunk().getIndexY();
-		} else {
-			return "No active chunk";
+		ChunkSystemModule c;
+		try {
+			c = context.getModule(ChunkSystemModule.class);
+			
+			if (c != null && c.getActiveChunk() != null) {
+				return "Chunk: " + c.getActiveChunk().getIndexX() + " , " + c.getActiveChunk().getIndexY();
+			} else {
+				return "No active chunk";
+			}
+		} catch (ModuleException e) {
+			e.printStackTrace();
 		}
+		
+		return "";
 	}
 
 	// ===========================================================

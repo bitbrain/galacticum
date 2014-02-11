@@ -24,7 +24,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.entities.EntityType;
-import de.myreality.galacticum.graphics.GameCamera;
+import de.myreality.galacticum.graphics.CameraModule;
 import de.myreality.galacticum.graphics.rendering.EntityRenderer;
 import de.myreality.galacticum.graphics.rendering.PlanetTextureLoader;
 import de.myreality.galacticum.graphics.rendering.SimpleEntityRenderer;
@@ -62,16 +62,6 @@ public class WorldModule extends SimpleObserver<WorldSystemListener> implements 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public WorldModule(World world, SpriteBatch batch, GameCamera camera) {
-		this.world = world;
-		this.batch = batch;
-		renderer = new SimpleEntityRenderer(camera);
-		entities = new CopyOnWriteArrayList<Entity>();
-		
-		renderer.addTextureLoader(EntityType.PLANET, new PlanetTextureLoader());
-		renderer.addTextureLoader(EntityType.SPACESHIP, new SpaceshipTextureLoader(5));
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -106,6 +96,15 @@ public class WorldModule extends SimpleObserver<WorldSystemListener> implements 
 	@Override
 	public void load(Context context) throws ModuleException {
 		
+		CameraModule cameraModule = context.getModule(CameraModule.class);
+		
+		this.world = context.getWorld();
+		this.batch = context.getSpriteBatch();
+		renderer = new SimpleEntityRenderer(cameraModule.getCamera());
+		entities = new CopyOnWriteArrayList<Entity>();
+		
+		renderer.addTextureLoader(EntityType.PLANET, new PlanetTextureLoader());
+		renderer.addTextureLoader(EntityType.SPACESHIP, new SpaceshipTextureLoader(5));
 	}
 
 	/*

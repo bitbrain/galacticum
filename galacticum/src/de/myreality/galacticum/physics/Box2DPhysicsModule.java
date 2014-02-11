@@ -68,14 +68,6 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	
 	private VerticesProvider verticesProvider;
 
-	public Box2DPhysicsModule(VerticesProvider provider) {
-		world = new World(new Vector2(0f, 0f), false);
-		bodyMap = new HashMap<Entity, Body>();
-		removalList = new ArrayList<Entity>();
-		addList = new ArrayList<Entity>();
-		this.verticesProvider = provider;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -97,7 +89,15 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	 */
 	@Override
 	public void load(Context context) throws ModuleException {
-		WorldModule system = context.getModule(WorldModule.class);
+		
+		WorldModule system = context.getModule(WorldModule.class);		
+
+		world = new World(new Vector2(0f, 0f), false);
+		bodyMap = new HashMap<Entity, Body>();
+		removalList = new ArrayList<Entity>();
+		addList = new ArrayList<Entity>();
+		this.verticesProvider = system.getRenderer();
+		
 		if (system != null) {
 			system.addListener(this);
 		}

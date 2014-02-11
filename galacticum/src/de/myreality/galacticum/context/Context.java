@@ -27,6 +27,7 @@ import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
+import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.player.Player;
 
 
@@ -48,12 +49,12 @@ public interface Context {
 	// ===========================================================
 	
 	/**
-	 * 
+	 * Throws an exception if it can't fint the module
 	 * 
 	 * @param subsystemClass
 	 * @return
 	 */
-	<Type extends Module> Type getModule(Class<Type> subsystemClass);
+	<Type extends Module> Type getModule(Class<Type> subsystemClass) throws ModuleException;
 	
 	/**
 	 * 

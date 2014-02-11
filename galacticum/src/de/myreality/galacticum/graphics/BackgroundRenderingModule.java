@@ -66,9 +66,8 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	// Constructors
 	// ===========================================================
 
-	public BackgroundRenderingModule(SpriteBatch batch) {
-		this.batch = batch;
-		fakeCamera = new OrthographicCamera();
+	public BackgroundRenderingModule() {
+		
 	}
 
 	// ===========================================================
@@ -95,7 +94,10 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void load(Context context) throws ModuleException {
+	public void load(Context context) throws ModuleException {		
+
+		this.batch = context.getSpriteBatch();
+		fakeCamera = new OrthographicCamera();
 
 		fakeCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		mapper = new ParallaxMapper(new Viewport() {

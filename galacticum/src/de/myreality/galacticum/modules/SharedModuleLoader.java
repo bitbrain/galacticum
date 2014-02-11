@@ -18,20 +18,14 @@ package de.myreality.galacticum.modules;
 
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.galacticum.biomes.BiomeColorProvider;
 import de.myreality.galacticum.biomes.BiomeModule;
-import de.myreality.galacticum.chunks.ChunkSystemModuleFactory;
-import de.myreality.galacticum.chunks.ChunkTargetAdapter;
-import de.myreality.galacticum.core.ContentHandler;
+import de.myreality.galacticum.chunks.ChunkSystemModule;
 import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.WorldModule;
-import de.myreality.galacticum.entities.SharedSpaceShipFactory;
 import de.myreality.galacticum.graphics.BackgroundRenderingModule;
 import de.myreality.galacticum.graphics.CameraModule;
-import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.graphics.LightingModule;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
@@ -90,26 +84,24 @@ public class SharedModuleLoader implements ModuleLoader {
 		
 		ModuleList systems = new ModuleList();
 		
-		BiomeColorProvider zoneColorProvider = new BiomeColorProvider(tweenManager);
+		CameraModule cameraSystem = new CameraModule();
+		BiomeModule zoneModule = new BiomeModule();		
+		PlayerModule playerSystem = new PlayerModule();
+		WorldModule worldSystem = new WorldModule();
+		ChunkSystemModule chunkModule = new ChunkSystemModule();
+		BackgroundRenderingModule backgroundModule = new BackgroundRenderingModule();
+		Box2DPhysicsModule physicsModule = new Box2DPhysicsModule();
+		LightingModule lightingModule = new LightingModule();
 		
-		CameraModule cameraSystem = new CameraModule(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), batch, tweenManager);
-		BiomeModule zoneModule = new BiomeModule(configuration.getSeed());		
-		zoneModule.addListener(zoneColorProvider);
-		GameCamera camera = cameraSystem.getCamera();
-		ChunkTargetAdapter cameraAdapter = new ChunkTargetAdapter(camera);
-		ContentHandler handler = new ContentHandler(zoneModule);
-		ChunkSystemModuleFactory chunkFactory = new ChunkSystemModuleFactory(handler, cameraAdapter, world);		
-		PlayerModule playerSystem = new PlayerModule(configuration, SharedSpaceShipFactory.getInstance(), zoneModule, cameraAdapter);
-		WorldModule worldSystem = new WorldModule(world, batch, camera);
-
 		systems.add(playerSystem);
 		systems.add(zoneModule);
-		systems.add(chunkFactory.create(configuration));
+		systems.add(chunkModule);
 		systems.add(cameraSystem);
-		systems.add(new BackgroundRenderingModule(batch));		
+		systems.add(backgroundModule);		
 		systems.add(worldSystem);
-		systems.add(new Box2DPhysicsModule(worldSystem.getRenderer()));
-		systems.add(new LightingModule(zoneColorProvider));
+		systems.add(physicsModule);
+		systems.add(lightingModule);
+		
 		return systems;
 	}
 

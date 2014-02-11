@@ -16,8 +16,7 @@
  */
 package de.myreality.galacticum.graphics;
 
-import aurelienribon.tweenengine.TweenManager;
-
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.context.Context;
@@ -54,13 +53,6 @@ public class CameraModule implements Module, Updateable {
 	// Constructors
 	// ===========================================================
 
-	public CameraModule(float viewportWidth, float viewportHeight, SpriteBatch batch, TweenManager tweenManager) {
-		this.viewportWidth = viewportWidth;
-		this.viewportHeight = viewportHeight;
-		camera = new SimpleGameCamera(viewportWidth, viewportHeight);
-		this.batch = batch;
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
@@ -89,7 +81,12 @@ public class CameraModule implements Module, Updateable {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void load(Context context) throws ModuleException {
+	public void load(Context context) throws ModuleException {		
+
+		this.viewportWidth = Gdx.graphics.getWidth();
+		this.viewportHeight = Gdx.graphics.getHeight();
+		camera = new SimpleGameCamera(viewportWidth, viewportHeight);
+		this.batch = context.getSpriteBatch();
 
 		if (viewportWidth <= 0 || viewportHeight <= 0) {
 			throw new ModuleException("Viewport of " + viewportWidth + "x"

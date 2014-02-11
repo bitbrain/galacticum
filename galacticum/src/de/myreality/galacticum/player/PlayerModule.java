@@ -27,11 +27,15 @@ import java.io.ObjectOutputStream;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
+import de.myreality.galacticum.biomes.BiomeModule;
+import de.myreality.galacticum.chunks.ChunkTargetAdapter;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.World;
+import de.myreality.galacticum.entities.SharedSpaceShipFactory;
 import de.myreality.galacticum.entities.SpaceShip;
 import de.myreality.galacticum.entities.SpaceShipFactory;
 import de.myreality.galacticum.entities.SpaceShipType;
+import de.myreality.galacticum.graphics.CameraModule;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
@@ -73,18 +77,6 @@ public class PlayerModule implements Module {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public PlayerModule(ContextConfiguration config, SpaceShipFactory factory, HashGenerator hashGenerator, PlayerListener listener) {
-		this.configuration = config;
-		spaceShipFactory = factory;
-		playerFactory = new SimplePlayerFactory();
-		this.listener = listener;
-		this.generator = hashGenerator;
-	}
-	
-	public PlayerModule(ContextConfiguration config, SpaceShipFactory factory, HashGenerator hashGenerator) {
-		this(config, factory, hashGenerator, null);
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -115,6 +107,19 @@ public class PlayerModule implements Module {
 	 */
 	@Override
 	public void load(Context context) throws ModuleException {	
+		
+		// Fetch the camera system
+		CameraModule cameraModule = context.getModule(CameraModule.class);
+		
+		// Fetch the biome system
+		BiomeModule biomeModule = context.getModule(BiomeModule.class);
+		
+		this.configuration = context.getConfiguration();
+		spaceShipFactory = SharedSpaceShipFactory.getInstance();
+		playerFactory = new SimplePlayerFactory();
+		this.listener = new ChunkTargetAdapter(cameraModule.getCamera());
+		this.generator = biomeModule;
+		
 		
 		File file = getFile();	
 		
