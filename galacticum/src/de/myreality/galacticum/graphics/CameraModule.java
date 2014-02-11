@@ -21,11 +21,9 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.context.Context;
-import de.myreality.galacticum.core.GameLight;
-import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
-import de.myreality.galacticum.modules.ProgressListener;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * Is responsible for providing a camera
@@ -34,7 +32,7 @@ import de.myreality.galacticum.modules.ProgressListener;
  * @since 0.1
  * @version 0.1
  */
-public class CameraModule implements Module {
+public class CameraModule implements Module, Updateable {
 
 	// ===========================================================
 	// Constants
@@ -91,21 +89,13 @@ public class CameraModule implements Module {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void start() throws ModuleException {
+	public void load(Context context) throws ModuleException {
 
 		if (viewportWidth <= 0 || viewportHeight <= 0) {
 			throw new ModuleException("Viewport of " + viewportWidth + "x"
 					+ viewportHeight + " is not allowed.");
-		}
+		}		
 		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
 		camera.focus(context.getPlayer().getCurrentShip());
 	}
 
@@ -125,70 +115,8 @@ public class CameraModule implements Module {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public void shutdown() {
+	public void dispose() {
 		camera = null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
-	 * de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void addProgressListener(ProgressListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
-	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void removeProgressListener(ProgressListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onAddEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onRemoveEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)
-	 */
-	@Override
-	public void onAddLight(GameLight light) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onRemoveLight(de.myreality.galacticum.core.GameLight)
-	 */
-	@Override
-	public void onRemoveLight(GameLight light) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	// ===========================================================

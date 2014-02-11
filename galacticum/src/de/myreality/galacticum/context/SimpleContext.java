@@ -23,8 +23,8 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.myreality.chunx.util.Updateable;
 import de.myreality.galacticum.core.World;
+import de.myreality.galacticum.core.WorldModule;
 import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.entities.EntityScreenDetector;
 import de.myreality.galacticum.graphics.GameCamera;
@@ -32,6 +32,7 @@ import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleList;
 import de.myreality.galacticum.player.Player;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * Simple implementation of {@see Context}
@@ -72,21 +73,15 @@ class SimpleContext implements Context, Updateable {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleContext(ModuleList subsystems, World container, Player player, GameCamera camera, SpriteBatch batch, TweenManager tweenManager, ContextConfiguration configuration) {
-		this.subsystems = subsystems;
+	public SimpleContext(World container, Player player, GameCamera camera, SpriteBatch batch, TweenManager tweenManager, ContextConfiguration configuration) {
+		this.subsystems = new ModuleList();
+		subsystemStack = new Stack<Module>();	
 		this.container = container;
 		this.configuration = configuration;
 		this.camera = camera;
 		this.player = player;
 		this.batch = batch;
 		this.tweenManager = tweenManager;
-		
-		subsystemStack = new Stack<Module>();
-		
-		for (Module system : subsystems) {
-			subsystemStack.push(system);
-		}		
-
 		this.entityScreenDetector = new EntityScreenDetector(this);
 	}
 	
@@ -94,6 +89,16 @@ class SimpleContext implements Context, Updateable {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public void addModule(Module module) {
+		subsystems.add(module);
+		subsystemStack.push(module);
+		
+		// Register our module
+		if (module instanceof WorldModule) {
+			((WorldModule)module).addListener(entityScreenDetector);
+		}
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -173,24 +178,17 @@ class SimpleContext implements Context, Updateable {
 		return entityScreenDetector.getVisibleEntities();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see de.myreality.chunx.util.Updateable#update()
-	 */
-	@Override
-	public void update() {
-		update(1/60f);
-	}
-
-
 	/* (non-Javadoc)
 	 * @see de.myreality.chunx.util.Updateable#update(float)
 	 */
 	@Override
 	public void update(float delta) {
 		for (Module system : subsystems) {
-			system.update(delta);
+			if (system instanceof Updateable) {
+				((Updateable)system).update(delta);
+			}
 		}
+		entityScreenDetector.clear();
 	}
 
 
@@ -202,7 +200,7 @@ class SimpleContext implements Context, Updateable {
 		// Free the last element first
 		while (!subsystemStack.isEmpty()) {
 			Module system = subsystemStack.pop();
-			system.shutdown();
+			system.dispose();
 		}
 	}
 

@@ -25,6 +25,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
+import de.myreality.galacticum.core.WorldListener;
 import de.myreality.galacticum.graphics.CameraModule;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -32,6 +33,7 @@ import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ModuleList;
 import de.myreality.galacticum.modules.ProgressListener;
+import de.myreality.galacticum.modules.ProgressObserver;
 import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.util.Nameable;
@@ -98,13 +100,16 @@ public class SimpleContextLoader implements ContextLoader {
 	@Override
 	public Context load(ContextConfiguration configuration,
 			World world) throws ContextException {
+		
+		SimpleContext context = new SimpleContext(world, player, camera, batch, tweenManager, configuration);
+		
 		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems
 				.size(), 0.0f));
-		loadSubsystems(configuration, world);
+		loadSubsystems(configuration, world, context);
 		listenerController.onSuccess(new SimpleContextEvent(this, subsystems
 				.size(), subsystems.size(), 1.0f));
 
-		return new SimpleContext(subsystems, world, player, camera, batch, tweenManager, configuration);
+		return context;
 	}
 
 	/*
@@ -122,13 +127,14 @@ public class SimpleContextLoader implements ContextLoader {
 	// Methods
 	// ===========================================================
 
-	private void loadSubsystems(
-			ContextConfiguration configuration, World world) throws ContextException {
+	private void loadSubsystems(ContextConfiguration configuration, World world, SimpleContext context) throws ContextException {
 
 		int index = 0;
 		
 		for (Module system : subsystems) {
-			world.addListener(system);
+			if (system instanceof WorldListener) {
+				world.addListener((WorldListener)system);
+			}
 		}
 		
 		Gdx.app.log("LOAD", "Loading subsystems..");
@@ -138,13 +144,18 @@ public class SimpleContextLoader implements ContextLoader {
 			Gdx.app.log("LOAD", "Load " + system.getName() + " system..");
 			
 			currentIndex = index;
-			system.addProgressListener(subsystemListener);
+			if (system instanceof ProgressObserver) {
+				((ProgressObserver)system).addListener(subsystemListener);
+			}
 			SimpleContextEvent event = new SimpleContextEvent(this, index,
 					subsystems.size(), (float) index
 							/ (float) subsystems.size());
 			listenerController.onLoad(event, system);
 			startSubsystem(system, event);
-			system.removeProgressListener(subsystemListener);
+			
+			if (system instanceof ProgressObserver) {
+				((ProgressObserver)system).removeListener(subsystemListener);
+			}
 
 			loadPlayer(system);
 			loadCamera(system);
@@ -157,7 +168,7 @@ public class SimpleContextLoader implements ContextLoader {
 			throws ContextException {
 
 		try {
-			system.start();
+			system.load(null);
 		} catch (ModuleException e) {
 			listenerController.onFail(event, e);
 			throw new ContextException(e);

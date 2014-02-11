@@ -28,7 +28,7 @@ import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.SimpleWorldListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
-import de.myreality.galacticum.modules.ProgressListener;
+import de.myreality.galacticum.util.Updateable;
 import de.myreality.parallax.LayerConfig;
 import de.myreality.parallax.LayerTexture;
 import de.myreality.parallax.ParallaxMapper;
@@ -44,7 +44,7 @@ import de.myreality.parallax.libgdx.PreprocessedTexture;
  * @since 0.1
  * @version 0.1
  */
-public class BackgroundRenderingModule extends SimpleWorldListener implements Module {
+public class BackgroundRenderingModule extends SimpleWorldListener implements Module, Updateable {
 
 	// ===========================================================
 	// Constants
@@ -95,7 +95,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void start() throws ModuleException {
+	public void load(Context context) throws ModuleException {
 
 		fakeCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		mapper = new ParallaxMapper(new Viewport() {
@@ -130,15 +130,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 			}
 
 		});
-	}
-	
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
+		
 		this.context = context;
 	}
 
@@ -179,31 +171,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public void shutdown() {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
-	 * de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void addProgressListener(ProgressListener listener) {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
-	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void removeProgressListener(ProgressListener listener) {
+	public void dispose() {
 
 	}
 	

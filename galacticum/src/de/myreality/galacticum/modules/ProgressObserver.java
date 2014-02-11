@@ -16,18 +16,16 @@
  */
 package de.myreality.galacticum.modules;
 
-import de.myreality.galacticum.context.Context;
-import de.myreality.galacticum.util.Nameable;
+import de.myreality.galacticum.util.Observer;
 
 /**
- * Provides such functionality for different game sections. A subsystem
- * can be started, shutted down or updated frequently.
+ * Interface wrapper for a progress listener observer
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Module extends Nameable {
+public interface ProgressObserver extends Observer<ProgressListener> {
 	
 	// ===========================================================
 	// Constants
@@ -36,16 +34,5 @@ public interface Module extends Nameable {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Starts this subsystem
-	 * @param context TODO
-	 */
-	void load(Context context) throws ModuleException;
-	
-	/**
-	 * Closes this subsystem
-	 */
-	void dispose();
 
 }

@@ -41,8 +41,8 @@ import de.myreality.galacticum.entities.Shape;
 import de.myreality.galacticum.entities.Shape.ShapeListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.util.Moveable;
+import de.myreality.galacticum.util.Updateable;
 import de.myreality.galacticum.util.VerticesProvider;
 
 /**
@@ -52,7 +52,7 @@ import de.myreality.galacticum.util.VerticesProvider;
  * @since 0.1
  * @version 0.1
  */
-public class Box2DPhysicsModule extends SimpleWorldListener implements Module, WorldSystemListener, ShapeListener {
+public class Box2DPhysicsModule extends SimpleWorldListener implements Module, WorldSystemListener, ShapeListener, Updateable {
 
 	private World world;
 
@@ -96,19 +96,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void start() throws ModuleException {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality
-	 * .galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
+	public void load(Context context) throws ModuleException {
 		WorldModule system = context.getModule(WorldModule.class);
 		if (system != null) {
 			system.addListener(this);
@@ -150,31 +138,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public void shutdown() {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
-	 * de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void addProgressListener(ProgressListener listener) {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
-	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void removeProgressListener(ProgressListener listener) {
+	public void dispose() {
 
 	}
 

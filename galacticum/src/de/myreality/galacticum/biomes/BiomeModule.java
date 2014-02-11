@@ -22,7 +22,8 @@ import java.util.Set;
 
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.entities.SpaceShip;
-import de.myreality.galacticum.modules.ModulePrototype;
+import de.myreality.galacticum.modules.Module;
+import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.player.PlayerListenerPrototype;
 import de.myreality.galacticum.player.PlayerModule;
@@ -37,7 +38,7 @@ import de.myreality.galacticum.util.SimpleHashGenerator;
  * @since 0.1
  * @version 0.1
  */
-public class BiomeModule extends ModulePrototype implements BiomeHandler, HashGenerator {
+public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 
 	// ===========================================================
 	// Constants
@@ -79,23 +80,7 @@ public class BiomeModule extends ModulePrototype implements BiomeHandler, HashGe
 	}
 
 	@Override
-	public void onEnter(Context context) {
-		super.onEnter(context);
-
-		PlayerModule playerModule = context.getModule(PlayerModule.class);
-		Player player = playerModule.getPlayer();
-		SpaceShip currentPlayerShip = player.getCurrentShip();
-		this.target = new TargetHandler(currentPlayerShip);
-		player.addListener(target);
-		this.oldHash = generateHash();
-		for (ZoneListener l : getListeners()) {
-			l.onEnterZone(oldHash, target);
-		}
-	}
-
-	@Override
 	public void update(float delta) {
-		super.update(delta);
 
 		if (target != null) {
 
@@ -219,6 +204,31 @@ public class BiomeModule extends ModulePrototype implements BiomeHandler, HashGe
 	@Override
 	public long generate(float x, float y) {
 		return hashGenerator.generate(x, y);
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.modules.Module#start()
+	 */
+	@Override
+	public void load(Context context) throws ModuleException {
+		PlayerModule playerModule = context.getModule(PlayerModule.class);
+		Player player = playerModule.getPlayer();
+		SpaceShip currentPlayerShip = player.getCurrentShip();
+		this.target = new TargetHandler(currentPlayerShip);
+		player.addListener(target);
+		this.oldHash = generateHash();
+		for (ZoneListener l : getListeners()) {
+			l.onEnterZone(oldHash, target);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.modules.Module#shutdown()
+	 */
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

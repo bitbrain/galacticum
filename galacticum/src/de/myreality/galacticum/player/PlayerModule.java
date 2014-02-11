@@ -28,16 +28,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 import de.myreality.galacticum.context.Context;
-import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.core.World;
-import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.entities.SpaceShip;
 import de.myreality.galacticum.entities.SpaceShipFactory;
 import de.myreality.galacticum.entities.SpaceShipType;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.util.HashGenerator;
 
 /**
@@ -117,7 +114,8 @@ public class PlayerModule implements Module {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void start() throws ModuleException {		
+	public void load(Context context) throws ModuleException {	
+		
 		File file = getFile();	
 		
 		this.player = loadFromFile(file);
@@ -130,31 +128,11 @@ public class PlayerModule implements Module {
 				this.player.addListener(listener);
 			}
 		}
-	}
-	
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
+		
 		this.context = context;
 		
 		World world = context.getWorld();
 		world.add(player.getCurrentShip());
-		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#update(float)
-	 */
-	@Override
-	public void update(float delta) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -163,7 +141,7 @@ public class PlayerModule implements Module {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public void shutdown() {
+	public void dispose() {
 		if (this.player != null) {
 			
 			if (context != null) {
@@ -181,32 +159,6 @@ public class PlayerModule implements Module {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
-	 * de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void addProgressListener(ProgressListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
-	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void removeProgressListener(ProgressListener listener) {
-		// TODO Auto-generated method stub
-
 	}
 
 	// ===========================================================
@@ -262,42 +214,6 @@ public class PlayerModule implements Module {
 		}
 		
 		return file;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onAddEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
-	 */
-	@Override
-	public void onRemoveEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)
-	 */
-	@Override
-	public void onAddLight(GameLight light) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.WorldListener#onRemoveLight(de.myreality.galacticum.core.GameLight)
-	 */
-	@Override
-	public void onRemoveLight(GameLight light) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	// ===========================================================

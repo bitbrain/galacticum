@@ -29,13 +29,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.GameLight;
+import de.myreality.galacticum.core.WorldListener;
 import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
 import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * Subsystem to handle lighting
@@ -44,7 +45,7 @@ import de.myreality.galacticum.util.GameColor;
  * @since 0.1
  * @version 0.1
  */
-public class LightingModule implements Module {
+public class LightingModule implements Module, WorldListener, Updateable {
 	
 	private RayHandler handler;
 	
@@ -76,15 +77,7 @@ public class LightingModule implements Module {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void start() throws ModuleException {
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
+	public void load(Context context) throws ModuleException {
 		this.context = context;
 		
 		Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
@@ -99,7 +92,6 @@ public class LightingModule implements Module {
 		Entity ship = context.getPlayer().getCurrentShip();
 		Body body = physics.getBody(ship);
 		light.attachToBody(body, ship.getWidth() / 2f, ship.getHeight() / 2f);
-		
 	}
 
 	/* (non-Javadoc)
@@ -128,45 +120,21 @@ public class LightingModule implements Module {
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public void shutdown() {
+	public void dispose() {
 		handler.dispose();
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void addProgressListener(ProgressListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void removeProgressListener(ProgressListener listener) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.WorldListener#onAddEntity(de.myreality.galacticum.core.entities.Entity)
 	 */
 	@Override
-	public void onAddEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onAddEntity(Entity entity) { }
 
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.WorldListener#onRemoveEntity(de.myreality.galacticum.core.entities.Entity)
 	 */
 	@Override
-	public void onRemoveEntity(Entity entity) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onRemoveEntity(Entity entity) { }
 
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.core.WorldListener#onAddLight(de.myreality.galacticum.core.GameLight)

@@ -16,8 +16,6 @@
  */
 package de.myreality.galacticum.screens;
 
-import java.util.Stack;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
@@ -26,7 +24,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import de.myreality.chunx.util.Updateable;
 import de.myreality.galacticum.GalacticumGame;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.controls.IngameControls;
@@ -34,9 +31,9 @@ import de.myreality.galacticum.graphics.shader.CRTShader;
 import de.myreality.galacticum.graphics.shader.ShadeArea;
 import de.myreality.galacticum.graphics.shader.ShaderManager;
 import de.myreality.galacticum.graphics.shader.SimpleShaderManager;
-import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.ui.DebugStage;
 import de.myreality.galacticum.ui.Debugable;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * 
@@ -66,8 +63,6 @@ public class IngameScreen implements Screen, Debugable {
 	private ShaderManager shaderManager;
 	
 	private OrthographicCamera fakeCamera;
-
-	private boolean shadingEnabled = false;
 	
 	private ShadeArea gameContent = new ShadeArea() {
 

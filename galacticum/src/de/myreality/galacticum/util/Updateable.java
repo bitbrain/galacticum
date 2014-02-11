@@ -14,21 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.myreality.galacticum.modules;
-
-import de.myreality.galacticum.context.Context;
-import de.myreality.galacticum.util.Nameable;
+package de.myreality.galacticum.util;
 
 /**
- * Provides such functionality for different game sections. A subsystem
- * can be started, shutted down or updated frequently.
+ * Provides per-frame update functionality
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 0.1
  * @version 0.1
  */
-public interface Module extends Nameable {
-	
+public interface Updateable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,15 +32,6 @@ public interface Module extends Nameable {
 	// Methods
 	// ===========================================================
 	
-	/**
-	 * Starts this subsystem
-	 * @param context TODO
-	 */
-	void load(Context context) throws ModuleException;
-	
-	/**
-	 * Closes this subsystem
-	 */
-	void dispose();
+	void update(float delta);
 
 }

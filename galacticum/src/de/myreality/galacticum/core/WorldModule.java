@@ -31,8 +31,8 @@ import de.myreality.galacticum.graphics.rendering.SimpleEntityRenderer;
 import de.myreality.galacticum.graphics.rendering.SpaceshipTextureLoader;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
-import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.util.SimpleObserver;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * Handles the current world
@@ -41,7 +41,7 @@ import de.myreality.galacticum.util.SimpleObserver;
  * @since 0.1
  * @version 0.1
  */
-public class WorldModule extends SimpleObserver<WorldSystemListener> implements Module {
+public class WorldModule extends SimpleObserver<WorldSystemListener> implements Module, WorldListener, Updateable {
 
 	// ===========================================================
 	// Constants
@@ -104,18 +104,7 @@ public class WorldModule extends SimpleObserver<WorldSystemListener> implements 
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#start()
 	 */
 	@Override
-	public void start() throws ModuleException {
-		
-	}
-	
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
-		// TODO Auto-generated method stub
+	public void load(Context context) throws ModuleException {
 		
 	}
 
@@ -145,31 +134,7 @@ public class WorldModule extends SimpleObserver<WorldSystemListener> implements 
 	 * @see de.myreality.galacticum.core.subsystem.Subsystem#shutdown()
 	 */
 	@Override
-	public void shutdown() {
-		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(
-	 * de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void addProgressListener(ProgressListener listener) {
-		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener
-	 * (de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
-	@Override
-	public void removeProgressListener(ProgressListener listener) {
+	public void dispose() {
 		
 	}
 

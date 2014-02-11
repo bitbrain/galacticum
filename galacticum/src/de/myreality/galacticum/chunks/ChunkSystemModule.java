@@ -19,10 +19,11 @@ package de.myreality.galacticum.chunks;
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.galacticum.context.Context;
-import de.myreality.galacticum.core.SimpleWorldListener;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ProgressListener;
+import de.myreality.galacticum.util.SimpleObserver;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * Adapter to convert {@see ChunkSystem} to {@see Subsystem}
@@ -31,7 +32,7 @@ import de.myreality.galacticum.modules.ProgressListener;
  * @since 0.1
  * @version 0.1
  */
-public class ChunkSystemModule extends SimpleWorldListener implements Module {
+public class ChunkSystemModule extends SimpleObserver<ProgressListener> implements Module, Updateable {
 
 	// ===========================================================
 	// Constants
@@ -77,21 +78,12 @@ public class ChunkSystemModule extends SimpleWorldListener implements Module {
 	 * @see de.myreality.galacticum.core.Subsystem#start()
 	 */
 	@Override
-	public void start() throws ModuleException {
+	public void load(Context context) throws ModuleException {
 		try {
 		chunkSystem.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#onEnter(de.myreality.galacticum.core.context.Context)
-	 */
-	@Override
-	public void onEnter(Context context) {
 	}
 
 	/* (non-Javadoc)
@@ -106,23 +98,17 @@ public class ChunkSystemModule extends SimpleWorldListener implements Module {
 	 * @see de.myreality.galacticum.core.Subsystem#shutdown()
 	 */
 	@Override
-	public void shutdown() {
+	public void dispose() {
 		chunkSystem.shutdown();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#addProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
 	@Override
-	public void addProgressListener(ProgressListener listener) {
+	public void addListener(ProgressListener listener) {
 		chunkSystem.addListener(new ChunkSystemListenerAdapter(listener));
 	}
 
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.core.subsystem.Subsystem#removeProgressListener(de.myreality.galacticum.core.subsystem.ProgressListener)
-	 */
 	@Override
-	public void removeProgressListener(ProgressListener listener) {
+	public void removeListener(ProgressListener listener) {
 		chunkSystem.removeListener(new ChunkSystemListenerAdapter(listener));
 	}
 
