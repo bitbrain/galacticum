@@ -30,6 +30,7 @@ import de.myreality.galacticum.io.GDXOutputStreamProvider;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ProgressListener;
+import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.util.SimpleObserver;
 import de.myreality.galacticum.util.Updateable;
 
@@ -82,6 +83,8 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 	@Override
 	public void load(Context context) throws ModuleException {
 		
+		PlayerModule playerModule = context.getModule(PlayerModule.class);
+		
 		CachedChunkConfiguration chunkConfiguration = new SimpleCachedChunkConfiguration();		
 		ChunkSystem chunkSystem = new SimpleCachedChunkSystem(chunkConfiguration);		
 		ChunkSaver saver = chunkSystem.getSaver();
@@ -90,7 +93,7 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 		saver.setPath(context.getConfiguration().getChunkPath());
 		
 		chunkConfiguration.setContentProvider(context.getWorld());
-		chunkConfiguration.setFocused(context.getPlayer().getCurrentShip());
+		chunkConfiguration.setFocused(playerModule.getPlayer().getCurrentShip());
 		chunkConfiguration.setChunkSize(CHUNK_SIZE);
 		
 		chunkConfiguration.setCacheSize(1);

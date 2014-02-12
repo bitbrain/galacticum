@@ -35,6 +35,7 @@ import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
+import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
 import de.myreality.galacticum.util.Updateable;
@@ -79,11 +80,14 @@ public class LightingModule implements Module, WorldListener, Updateable {
 	@Override
 	public void load(Context context) throws ModuleException {
 		
-		this.context = context;		
 		BiomeModule biomeModule = context.getModule(BiomeModule.class);
+		Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
+		PlayerModule playerModule = context.getModule(PlayerModule.class);
+		
+		this.context = context;		
+		
 		this.ambientColorProvider = biomeModule.getAmbientColorProvider();
 		
-		Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
 		handler = new RayHandler(physics.getWorld());
 		RayHandler.useDiffuseLight(true);
 		handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
@@ -92,7 +96,7 @@ public class LightingModule implements Module, WorldListener, Updateable {
 		light.setDistance(170);
 		light.setColor(0.6f, 0.6f, 0.6f, 0.5f);
 		
-		Entity ship = context.getPlayer().getCurrentShip();
+		Entity ship = playerModule.getPlayer().getCurrentShip();
 		Body body = physics.getBody(ship);
 		light.attachToBody(body, ship.getWidth() / 2f, ship.getHeight() / 2f);
 	}

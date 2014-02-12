@@ -30,6 +30,7 @@ import de.myreality.galacticum.entities.EntityScreenDetector;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
+import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ModuleList;
 import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.util.Updateable;
@@ -99,10 +100,20 @@ class SimpleContext implements Context, Updateable {
 			((WorldModule)module).addListener(entityScreenDetector);
 		}
 	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+
+	public void setCamera(GameCamera camera) {
+		this.camera = camera;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
 
 	/*
 	 * (non-Javadoc)
@@ -156,8 +167,14 @@ class SimpleContext implements Context, Updateable {
 	 * @see de.myreality.galacticum.core.context.Context#getSubsystem(java.lang.Class)
 	 */
 	@Override
-	public <Type extends Module> Type getModule(Class<Type> subsystemClass) {
-		return subsystems.get(subsystemClass);
+	public <Type extends Module> Type getModule(Class<Type> subsystemClass) throws ModuleException {
+		Type type = subsystems.get(subsystemClass);
+		
+		if (type != null) {
+			return type;
+		} else {
+			throw new ModuleException("Module of class " + subsystemClass + " not found in context");
+		}
 	}
 
 

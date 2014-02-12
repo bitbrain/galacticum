@@ -94,7 +94,12 @@ public class SharedSpaceShipFactory implements SpaceShipFactory, Serializable {
 			super(EntityType.SPACESHIP, size, size, color, hash);
 			this.setX(x);
 			this.setY(y);
-			// this.setRotation((float) (360f * Math.random()));
+		}
+		
+		public SimpleSpaceShip() {
+			super(EntityType.SPACESHIP);
+			this.setX(0);
+			this.setY(0);
 		}
 
 		private static final long serialVersionUID = 8496116234063566152L;

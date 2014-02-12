@@ -68,10 +68,46 @@ public class SimpleEntity extends SimpleObserver<ShapeListener> implements
 		this.hash = hash;
 		this.color = color;
 	}
+	
+	public SimpleEntity(EntityType type) {
+		this(type, 0);
+	}
+	
+	public SimpleEntity(EntityType type, long seed) {
+		this(type, 50f, 50f, seed);
+	}
+	
+	public SimpleEntity(EntityType type, float width, float height, long seed) {
+		this(type, width, height, new GameColor(1f, 1f, 1f,1f), seed);
+	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.entities.Entity#setType(de.myreality.galacticum.entities.EntityType)
+	 */
+	@Override
+	public void setType(EntityType type) {
+		this.type = type;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.entities.Entity#setHash(long)
+	 */
+	@Override
+	public void setHash(long hash) {
+		this.hash = hash;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.entities.Entity#setColor(de.myreality.galacticum.util.GameColor)
+	 */
+	@Override
+	public void setColor(GameColor color) {
+		this.color = color;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces

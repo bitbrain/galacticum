@@ -59,6 +59,8 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 
 	private BiomeColorProvider colorProvider;
 
+	private Context context;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -70,6 +72,45 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.util.HashGenerator#generate(float, float)
+	 */
+	@Override
+	public long generate(float x, float y) {
+		return hashGenerator.generate(x, y);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.modules.Module#start()
+	 */
+	@Override
+	public void load(Context context) throws ModuleException {
+
+		this.colorProvider = new BiomeColorProvider(context.getTweenManager());
+
+		addListener(colorProvider);
+
+		Seed seed = context.getConfiguration().getSeed();
+		listeners = new HashSet<BiomeHandler.ZoneListener>();
+		hashGenerator = new SimpleHashGenerator(seed);
+		oldHash = seed.getHash();
+		this.context = context;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.galacticum.modules.Module#shutdown()
+	 */
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
 	public String getName() {
@@ -91,9 +132,24 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 			}
 
 			this.oldHash = currentHash;
+		} else {
+			PlayerModule playerModule;
+			try {
+				playerModule = context.getModule(PlayerModule.class);
+				Player player = playerModule.getPlayer();
+				SpaceShip currentPlayerShip = player.getCurrentShip();
+				this.target = new TargetHandler(currentPlayerShip);
+				player.addListener(target);
+				this.oldHash = generateHash();
+				for (ZoneListener l : getListeners()) {
+					l.onEnterZone(oldHash, target);
+				}
+			} catch (ModuleException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-	
+
 	public ColorProvider getAmbientColorProvider() {
 		return colorProvider;
 	}
@@ -197,50 +253,6 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 			return ship.getY();
 		}
 
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.util.HashGenerator#generate(float, float)
-	 */
-	@Override
-	public long generate(float x, float y) {
-		return hashGenerator.generate(x, y);
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.modules.Module#start()
-	 */
-	@Override
-	public void load(Context context) throws ModuleException {
-		
-		
-		this.colorProvider = new BiomeColorProvider(context.getTweenManager());
-		
-		addListener(colorProvider);
-		
-		Seed seed = context.getConfiguration().getSeed();
-		listeners = new HashSet<BiomeHandler.ZoneListener>();
-		hashGenerator = new SimpleHashGenerator(seed);
-		oldHash = seed.getHash();
-		
-		PlayerModule playerModule = context.getModule(PlayerModule.class);
-		Player player = playerModule.getPlayer();
-		SpaceShip currentPlayerShip = player.getCurrentShip();
-		this.target = new TargetHandler(currentPlayerShip);
-		player.addListener(target);
-		this.oldHash = generateHash();
-		for (ZoneListener l : getListeners()) {
-			l.onEnterZone(oldHash, target);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see de.myreality.galacticum.modules.Module#shutdown()
-	 */
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

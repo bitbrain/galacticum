@@ -93,14 +93,14 @@ public class SharedModuleLoader implements ModuleLoader {
 		Box2DPhysicsModule physicsModule = new Box2DPhysicsModule();
 		LightingModule lightingModule = new LightingModule();
 		
+		systems.add(zoneModule);		
 		systems.add(playerSystem);
-		systems.add(zoneModule);
-		systems.add(chunkModule);
 		systems.add(cameraSystem);
-		systems.add(backgroundModule);		
 		systems.add(worldSystem);
 		systems.add(physicsModule);
 		systems.add(lightingModule);
+		systems.add(chunkModule);		
+		systems.add(backgroundModule);	
 		
 		return systems;
 	}

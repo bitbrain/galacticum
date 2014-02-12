@@ -40,6 +40,7 @@ import de.myreality.galacticum.io.ContextConfiguration;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.util.HashGenerator;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * Handles the current player
@@ -48,7 +49,7 @@ import de.myreality.galacticum.util.HashGenerator;
  * @since 0.1
  * @version 0.1
  */
-public class PlayerModule implements Module {
+public class PlayerModule implements Module, Updateable {
 
 	// ===========================================================
 	// Constants
@@ -108,8 +109,6 @@ public class PlayerModule implements Module {
 	@Override
 	public void load(Context context) throws ModuleException {	
 		
-		// Fetch the camera system
-		CameraModule cameraModule = context.getModule(CameraModule.class);
 		
 		// Fetch the biome system
 		BiomeModule biomeModule = context.getModule(BiomeModule.class);
@@ -117,7 +116,8 @@ public class PlayerModule implements Module {
 		this.configuration = context.getConfiguration();
 		spaceShipFactory = SharedSpaceShipFactory.getInstance();
 		playerFactory = new SimplePlayerFactory();
-		this.listener = new ChunkTargetAdapter(cameraModule.getCamera());
+		
+		
 		this.generator = biomeModule;
 		
 		
@@ -219,6 +219,26 @@ public class PlayerModule implements Module {
 		}
 		
 		return file;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.util.Updateable#update(float)
+	 */
+	@Override
+	public void update(float delta) {
+		
+		// Deferred loading caused by crossed-dependencies
+		
+		if (this.listener == null) {
+			// Fetch the camera system
+			CameraModule cameraModule;
+			try {
+				cameraModule = context.getModule(CameraModule.class);
+				this.listener = new ChunkTargetAdapter(cameraModule.getCamera());
+			} catch (ModuleException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// ===========================================================

@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
+import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.util.Updateable;
 
 /**
@@ -82,6 +83,8 @@ public class CameraModule implements Module, Updateable {
 	 */
 	@Override
 	public void load(Context context) throws ModuleException {		
+		
+		PlayerModule playerModule = context.getModule(PlayerModule.class);
 
 		this.viewportWidth = Gdx.graphics.getWidth();
 		this.viewportHeight = Gdx.graphics.getHeight();
@@ -93,7 +96,7 @@ public class CameraModule implements Module, Updateable {
 					+ viewportHeight + " is not allowed.");
 		}		
 		
-		camera.focus(context.getPlayer().getCurrentShip());
+		camera.focus(playerModule.getPlayer().getCurrentShip());
 	}
 
 	/*

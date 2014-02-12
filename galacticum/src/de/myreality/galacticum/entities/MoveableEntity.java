@@ -53,11 +53,44 @@ public class MoveableEntity extends SimpleEntity implements Moveable {
 			GameColor color, long hash) {
 		super(type, width, height, color, hash);
 	}
+	
+
+	/**
+	 * @param type
+	 * @param width
+	 * @param height
+	 * @param seed
+	 */
+	public MoveableEntity(EntityType type, float width, float height, long seed) {
+		super(type, width, height, seed);
+	}
+
+
+
+	/**
+	 * @param type
+	 * @param seed
+	 */
+	public MoveableEntity(EntityType type, long seed) {
+		super(type, seed);
+	}
+
+
+
+	/**
+	 * @param type
+	 */
+	public MoveableEntity(EntityType type) {
+		super(type);
+	}
+
+
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 	
+
 	@Override
 	public boolean isMoving() {
 		return isMoving;

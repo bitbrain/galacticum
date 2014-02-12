@@ -34,7 +34,6 @@ import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ModuleList;
 import de.myreality.galacticum.modules.ProgressListener;
 import de.myreality.galacticum.modules.ProgressObserver;
-import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.util.Nameable;
 
@@ -61,8 +60,6 @@ public class SimpleContextLoader implements ContextLoader {
 	private SubsystemListener subsystemListener;
 
 	private int currentIndex;
-
-	private Player player;
 	
 	private GameCamera camera;
 	
@@ -101,7 +98,7 @@ public class SimpleContextLoader implements ContextLoader {
 	public Context load(ContextConfiguration configuration,
 			World world) throws ContextException {
 		
-		SimpleContext context = new SimpleContext(world, player, camera, batch, tweenManager, configuration);
+		SimpleContext context = new SimpleContext(world, null, camera, batch, tweenManager, configuration);
 		
 		listenerController.onStart(new SimpleContextEvent(this, 0, subsystems
 				.size(), 0.0f));
@@ -137,11 +134,11 @@ public class SimpleContextLoader implements ContextLoader {
 			}
 		}
 		
-		Gdx.app.log("LOAD", "Loading subsystems..");
+		Gdx.app.log("LOAD", "Loading modules..");
 
 		for (Module system : subsystems) {
 			
-			Gdx.app.log("LOAD", "Load " + system.getName() + " system..");
+			Gdx.app.log("LOAD", "Load " + system.getName() + " module..");
 			
 			currentIndex = index;
 			if (system instanceof ProgressObserver) {
@@ -151,14 +148,14 @@ public class SimpleContextLoader implements ContextLoader {
 					subsystems.size(), (float) index
 							/ (float) subsystems.size());
 			listenerController.onLoad(event, system);
-			startSubsystem(system, event);
+			startSubsystem(system, event, context);
 			
 			if (system instanceof ProgressObserver) {
 				((ProgressObserver)system).removeListener(subsystemListener);
 			}
 
-			loadPlayer(system);
-			loadCamera(system);
+			loadPlayer(system, context);
+			loadCamera(system, context);
 			
 			Gdx.app.log("LOAD", "Success!");
 			
@@ -166,28 +163,28 @@ public class SimpleContextLoader implements ContextLoader {
 		}
 	}
 
-	private void startSubsystem(Module system, ContextEvent event)
+	private void startSubsystem(Module system, ContextEvent event, Context context)
 			throws ContextException {
 
 		try {
-			system.load(null);
+			system.load(context);
 		} catch (ModuleException e) {
 			listenerController.onFail(event, e);
 			throw new ContextException(e);
 		}
 	}
 
-	private void loadPlayer(Module system) {
+	private void loadPlayer(Module system, SimpleContext context) {
 		// Fetch the current player if available
 		if (system instanceof PlayerModule) {
-			player = ((PlayerModule) system).getPlayer();
+			context.setPlayer(((PlayerModule) system).getPlayer());
 		}
 	}
 	
-	private void loadCamera(Module system) {
+	private void loadCamera(Module system, SimpleContext context) {
 		// Fetch the current player if available
 		if (system instanceof CameraModule) {
-			camera = ((CameraModule) system).getCamera();
+			context.setCamera(((CameraModule) system).getCamera());
 		}
 	}
 

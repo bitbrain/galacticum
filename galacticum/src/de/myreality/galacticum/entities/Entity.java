@@ -56,5 +56,11 @@ public interface Entity extends IDProvider, Shape, ChunkTarget, Externalizable {
 	long getHash();
 	
 	GameColor getColor();
+	
+	void setType(EntityType type);
+	
+	void setHash(long hash);
+	
+	void setColor(GameColor color);
 
 }
