@@ -69,6 +69,12 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	private List<Entity> addList;
 	
 	private VerticesProvider verticesProvider;
+	
+	public Box2DPhysicsModule() {
+		bodyMap = new HashMap<Entity, Body>();
+		removalList = new ArrayList<Entity>();
+		addList = new ArrayList<Entity>();
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -95,20 +101,16 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 		WorldModule system = context.getModule(WorldModule.class);
 		
 		try {
-			de.myreality.galacticum.core.World contextWorld = context.getWorld();		
-			if (!contextWorld.contains(context.getPlayer().getCurrentShip())) {
-				contextWorld.add(context.getPlayer().getCurrentShip());
-			}
-	
 			this.world = new World(new Vector2(0f, 0f), false);
-
-			bodyMap = new HashMap<Entity, Body>();
-			removalList = new ArrayList<Entity>();
-			addList = new ArrayList<Entity>();
 			this.verticesProvider = system.getRenderer();
 			
 			if (system != null) {
 				system.addListener(this);
+			}
+			
+			de.myreality.galacticum.core.World contextWorld = context.getWorld();		
+			if (!contextWorld.contains(context.getPlayer().getCurrentShip())) {
+				contextWorld.add(context.getPlayer().getCurrentShip());
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -181,7 +183,6 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 				
 				// Create our body in the world using our body definition
 				Body body = world.createBody(bodyDef);
-
 				bodyMap.put(entity, body);
 				body.setUserData(entity);
 				
