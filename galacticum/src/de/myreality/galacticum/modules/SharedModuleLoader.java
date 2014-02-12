@@ -101,7 +101,6 @@ public class SharedModuleLoader implements ModuleLoader {
 		systems.add(physicsModule);
 		systems.add(lightingModule);
 		systems.add(chunkModule);		
-		
 		return systems;
 	}
 

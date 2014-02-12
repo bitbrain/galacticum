@@ -58,8 +58,8 @@ public class BiomeColorProvider implements ZoneListener, ColorProvider {
 	
 	public BiomeColorProvider(TweenManager tweenManager) {
 		this.tweenManager = tweenManager;
-		color = new GameColor(1f, 1f, 1f, 1f);
-		targetColor = new GameColor(1f, 1f, 1f, 1f);
+		color = new GameColor(0f, 0f, 0f, 0f);
+		targetColor = new GameColor(0f, 0f, 0f, 0f);
 	}
 
 	// ===========================================================

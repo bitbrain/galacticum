@@ -24,7 +24,9 @@ import de.myreality.chunx.caching.SimpleCachedChunkSystem;
 import de.myreality.chunx.concurrent.ConcurrentChunkSystem;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
+import de.myreality.galacticum.biomes.BiomeModule;
 import de.myreality.galacticum.context.Context;
+import de.myreality.galacticum.core.ContentHandler;
 import de.myreality.galacticum.io.GDXInputStreamProvider;
 import de.myreality.galacticum.io.GDXOutputStreamProvider;
 import de.myreality.galacticum.modules.ActiveModule;
@@ -86,6 +88,7 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 	public void load(Context context) throws ModuleException {
 		
 		PlayerModule playerModule = context.getModule(PlayerModule.class);
+		BiomeModule biomeModule = context.getModule(BiomeModule.class);
 		
 		CachedChunkConfiguration chunkConfiguration = new SimpleCachedChunkConfiguration();		
 		ChunkSystem chunkSystem = new SimpleCachedChunkSystem(chunkConfiguration);		
@@ -105,7 +108,7 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));		
 		
 		this.chunkSystem = new ConcurrentChunkSystem(chunkSystem);
-		
+		this.chunkSystem.addListener(new ContentHandler(biomeModule));
 		try {
 			this.chunkSystem.start();
 		} catch (Exception e) {

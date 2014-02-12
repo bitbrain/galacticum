@@ -87,13 +87,13 @@ public class LightingModule implements Module, WorldListener, Updateable {
 		BiomeModule biomeModule = context.getModule(BiomeModule.class);
 		final Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
 		final PlayerModule playerModule = context.getModule(PlayerModule.class);
-		
 		this.context = context;		
 		this.ambientColorProvider = biomeModule.getAmbientColorProvider();
-		
+		System.out.println(ambientColorProvider.getColor());
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
+				
 				handler = new RayHandler(physics.getWorld());
 				RayHandler.useDiffuseLight(true);
 				handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
@@ -122,9 +122,8 @@ public class LightingModule implements Module, WorldListener, Updateable {
 		}
 		
 		GameColor ambient = ambientColorProvider.getColor();
-		
 		handler.setAmbientLight(ambient.r, ambient.g, ambient.b, ambient.a);
-		
+
 		GameCamera cam  = context.getCamera();
 		handler.setCombinedMatrix(cam.getCombinedMatrix(), cam.getX() + cam.getWidth() / 2f, cam.getY() + cam.getHeight() / 2f, cam.getWidth(),cam.getHeight());
 		handler.updateAndRender();
