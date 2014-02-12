@@ -33,7 +33,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.SimpleWorldListener;
-import de.myreality.galacticum.core.WorldListener;
 import de.myreality.galacticum.core.WorldModule;
 import de.myreality.galacticum.core.WorldSystemListener;
 import de.myreality.galacticum.entities.Entity;
@@ -55,7 +54,7 @@ import de.myreality.galacticum.util.VerticesProvider;
  * @version 0.1
  */
 @ActiveModule( dependsOn = { WorldModule.class } )
-public class Box2DPhysicsModule extends SimpleWorldListener implements Module, WorldSystemListener, ShapeListener, Updateable, WorldListener {
+public class Box2DPhysicsModule extends SimpleWorldListener implements Module, WorldSystemListener, ShapeListener, Updateable {
 
 	private World world;
 
@@ -93,16 +92,26 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	@Override
 	public void load(Context context) throws ModuleException {
 		
-		WorldModule system = context.getModule(WorldModule.class);		
-
-		world = new World(new Vector2(0f, 0f), false);
-		bodyMap = new HashMap<Entity, Body>();
-		removalList = new ArrayList<Entity>();
-		addList = new ArrayList<Entity>();
-		this.verticesProvider = system.getRenderer();
+		WorldModule system = context.getModule(WorldModule.class);
 		
-		if (system != null) {
-			system.addListener(this);
+		try {
+			de.myreality.galacticum.core.World contextWorld = context.getWorld();		
+			if (!contextWorld.contains(context.getPlayer().getCurrentShip())) {
+				contextWorld.add(context.getPlayer().getCurrentShip());
+			}
+	
+			this.world = new World(new Vector2(0f, 0f), false);
+
+			bodyMap = new HashMap<Entity, Body>();
+			removalList = new ArrayList<Entity>();
+			addList = new ArrayList<Entity>();
+			this.verticesProvider = system.getRenderer();
+			
+			if (system != null) {
+				system.addListener(this);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -155,7 +164,7 @@ public class Box2DPhysicsModule extends SimpleWorldListener implements Module, W
 	public void onAddEntity(Entity entity) {
 		
 		entity.addListener(this);
-
+		
 		if (!world.isLocked()) {
 			synchronized (world) {
 				// First we create a body definition

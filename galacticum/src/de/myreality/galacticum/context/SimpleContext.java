@@ -33,6 +33,7 @@ import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ModuleList;
 import de.myreality.galacticum.player.Player;
+import de.myreality.galacticum.player.PlayerProvider;
 import de.myreality.galacticum.util.Updateable;
 
 /**
@@ -42,7 +43,7 @@ import de.myreality.galacticum.util.Updateable;
  * @since 0.1
  * @version 0.1
  */
-class SimpleContext implements Context, Updateable {
+class SimpleContext implements Context, Updateable, PlayerProvider {
 
 	// ===========================================================
 	// Constants
@@ -101,6 +102,7 @@ class SimpleContext implements Context, Updateable {
 		}
 	}
 	
+	@Override
 	public void setPlayer(Player player) {
 		this.player = player;
 	}

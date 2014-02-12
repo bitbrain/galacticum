@@ -30,7 +30,6 @@ import com.badlogic.gdx.files.FileHandle;
 import de.myreality.galacticum.biomes.BiomeModule;
 import de.myreality.galacticum.chunks.ChunkTargetAdapter;
 import de.myreality.galacticum.context.Context;
-import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.entities.SharedSpaceShipFactory;
 import de.myreality.galacticum.entities.SpaceShip;
 import de.myreality.galacticum.entities.SpaceShipFactory;
@@ -131,6 +130,10 @@ public class PlayerModule implements Module, Updateable {
 		}
 		
 		this.context = context;
+		
+		if (context instanceof PlayerProvider) {
+			((PlayerProvider)context).setPlayer(this.player);
+		}
 	}
 
 	/*
@@ -219,13 +222,6 @@ public class PlayerModule implements Module, Updateable {
 	 */
 	@Override
 	public void update(float delta) {
-		
-		// Deferred loading caused by crossed-dependencies	
-		
-		World world = context.getWorld();		
-		if (!world.contains(player.getCurrentShip())) {
-			world.add(player.getCurrentShip());
-		}
 		
 		if (this.listener == null) {
 			// Fetch the camera system
