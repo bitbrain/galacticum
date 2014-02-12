@@ -89,7 +89,7 @@ public class LightingModule implements Module, WorldListener, Updateable {
 		final PlayerModule playerModule = context.getModule(PlayerModule.class);
 		this.context = context;		
 		this.ambientColorProvider = biomeModule.getAmbientColorProvider();
-		System.out.println(ambientColorProvider.getColor());
+		
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
@@ -121,12 +121,14 @@ public class LightingModule implements Module, WorldListener, Updateable {
 			requests.clear();
 		}
 		
-		GameColor ambient = ambientColorProvider.getColor();
-		handler.setAmbientLight(ambient.r, ambient.g, ambient.b, ambient.a);
-
-		GameCamera cam  = context.getCamera();
-		handler.setCombinedMatrix(cam.getCombinedMatrix(), cam.getX() + cam.getWidth() / 2f, cam.getY() + cam.getHeight() / 2f, cam.getWidth(),cam.getHeight());
-		handler.updateAndRender();
+		synchronized (handler) {
+			GameColor ambient = ambientColorProvider.getColor();
+			handler.setAmbientLight(ambient.r, ambient.g, ambient.b, ambient.a);
+	
+			GameCamera cam  = context.getCamera();
+			handler.setCombinedMatrix(cam.getCombinedMatrix(), cam.getX() + cam.getWidth() / 2f, cam.getY() + cam.getHeight() / 2f, cam.getWidth(),cam.getHeight());
+			handler.updateAndRender();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -180,28 +182,30 @@ public class LightingModule implements Module, WorldListener, Updateable {
 	
 	private void addInternal(GameLight gameLight) {
 		
-		Light light = null;
-		
-		switch (gameLight.getType()) {
-		case CONE:
-			break;
-		case DIRECTIONAL:
-			break;
-		case POINT:
-			light = new PointLight(handler, gameLight.getNumberOfRays());
-			break;
-		default:
-			break;
-		
+		synchronized (handler) {
+			Light light = null;
+			
+			switch (gameLight.getType()) {
+			case CONE:
+				break;
+			case DIRECTIONAL:
+				break;
+			case POINT:
+				light = new PointLight(handler, gameLight.getNumberOfRays());
+				break;
+			default:
+				break;
+			
+			}
+			
+			if (light != null) {
+				light.setPosition(gameLight.getX(), gameLight.getY());
+				light.setDistance(gameLight.getRadius());
+				GameColor clr = gameLight.getColor();
+				light.setColor(clr.r, clr.g, clr.b, clr.a);
+				lightMap.put(gameLight, light);
+			}
 		}
-		
-		if (light != null) {
-			light.setPosition(gameLight.getX(), gameLight.getY());
-			light.setDistance(gameLight.getRadius());
-			GameColor clr = gameLight.getColor();
-			light.setColor(clr.r, clr.g, clr.b, clr.a);
-			lightMap.put(gameLight, light);
-		}				
 	}
 	
 }

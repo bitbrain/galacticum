@@ -125,7 +125,7 @@ public class PlayerModule implements Module, Updateable {
 		if (this.player == null) {
 			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, generator.generate(0, 0));
 			this.player = playerFactory.create(startShip);
-			System.out.println("7");
+
 			if (listener != null) {
 				this.player.addListener(listener);
 			}

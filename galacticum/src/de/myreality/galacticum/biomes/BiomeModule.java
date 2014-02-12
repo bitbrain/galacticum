@@ -32,6 +32,7 @@ import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.HashGenerator;
 import de.myreality.galacticum.util.Seed;
 import de.myreality.galacticum.util.SimpleHashGenerator;
+import de.myreality.galacticum.util.Updateable;
 
 /**
  * Module which handles zones in space
@@ -41,7 +42,7 @@ import de.myreality.galacticum.util.SimpleHashGenerator;
  * @version 0.1
  */
 @ActiveModule
-public class BiomeModule implements BiomeHandler, HashGenerator, Module {
+public class BiomeModule implements BiomeHandler, HashGenerator, Module, Updateable {
 
 	// ===========================================================
 	// Constants
