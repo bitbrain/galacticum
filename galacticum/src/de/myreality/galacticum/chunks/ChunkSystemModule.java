@@ -104,7 +104,7 @@ public class ChunkSystemModule extends SimpleObserver<ProgressListener> implemen
 		saver.setProvider(new OutputProviderAdapter(new GDXOutputStreamProvider()));
 		loader.setProvider(new InputProviderAdapter(new GDXInputStreamProvider()));		
 		
-		this.chunkSystem = new ConcurrentChunkSystem(new SimpleCachedChunkSystem(chunkConfiguration));
+		this.chunkSystem = new ConcurrentChunkSystem(chunkSystem);
 		
 		try {
 			this.chunkSystem.start();
