@@ -32,9 +32,11 @@ import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.GameLight;
 import de.myreality.galacticum.core.WorldListener;
 import de.myreality.galacticum.entities.Entity;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.physics.Box2DPhysicsModule;
+import de.myreality.galacticum.player.Player;
 import de.myreality.galacticum.player.PlayerModule;
 import de.myreality.galacticum.util.ColorProvider;
 import de.myreality.galacticum.util.GameColor;
@@ -47,6 +49,7 @@ import de.myreality.galacticum.util.Updateable;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule(dependsOn = { BiomeModule.class, Box2DPhysicsModule.class, Player.class } )
 public class LightingModule implements Module, WorldListener, Updateable {
 	
 	private RayHandler handler;

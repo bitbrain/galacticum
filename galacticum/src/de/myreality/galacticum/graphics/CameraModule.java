@@ -20,6 +20,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.context.Context;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.player.PlayerModule;
@@ -32,6 +33,7 @@ import de.myreality.galacticum.util.Updateable;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule(dependsOn = { PlayerModule.class })
 public class CameraModule implements Module, Updateable {
 
 	// ===========================================================

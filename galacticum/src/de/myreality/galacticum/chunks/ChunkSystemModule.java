@@ -27,6 +27,7 @@ import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.io.GDXInputStreamProvider;
 import de.myreality.galacticum.io.GDXOutputStreamProvider;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.modules.ProgressListener;
@@ -41,6 +42,7 @@ import de.myreality.galacticum.util.Updateable;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule(dependsOn={PlayerModule.class})
 public class ChunkSystemModule extends SimpleObserver<ProgressListener> implements Module, Updateable {
 
 	// ===========================================================

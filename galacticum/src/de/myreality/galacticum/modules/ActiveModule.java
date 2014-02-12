@@ -31,5 +31,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ActiveModule {	
-	String[] dependsOn() default {};
+	int priority() default 0;
+	Class<?>[] dependsOn() default {};
 }

@@ -22,6 +22,7 @@ import java.util.Set;
 
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.entities.SpaceShip;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.player.Player;
@@ -39,6 +40,7 @@ import de.myreality.galacticum.util.SimpleHashGenerator;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule
 public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 
 	// ===========================================================
@@ -64,6 +66,10 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public BiomeModule() {
+		listeners = new HashSet<BiomeHandler.ZoneListener>();
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -89,13 +95,9 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 	 */
 	@Override
 	public void load(Context context) throws ModuleException {
-
 		this.colorProvider = new BiomeColorProvider(context.getTweenManager());
-
 		addListener(colorProvider);
-
 		Seed seed = context.getConfiguration().getSeed();
-		listeners = new HashSet<BiomeHandler.ZoneListener>();
 		hashGenerator = new SimpleHashGenerator(seed);
 		oldHash = seed.getHash();
 		this.context = context;
@@ -114,7 +116,7 @@ public class BiomeModule implements BiomeHandler, HashGenerator, Module {
 
 	@Override
 	public String getName() {
-		return "zones";
+		return "biomes";
 	}
 
 	@Override

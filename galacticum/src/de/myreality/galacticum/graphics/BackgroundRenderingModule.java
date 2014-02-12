@@ -26,6 +26,7 @@ import de.myreality.galacticum.Resources;
 import de.myreality.galacticum.Settings;
 import de.myreality.galacticum.context.Context;
 import de.myreality.galacticum.core.SimpleWorldListener;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.util.Updateable;
@@ -44,6 +45,7 @@ import de.myreality.parallax.libgdx.PreprocessedTexture;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule(priority = 1)
 public class BackgroundRenderingModule extends SimpleWorldListener implements Module, Updateable {
 
 	// ===========================================================

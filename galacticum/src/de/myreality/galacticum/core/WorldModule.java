@@ -29,6 +29,7 @@ import de.myreality.galacticum.graphics.rendering.EntityRenderer;
 import de.myreality.galacticum.graphics.rendering.PlanetTextureLoader;
 import de.myreality.galacticum.graphics.rendering.SimpleEntityRenderer;
 import de.myreality.galacticum.graphics.rendering.SpaceshipTextureLoader;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.util.SimpleObserver;
@@ -41,6 +42,7 @@ import de.myreality.galacticum.util.Updateable;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule(dependsOn={CameraModule.class})
 public class WorldModule extends SimpleObserver<WorldSystemListener> implements Module, WorldListener, Updateable {
 
 	// ===========================================================

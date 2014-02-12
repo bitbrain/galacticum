@@ -58,4 +58,12 @@ public interface World extends Observable<WorldListener>, ContentProvider {
 	 * @return
 	 */
 	Collection<Object> getContent();
+	
+	/**
+	 * 
+	 * 
+	 * @param object
+	 * @return
+	 */
+	boolean contains(Object object);
 }

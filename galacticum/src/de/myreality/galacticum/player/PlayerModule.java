@@ -37,6 +37,7 @@ import de.myreality.galacticum.entities.SpaceShipFactory;
 import de.myreality.galacticum.entities.SpaceShipType;
 import de.myreality.galacticum.graphics.CameraModule;
 import de.myreality.galacticum.io.ContextConfiguration;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.util.HashGenerator;
@@ -49,6 +50,7 @@ import de.myreality.galacticum.util.Updateable;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule(dependsOn = { BiomeModule.class } )
 public class PlayerModule implements Module, Updateable {
 
 	// ===========================================================
@@ -110,34 +112,38 @@ public class PlayerModule implements Module, Updateable {
 	public void load(Context context) throws ModuleException {	
 		
 		
+		System.out.println("1");
+		
 		// Fetch the biome system
 		BiomeModule biomeModule = context.getModule(BiomeModule.class);
-		
+		System.out.println("2");
 		this.configuration = context.getConfiguration();
 		spaceShipFactory = SharedSpaceShipFactory.getInstance();
 		playerFactory = new SimplePlayerFactory();
 		
-		
+		System.out.println("3");
 		this.generator = biomeModule;
 		
 		
 		File file = getFile();	
-		
+		System.out.println("4");
 		this.player = loadFromFile(file);
-		
+		System.out.println("5");
 		if (this.player == null) {
+			System.out.println("6");
 			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, generator.generate(0, 0));
 			this.player = playerFactory.create(startShip);
-			
+			System.out.println("7");
 			if (listener != null) {
 				this.player.addListener(listener);
+
+				System.out.println("8");
 			}
+
+			System.out.println("9");
 		}
 		
 		this.context = context;
-		
-		World world = context.getWorld();
-		world.add(player.getCurrentShip());
 	}
 
 	/*
@@ -227,7 +233,12 @@ public class PlayerModule implements Module, Updateable {
 	@Override
 	public void update(float delta) {
 		
-		// Deferred loading caused by crossed-dependencies
+		// Deferred loading caused by crossed-dependencies	
+		
+		World world = context.getWorld();		
+		if (!world.contains(player.getCurrentShip())) {
+			world.add(player.getCurrentShip());
+		}
 		
 		if (this.listener == null) {
 			// Fetch the camera system

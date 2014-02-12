@@ -39,6 +39,7 @@ import de.myreality.galacticum.entities.Entity;
 import de.myreality.galacticum.entities.EntityType;
 import de.myreality.galacticum.entities.Shape;
 import de.myreality.galacticum.entities.Shape.ShapeListener;
+import de.myreality.galacticum.modules.ActiveModule;
 import de.myreality.galacticum.modules.Module;
 import de.myreality.galacticum.modules.ModuleException;
 import de.myreality.galacticum.util.Moveable;
@@ -52,6 +53,7 @@ import de.myreality.galacticum.util.VerticesProvider;
  * @since 0.1
  * @version 0.1
  */
+@ActiveModule( dependsOn = { WorldModule.class } )
 public class Box2DPhysicsModule extends SimpleWorldListener implements Module, WorldSystemListener, ShapeListener, Updateable {
 
 	private World world;

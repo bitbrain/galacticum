@@ -127,6 +127,16 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 			}
 		} 
 	}
+	
+
+
+	/* (non-Javadoc)
+	 * @see de.myreality.galacticum.core.World#contains(java.lang.Object)
+	 */
+	@Override
+	public boolean contains(Object object) {
+		return entities.contains(object);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -137,6 +147,8 @@ public class SimpleWorld extends SimpleObservable<WorldListener> implements	Worl
 	public Collection<Object> getContent() {
 		return entities;
 	}
+	
+	
 
 	// ===========================================================
 	// Methods
