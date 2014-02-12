@@ -108,7 +108,6 @@ public class SimpleShaderManager implements ShaderManager {
 				
 				Shader<?> shader = shaders[index];
 				currentBuffer = flipBuffer(currentBuffer);
-				
 				// If it's not the last element, draw to the buffer. Otherwise draw to screen
 				if (index < shaders.length - 1 || dataIndex < data.size() - 1) {
 					currentBuffer.begin();	

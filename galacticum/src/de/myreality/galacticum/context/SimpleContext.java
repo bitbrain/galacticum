@@ -206,6 +206,7 @@ class SimpleContext implements Context, Updateable, PlayerProvider {
 				((Updateable)system).update(delta);
 			}
 		}
+		
 		entityScreenDetector.clear();
 	}
 

@@ -262,6 +262,7 @@ public class BackgroundRenderingModule extends SimpleWorldListener implements Mo
 	}
 	
 	private void addDepthLayers() {
+		
 		int size = Math.round(Gdx.graphics.getWidth() / 1.2f);
 		
 		for (int i = 0; i < getDepthLayerCount(); ++i) {
