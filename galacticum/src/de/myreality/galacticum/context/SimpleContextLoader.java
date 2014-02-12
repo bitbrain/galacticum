@@ -26,6 +26,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.galacticum.core.World;
 import de.myreality.galacticum.core.WorldListener;
+import de.myreality.galacticum.core.WorldModule;
+import de.myreality.galacticum.core.WorldSystemListener;
 import de.myreality.galacticum.graphics.CameraModule;
 import de.myreality.galacticum.graphics.GameCamera;
 import de.myreality.galacticum.io.ContextConfiguration;
@@ -141,12 +143,16 @@ public class SimpleContextLoader implements ContextLoader {
 			Gdx.app.log("LOAD", "Load " + system.getName() + " module..");
 			
 			currentIndex = index;
+			
 			if (system instanceof ProgressObserver) {
 				((ProgressObserver)system).addListener(subsystemListener);
 			}
 			SimpleContextEvent event = new SimpleContextEvent(this, index,
 					subsystems.size(), (float) index
 							/ (float) subsystems.size());
+			
+			invokeListeners(system, context);
+			
 			listenerController.onLoad(event, system);
 			startSubsystem(system, event, context);
 			
@@ -161,6 +167,20 @@ public class SimpleContextLoader implements ContextLoader {
 			
 			context.addModule(system);
 		}
+	}
+	
+	private void invokeListeners(Module module, Context context) {
+		
+		// Check for world listeners
+		
+		try {
+			WorldModule worldModule  = context.getModule(WorldModule.class);
+			
+			if (module instanceof WorldSystemListener) {
+				worldModule.addListener((WorldSystemListener)module);
+			}
+		} catch (ModuleException e) { }
+		
 	}
 
 	private void startSubsystem(Module system, ContextEvent event, Context context)

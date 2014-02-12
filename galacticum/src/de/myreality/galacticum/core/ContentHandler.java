@@ -79,6 +79,10 @@ public class ContentHandler extends ChunkSystemListenerPrototype {
 	public void afterCreateChunk(Chunk area, ChunkSystem chunkSystem) {
 		SpaceShipFactory f = SharedSpaceShipFactory.getInstance();
 		
+		if (area.getX() == 0 && area.getY() == 0) {
+			System.out.println("Created chunk 0|0");
+		}
+		
 		final int AMOUNT = 20;
 		
 		for (int i = 0; i < AMOUNT; ++i) {

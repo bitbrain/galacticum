@@ -177,7 +177,6 @@ class SimpleContext implements Context, Updateable {
 		}
 	}
 
-
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.context.Context#getTweenManager()
 	 */

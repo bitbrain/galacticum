@@ -117,8 +117,7 @@ public class PlayerModule implements Module, Updateable {
 		spaceShipFactory = SharedSpaceShipFactory.getInstance();
 		playerFactory = new SimplePlayerFactory();
 		
-		this.generator = biomeModule;
-		
+		this.generator = biomeModule;		
 		
 		File file = getFile();	
 		this.player = loadFromFile(file);
