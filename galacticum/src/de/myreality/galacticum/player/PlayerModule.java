@@ -111,36 +111,24 @@ public class PlayerModule implements Module, Updateable {
 	@Override
 	public void load(Context context) throws ModuleException {	
 		
-		
-		System.out.println("1");
-		
 		// Fetch the biome system
 		BiomeModule biomeModule = context.getModule(BiomeModule.class);
-		System.out.println("2");
 		this.configuration = context.getConfiguration();
 		spaceShipFactory = SharedSpaceShipFactory.getInstance();
 		playerFactory = new SimplePlayerFactory();
 		
-		System.out.println("3");
 		this.generator = biomeModule;
 		
 		
 		File file = getFile();	
-		System.out.println("4");
 		this.player = loadFromFile(file);
-		System.out.println("5");
 		if (this.player == null) {
-			System.out.println("6");
 			SpaceShip startShip = spaceShipFactory.create(0, 0, SpaceShipType.FIGHTER, generator.generate(0, 0));
 			this.player = playerFactory.create(startShip);
 			System.out.println("7");
 			if (listener != null) {
 				this.player.addListener(listener);
-
-				System.out.println("8");
 			}
-
-			System.out.println("9");
 		}
 		
 		this.context = context;

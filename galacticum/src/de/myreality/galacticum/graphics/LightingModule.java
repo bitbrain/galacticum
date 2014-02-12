@@ -25,6 +25,7 @@ import box2dLight.Light;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import de.myreality.galacticum.biomes.BiomeModule;
@@ -84,24 +85,27 @@ public class LightingModule implements Module, WorldListener, Updateable {
 	public void load(Context context) throws ModuleException {
 		
 		BiomeModule biomeModule = context.getModule(BiomeModule.class);
-		Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
-		PlayerModule playerModule = context.getModule(PlayerModule.class);
+		final Box2DPhysicsModule physics = context.getModule(Box2DPhysicsModule.class);
+		final PlayerModule playerModule = context.getModule(PlayerModule.class);
 		
 		this.context = context;		
-		
 		this.ambientColorProvider = biomeModule.getAmbientColorProvider();
 		
-		handler = new RayHandler(physics.getWorld());
-		RayHandler.useDiffuseLight(true);
-		handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
-		handler.setBlurNum(1);
-		PointLight light = new PointLight(handler, 1000);
-		light.setDistance(170);
-		light.setColor(0.6f, 0.6f, 0.6f, 0.5f);
-		
-		Entity ship = playerModule.getPlayer().getCurrentShip();
-		Body body = physics.getBody(ship);
-		light.attachToBody(body, ship.getWidth() / 2f, ship.getHeight() / 2f);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				handler = new RayHandler(physics.getWorld());
+				RayHandler.useDiffuseLight(true);
+				handler.setAmbientLight(0.2f, 0.2f, 0.3f, 0.8f);
+				PointLight light = new PointLight(handler, 1000);
+				light.setDistance(170);
+				light.setColor(0.6f, 0.6f, 0.6f, 0.5f);
+				Entity ship = playerModule.getPlayer().getCurrentShip();
+				Body body = physics.getBody(ship);
+				light.attachToBody(body, ship.getWidth() / 2f, ship.getHeight() / 2f);
+			}
+
+		});
 	}
 
 	/* (non-Javadoc)
